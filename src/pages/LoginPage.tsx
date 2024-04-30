@@ -1,10 +1,72 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../assets/bootstrap/css/bootstrap.min.css';
 import '../styles/LoginPage.css';
 import '../styles/index.css';
 import loginImage from '../assets/images/login-image.jpeg';
+import axios from 'axios';
+import { log } from 'console';
+import { Button } from '../assets/bootstrap/js/bootstrap.bundle';
 
 const Login = () => {
+  const [emailV, setEmailV] = useState("");
+  const [senhaV, setSenhaV] = useState("");
+  let logado = false;
+  let button;
+  let idUsuario: Number;
+  const api = axios.create({
+    baseURL: "http://localhost:8080/usuarios",
+    withCredentials: false,
+        headers: {
+          'Access-Control-Allow-Origin' : '*',
+          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+      }
+    });
+  async function handleLogin(){
+    console.log(emailV);
+    console.log(senhaV);
+
+    try{
+      api.post("/login", {
+        email: emailV,
+        senhaUsuario: senhaV
+      }).then((response) => {
+        if(response.status == 200){
+          alert("Okay")
+          idUsuario = response.data.idUsuario;
+          logado = true;
+          console.log(response.data)
+        } else{
+          alert("Algo deu errado")
+        }
+      })
+    } catch(err){
+      alert(err);
+    }
+  }
+
+  function HandleLogOut(){
+    if(logado){
+      return <button onClick={deslogar}>Deslogar</button>
+      button = <button onClick={deslogar}>Deslogar</button>;
+    } else{
+      return <input type="hidden" />
+    }
+  }
+
+  function deslogar(){
+    if(logado){
+      api.patch("/deslogar/"+idUsuario).then((response) => {
+        if(response.status == 200){
+          alert("deslogado")
+          console.log(response.data);
+        } else{
+          alert("error")
+        }
+      })
+    }
+  }
+
+
   return (
     <section className="vh-100">
       <div className="container-fluid">
@@ -22,12 +84,12 @@ const Login = () => {
 
                 <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="iptEmail">Insira seu e-mail:</label>
-                  <input type="email" id="iptEmail" placeholder="ana.santos@itapora.org" className="form-control form-control-lg" />
+                  <input type="email" id="iptEmail" placeholder="ana.santos@itapora.org" className="form-control form-control-lg"  onChange={e => setEmailV(e.target.value)} />
                 </div>
 
                 <div className="form-outline mb-4">
                   <label className="form-label" htmlFor="iptSenha">Senha:</label>
-                  <input type="password" name="senha" id="iptSenha" placeholder="***********" className="form-control form-control-lg" />
+                  <input type="text" name="senha" id="iptSenha" placeholder="***********" className="form-control form-control-lg"   onChange={e => setSenhaV(e.target.value)} />
 
                 </div>
                 <div className="form-check">
@@ -37,7 +99,11 @@ const Login = () => {
                   <p className="small mb-5 pb-lg-2"><a className="text-primary" href="#">Esqueceu a senha?</a></p>
 
                 <div className="pt-1 mb-4 row">
-                  <button className="btn btn-warning btn-lg btn-block text-light fw-bold" type="button">Entrar</button>
+                  <button className="btn btn-warning btn-lg btn-block text-light fw-bold" type="button" onClick={handleLogin}>Entrar</button>
+                </div>
+                
+                <div className="pt-1 mb-4 row">
+                  <button className="btn btn-warning btn-lg btn-block text-light fw-bold" type="button" onClick={deslogar}>Sair</button>
                 </div>
 
 
