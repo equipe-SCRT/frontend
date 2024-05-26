@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import api from './api';
 import Register from './pages/RegisterPage';
+import ProdutoCadastro from "./pages/ProdutoCadastroPage"
 
 
 const App = () => {
@@ -16,8 +17,9 @@ const App = () => {
         <Route path="/" element={<HomePage/>} />
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/dashboard/cadastroProduto" element={<ProdutoCadastro />} />
 
-        <Route element={<NotFoundPage/>} />
+        <Route path="*" element={<NotFoundPage/>} />
       </Routes>
     </Router>
   );
