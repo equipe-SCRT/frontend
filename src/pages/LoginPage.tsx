@@ -6,10 +6,12 @@ import loginImage from '../assets/images/login-image.jpeg';
 import axios from 'axios';
 import { log } from 'console';
 import { Button } from '../assets/bootstrap/js/bootstrap.bundle';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [emailV, setEmailV] = useState("");
   const [senhaV, setSenhaV] = useState("");
+  const navigate = useNavigate();
   let logado = false;
   let button;
   let idUsuario: Number;
@@ -96,7 +98,7 @@ const Login = () => {
                   <input type="checkbox" className="form-check-input" id="esqueceuSenha" />
                   <label className="form-check-label" htmlFor="esqueceuSenha">Lembrar de mim</label>
                 </div>
-                  <p className="small mb-5 pb-lg-2"><a className="text-primary" href="#">Esqueceu a senha?</a></p>
+                  <p className="small mb-5 pb-lg-2"><a className="text-primary" href={"/register"}>Esqueceu a senha?</a></p>
 
                 <div className="pt-1 mb-4 row">
                   <button className="btn btn-warning btn-lg btn-block text-light fw-bold" type="button" onClick={handleLogin}>Entrar</button>
