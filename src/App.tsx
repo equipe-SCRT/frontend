@@ -7,6 +7,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import api from './api';
 import Register from './pages/RegisterPage';
 import ProdutoCadastro from "./pages/ProdutoCadastroPage"
+import TestPage from './pages/TestePage';
 
 
 const App = () => {
@@ -18,6 +19,8 @@ const App = () => {
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/register" element={<Register/>} />
         <Route path="/dashboard/cadastroProduto" element={<ProdutoCadastro />} />
+        <Route path="/test" element={<TestPage />} />
+        
 
         <Route path="*" element={<NotFoundPage/>} />
       </Routes>
