@@ -1,0 +1,29 @@
+#card{
+    margin: 40px;
+    border: 1px;
+}
+
+#card-body{
+    border: 1px solid rgb(221 225 229);
+    margin-top: 40px;
+}
+
+#color-title{
+    color: #2D3648;
+    font-size: 48px;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    margin-top: 64px;
+}
+
+#color-subtitle{
+    font-weight: bold;
+    color: #2D3648;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+}
+
+#red-ast{
+    color: red;
+}
