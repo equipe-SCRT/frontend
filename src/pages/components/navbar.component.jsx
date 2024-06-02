@@ -3,6 +3,8 @@ import '../../assets/bootstrap/css/bootstrap.min.css';
 import '../../styles/LoginPage.css';
 import '../../styles/index.css';
 import "../../styles/NavBar.css"
+import "../../styles/NavBar.component.css"
+import imagemLogo from "../../assets/images/logo.png";
 
 
 const NavBar = () => {
@@ -12,88 +14,70 @@ const NavBar = () => {
   {/* Sidebar */}
   <nav
     id="sidebarMenu"
-    className="collapse d-lg-block sidebar collapse bg-white"
+    className="collapse d-lg-block sidebar collapse bg-green"
+    style={{backgroundColor: "#306B34"}
+  }
   >
     <div className="position-sticky">
-      <div className="list-group list-group-flush mx-3 mt-4">
+      <div className="list-group list-group-flush mx-3 mt-4" id='components'>
         <a
           href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
+          id="link-nav"
           aria-current="true"
         >
-          <i className="fas fa-tachometer-alt fa-fw me-3" />
-          <span>Main dashboard</span>
+          <i  className="fas fa-chart-area fa-fw me-3"/>
+          <span>Gráficos</span>
         </a>
         <a
           href="#"
-          className="list-group-item list-group-item-action py-2 ripple active"
+          id="link-nav"
         >
           <i className="fas fa-chart-area fa-fw me-3" />
-          <span>Webiste traffic</span>
+          <span>Colaboradores</span>
         </a>
         <a
           href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
+          id="link-nav"
         >
           <i className="fas fa-lock fa-fw me-3" />
-          <span>Password</span>
+          <span>Produtos</span>
         </a>
         <a
           href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
+          id="link-nav"
         >
           <i className="fas fa-chart-line fa-fw me-3" />
-          <span>Analytics</span>
+          <span>Cesta</span>
         </a>
         <a
           href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
+          id="link-nav"
         >
           <i className="fas fa-chart-pie fa-fw me-3" />
-          <span>SEO</span>
+          <span>Condominios</span>
         </a>
         <a
           href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
+          id="link-nav"
         >
           <i className="fas fa-chart-bar fa-fw me-3" />
-          <span>Orders</span>
+          <span>Campanhas</span>
         </a>
         <a
           href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
+          id="link-nav"
         >
           <i className="fas fa-globe fa-fw me-3" />
-          <span>International</span>
+          <span>Indicadores</span>
         </a>
         <a
           href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
+          id="link-nav"
         >
           <i className="fas fa-building fa-fw me-3" />
-          <span>Partners</span>
+          <span>Relatórios</span>
         </a>
-        <a
-          href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
-        >
-          <i className="fas fa-calendar fa-fw me-3" />
-          <span>Calendar</span>
-        </a>
-        <a
-          href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
-        >
-          <i className="fas fa-users fa-fw me-3" />
-          <span>Users</span>
-        </a>
-        <a
-          href="#"
-          className="list-group-item list-group-item-action py-2 ripple"
-        >
-          <i className="fas fa-money-bill fa-fw me-3" />
-          <span>Sales</span>
-        </a>
+       
       </div>
     </div>
   </nav>
@@ -101,7 +85,7 @@ const NavBar = () => {
   {/* Navbar */}
   <nav
     id="main-navbar"
-    className="navbar navbar-expand-lg navbar-light bg-white fixed-top"
+    className="navbar navbar-expand-lg navbar-light fixed-top"
   >
     {/* Container wrapper */}
     <div className="container-fluid">
@@ -119,27 +103,18 @@ const NavBar = () => {
         <i className="fas fa-bars" />
       </button>
       {/* Brand */}
+    
       <a className="navbar-brand" href="#">
-        <img
-          src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-          height={25}
-          alt="MDB Logo"
-          loading="lazy"
-        />
-      </a>
-      {/* Search form */}
-      <form className="d-none d-md-flex input-group w-auto my-auto">
-        <input
-          autoComplete="off"
-          type="search"
-          className="form-control rounded"
-          placeholder='Search (ctrl + "/" to focus)'
-          style={{ minWidth: 225 }}
-        />
-        <span className="input-group-text border-0">
-          <i className="fas fa-search" />
-        </span>
-      </form>
+          <img
+            src={imagemLogo}
+            height={100}
+            alt="MDB Logo"
+            loading="lazy"
+            style={{padding: 15}}
+          />
+        </a>
+
+     
       {/* Right links */}
       <ul className="navbar-nav ms-auto d-flex flex-row">
         {/* Notification dropdown */}

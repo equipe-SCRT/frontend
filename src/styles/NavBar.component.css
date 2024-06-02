@@ -1,0 +1,13 @@
+#link-nav{
+    color: white;
+    text-decoration: none;
+    padding: 20px;
+    margin-top: 10;
+}
+
+#components{
+    display: flex;
+    flex-direction: column;
+
+
+}
