@@ -11,6 +11,24 @@ const NavBar = () => {
 
   return (
     <header>
+      <div id='img' style={{
+        width: "240px",
+        height: "100px",
+        display: 'flex',
+        alignContent: "center",
+        backgroundColor: "#306B34",
+        padding: "20px"
+      }}>
+        <a className="navbar-brand" href="#">
+            <img
+              src={imagemLogo}
+              height={100}
+              alt="MDB Logo"
+              loading="lazy"
+              style={{padding: 15}}
+            />
+          </a>
+      </div>
   {/* Sidebar */}
   <nav
     id="sidebarMenu"
@@ -20,6 +38,7 @@ const NavBar = () => {
   >
     <div className="position-sticky">
       <div className="list-group list-group-flush mx-3 mt-4" id='components'>
+      
         <a
           href="#"
           id="link-nav"
@@ -104,15 +123,7 @@ const NavBar = () => {
       </button>
       {/* Brand */}
     
-      <a className="navbar-brand" href="#">
-          <img
-            src={imagemLogo}
-            height={100}
-            alt="MDB Logo"
-            loading="lazy"
-            style={{padding: 15}}
-          />
-        </a>
+     
 
      
       {/* Right links */}
