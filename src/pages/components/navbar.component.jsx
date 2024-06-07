@@ -11,7 +11,15 @@ const NavBar = () => {
 
   return (
     <header>
-      <div id='img' style={{
+      
+  {/* Sidebar */}
+  <nav
+    id="sidebarMenu"
+    className="collapse d-lg-block sidebar collapse bg-green"
+    style={{backgroundColor: "#306B34"}
+  }
+  >
+    <div id='img' style={{
         width: "240px",
         height: "100px",
         display: 'flex',
@@ -25,17 +33,12 @@ const NavBar = () => {
               height={100}
               alt="MDB Logo"
               loading="lazy"
-              style={{padding: 15}}
+              style={{padding: 15,
+                position: "fixed"
+              }}
             />
           </a>
       </div>
-  {/* Sidebar */}
-  <nav
-    id="sidebarMenu"
-    className="collapse d-lg-block sidebar collapse bg-green"
-    style={{backgroundColor: "#306B34"}
-  }
-  >
     <div className="position-sticky">
       <div className="list-group list-group-flush mx-3 mt-4" id='components'>
       
