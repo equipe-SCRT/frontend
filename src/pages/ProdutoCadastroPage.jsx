@@ -10,7 +10,10 @@ import NavBar from './components/navbar.component';
 
 const ProdutoCadastro = () => {
   let [getProdutos, setProdutos] = useState([])
-
+  let [getNome, setNome] = useState("");
+  let [getValidade, setValidade] = useState("");
+  let [getOrigem, setOrigem] = useState("");
+  let [getQuantidade, setQuantidade] = useState(0);
   useEffect(() => {
     handleProdutos()
   }, [])
@@ -61,6 +64,22 @@ const ProdutoCadastro = () => {
     }
     
   }
+  function salvar(){
+    api.post("", {      
+        nome: getNome(),
+        dataValidade: getNome(),
+        quantidade: getQuantidade(),
+        origem: getOrigem()
+    }).then(()=>{
+        console.log({      
+          nome: getNome(),
+          dataValidade: getNome(),
+          quantidade: getQuantidade(),
+          origem: getOrigem()
+      })
+    })
+    return false;
+  }
 
   return (
     <>
@@ -73,27 +92,27 @@ const ProdutoCadastro = () => {
             <div style={{ display: 'flex', flexDirection: "row", padding: 10, width: "100%" }}>
               <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
                 Nome
-                <select name="" id="">
+                <select name="" id="" onChange={(e) => setNome(e.target.value)}>
                   <option value="">-</option>
                 </select>
               </div>
               <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
                 Data de validade
-                <input type="date" name="" id="" />
+                <input type="date" name="" id="" onChange={(e) => setValidade(e.target.value)}/>
               </div>
               <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
                 Quantidade
-                <input type="number" name="" id="" />
+                <input type="number" name="" id="" onChange={(e) => setQuantidade(e.target.value)}/>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: "row" }}>
               <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
                 Origem
-                <select name="" id="">
+                <select name="" id="" onChange={(e) => setOrigem(e.target.value)}>
                   <option value="">-</option>
                 </select>
               </div>
-
+            <button onClick={salvar}>Salvar</button>
             </div>
           </div>
           <div width="80%">
