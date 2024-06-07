@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../assets/bootstrap/css/bootstrap.min.css';
 import '../styles/LoginPage.css';
 import '../styles/index.css';
@@ -9,29 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from './components/navbar.component';
 
 const ProdutoCadastro = () => {
-  let produtos = [
-    <tr>
-    <td className="py-1">
-      1
-    </td>
-    <td>edu</td>
-    <td>
-      <div className="progress">
-        <div
-          className="progress-bar bg-danger"
-          role="progressbar"
-          style={{ width: "75%" }}
-          aria-valuenow={75}
-          aria-valuemin={0}
-          aria-valuemax={100}
-        />
-      </div>
-    </td>
-    <td>arroz</td>
-    <td>July 1, 2024</td>
-  </tr>
-  ];
+  let [getProdutos, setProdutos] = useState([])
 
+  useEffect(() => {
+    handleProdutos()
+  }, [])
+
+  var lista = [];
   const api = axios.create({
     baseURL: "http://localhost:8080/produtos",
     withCredentials: false,
@@ -40,39 +24,42 @@ const ProdutoCadastro = () => {
       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     }
   });
-  async function pegarProdutos() {
-    api.get("").then((response) => {
-      console.log(response.data)
-      let encontrados = response.data;
-      for (var i = 0; i < encontrados.length; i++) {
-        console.log("--------")
-        console.log(encontrados[i])
-        produtos.push(
-          <tr>
-            <td className="py-1">
-              {encontrados[i].id}
-            </td>
-            <td>{encontrados[i].nome}</td>
-            <td>
-              <div className="progress">
-                <div
-                  className="progress-bar bg-danger"
-                  role="progressbar"
-                  style={{ width: "75%" }}
-                  aria-valuenow={75}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                />
-              </div>
-            </td>
-            <td>{encontrados[i].tipoProduto.nome}</td>
-            <td>July 1, 2024</td>
-          </tr>
-        )
-      }
-      return produtos;
-    })
-
+  async function handleProdutos(){
+    try{
+      var encontrados = await api.get("");
+      console.log(encontrados)
+      for (var i = 0; i < encontrados.data.length; i++) {
+            console.log("--------")
+            console.log(encontrados.data[i])
+            lista.push(
+              <tr>
+                <td className="py-1">
+                  {encontrados.data[i].id}
+                </td>
+                <td>{encontrados.data[i].nome}</td>
+                <td>
+                  <div className="progress">
+                    <div
+                      className="progress-bar bg-danger"
+                      role="progressbar"
+                      style={{ width: "75%" }}
+                      aria-valuenow={75}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                    />
+                  </div>
+                </td>
+                <td>{encontrados.data[i].tipoProduto.nome}</td>
+                <td>July 1, 2024</td>
+              </tr>
+            )
+          }    
+          setProdutos(lista);
+          lista = []
+    } catch(err){
+      console.log(err);
+    }
+    
   }
 
   return (
@@ -127,7 +114,7 @@ const ProdutoCadastro = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {produtos}
+                    {getProdutos}
                   </tbody>
                 </table>
               </div>
