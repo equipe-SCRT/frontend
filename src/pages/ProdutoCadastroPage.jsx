@@ -10,15 +10,15 @@ import NavBar from './components/navbar.component';
 import './ProdutoCadastroPage.css';
 
 const ProdutoCadastro = () => {
-  let [getProdutos, setProdutos] = useState([])
-  let [getNome, setNome] = useState("");
-  let [getTipoProduto, setTipoProduto] = useState("");
-  let [getUnidadeMedida, setUnidadeMedida] = useState(0);
-  useEffect(() => {
-    handleProdutos()
-  }, [])
+  const [produtos, setProdutos] = useState([]);
+  const [nome, setNome] = useState("");
+  const [tipoProduto, setTipoProduto] = useState("");
+  const [unidadeMedida, setUnidadeMedida] = useState("");
 
-  var lista = [];
+  useEffect(() => {
+    handleProdutos();
+  }, []);
+
   const api = axios.create({
     baseURL: "http://localhost:8080/produtos",
     withCredentials: false,
@@ -27,110 +27,101 @@ const ProdutoCadastro = () => {
       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     }
   });
-  async function handleProdutos(){
-    try{
-      var encontrados = await api.get("");
-      console.log(encontrados)
-      for (var i = 0; i < encontrados.data.length; i++) {
-            console.log("--------")
-            console.log(encontrados.data[i])
-            lista.push(
-              <tr>
-                <td className="py-1">
-                  {encontrados.data[i].id}
-                </td>
-                <td>{encontrados.data[i].nome}</td>
-                <td>
-                  <div className="progress">
-                    <div
-                      className="progress-bar bg-danger"
-                      role="progressbar"
-                      style={{ width: "75%" }}
-                      aria-valuenow={75}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                    />
-                  </div>
-                </td>
-                <td>{encontrados.data[i].tipoProduto.nome}</td>
-                <td>July 1, 2024</td>
-              </tr>
-            )
-          }    
-          setProdutos(lista);
-          lista = []
-    } catch(err){
+
+  async function handleProdutos() {
+    try {
+      const response = await api.get("");
+      setProdutos(response.data);
+    } catch (err) {
       console.log(err);
     }
-    
   }
-  function cadastrar(){
-    api.post("", {      
-        nome: getNome(),
-        tipoProduto: getTipoProduto(),
-        unidadeMedida: getUnidadeMedida()
-    }).then(()=>{
-        console.log({      
-          nome: getNome(),
-          tipoProduto: getTipoProduto(),
-          unidadeMedida: getUnidadeMedida()
-      })
-    })
-    return false;
+
+  async function cadastrar(event) {
+    event.preventDefault();
+    try {
+      await api.post("", {
+        nome,
+        tipoProduto,
+        unidadeMedida
+      });
+      handleProdutos(); // Update product list after adding new product
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
     <>
-      <div style={{ display: "flex", height: "100%" }}>
+      <div style={{ display: "block", height: "100%" }}>
         <NavBar />
-        <div style={{ display: "block", width: "70vw", margin: "30,30,30,30" }} id='form-register'>
-          <h1 style={{ margin: "122px 20px 20px 20px" }}>Produtos</h1>
-          <div style={{ width: "70%", left: "20%", height: "40%", border: "2px solid gray", margin: "20px", padding: 10 }}>
+        <div className="form-section" id='form-register'>
+          <h1 className="section-title">Produtos</h1>
+          <div className="card-body-form">
             <p>Cadastro de Produtos Novos</p>
-            <div style={{ display: 'flex', flexDirection: "row", padding: 8, width: "100%" }}>
-              <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
-                Nome
-                <select name="" id="" onChange={(e) => setNome(e.target.value)}>
-                  <option value="">-</option>
-                </select>
+            <form className="product-form" onSubmit={cadastrar}>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
+                <div className="form-group" id='name'>
+                  <label htmlFor="productName">Nome <span className="required">*</span></label>
+                  <input
+                    type="text"
+                    id="productName"
+                    name="productName"
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="productType">Tipo de Produto <span className="required">*</span></label>
+                  <select
+                    id="productType"
+                    name="productType"
+                    value={tipoProduto}
+                    onChange={(e) => setTipoProduto(e.target.value)}
+                  >
+                    <option value="">-</option>
+                    {/* Adicione outras opções conforme necessário */}
+                  </select>
+                </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
-                Tipo de Produto
-                <select name="" id="" onChange={(e) => setTipoProduto(e.target.value)}>
-                  <option value="">-</option>
-                </select>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+                <div className="form-group">
+                  <label htmlFor="unit">Unidade de medida <span className="required">*</span></label>
+                  <input
+                    type="text"
+                    id="unit"
+                    name="unit"
+                    value={unidadeMedida}
+                    onChange={(e) => setUnidadeMedida(e.target.value)}
+                  />
+                </div>
+                <button type="submit" className="submit-btn">Cadastrar</button>
               </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: "row" }}>
-            <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
-                Unidade de medida
-                <input type="number" name="" id="" onChange={(e) => setUnidadeMedida(e.target.value)}/>
-              </div>
-            <button onClick={cadastrar}>Cadastrar</button>
-            </div>
+            </form>
           </div>
-          <div width="80%">
-            <div className="card-body" >
-              <h4 className="card-title">Produtos</h4>
-              <p className="card-description">
-                Listagem
-              </p>
-              <div className="table-responsive">
-                <table className="table table-striped">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nome</th>
-                      <th>Tipo de Produto</th>
-                      <th>Unidade de Medida</th>
-                      <th>-</th>
+        </div>
+        <div className="table-section">
+          <div className="card-body">
+            <p className="card-description">Listagem</p>
+            <div className="table-responsive">
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Tipo de Produto</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {produtos.length > 0 ? produtos.map((produto, index) => (
+                    <tr key={index}>
+                      <td>{produto.id}</td>
+                      <td>{produto.nome} {produto.unidadeMedida?.representacao}</td>
+                      <td>{produto.tipoProduto?.nome}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {getProdutos}
-                  </tbody>
-                </table>
-              </div>
+                  )) : <span></span>}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
