@@ -7,13 +7,13 @@ import axios from 'axios';
 import { Button } from '../assets/bootstrap/js/bootstrap.bundle';
 import { useNavigate } from 'react-router-dom';
 import NavBar from './components/navbar.component';
+import './ProdutoCadastroPage.css';
 
 const ProdutoCadastro = () => {
   let [getProdutos, setProdutos] = useState([])
   let [getNome, setNome] = useState("");
-  let [getValidade, setValidade] = useState("");
-  let [getOrigem, setOrigem] = useState("");
-  let [getQuantidade, setQuantidade] = useState(0);
+  let [getTipoProduto, setTipoProduto] = useState("");
+  let [getUnidadeMedida, setUnidadeMedida] = useState(0);
   useEffect(() => {
     handleProdutos()
   }, [])
@@ -64,18 +64,16 @@ const ProdutoCadastro = () => {
     }
     
   }
-  function salvar(){
+  function cadastrar(){
     api.post("", {      
         nome: getNome(),
-        dataValidade: getNome(),
-        quantidade: getQuantidade(),
-        origem: getOrigem()
+        tipoProduto: getTipoProduto(),
+        unidadeMedida: getUnidadeMedida()
     }).then(()=>{
         console.log({      
           nome: getNome(),
-          dataValidade: getNome(),
-          quantidade: getQuantidade(),
-          origem: getOrigem()
+          tipoProduto: getTipoProduto(),
+          unidadeMedida: getUnidadeMedida()
       })
     })
     return false;
@@ -85,11 +83,11 @@ const ProdutoCadastro = () => {
     <>
       <div style={{ display: "flex", height: "100%" }}>
         <NavBar />
-        <div style={{ display: "block", width: "70vw", margin: "30,30,30,30" }}>
-          <h1 style={{ margin: "90px 20px 20px 30px" }}>Produtos</h1>
+        <div style={{ display: "block", width: "70vw", margin: "30,30,30,30" }} id='form-register'>
+          <h1 style={{ margin: "122px 20px 20px 20px" }}>Produtos</h1>
           <div style={{ width: "70%", left: "20%", height: "40%", border: "2px solid gray", margin: "20px", padding: 10 }}>
-            <h1>Cadastro de produtos Unitários</h1>
-            <div style={{ display: 'flex', flexDirection: "row", padding: 10, width: "100%" }}>
+            <p>Cadastro de Produtos Novos</p>
+            <div style={{ display: 'flex', flexDirection: "row", padding: 8, width: "100%" }}>
               <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
                 Nome
                 <select name="" id="" onChange={(e) => setNome(e.target.value)}>
@@ -97,38 +95,34 @@ const ProdutoCadastro = () => {
                 </select>
               </div>
               <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
-                Data de validade
-                <input type="date" name="" id="" onChange={(e) => setValidade(e.target.value)}/>
-              </div>
-              <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
-                Quantidade
-                <input type="number" name="" id="" onChange={(e) => setQuantidade(e.target.value)}/>
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: "row" }}>
-              <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
-                Origem
-                <select name="" id="" onChange={(e) => setOrigem(e.target.value)}>
+                Tipo de Produto
+                <select name="" id="" onChange={(e) => setTipoProduto(e.target.value)}>
                   <option value="">-</option>
                 </select>
               </div>
-            <button onClick={salvar}>Salvar</button>
+            </div>
+            <div style={{ display: 'flex', flexDirection: "row" }}>
+            <div style={{ display: 'flex', flexDirection: "Column", padding: 20 }}>
+                Unidade de medida
+                <input type="number" name="" id="" onChange={(e) => setUnidadeMedida(e.target.value)}/>
+              </div>
+            <button onClick={cadastrar}>Cadastrar</button>
             </div>
           </div>
           <div width="80%">
             <div className="card-body" >
               <h4 className="card-title">Produtos</h4>
               <p className="card-description">
-                Descrição
+                Listagem
               </p>
               <div className="table-responsive">
                 <table className="table table-striped">
                   <thead>
                     <tr>
-                      <th>#</th>
+                      <th>ID</th>
                       <th>Nome</th>
-                      <th>Validade</th>
-                      <th>Origem</th>
+                      <th>Tipo de Produto</th>
+                      <th>Unidade de Medida</th>
                       <th>-</th>
                     </tr>
                   </thead>
