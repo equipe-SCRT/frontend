@@ -8,6 +8,7 @@ import { Button } from '../assets/bootstrap/js/bootstrap.bundle';
 import { useNavigate } from 'react-router-dom';
 import "../styles/ProdutoCadastroPage.css"
 import NavBar from './components/navbar.component';
+import Swal from 'sweetalert2';
 
 const ProdutoCadastro = () => {
   let [getProdutos, setProdutos] = useState([]);
@@ -17,11 +18,44 @@ const ProdutoCadastro = () => {
   let [getValidade, setValidade] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
+  let [getPilha, setPilha] = useState([]);
+  let pilha = [];
+  let contadorPilha = -1;
   useEffect(() => {
     handleProdutos()
     handleNomeProdutos()
     handleOrigem()
   }, [])
+
+  const apiProdutos = axios.create({
+    baseURL: "http://localhost:8080/",
+    withCredentials: false,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    }
+  });
+
+  function push(info){
+    contadorPilha++;
+    pilha.push(info);
+  }
+  function pop(){
+    if(contadorPilha == -1){
+      console.log("pilha vazia")
+    } else{
+      if(pilha[contadorPilha].operacao == "salvar"){
+          apiProdutos.delete("/produtos/"+pilha[contadorPilha].id).then((res) => {
+            console.log(res);
+            if(res.status == 204){
+              alert("deletado")
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+      }
+    }
+  }
 
   var lista = [];
   const api = axios.create({
@@ -32,21 +66,12 @@ const ProdutoCadastro = () => {
       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     }
   });
-  const apiProdutos = axios.create({
-    baseURL: "http://localhost:8080/",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
+  
   async function handleProdutos(){
     try{
       var encontrados = await api.get("");
       console.log(encontrados)
       for (var i = 0; i < encontrados.data.length; i++) {
-            console.log("--------")
-            console.log(encontrados.data[i])
             lista.push(
               <tr>
                 <td className="py-1">
@@ -84,12 +109,9 @@ const ProdutoCadastro = () => {
   async function handleNomeProdutos(){
     try{
       var encontrados = await apiProdutos.get("produtos");
-      console.log(encontrados)
       var listaNomes = [];
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
-            console.log("Nome produtos")
-            console.log(encontrados.data[i])
             listaNomes.push(
               <option value={encontrados.data[i].nome}>{encontrados.data[i].nome}</option>
             )
@@ -105,7 +127,6 @@ const ProdutoCadastro = () => {
   async function handleOrigem(){
     try{
       var encontrados = await apiProdutos.get("/origens");
-      console.log(encontrados)
       var listaOrigens = [];
       listaOrigens  .push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
@@ -139,9 +160,39 @@ const ProdutoCadastro = () => {
         produtoId: 1,
         rotaId: 1,
         metricaId: 1
-    }).then(()=>{
+    }).then((response)=>{
         alert("cadastrado!")
-        window.location.reload();
+        console.log(response)
+        handleProdutos();
+
+        let alteracao = {
+          operacao: "salvar",
+          id: response.data.id
+        }
+        push(alteracao);
+        let timerInterval;
+        Swal.fire({
+          title: "Produtos adicionados",
+          html: "desfazer?",
+          position: 'bottom-end',
+          width: "190px",
+          height: "100px",
+          timer: 30000,
+          backdrop: false,
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Desfazer",
+          cancelButtonText: "Cancelar",
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log("I was closed by the timer");
+          }
+        });
       }).catch((err) => {
         alert("valide os campos")
         console.log(err)
