@@ -25,10 +25,13 @@ const Login = () => {
     try{
       api.post("/login", {
         email: emailV,
-        senhaUsuario: senhaV
+        senha: senhaV
       }).then((response) => {
         if(response.status == 200){
-          alert("Okay")
+
+          localStorage.setItem('token', response.data.token);
+          window.location.href = '/home';
+
           idUsuario = response.data.idUsuario;
           logado = true;
           console.log(response.data)
@@ -38,28 +41,6 @@ const Login = () => {
       })
     } catch(err){
       alert(err);
-    }
-  }
-
-  function HandleLogOut(){
-    if(logado){
-      return <button onClick={deslogar}>Deslogar</button>
-      button = <button onClick={deslogar}>Deslogar</button>;
-    } else{
-      return <input type="hidden" />
-    }
-  }
-
-  function deslogar(){
-    if(logado){
-      api.patch("/deslogar/"+idUsuario).then((response) => {
-        if(response.status == 200){
-          alert("deslogado")
-          console.log(response.data);
-        } else{
-          alert("error")
-        }
-      })
     }
   }
 
@@ -115,13 +96,6 @@ const Login = () => {
               </div>
 
               <div className="pt-1 mb-4 row">
-                <Button
-                  className="btn btn-warning btn-lg btn-block text-light fw-bold"
-                  type="button"
-                  onClick={deslogar}
-                >
-                  Sair
-                </Button>
               </div>
             </Form>
           </div>
