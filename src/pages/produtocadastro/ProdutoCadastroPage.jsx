@@ -5,6 +5,9 @@ import "./ProdutoCadastroPage.module.css"
 import NavBar from '../components/navbar.component';
 import Swal from 'sweetalert2';
 
+var pilha = [];
+let contadorPilha = -1;
+
 const ProdutoCadastro = () => {
   let [getProdutos, setProdutos] = useState([]);
   let [getNomeProdutos, setNomeProdutos] = useState([]);
@@ -14,8 +17,7 @@ const ProdutoCadastro = () => {
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
   let [getPilha, setPilha] = useState([]);
-  let pilha = [];
-  let contadorPilha = -1;
+
   useEffect(() => {
     handleProdutos()
     handleNomeProdutos()
@@ -33,16 +35,18 @@ const ProdutoCadastro = () => {
 
   function push(info){
     contadorPilha++;
-    let posicaoAtual = contadorPilha;
     pilha.push(info);
+    //console.log("pilha adicionada: ")
+    console.log(pilha)
   }
   function pop(){
     if(contadorPilha == -1){
-      console.log("pilha vazia")
+      //console.log("pilha vazia")
     } else{
       if(pilha[contadorPilha].operacao == "salvar"){
+          console.log("aqui: ")
           apiProdutos.delete("/produtos-unitario/"+pilha[contadorPilha].id).then((res) => {
-            console.log(res);
+            console.log(pilha);
             if(res.status == 204){
               pilha.pop();
               contadorPilha--;
@@ -67,19 +71,18 @@ const ProdutoCadastro = () => {
                     clearInterval(timerInterval);
                   }
                 }).then((result) => {
-                  /* Read more about handling dismissals below */
                   if (result.dismiss === Swal.DismissReason.timer) {
-                    console.log("I was closed by the timer");
+                    //console.log("I was closed by the timer");
                   } else if (result.isConfirmed) {
                     pop();
                   } else {
-                    console.log("I was closed by the user"); 
+                    //console.log("I was closed by the user"); 
                   }
                 });
               }
             }
           }).catch((err) => {
-            console.log(err)
+            //console.log(err)
           })
       }
     }
@@ -98,7 +101,7 @@ const ProdutoCadastro = () => {
   async function handleProdutos(){
     try{
       var encontrados = await api.get("");
-      console.log(encontrados)
+      //console.log(encontrados)
       for (var i = 0; i < encontrados.data.length; i++) {
             lista.push(
               <tr>
@@ -120,18 +123,18 @@ const ProdutoCadastro = () => {
           setProdutos(lista);
           lista = []
     } catch(err){
-      console.log(err);
+      //console.log(err);
     }
     
   }
 
   async function excluir(id){
     apiProdutos.delete("produtos-unitario/"+id).then((response) => {
-        console.log(response);
+        //console.log(response);
         alert("excluido");
         // window.location.reload()
     }).catch((err) => {
-      console.log(err)
+      //console.log(err)
     })
   }
 
@@ -148,7 +151,7 @@ const ProdutoCadastro = () => {
           setNomeProdutos(listaNomes);
           listaNomes = []
     } catch(err){
-      console.log(err);
+      //console.log(err);
     }
     
   }
@@ -159,8 +162,8 @@ const ProdutoCadastro = () => {
       var listaOrigens = [];
       listaOrigens  .push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
-            console.log("Origem")
-            console.log(encontrados.data[i])
+            //console.log("Origem")
+            //console.log(encontrados.data[i])
             listaOrigens.push(
               <option value={encontrados.data[i].itapora}>
                 {encontrados.data[i].itapora == 1 ? "Itaporã" : "Auta de souza"}</option>
@@ -169,7 +172,7 @@ const ProdutoCadastro = () => {
           setOrigemNome(listaOrigens);
           listaOrigens = []
     } catch(err){
-      console.log(err);
+      //console.log(err);
     }
     
   }
@@ -192,24 +195,23 @@ const ProdutoCadastro = () => {
     }).then(async (response)=>{
         
         handleProdutos();
-        console.log("1020121218902901890----------s")
-        console.log(response)
+        //console.log("1020121218902901890----------s")
+        //console.log(response)
         let alteracao = {
           operacao: "salvar",
           id: response.data.id
         }
         push(alteracao);
-        console.log(" pilha> ")
-        console.log(pilha)
+        //console.log(" pilha> ")
+        //console.log(pilha)
         let timerInterval;
         clearInterval(timerInterval);
         await Swal.fire({
           title: "Produtos adicionados",
           html: "desfazer?",
           position: 'bottom-end',
-          width: "190px",
-          height: "100px",
           timer: 30000,
+          width: 300,
           toast: true,
           backdrop: false,
           showCancelButton: true,
@@ -224,21 +226,20 @@ const ProdutoCadastro = () => {
         }).then((result) => {
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
-            pilha.splice(response.data.id,response.data.id);
+            //console.log("I was closed by the timer");
+
           } else if (result.isConfirmed) {
             pop();
           } else {
-            console.log("I was closed by the user"); 
-            pilha.splice(response.data.id,response.data.id);
+            //console.log("I was closed by the user"); 
           }
         });
       }).catch((err) => {
         alert("valide os campos")
-        console.log(err)
+        //console.log(err)
       })
     } catch(err){
-      console.log(err);
+      //console.log(err);
     }
   }
 
@@ -247,7 +248,7 @@ const ProdutoCadastro = () => {
       <div style={{ display: "block", height: "100%" }}>
         <NavBar />
         <div className="form-section" id='form-register'>
-          <div style={{display: 'flex',justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%'}}>
+          <div style={{display: 'flex',justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw"}}>
           <h1 className="section-title" style={{margin: "0px"}}>Produtos</h1>
           <button  className="submit-btn">Cadastrar um produto novo</button>  
           </div>
