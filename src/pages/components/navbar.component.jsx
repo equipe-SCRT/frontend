@@ -4,7 +4,7 @@ import imagemLogo from "../../assets/images/logo.png";
 
 
 const NavBar = () => {
-
+  document.body.style.paddingLeft = "280px";
   return (
     <header>
       
