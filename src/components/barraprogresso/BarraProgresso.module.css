@@ -1,0 +1,9 @@
+.bold{
+    font-weight: 800;
+}
+.success{
+    background-color: #22CC52;
+}
+.danger{
+    background-color: #FC3A3A;
+}

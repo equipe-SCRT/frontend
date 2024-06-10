@@ -10,7 +10,7 @@ const GraficoPizza = ({titulo, data}) => {
         labels: ['30 dias', '15 dias'],
         datasets: [
             {
-                label: '# of Votes',
+                label: 'Quantidade',
                 data: data,
                 backgroundColor: [
                     '#0BDC2B',
