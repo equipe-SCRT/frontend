@@ -2,25 +2,30 @@ import React, { useEffect, useState } from 'react';
 import '../assets/bootstrap/css/bootstrap.min.css';
 import '../styles/LoginPage.css';
 import '../styles/index.css';
-import loginImage from '../assets/images/login-image.jpeg';
 import axios from 'axios';
-import { Button } from '../assets/bootstrap/js/bootstrap.bundle';
 import { useNavigate } from 'react-router-dom';
 import NavBar from './components/navbar.component';
 import './ProdutoCadastroPage.css';
+import engrenagem from '../assets/images/engrenagem.svg';
+// import newIcon from '../assets/images/new-icon.svg'; // Adicione aqui o caminho para os novos ícones
 
 const ProdutoCadastro = () => {
   const [produtos, setProdutos] = useState([]);
+  const [tiposProduto, setTiposProduto] = useState([]);
+  const [unidadesMedida, setUnidadesMedida] = useState([]);
   const [nome, setNome] = useState("");
-  const [tipoProduto, setTipoProduto] = useState("");
-  const [unidadeMedida, setUnidadeMedida] = useState("");
+  const [qtdUnidadeMedida, setQtdUnidadeMedida] = useState("");
+  const [tipoProdutoId, setTipoProdutoId] = useState("");
+  const [tipoUnidadeMedidaId, setTipoUnidadeMedidaId] = useState("");
 
   useEffect(() => {
     handleProdutos();
+    handleTiposProduto();
+    handleUnidadesMedida();
   }, []);
 
   const api = axios.create({
-    baseURL: "http://localhost:8080/produtos",
+    baseURL: "http://localhost:8080",
     withCredentials: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -30,22 +35,49 @@ const ProdutoCadastro = () => {
 
   async function handleProdutos() {
     try {
-      const response = await api.get("");
+      const response = await api.get("/produtos");
       setProdutos(response.data);
     } catch (err) {
       console.log(err);
     }
   }
 
-  async function cadastrar(event) {
-    event.preventDefault();
+  async function handleTiposProduto() {
     try {
-      await api.post("", {
-        nome,
-        tipoProduto,
-        unidadeMedida
-      });
-      handleProdutos(); // Update product list after adding new product
+      const response = await api.get("/tipos-produtos");
+      setTiposProduto(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleUnidadesMedida() {
+    try {
+      const response = await api.get("/unidades-medidas");
+      setUnidadesMedida(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function cadastrar(evento) {
+    evento.preventDefault();
+
+    const novoProduto = {
+      nome,
+      qtdUnidadeMedida,
+      tipoProdutoId: Number(tipoProdutoId),
+      tipoUnidadeMedidaId: Number(tipoUnidadeMedidaId)
+    };
+
+    try {
+      console.log(novoProduto);
+      await api.post("/produtos", novoProduto);
+      setNome("");
+      setQtdUnidadeMedida("");
+      setTipoProdutoId("");
+      setTipoUnidadeMedidaId("");
+      handleProdutos();
     } catch (err) {
       console.log(err);
     }
@@ -76,24 +108,44 @@ const ProdutoCadastro = () => {
                   <select
                     id="productType"
                     name="productType"
-                    value={tipoProduto}
-                    onChange={(e) => setTipoProduto(e.target.value)}
+                    value={tipoProdutoId}
+                    onChange={(e) => setTipoProdutoId(e.target.value)}
                   >
                     <option value="">-</option>
-                    {/* Adicione outras opções conforme necessário */}
+                    {tiposProduto.map(tipo => (
+                      <option key={tipo.id} value={tipo.id}>{tipo.nome}</option>
+                    ))}
                   </select>
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
                 <div className="form-group">
-                  <label htmlFor="unit">Unidade de medida <span className="required">*</span></label>
+                  <label htmlFor="unitQuantity">Quantidade de Unidade <span className="required">*</span></label>
                   <input
-                    type="text"
-                    id="unit"
-                    name="unit"
-                    value={unidadeMedida}
-                    onChange={(e) => setUnidadeMedida(e.target.value)}
+                    type="number"
+                    id="unitQuantity"
+                    name="unitQuantity"
+                    value={qtdUnidadeMedida}
+                    onChange={(e) => setQtdUnidadeMedida(e.target.value)}
                   />
+                </div>
+                <div className="form-group">
+                  <label>Unidade de medida <span className="required">*</span></label>
+                  <div style={{ display: 'flex', flexDirection: 'row', width: '22vw'}}>
+                    {unidadesMedida.map(unidade => (
+                      <div key={unidade.id} style={{ marginRight: '10px' }}>
+                        <input
+                          type="radio"
+                          id={`unidade-${unidade.id}`}
+                          name="unidade"
+                          value={unidade.id}
+                          checked={tipoUnidadeMedidaId === String(unidade.id)}
+                          onChange={(e) => setTipoUnidadeMedidaId(e.target.value)}
+                        />
+                        <label htmlFor={`unidade-${unidade.id}`}>{unidade.representacao}</label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 <button type="submit" className="submit-btn">Cadastrar</button>
               </div>
@@ -106,18 +158,20 @@ const ProdutoCadastro = () => {
             <div className="table-responsive">
               <table className="table table-striped">
                 <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Nome</th>
-                    <th>Tipo de Produto</th>
+                <tr>
+                    <th># <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg></th>
+                    <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg></th>
+                    <th>Tipo de Produto <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg></th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {produtos.length > 0 ? produtos.map((produto, index) => (
                     <tr key={index}>
                       <td>{produto.id}</td>
-                      <td>{produto.nome} {produto.unidadeMedida?.representacao}</td>
+                      <td>{produto.nome + " " + produto.qtdUnidadeMedida + produto.unidadeMedida?.representacao}</td>
                       <td>{produto.tipoProduto?.nome}</td>
+                      <td style={{width:"5px"}}><img src={engrenagem} alt="engrenagem" height="20px"/></td>
                     </tr>
                   )) : <span></span>}
                 </tbody>

@@ -145,17 +145,17 @@
 }
 
 .form-up .form-group #productName {
-    width: 42vw;
+    width: 36vw;
     padding: 10px;
 }
 
 .form-up .form-group #productType {
-    width: 32vw;
+    width: 36vw;
     padding: 10px;
 }
 
-.form-down .form-group #unit {
-    width: 42vw;
+.form-down .form-group #unitQuantity {
+    width: 36vw;
 }
 
 .form-down .submit-btn {
@@ -164,3 +164,8 @@
     margin-top: 25px;
     font-family: "Roboto", sans-serif;
 }
+
+/* .table.table-striped .engrenagem{
+    width: 20vw;
+    color: #121619;
+} */
