@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import '../assets/bootstrap/css/bootstrap.min.css';
-import '../styles/LoginPage.css';
-import '../styles/index.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import NavBar from './components/navbar.component';
-import './ProdutoUnitarioCadastroPage.css';
+import './ProdutoCadastroPage.css';
 import engrenagem from '../assets/images/engrenagem.svg';
 import informacao from '../assets/images/informacao.svg';
 
-const ProdutoUnitarioCadastro = () => {
+const ProdutoCadastro = () => {
   const [produtos, setProdutos] = useState([]);
   const [tiposProduto, setTiposProduto] = useState([]);
   const [unidadesMedida, setUnidadesMedida] = useState([]);
@@ -184,4 +180,4 @@ const ProdutoUnitarioCadastro = () => {
   );
 }
 
-export default ProdutoUnitarioCadastro;
+export default ProdutoCadastro;
