@@ -6,7 +6,7 @@ import LoginPage from './pages/login/LoginPage';
 import NotFoundPage from './pages/notfound/NotFoundPage';
 import Layout from './components/layout/Layout';
 import Register from './pages/RegisterPage';
-import ProdutoCadastro from "./pages/produtocadastro/ProdutoCadastroPage"
+import ProdutoUnitarioCadastro from "./pages/produtounitariocadastro/ProdutoUnitarioCadastroPage"
 import TestPage from './pages/TestePage';
 
 
@@ -19,7 +19,7 @@ const App = () => {
         <Route path="/" element={<LoginPage/>} />
         <Route path="/home" element={<HomePage/>} />
         <Route path="/register" element={<Register/>} />
-        <Route path="/dashboard/cadastroProduto" element={<ProdutoCadastro />} />
+        <Route path="/dashboard/cadastroProduto" element={<ProdutoUnitarioCadastro />} />
         <Route path="/test" element={<TestPage />} />
         
 

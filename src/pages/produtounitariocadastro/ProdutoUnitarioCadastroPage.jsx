@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "./ProdutoCadastroPage.module.css"
+import "./ProdutoUnitarioCadastroPage.module.css"
 import NavBar from '../components/navbar.component';
 import Swal from 'sweetalert2';
 
 var pilha = [];
 let contadorPilha = -1;
 
-const ProdutoCadastro = () => {
+const ProdutoUnitarioCadastro = () => {
   let [getProdutos, setProdutos] = useState([]);
   let [getNomeProdutos, setNomeProdutos] = useState([]);
   let [getOrigemNome, setOrigemNome] = useState([]);
@@ -318,4 +318,4 @@ const ProdutoCadastro = () => {
   );
 }
 
-export default ProdutoCadastro;
+export default ProdutoUnitarioCadastro;
