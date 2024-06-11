@@ -258,13 +258,13 @@ const ProdutoUnitarioCadastro = () => {
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
                 <div className="form-group" id='name'>
                   <label htmlFor="productName">Nome <span className="required">*</span></label>
-                  <select name="nomeSel" id="nomeSel" onChange={(e)=> setNome(e.target.value)}>
+                  <select name="nomeSel" id="nomeSel" onChange={(e)=> setNome(e.target.value)} style={{width:'23vw'}}>
                     {getNomeProdutos}
                   </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="productType">Data validade <span className="required">*</span></label>
-                  <input
+                  <input style={{width:'23vw'}}
                     type="date"
                     id="unit"
                     name="unit"
@@ -274,7 +274,7 @@ const ProdutoUnitarioCadastro = () => {
              
                 <div className="form-group">
                   <label htmlFor="unit">Quantidade <span className="required">*</span></label>
-                  <input
+                  <input style={{width:'23vw'}}
                     type="number"
                     id="unit"
                     name="unit"
@@ -285,7 +285,7 @@ const ProdutoUnitarioCadastro = () => {
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
                 <div className="form-group">
                   <label htmlFor="unit">Origem <span className="required">*</span></label>
-                  <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)}>
+                  <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)} >
                     {getOrigemNome}
                   </select>
                 </div>
