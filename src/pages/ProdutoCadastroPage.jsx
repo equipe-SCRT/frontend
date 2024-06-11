@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from './components/navbar.component';
 import './ProdutoCadastroPage.css';
 import engrenagem from '../assets/images/engrenagem.svg';
-// import newIcon from '../assets/images/new-icon.svg'; // Adicione aqui o caminho para os novos ícones
+import informacao from '../assets/images/informacao.svg';
 
 const ProdutoCadastro = () => {
   const [produtos, setProdutos] = useState([]);
@@ -90,7 +90,7 @@ const ProdutoCadastro = () => {
         <div className="form-section" id='form-register'>
           <h1 className="section-title">Produtos</h1>
           <div className="card-body-form">
-            <p>Cadastro de Produtos Novos</p>
+            <p>Cadastro de Produtos Novos<img src={informacao} alt="" height="20px"/></p>
             <form className="product-form" onSubmit={cadastrar}>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
                 <div className="form-group" id='name'>
@@ -104,7 +104,7 @@ const ProdutoCadastro = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="productType">Tipo de Produto <span className="required">*</span></label>
+                  <label htmlFor="productType">Tipo de Produto <span className="required">*</span> <img src={informacao} alt="" height="15px"/></label>
                   <select
                     id="productType"
                     name="productType"

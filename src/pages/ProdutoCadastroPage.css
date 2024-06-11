@@ -149,6 +149,10 @@
     padding: 10px;
 }
 
+.form-group label img{
+    margin-left: 5px;
+}
+
 .form-up .form-group #productType {
     width: 36vw;
     padding: 10px;
@@ -165,7 +169,6 @@
     font-family: "Roboto", sans-serif;
 }
 
-/* .table.table-striped .engrenagem{
-    width: 20vw;
-    color: #121619;
-} */
+.card-body-form p img{
+    margin-left: 10px;
+}
