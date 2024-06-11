@@ -295,7 +295,7 @@ const ProdutoUnitarioCadastro = () => {
           </div>
         </div>
         <div className="table-section">
-          <div className="card-body">
+          <div className="card-body" style={{border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9'}}>
             <p className="card-description">Listagem</p>
             <div className="table-responsive">
               <table className="table table-striped">
