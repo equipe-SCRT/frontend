@@ -10,6 +10,7 @@ import ProdutoUnitarioCadastro from "./pages/produtounitariocadastro/ProdutoUnit
 import ProdutoCadastro from "./pages/ProdutoCadastroPage"
 import TestPage from './pages/TestePage';
 import ColaboradoresCadastro from './pages/colaboradores/ColaboradoresCadastroPage';
+import TipoCestaCadastro from './pages/tipo-cesta/TipoCestaCadastroPage';
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/dashboard/cadastro-produto" element={<ProdutoCadastro />} />
         <Route path="/dashboard/cadastro-produto-unitario" element={<ProdutoUnitarioCadastro />} />
         <Route path="/dashboard/cadastro-colaborador" element={<ColaboradoresCadastro />} />
+        <Route path="/dashboard/cadastro-tipo-cesta" element={<TipoCestaCadastro />} />
         <Route path="/test" element={<TestPage />} />
         
 
