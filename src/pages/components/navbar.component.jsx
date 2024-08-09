@@ -54,14 +54,14 @@ const NavBar = () => {
           <span>Colaboradores</span>
         </a>
         <a
-          href="#"
+          href="/dashboard/cadastro-produto-unitario"
           id="link-nav"
         >
           <i className="fas fa-lock fa-fw me-3" />
           <span>Produtos</span>
         </a>
         <a
-          href="#"
+          href="/dashboard/cadastro-cestas"
           id="link-nav"
         >
           <i className="fas fa-chart-line fa-fw me-3" />
