@@ -12,6 +12,7 @@ import { Chart,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { ptBR } from 'date-fns/locale';
+
 Chart.register(  
   ...registerables, 
   CategoryScale, 
