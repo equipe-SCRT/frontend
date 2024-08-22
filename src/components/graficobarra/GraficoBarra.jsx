@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
     Chart,
@@ -24,8 +24,6 @@ Chart.register(
 );
 
 const GraficoBarra = ({ data, cor, titulo, label }) => {
-    const labels = data.map(item => item.count);
-    const dataValues = data.map(item => item.count);
     const [selectedFilter, setSelectedFilter] = useState('');
     const [filteredData, setFilteredData] = useState(data);
 
@@ -38,6 +36,8 @@ const GraficoBarra = ({ data, cor, titulo, label }) => {
         }
     }, [selectedFilter, data]);
 
+    const labels = filteredData.map(item => item.mes);
+    const dataValues = filteredData.map(item => item.count);
     const dados = {
         labels: labels,
         datasets: [
@@ -65,7 +65,6 @@ const GraficoBarra = ({ data, cor, titulo, label }) => {
                 },
             },
             y: {
-                beginAtZero: true,
                 title: {
                     display: true,
                     text: 'nomes condominios'
@@ -82,7 +81,6 @@ const GraficoBarra = ({ data, cor, titulo, label }) => {
                 options={[
                     { value: 'categoria1', label: 'Categoria 1' },
                     { value: 'categoria2', label: 'Categoria 2' },
-                    // Adicione mais opções conforme necessário
                 ]}
                 onChange={setSelectedFilter}
             />
