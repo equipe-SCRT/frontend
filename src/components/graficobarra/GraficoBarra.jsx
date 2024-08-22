@@ -81,7 +81,6 @@ const GraficoBarra = ({ data, cor, titulo, label }) => {
                 options={[
                     { value: 'categoria1', label: 'Categoria 1' },
                     { value: 'categoria2', label: 'Categoria 2' },
-                    // Adicione mais opções conforme necessário
                 ]}
                 onChange={setSelectedFilter}
             />

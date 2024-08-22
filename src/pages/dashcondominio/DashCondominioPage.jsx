@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import api from '../../api/api'
 import './DashCondominio.module.css'
-import GraficoLinha from '../../components/graficolinha/GraficoLinha'
+import GraficoLinhaComparativo from '../../components/graficolinhacomparativo/GraficoLinhaComparativo'
 import CardScrt from '../../components/cardscrt/CardScrt'
 import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarraProgresso'
 import NavBar from '../components/navbar.component';
 import GraficoBarra from '../../components/graficobarra/GraficoBarra';
+import GraficoLinha from '../../components/graficolinha/GraficoLinha';
 
 
 const DashCondominioPage = () => {
@@ -91,7 +92,7 @@ const DashCondominioPage = () => {
             <Col md lg={12}>
               <div>
                 <GraficoLinha data={dadosEstoque} cor={'#22CC52'} titulo={'Quantidade total de alimentos arrecadados nos condomínios'} label={'Quantidade'} />
-                <GraficoLinha data={dadosVencidosPorMes} cor={'#FF5555'} titulo={'Quantidade de doações variadas por condomínios'} label={'Quantidade'} />
+                <GraficoLinhaComparativo data={dadosVencidosPorMes} cor={'#FF5555'} titulo={'Quantidade de doações variadas por condomínios'} label={'Quantidade'} />
               </div>
             </Col>
           </Row>
