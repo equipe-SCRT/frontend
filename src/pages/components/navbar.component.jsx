@@ -72,7 +72,7 @@ const NavBar = () => {
           </div>
         </a>
         <a
-          href="#"
+          href="/dashboard/cadastro-cestas"
           id="link-nav"
         >
           <i className="fas fa-chart-line fa-fw me-3" />

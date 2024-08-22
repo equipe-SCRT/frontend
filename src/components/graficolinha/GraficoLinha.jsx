@@ -1,28 +1,29 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart, 
-  registerables, 
-  CategoryScale, 
-  LinearScale, 
-  PointElement, 
-  LineElement, 
-  Title, 
-  Tooltip, 
-  Legend 
+import {
+    Chart,
+    registerables,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { ptBR } from 'date-fns/locale';
-Chart.register(  
-  ...registerables, 
-  CategoryScale, 
-  LinearScale, 
-  PointElement, 
-  LineElement, 
-  Title, 
-  Tooltip, 
-  Legend );
+Chart.register(
+    ...registerables,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend);
 
-  const GraficoLinha = ({ data, cor, titulo, label }) => {
+const GraficoLinha = ({ data, cor, titulo, label }) => {
     const labels = data.map(item => item.mes);
     const dataValues = data.map(item => item.count);
     const dados = {
@@ -71,7 +72,7 @@ Chart.register(
 
     return (
         <div style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px" }}>
-            <h5>{titulo}</h5>
+            <h5 style={{ color: "#21272A" }}><strong>{titulo}</strong></h5>
             <Line data={dados} options={options} />
         </div>
     );
