@@ -9,6 +9,7 @@ import Register from './pages/RegisterPage';
 import ProdutoUnitarioCadastro from "./pages/produtounitariocadastro/ProdutoUnitarioCadastroPage"
 import ProdutoCadastro from "./pages/produto/ProdutoCadastroPage"
 import CestaCadastro from "./pages/cesta/CestaCadastroPage"
+import DashboardCampanhas from './pages/dasboardcampanhas/DashboardCampanhasPage';
 import TestPage from './pages/TestePage';
 
 
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/" element={<LoginPage/>} />
         <Route path="/home" element={<HomePage/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/dashboard-campanhas" element={<DashboardCampanhas/>} />
         <Route path="/dashboard/cadastro-produtos" element={<ProdutoCadastro />} />
         <Route path="/dashboard/cadastro-produto-unitario" element={<ProdutoUnitarioCadastro />} />
         <Route path="/dashboard/cadastro-cestas" element={<CestaCadastro />} />
