@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "./ProdutoUnitarioCadastroPage.module.css"
+import "./IndicadoresCadastroPage.module.css"
 import NavBar from '../components/navbar.component';
 import Swal from 'sweetalert2';
 
@@ -249,70 +249,115 @@ const IndicadoresCadastro = () => {
         <NavBar />
         <div className="form-section" id='form-register'>
           <div style={{display: 'flex',justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw"}}>
-          <h1 className="section-title" style={{margin: "0px"}}>Produtos</h1>
-          <button  className="submit-btn">Cadastrar Indicadores</button>  
+          <h1 className="section-title" style={{margin: "0px"}}>Métricas</h1>
           </div>
           <div className="card-body-form">
             <p>Cadastro de Indicadores</p>
             <div className="product-form">
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
                 <div className="form-group" id='name'>
-                  <label htmlFor="productName">Nome <span className="required">*</span></label>
+                  <label htmlFor="productName">Selecione a métrica que deseja cadastrar <span className="required">*</span></label>
                   <select name="nomeSel" id="nomeSel" onChange={(e)=> setNome(e.target.value)} style={{width:'23vw'}}>
                     {getNomeProdutos}
                   </select>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="productType">Data validade <span className="required">*</span></label>
+              
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+              <div className="form-group">
+                  <label htmlFor="unit">Insira o novo tipo de produto: <span className="required">*</span></label>
                   <input style={{width:'23vw'}}
-                    type="date"
+                    type="text"
                     id="unit"
                     name="unit"
-                    onChange={(e) => setValidade(e.target.value)}
-                  />               
-                  </div>
-             
-                <div className="form-group">
-                  <label htmlFor="unit">Quantidade <span className="required">*</span></label>
+                    placeholder='peixe'
+                    onChange={(e) => setQuantidade(e.target.value)}
+                  />
+                </div><button onClick={salvar} className="submit-btn">Cadastrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-section" id='form-register'>
+          
+          <div className="card-body-form">
+            <div className="product-form">
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
+                <div className="form-group" id='name'>
+                  <label htmlFor="productName">Selecione a métrica que deseja cadastrar <span className="required">*</span></label>
+                  <select name="nomeSel" id="nomeSel" onChange={(e)=> setNome(e.target.value)} style={{width:'23vw'}}>
+                    {getNomeProdutos}
+                  </select>
+                </div>
+
+                <div className="form-group" id='name'>
+                  <label htmlFor="productName">Quantidade regular recomendada: <span className="required">*</span></label>
+                  <select name="nomeSel" id="nomeSel" onChange={(e)=> setNome(e.target.value)} style={{width:'23vw'}}>
+                    {getNomeProdutos}
+                  </select>
+                </div>
+              
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+              <div className="form-group">
+                  <label htmlFor="unit">Quantidade máxima recomendada no estoque:: <span className="required">*</span></label>
                   <input style={{width:'23vw'}}
-                    type="number"
+                    type="text"
                     id="unit"
                     name="unit"
+                    placeholder='peixe'
                     onChange={(e) => setQuantidade(e.target.value)}
                   />
                 </div>
               </div>
+
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-                <div className="form-group">
-                  <label htmlFor="unit">Origem <span className="required">*</span></label>
-                  <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)} >
-                    {getOrigemNome}
+              <div className="form-group">
+                  <label htmlFor="unit">Quantidade mínima recomendada no estoque: <span className="required">*</span></label>
+                  <input style={{width:'23vw'}}
+                    type="text"
+                    id="unit"
+                    name="unit"
+                    placeholder='peixe'
+                    onChange={(e) => setQuantidade(e.target.value)}
+                  />
+                </div><button onClick={salvar} className="submit-btn">Cadastrar</button>
+              </div>
+              
+            </div>
+          </div>
+          
+        </div>
+
+        <div className="form-section" id='form-register'>
+          
+          <div className="card-body-form">
+          <div className="product-form">
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
+                <div className="form-group" id='name'>
+                  <label htmlFor="productName">Selecione a métrica que deseja cadastrar <span className="required">*</span></label>
+                  <select name="nomeSel" id="nomeSel" onChange={(e)=> setNome(e.target.value)} style={{width:'23vw'}}>
+                    {getNomeProdutos}
                   </select>
                 </div>
-                <button onClick={salvar} className="submit-btn">Cadastrar</button>
+              
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+              <div className="form-group">
+                  <label htmlFor="unit">Insira o novo tipo de produto: <span className="required">*</span></label>
+                  <input style={{width:'23vw'}}
+                    type="text"
+                    id="unit"
+                    name="unit"
+                    placeholder='peixe'
+                    onChange={(e) => setQuantidade(e.target.value)}
+                  />
+                </div><button onClick={salvar} className="submit-btn">Cadastrar</button>
               </div>
             </div>
           </div>
-        </div>
-        <div className="table-section">
-          <div className="card-body" style={{border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9'}}>
-            <p className="card-description">Listagem</p>
-            <div className="table-responsive">
-              <table className="table table-striped">
-                <thead>
-                      <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg></th>
-                      <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg> </th>
-                      <th>Validade <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg> </th>
-                      <th>Origem <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg> </th>
-                      <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"/></svg></th>
-                </thead>
-                <tbody>
-                  {getProdutos}
-                </tbody>
-              </table>
-            </div>
           </div>
-        </div>
       </div>
     </>
   );
