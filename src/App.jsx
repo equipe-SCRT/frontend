@@ -9,6 +9,7 @@ import Register from './pages/RegisterPage';
 import ProdutoUnitarioCadastro from "./pages/produtounitariocadastro/ProdutoUnitarioCadastroPage"
 import ProdutoCadastro from "./pages/ProdutoCadastroPage"
 import TestPage from './pages/TestePage';
+import DashCondominio from './pages/dashcondominio/DashCondominioPage';
 
 
 const App = () => {
@@ -23,7 +24,7 @@ const App = () => {
         <Route path="/dashboard/cadastro-produto" element={<ProdutoCadastro />} />
         <Route path="/dashboard/cadastro-produto-unitario" element={<ProdutoUnitarioCadastro />} />
         <Route path="/test" element={<TestPage />} />
-        
+        <Route path="/dashboard/dash-condominio" element={<DashCondominio />} />
 
         <Route path="*" element={<NotFoundPage/>} />
       </Routes>

@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import "../../styles/NavBar.component.css"
 import imagemLogo from "../../assets/images/logo.png";
+import iconChart from "../../assets/images/icon-bar-chart.svg";
+import iconUser from "../../assets/images/icon-user.svg";
+import iconCesta from "../../assets/images/icon-cesta.svg";
+import iconBuilding from "../../assets/images/icon-building.svg";
+import iconCampaign from "../../assets/images/icon-campaign.svg";
+import iconMetrics from "../../assets/images/icon-metrics.svg";
+import iconSummary from "../../assets/images/icon-summary.svg";
+import icon from "../../assets/images/icon-placeholder.svg";
 
 
 const NavBar = () => {
@@ -12,26 +20,20 @@ const NavBar = () => {
   <nav
     id="sidebarMenu"
     className="collapse d-lg-block sidebar collapse bg-green"
-    style={{backgroundColor: "#306B34"}
-  }
+    
   >
     <div id='img' style={{
-        width: "240px",
-        height: "100px",
+        // width: "1000px",
+        height: "120px",
         display: 'flex',
         alignContent: "center",
-        backgroundColor: "#306B34",
-        padding: "20px"
+        padding: "10px"
       }}>
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="/home">
             <img
               src={imagemLogo}
-              height={100}
               alt="MDB Logo"
               loading="lazy"
-              style={{padding: 15,
-                position: "fixed"
-              }}
             />
           </a>
       </div>
@@ -39,61 +41,85 @@ const NavBar = () => {
       <div className="list-group list-group-flush mx-3 mt-4" id='components'>
       
         <a
-          href="#"
+          href="/home"
           id="link-nav"
           aria-current="true"
         >
           <i  className="fas fa-chart-area fa-fw me-3"/>
-          <span>Gráficos</span>
+          <div className='component-line'>
+            <img src={iconChart} alt=""/>
+            <span>Gráficos</span>
+          </div>
         </a>
         <a
           href="#"
           id="link-nav"
         >
           <i className="fas fa-chart-area fa-fw me-3" />
-          <span>Colaboradores</span>
+          <div className='component-line'>
+            <img src={iconUser} alt=""/>
+          <span>Voluntários</span>
+          </div>
         </a>
         <a
-          href="#"
+          href="/dashboard/cadastro-produto-unitario"
           id="link-nav"
         >
           <i className="fas fa-lock fa-fw me-3" />
+          <div className='component-line'>
+            <img src={icon} alt=""/>
           <span>Produtos</span>
+          </div>
         </a>
         <a
           href="#"
           id="link-nav"
         >
           <i className="fas fa-chart-line fa-fw me-3" />
+          <div className='component-line'>
+            <img src={iconCesta} alt=""/>
           <span>Cesta</span>
+          </div>
         </a>
         <a
-          href="#"
+          href="/dashboard/dash-condominio"
           id="link-nav"
         >
           <i className="fas fa-chart-pie fa-fw me-3" />
-          <span>Condominios</span>
+          <div className='component-line'>
+            <img src={iconBuilding} alt=""/>
+          <span>Condomínios</span>
+          </div>
         </a>
         <a
           href="#"
           id="link-nav"
         >
           <i className="fas fa-chart-bar fa-fw me-3" />
+          <div className='component-line'>
+            <img src={iconCampaign} alt=""/>
           <span>Campanhas</span>
+          </div>
         </a>
         <a
           href="#"
           id="link-nav"
         >
           <i className="fas fa-globe fa-fw me-3" />
+          <div className='component-line'>
+            <img src={iconMetrics} alt=""/>
           <span>Indicadores</span>
+          </div>
         </a>
         <a
           href="#"
           id="link-nav"
         >
           <i className="fas fa-building fa-fw me-3" />
+          <div className='component-line'>
+            <img src={iconSummary} alt=""/>
           <span>Relatórios</span>
+          </div>
         </a>
        
       </div>
