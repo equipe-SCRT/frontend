@@ -82,7 +82,7 @@ const NavBar = () => {
           </div>
         </a>
         <a
-          href="/dashboard/dash-condominio"
+          href="#"
           id="link-nav"
         >
           <i className="fas fa-chart-pie fa-fw me-3" />
