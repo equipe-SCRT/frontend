@@ -7,6 +7,7 @@ import NotFoundPage from './pages/notfound/NotFoundPage';
 import Layout from './components/layout/Layout';
 import Register from './pages/RegisterPage';
 import ProdutoUnitarioCadastro from "./pages/produtounitariocadastro/ProdutoUnitarioCadastroPage"
+import CondominioCadastro from "./pages/condominiocadastro/CondominioCadastroPage"
 import ProdutoCadastro from "./pages/ProdutoCadastroPage"
 import TestPage from './pages/TestePage';
 
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/register" element={<Register/>} />
         <Route path="/dashboard/cadastro-produto" element={<ProdutoCadastro />} />
         <Route path="/dashboard/cadastro-produto-unitario" element={<ProdutoUnitarioCadastro />} />
+        <Route path="/cadastro/condominio" element={<CondominioCadastro />} />
         <Route path="/test" element={<TestPage />} />
         
 
