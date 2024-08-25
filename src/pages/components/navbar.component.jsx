@@ -14,12 +14,6 @@ import icon from "../../assets/images/icon-placeholder.svg";
 const NavBar = () => {
   document.body.style.paddingLeft = "280px";
 
-  const [activeLink, setActiveLink] = useState(null);
-
-  const handleLinkClick = (link) => {
-    setActiveLink(link);
-  };
-
   return (
     <header>
 
