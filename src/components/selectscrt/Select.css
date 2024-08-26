@@ -27,6 +27,7 @@
     padding-left: 45px; /* Espaço para a seta */
     appearance: none;
     width: 100%;
+    cursor: pointer;
   }
   
   .custom-select:focus {
