@@ -8,8 +8,12 @@ const Select = ({ options, onChange }) => {
       <div className="custom-select-arrow">
         <img src={ArrowDown} alt="Seta para baixo" />
       </div>
-      <select onChange={(e) => onChange(e.target.value)} className="custom-select">
-        <option value="">Selecione um filtro</option>
+      <select
+        onChange={(e) => onChange(e.target.value)}
+        className="custom-select"
+        defaultValue=""  // Garante que o valor padrão seja selecionado
+      >
+        <option value="" className="underline">Selecione um filtro</option>
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}

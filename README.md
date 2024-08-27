@@ -64,3 +64,30 @@ Esta seção foi movida para [aqui](https://facebook.github.io/create-react-app/
 ### `npm run build` falha ao minificar
 
 Esta seção foi movida para [aqui](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify).
+
+### Versão e Dependências utilizadas
+
+Versão do node: 9.6.7 <br>
+
+Dependências:<br>
+@‌testing-library/jest-dom@5.17.0 <br>
+@‌testing-library/react@13.4.0<br>
+@‌testing-library/user-event@13.5.0<br>
+@‌types/jest@27.5.2<br>
+@‌types/node@16.18.98<br>
+@‌types/react-dom@18.3.0<br>
+@‌types/react@18.3.3<br>
+axios@1.7.2<br>
+bootstrap@5.3.3<br>
+chart.js@4.4.3<br>
+chartjs-adapter-date-fns@3.0.0<br>
+react-bootstrap@2.10.2<br>
+react-chartjs-2@5.2.0<br>
+react-dom@18.3.1<br>
+react-hot-toast@2.4.1<br>
+react-router-dom@6.23.1<br>
+react-router@6.23.1<br>
+react-scripts@5.0.1<br>
+react@18.3.1<br>
+sweetalert2@11.11.1<br>
+web-vitals@2.1.4<br>
