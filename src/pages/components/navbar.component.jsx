@@ -89,7 +89,7 @@ const NavBar = () => {
           <span>Indicadores</span>
         </a>
         <a
-          href="#"
+          href="/relatorios"
           id="link-nav"
         >
           <i className="fas fa-building fa-fw me-3" />
