@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "../../styles/NavBar.component.css"
-import imagemLogo from "../../assets/images/logo.png";
+import imagemLogo from "../../assets/images/logo.svg";
 import iconChart from "../../assets/images/icon-bar-chart.svg";
 import iconUser from "../../assets/images/icon-user.svg";
 import iconCesta from "../../assets/images/icon-cesta.svg";
@@ -33,6 +33,7 @@ const NavBar = () => {
           <a className="navbar-brand" href="/home">
             <img
               src={imagemLogo}
+              className='logo'
               alt="MDB Logo"
               loading="lazy"
             />
