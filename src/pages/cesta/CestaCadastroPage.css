@@ -157,7 +157,11 @@
     width: 36vw;
 }
 
-.form-down .submit-btn {
+.form-down .form-group #lot {
+    width: 36vw;
+}
+
+.submit-btn {
     width: 17vh;
     height: 6vh;
     margin-top: 25px;
@@ -166,4 +170,29 @@
 
 .card-body-form p img{
     margin-left: 10px;
+}
+
+.btn-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-header {
+    display: flex;
+    width: 80vw;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.submit-btn-header {
+    display: inline-block;
+    margin: 122px 20px 20px 0px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #F07E18;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }

@@ -1,42 +1,52 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import {
-    Chart,
-    registerables,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
+import { Chart, 
+  registerables, 
+  CategoryScale, 
+  LinearScale, 
+  PointElement, 
+  LineElement, 
+  Title, 
+  Tooltip, 
+  Legend 
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { ptBR } from 'date-fns/locale';
-Chart.register(
-    ...registerables,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend);
+Chart.register(  
+  ...registerables, 
+  CategoryScale, 
+  LinearScale, 
+  PointElement, 
+  LineElement, 
+  Title, 
+  Tooltip, 
+  Legend );
 
-const GraficoLinha = ({ data, cor, titulo, label }) => {
+const GraficoLinha = ({ data, cor1, cor2, titulo, label1, label2 }) => {
     const labels = data.map(item => item.mes);
-    const dataValues = data.map(item => item.count);
+    const dataValues1 = data.map(item => item.count);
+    const dataValues2 = data.map(item => item.count);
+
     const dados = {
         labels: labels,
         datasets: [
             {
-                label: label,
-                backgroundColor: cor + "44",
-                borderColor: cor,
+                label: label1,
+                backgroundColor: cor1 + "44",
+                borderColor: cor1,
                 borderWidth: 1,
-                hoverBackgroundColor: cor,
-                hoverBorderColor: cor,
-                data: dataValues
+                hoverBackgroundColor: cor1,
+                hoverBorderColor: cor1,
+                data: dataValues1
+            },
+            {
+                label: label2,
+                backgroundColor: cor2 + "44",
+                borderColor: cor2,
+                borderWidth: 1,
+                hoverBackgroundColor: cor2,
+                hoverBorderColor: cor2,
+                data: dataValues2
             }
         ],
     };
@@ -72,7 +82,7 @@ const GraficoLinha = ({ data, cor, titulo, label }) => {
 
     return (
         <div style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px" }}>
-            <h5 style={{ color: "#21272A" }}><strong>{titulo}</strong></h5>
+            <h5>{titulo}</h5>
             <Line data={dados} options={options} />
         </div>
     );
