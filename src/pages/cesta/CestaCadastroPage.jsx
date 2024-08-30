@@ -1,79 +1,73 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import NavBar from '../components/navbar.component';
-import './CestaCadastroPage.css';
-import engrenagem from '../../assets/images/engrenagem.svg';
-import informacao from '../../assets/images/informacao.svg';
+import React, { useEffect, useState, useCallback } from "react";
+import { format } from 'date-fns'
+import axios from "axios";
+import NavBar from "../components/navbar.component";
+import "./CestaCadastroPage.css";
+import engrenagem from "../../assets/images/engrenagem.svg";
+import informacao from "../../assets/images/informacao.svg";
 
 const CestasCadastro = () => {
-  const [produtos, setProdutos] = useState([]);
-  const [tiposProduto, setTiposProduto] = useState([]);
-  const [unidadesMedida, setUnidadesMedida] = useState([]);
-  const [nome, setNome] = useState("");
-  const [qtdUnidadeMedida, setQtdUnidadeMedida] = useState("");
-  const [tipoProdutoId, setTipoProdutoId] = useState("");
-  const [tipoUnidadeMedidaId, setTipoUnidadeMedidaId] = useState("");
-
-  useEffect(() => {
-    handleProdutos();
-    handleTiposProduto();
-    handleUnidadesMedida();
-  }, []);
+  const [cestas, setCestas] = useState([]);
+  const [tiposCestas, setTiposCestas] = useState([]);
+  const [lote, setLote] = useState("");
+  const [qtdCestasMontadas, setQtdCestasMontadas] = useState("");
+  const [tipoCestaId, setTipoCestaId] = useState("");
+  const [dataMontagem, setDataMontagem] = useState("");
 
   const api = axios.create({
     baseURL: "http://localhost:8080",
     withCredentials: false,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    },
   });
 
-  async function handleProdutos() {
+  async function handleCestas() {
     try {
-      const response = await api.get("/produtos");
-      setProdutos(response.data);
+      const response = await api.get("/cestas");
+      setCestas(response.data);
     } catch (err) {
       console.log(err);
     }
   }
 
-  async function handleTiposProduto() {
+  async function handleTiposCestas() {
     try {
-      const response = await api.get("/tipos-produtos");
-      setTiposProduto(response.data);
+      const response = await api.get("/tipos-cestas");
+      setTiposCestas(response.data);
     } catch (err) {
       console.log(err);
     }
   }
 
-  async function handleUnidadesMedida() {
-    try {
-      const response = await api.get("/unidades-medidas");
-      setUnidadesMedida(response.data);
-    } catch (err) {
-      console.log(err);
-    }
+  useEffect(() => {
+    handleCestas();
+    handleTiposCestas();
+  }, []);
+
+  const formatDate = (dateString) => {
+    return format(new Date(dateString), 'dd/MM/yyyy')
   }
 
   async function cadastrar(evento) {
     evento.preventDefault();
 
-    const novoProduto = {
-      nome,
-      qtdUnidadeMedida,
-      tipoProdutoId: Number(tipoProdutoId),
-      tipoUnidadeMedidaId: Number(tipoUnidadeMedidaId)
+    const novaCesta = {
+      lote,
+      qtdCestasMontadas,
+      tipoCestaId: Number(tipoCestaId),
+      dataMontagem: dataMontagem,
     };
 
     try {
-      console.log(novoProduto);
-      await api.post("/produtos", novoProduto);
-      setNome("");
-      setQtdUnidadeMedida("");
-      setTipoProdutoId("");
-      setTipoUnidadeMedidaId("");
-      handleProdutos();
+      console.log(novaCesta);
+      await api.post("/cestas", novaCesta);
+      setLote("");
+      setQtdCestasMontadas("");
+      setTipoCestaId("");
+      setDataMontagem("");
+      handleCestas();
     } catch (err) {
       console.log(err);
     }
@@ -83,91 +77,187 @@ const CestasCadastro = () => {
     <>
       <div style={{ display: "block", height: "100%" }}>
         <NavBar />
-        <div className="form-section" id='form-register'>
-          <div className='btn-header'>
+        <div className="form-section" id="form-register">
+          <div className="btn-header">
             <h1 className="section-title">Cestas</h1>
-            <button type="submit" className="submit-btn-header">Cadastrar Tipo Cesta</button>
+            <button type="submit" className="submit-btn-header">
+              Cadastrar Tipo Cesta
+            </button>
           </div>
           <div className="card-body-form">
-            <p>Cadastro<img src={informacao} alt="" height="20px" /></p>
+            <p>
+              Cadastro
+              <img src={informacao} alt="" height="20px" />
+            </p>
             <form className="product-form" onSubmit={cadastrar}>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
-                <div className="form-group" id='name'>
-                  <label htmlFor="productName">Tipo de Cesta <span className="required">*</span></label>
-                  <input
-                    type="text"
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+                className="form-up"
+              >
+                <div className="form-group">
+                  <label htmlFor="productName">
+                    Tipo de Cesta <span className="required">*</span>
+                  </label>
+                  <select
                     id="productName"
                     name="productName"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="productType">Data da Montagem <span className="required">*</span> <img src={informacao} alt="" height="15px" /></label>
-                  <select
-                    id="productType"
-                    name="productType"
-                    value={tipoProdutoId}
-                    onChange={(e) => setTipoProdutoId(e.target.value)}
+                    value={tipoCestaId}
+                    onChange={(e) => setTipoCestaId(e.target.value)}
                   >
                     <option value="">-</option>
-                    {tiposProduto.length > 0 ? tiposProduto.map(tipo => (
-                      <option key={tipo.id} value={tipo.id}>{tipo.nome}</option>
-                    )) : <span></span>}
+                    {tiposCestas.length > 0 ? (
+                      tiposCestas.map((tipo) => (
+                        <option key={tipo.id} value={tipo.id}>
+                          {tipo.nome}
+                        </option>
+                      ))
+                    ) : (
+                      <span></span>
+                    )}
                   </select>
                 </div>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
                 <div className="form-group">
-                  <label htmlFor="unitQuantity">Quantidade de Cestas Montadas <span className="required">*</span></label>
+                  <label htmlFor="productType">
+                    Data da Montagem <span className="required">*</span>{" "}
+                    <img src={informacao} alt="" height="15px" />
+                  </label>
+                  <input
+                    type="date"
+                    id="productType"
+                    name="productType"
+                    value={dataMontagem}
+                    onChange={(e) => setDataMontagem(e.target.value)}
+                  ></input>
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+                className="form-down"
+              >
+                <div className="form-group">
+                  <label htmlFor="unitQuantity">
+                    Quantidade de Cestas Montadas{" "}
+                    <span className="required">*</span>
+                  </label>
                   <input
                     type="number"
                     id="unitQuantity"
                     name="unitQuantity"
-                    value={qtdUnidadeMedida}
-                    onChange={(e) => setQtdUnidadeMedida(e.target.value)}
+                    value={qtdCestasMontadas}
+                    onChange={(e) => setQtdCestasMontadas(e.target.value)}
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="lot">Lote <span className="required">*</span></label>
+                  <label htmlFor="lot">
+                    Lote <span className="required">*</span>
+                  </label>
                   <input
-                    type="number"
+                    type="text"
                     id="lot"
                     name="lot"
-                    value={qtdUnidadeMedida}
-                    onChange={(e) => setQtdUnidadeMedida(e.target.value)}
+                    value={lote}
+                    onChange={(e) => setLote(e.target.value)}
                   />
                 </div>
               </div>
-              <div className='btn-end'>
-                <button type="submit" className="submit-btn">Cadastrar</button>
+              <div className="btn-end">
+                <button type="submit" className="submit-btn">
+                  Cadastrar
+                </button>
               </div>
             </form>
           </div>
         </div>
         <div className="table-section">
-          <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
+          <div
+            className="card-body"
+            style={{ border: "1px solid #DDE1E6", backgroundColor: "# f9f9f9" }}
+          >
             <p className="card-description">Listagem</p>
             <div className="table-responsive">
               <table className="table table-striped">
                 <thead>
                   <tr>
-                    <th># <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                    <th>Tipo de Cesta <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                    <th>Data da Montagem <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                    <th>Lote <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
+                    <th>
+                      #{" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="14px"
+                        viewBox="0 -960 960 960"
+                        width="14px"
+                        fill="#000000"
+                      >
+                        <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
+                      </svg>
+                    </th>
+                    <th>
+                      Tipo de Cesta{" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="14px"
+                        viewBox="0 -960 960 960"
+                        width="14px"
+                        fill="#000000"
+                      >
+                        <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
+                      </svg>
+                    </th>
+                    <th>
+                      Data da Montagem{" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="14px"
+                        viewBox="0 -960 960 960"
+                        width="14px"
+                        fill="#000000"
+                      >
+                        <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
+                      </svg>
+                    </th>
+                    <th>
+                      Lote{" "}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="14px"
+                        viewBox="0 -960 960 960"
+                        width="14px"
+                        fill="#000000"
+                      >
+                        <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
+                      </svg>
+                    </th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {produtos.length > 0 ? produtos.map((produto, index) => (
-                    <tr key={index}>
-                      <td>{produto.id}</td>
-                      <td>{produto.nome + " " + produto.qtdUnidadeMedida + produto.unidadeMedida?.representacao}</td>
-                      <td>{produto.tipoProduto?.nome}</td>
-                      <td style={{ width: "5px" }}><img src={engrenagem} alt="engrenagem" height="20px" /></td>
-                    </tr>
-                  )) : <span></span>}
+                  {cestas.length > 0 ? (
+                    cestas.map((cesta, index) => (
+                      console.log(cesta),
+                      <tr key={index}>
+                        <td>{cesta.id}</td>
+                        <td>{cesta.tipoCesta?.nome}</td>
+                        <td>{formatDate(cesta.dataMontagem)}</td>
+                        <td>{cesta.lote}</td>
+                        <td style={{ width: "5px" }}>
+                          <img
+                            src={engrenagem}
+                            alt="engrenagem"
+                            height="20px"
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <span></span>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -176,6 +266,6 @@ const CestasCadastro = () => {
       </div>
     </>
   );
-}
+};
 
 export default CestasCadastro;
