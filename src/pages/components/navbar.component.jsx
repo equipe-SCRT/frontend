@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 import "../../styles/NavBar.component.css"
 import imagemLogo from "../../assets/images/logo.svg";
 import iconChart from "../../assets/images/icon-bar-chart.svg";
@@ -12,6 +13,20 @@ import icon from "../../assets/images/icon-placeholder.svg";
 
 
 const NavBar = () => {
+  const [activeItem, setActiveItem] = useState(null);
+
+  useEffect(() => {
+    const savedActiveItem = localStorage.getItem('activeItem');
+    if (savedActiveItem) {
+      setActiveItem(savedActiveItem);
+    }
+  }, []);
+
+  const handleItemClick = (item) => {
+    setActiveItem(item);
+    localStorage.setItem('activeItem', item);
+  };
+
   document.body.style.paddingLeft = "280px";
 
   return (
@@ -24,7 +39,7 @@ const NavBar = () => {
 
       >
         <div id='img' style={{
-          // width: "1000px",
+          // width: "1000px", 
           height: "120px",
           display: 'flex',
           alignContent: "center",
@@ -45,58 +60,76 @@ const NavBar = () => {
             <a
               href="/home"
               id="link-nav"
-              aria-current="true"
+              className={classNames('sidebar-item', { active: activeItem === 'home' })}
+              onClick={() => handleItemClick('home')}
             >
               <img src={iconChart} alt='img gráficos' className='componentImage' />
               <span>Gráficos</span>
             </a>
+
             <a
               href="#"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'voluntarios' })}
+              onClick={() => handleItemClick('voluntarios')}
             >
-              <img src={iconUser} className='componentImage' />
+              <img src={iconUser} alt='img voluntários' className='componentImage' />
               <span>Voluntários</span>
             </a>
+
             <a
               href="/dashboard/cadastro-produto-unitario"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'produtos' })}
+              onClick={() => handleItemClick('produtos')}
             >
-              <img src={icon} alt="" className='componentImage' />
+              <img src={icon} alt='img produtos' className='componentImage' />
               <span>Produtos</span>
             </a>
+
             <a
               href="/dashboard/cadastro-cestas"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'cestas' })}
+              onClick={() => handleItemClick('cestas')}
             >
-              <img src={iconCesta} alt="" className='componentImage' />
+              <img src={iconCesta} alt='img cestas' className='componentImage' />
               <span>Cestas</span>
             </a>
             <a
               href="#"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'condominios' })}
+              onClick={() => handleItemClick('condominios')}
             >
-              <img src={iconBuilding} alt="" className='componentImage' />
+              <img src={iconBuilding} alt="img condominios" className='componentImage' />
               <span>Condomínios</span>
             </a>
             <a
               href="#"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'campanhas' })}
+              onClick={() => handleItemClick('campanhas')}
             >
-              <img src={iconCampaign} alt="" className='componentImage' />
+              <img src={iconCampaign} alt="img campanhas" className='componentImage' />
               <span>Campanhas</span>
             </a>
             <a
               href="#"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'indicadores' })}
+              onClick={() => handleItemClick('indicadores')}
             >
-              <img src={iconMetrics} alt="" className='componentImage' />
+              <img src={iconMetrics} alt="img indicadores" className='componentImage' />
               <span>Indicadores</span>
             </a>
             <a
               href="#"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'relatorios' })}
+              onClick={() => handleItemClick('relatorios')}
             >
-              <img src={iconSummary} alt="" className='componentImage' />
+              <img src={iconSummary} alt="img relatorios" className='componentImage' />
               <span>Relatórios</span>
             </a>
 
