@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import "./RelatorioPage.module.css"
+import style from "./RelatorioPage.module.css"
 import NavBar from '../components/navbar.component';
-import Swal from 'sweetalert2';
+
 
 const Relatorio = () => {
 
@@ -12,18 +10,39 @@ const Relatorio = () => {
             <NavBar />
             <div className="form-section" id='form-register'>
                 <div className='title-style'>
-                    <h1 className="title-section" style={{ margin: "0px"}}>Relatórios</h1>
+                    <h1 className="title-section" style={{ margin: "0px" }}>Relatórios</h1>
                 </div>
             </div>
-            <div className="table-section">
+            <div className="table-section-full" style={{ margin: '30px' }}>
                 <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
-                    <p className="card-description" style={{margin: "0px"}} >Listagem</p>
-                    <div className="table-responsive">
+                    <p className="card-description" style={{ margin: '15px' }}>Listagem</p>
+                    <div className="table-responsive" >
                         <table className="table table-striped">
-                            <thead>
-                                <th>Periodo<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                                <th>Disponibilidade<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                                <th>Download <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                            <thead >
+                                <th style={{ padding: '0px' }}>
+                                    <div style={{ display: "flex", cursor: "pointer", backgroundColor: '#F2F4F8', mmarginRight: "5px" }}>
+                                        Periodo
+                                        <span class="material-symbols-outlined" style={{ fontSize: "20px", marginLeft: "5px" }}>
+                                            arrow_downward
+                                        </span>
+                                    </div>
+                                </th>
+                                <th style={{ padding: '0px' }}>
+                                    <div style={{ display: "flex", cursor: "pointer", backgroundColor: '#F2F4F8' }}>
+                                        Disponibilidade
+                                        <span class="material-symbols-outlined" >
+                                            arrow_upward
+                                        </span>
+                                    </div>
+                                </th>
+                                <th style={{ padding: '0px' }}>
+                                    <div style={{ display: "flex", cursor: "pointer", backgroundColor: '#F2F4F8' }}>
+                                        Donwload
+                                        <span class="material-symbols-outlined">
+
+                                        </span>
+                                    </div>
+                                </th>
                             </thead>
                         </table>
                     </div>
@@ -31,26 +50,23 @@ const Relatorio = () => {
             </div>
 
             <div className="form-section" id='form-register-excel'>
-
                 <div className="title-style">
-                    <h1 className="title-section" style={{margin: "0px"}}> Excel</h1>
-                    <p style={{margin: "0px"}}>Selecione </p>
-                </div>
-            </div>
-            <div className="table-section">
-                <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
-                    <p className="card-description" style={{margin: "0px"}}>Listagem</p>
-                    <div className="table-responsive">
-                        <table className="table table-striped">
-                            <thead>
-                                <th>Periodo<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                                <th>Disponibilidade<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                                <th>Download <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                            </thead>
-                            <tbody>
+                    <h1 className="title-section" style={{ margin: "0px" }}> Excel</h1>
+                    <div style={{ display: "flex" }}>
+                        <p style={{ margin: "0px", font: "10px" }}>Selecione o período que deseja gerar as informações em formato excel </p>
+                        <span class="material-symbols-outlined" style={{ cursor: "pointer", margin: "5px" }}>
+                            help
+                        </span>
+                    </div>
 
-                            </tbody>
-                        </table>
+                    <div style={{ widght: "100%", display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <label htmlFor="data_inicio"> Inicio: </label>
+                            <input type="date" id="data_inicio" style={{ marginRight: "50px", marginLeft: "20px" }} />
+                            <label htmlFor="data_fim"> Fim: </label>
+                            <input type="date" id="data_fim" style={{ marginRight: "50px", marginLeft: "20px" }} />
+                        </div>
+                        <button className="submit-btn">Gerar Planilha</button>
                     </div>
                 </div>
             </div>
