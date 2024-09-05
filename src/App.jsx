@@ -8,6 +8,7 @@ import NotFoundPage from './pages/notfound/NotFoundPage';
 import Layout from './components/layout/Layout';
 import Register from './pages/RegisterPage';
 import ProdutoUnitarioCadastro from "./pages/produtounitariocadastro/ProdutoUnitarioCadastroPage"
+import CondominioCadastro from "./pages/condominiocadastro/CondominioCadastroPage"
 import ProdutoCadastro from "./pages/produto/ProdutoCadastroPage"
 import CestaCadastro from "./pages/cesta/CestaCadastroPage"
 import DashboardCampanhas from './pages/dasboardcampanhas/DashboardCampanhasPage';
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/dashboard-campanhas" element={<DashboardCampanhas/>} />
         <Route path="/dashboard/cadastro-produtos" element={<ProdutoCadastro />} />
         <Route path="/dashboard/cadastro-produto-unitario" element={<ProdutoUnitarioCadastro />} />
+        <Route path="/cadastro/condominio" element={<CondominioCadastro />} />
         <Route path="/dashboard/cadastro-cestas" element={<CestaCadastro />} />
         <Route path="/perfil" element={<PerfilPage />} />
         <Route path="/test" element={<TestPage />} />
