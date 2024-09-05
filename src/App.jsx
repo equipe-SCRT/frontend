@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import VLibras from './components/vlibras/Vlibras';
 
 import HomePage from './pages/home/HomePage';
 import LoginPage from './pages/login/LoginPage';
@@ -20,6 +21,7 @@ const App = () => {
   return (
     <Router>
         <Layout>
+        <VLibras />
       <Routes>
 
         <Route path="/" element={<LoginPage/>} />
@@ -32,7 +34,7 @@ const App = () => {
         <Route path="/dashboard/cadastro-cestas" element={<CestaCadastro />} />
         <Route path="/perfil" element={<PerfilPage />} />
         <Route path="/test" element={<TestPage />} />
-        <Route path="/dashboard/dash-condominio" element={<DashCondominio />} />
+        <Route path="/dashboard/dashboard-condominio" element={<DashCondominio />} />
 
         <Route path="*" element={<NotFoundPage/>} />
       </Routes>
