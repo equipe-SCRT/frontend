@@ -1,6 +1,6 @@
 import React from 'react';
 import ArrowDown from "../../assets/images/arrow-down.svg";
-import './Select.css'; // Importar o arquivo CSS
+import './Select.css';
 
 const Select = ({ options, onChange }) => {
   return (
@@ -11,7 +11,7 @@ const Select = ({ options, onChange }) => {
       <select
         onChange={(e) => onChange(e.target.value)}
         className="custom-select"
-        defaultValue=""  // Garante que o valor padrão seja selecionado
+        defaultValue=""
       >
         <option value="" className="underline">Selecione um filtro</option>
         {options.map((option, index) => (

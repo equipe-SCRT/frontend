@@ -8,18 +8,18 @@ import ListaBarraProgresso from "../../components/listabarraprogresso/ListaBarra
 import NavBar from "../components/navbar.component";
 import GraficoBarrasHorizontais from "../../components/graficobarrashorizontais/GraficoBarrasHorizontais";
 import SelectData from "../../components/selectdata/SelectData";
+import SelectCampanha from "../../components/selectcampanha/SelectCampanha";
 
 const DashboardCampanhas = () => {
-  const [dadosEstoque, setDadosEstoque] = useState([]);
+  const [qtdAlimentosArrecadadosPorCampanha, setQtdAlimentosArrecadadosPorCampanha] = useState([]);
   const [dadosVencidosPorMes, setDadosVencidosPorMes] = useState([]);
   const [dadosCampanhas, setDadosCampanhas] = useState([]);
-  const [dadosAlimentosVencimento15E30Dias,setDadosAlimentosVencimento15E30Dias, ] = useState([]);
+  const [dadosAlimentosVencimento15E30Dias,setDadosAlimentosVencimento15E30Dias,] = useState([]);
   const [dadosArrecadadosXVencidos, setDadosArrecadadosXVencidos] = useState([]);
   const [selectedCampanha, setSelectedCampanha] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
   const [qtdArrecadada, setQtdArrecadada] = useState(0);
   const [meta, setMeta] = useState(0);
-
 
   const dadosPizza = [
     dadosAlimentosVencimento15E30Dias["vencimento30"],
@@ -42,12 +42,12 @@ const DashboardCampanhas = () => {
       }
     };
 
-    const fetchDadosEstoque = async () => {
+    const fetchQtdAlimentosArrecadadosPorCampanha = async () => {
       try {
         const response = await api.get(
-          "produtos-unitario/quantidade-produtos/mes?ativo=true"
+          "campanhas"
         );
-        setDadosEstoque(response.data);
+        setQtdAlimentosArrecadadosPorCampanha(response.data);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
       }
@@ -56,12 +56,23 @@ const DashboardCampanhas = () => {
     const fetchDadosCampanhas = async () => {
       try {
         const response = await api.get("campanhas");
-        const campanhas = response.data
-        const totalQtdArrecadada = campanhas.reduce((acc, campanha) => acc + campanha.qtdArrecadada, 0);
-        const totalMeta = campanhas.reduce((acc, campanha) => acc + campanha.meta, 0);
+        const campanhas = response.data;
+        console.log("Dados das Campanhas:", campanhas);
+        const totalQtdArrecadada = campanhas.reduce(
+          (acc, campanha) => acc + campanha.qtdArrecadada,
+          0
+        );
+        const totalMeta = campanhas.reduce(
+          (acc, campanha) => acc + campanha.meta,
+          0
+        );
         setQtdArrecadada(totalQtdArrecadada);
         setMeta(totalMeta);
-        setDadosCampanhas(response.data);
+        setDadosCampanhas(campanhas);
+
+        if (campanhas.length > 0) {
+          setSelectedCampanha(campanhas[0]);
+        }
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
       }
@@ -89,20 +100,39 @@ const DashboardCampanhas = () => {
       }
     };
 
-    fetchDadosEstoque();
+    fetchQtdAlimentosArrecadadosPorCampanha();
     fetchDadosVencidosPorMes();
     fetchDadosCampanhas();
     fetchDadosAlimentosVencimento15E30Dias();
     fetchDadosArrecadadosXVencidos();
   }, []);
 
-  const handleCampanhaChange = (event) => {
-    setSelectedCampanha(event.target.value);
-  }
+  useEffect(() => {
+    console.log("Estado dadosCampanhas:", dadosCampanhas);
+  }, [dadosCampanhas]);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const handleCampanhaChange = (event) => {
+    const campanhaId = event.target.value;
+    const campanha = dadosCampanhas.find((c) => c.id === parseInt(campanhaId));
+    setSelectedCampanha(campanha);
+    console.log("Selecione a Campanha:", campanha);
   };
+
+  const handleDateChange = (newDate) => {
+    setSelectedDate(newDate);
+    console.log("Selecione a Data:", newDate);
+  };
+
+  // Filtra os dados de qtdAlimentosArrecadadosPorCampanha de acordo com a campanha selecionada
+  const dadosFiltrados = selectedCampanha
+    ? qtdAlimentosArrecadadosPorCampanha.filter((dado) => dado.id === selectedCampanha.id)
+    : [];
+
+  // Transformar os dados filtrados para o formato esperado pelo GraficoLinha
+  const dadosGrafico = dadosFiltrados.map(dado => ({
+    mes: dado.mes,
+    count: dado.qtdArrecadada
+  }));
 
   return (
     <>
@@ -112,35 +142,26 @@ const DashboardCampanhas = () => {
           <Row>
             <CardScrt
               legenda="Selecione a Campanha"
-              info={dadosCampanhas.count}
+              isCampanhaSelected={
+                <SelectCampanha
+                  dadosCampanhas={dadosCampanhas}
+                  onChange={handleCampanhaChange}
+                />
+              }
               bgColor="#D3D3D3"
-            >
-              <select onChange={handleCampanhaChange}>
-                {dadosCampanhas.map((dadosCampanhas, index) => (
-                  <option key={index} value={dadosCampanhas.id}>
-                    {dadosCampanhas.name}
-                  </option>
-                ))}
-              </select>
-            </CardScrt>
-
+            />
             <CardScrt
               legenda="Selecione a Data"
-              info={
-                dadosEstoque.length > 0
-                  ? dadosEstoque[dadosEstoque.length - 1].count
-                  : 0
-              }
+              isDataSelected={<SelectData onChange={handleDateChange} />}
               bgColor="#5FED6D"
-            >
-              <SelectData
-                datas={dadosEstoque.map((data) => data.date)}
-                onChange={handleDateChange}
-              />
-            </CardScrt>
+            />
             <CardScrt
               legenda="Quantidade de Meta Alcançada"
-              info={`${qtdArrecadada} / ${meta}`}
+              info={
+                selectedCampanha
+                  ? `${selectedCampanha.qtdArrecadada} / ${selectedCampanha.meta}`
+                  : "N/A"
+              }
               bgColor="#FDEA3C"
             />
             <CardScrt
@@ -153,7 +174,7 @@ const DashboardCampanhas = () => {
             <Col md lg={12}>
               <div>
                 <GraficoLinha
-                  data={dadosEstoque}
+                  data={dadosGrafico}
                   cor={"#22CC52"}
                   titulo={
                     "Quantidade Total de Alimentos Arrecadados nas Campanhas"
@@ -173,7 +194,7 @@ const DashboardCampanhas = () => {
             <Col md lg={12}>
               <div>
                 <GraficoBarrasHorizontais
-                  data={dadosEstoque}
+                  data={qtdAlimentosArrecadadosPorCampanha}
                   titulo={"Quantidade de produto por campanha"}
                   cor="#FF0000"
                   label="Quantidade"

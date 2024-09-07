@@ -21,7 +21,7 @@ const CondominioCadastroPage = () => {
     useEffect(() => {
         handleCondominios()
         handleNomeCondominios()
-        handleOrigem()
+        // handleOrigem()   
     }, [])
 
     const apiCondominios = axios.create({
