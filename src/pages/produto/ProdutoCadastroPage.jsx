@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import NavBar from './components/navbar.component';
+import NavBar from '../components/navbar.component';
 import './ProdutoCadastroPage.css';
-import engrenagem from '../assets/images/engrenagem.svg';
-import informacao from '../assets/images/informacao.svg';
+import engrenagem from '../../assets/images/engrenagem.svg';
+import informacao from '../../assets/images/informacao.svg';
 
-const ProdutoCadastro = () => {
+const ProdutosCadastro = () => {
   const [produtos, setProdutos] = useState([]);
   const [tiposProduto, setTiposProduto] = useState([]);
   const [unidadesMedida, setUnidadesMedida] = useState([]);
@@ -108,9 +108,9 @@ const ProdutoCadastro = () => {
                     onChange={(e) => setTipoProdutoId(e.target.value)}
                   >
                     <option value="">-</option>
-                    {tiposProduto.map(tipo => (
+                    {tiposProduto.length > 0 ? tiposProduto.map(tipo => (
                       <option key={tipo.id} value={tipo.id}>{tipo.nome}</option>
-                    ))}
+                    )) : <span></span>}
                   </select>
                 </div>
               </div>
@@ -126,9 +126,9 @@ const ProdutoCadastro = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Unidade de medida <span className="required">*</span></label>
+                  <label>Unidade de Medida <span className="required">*</span></label>
                   <div style={{ display: 'flex', flexDirection: 'row', width: '22vw'}}>
-                    {unidadesMedida.map(unidade => (
+                    {unidadesMedida.length > 0 ? unidadesMedida.map(unidade => (
                       <div key={unidade.id} style={{ marginRight: '10px' }}>
                         <input
                           type="radio"
@@ -140,7 +140,7 @@ const ProdutoCadastro = () => {
                         />
                         <label htmlFor={`unidade-${unidade.id}`}>{unidade.representacao}</label>
                       </div>
-                    ))}
+                    )) : <span></span>}
                   </div>
                 </div>
                 <button type="submit" className="submit-btn">Cadastrar</button>
@@ -180,4 +180,4 @@ const ProdutoCadastro = () => {
   );
 }
 
-export default ProdutoCadastro;
+export default ProdutosCadastro;
