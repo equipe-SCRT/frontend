@@ -17,6 +17,7 @@ import ColaboradoresCadastro from './pages/colaboradores/ColaboradoresCadastroPa
 import TipoCestaCadastro from './pages/tipo-cesta/TipoCestaCadastroPage';
 import PerfilPage from './pages/perfil/PerfilPage';
 import DashCondominio from './pages/dashcondominio/DashCondominioPage';
+import IndicadoresCadastro from './pages/indicadores/IndicadoresCadastroPage';
 
 
 const App = () => {
@@ -39,6 +40,8 @@ const App = () => {
         <Route path="/perfil" element={<PerfilPage />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/dashboard/dashboard-condominio" element={<DashCondominio />} />
+        <Route path="/dashboard/cadastro-indicadores" element={<IndicadoresCadastro />} />
+        
 
         <Route path="*" element={<NotFoundPage/>} />
       </Routes>
