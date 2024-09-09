@@ -1,12 +1,15 @@
 import React from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 import styles from "./CardScrt.module.css";
+
 const CardScrt = ({
   legenda,
   info,
   bgColor,
   textColor = "#000000",
   children,
+  isDataSelected,
+  isCampanhaSelected,
 }) => {
   const cardStyle = {
     backgroundColor: bgColor,
@@ -19,7 +22,19 @@ const CardScrt = ({
         <Card.Body>
           <div>{children}</div>
           <Card.Title className={styles.titulo}>{legenda}</Card.Title>
-          <Card.Text className={styles.info}>{info}</Card.Text>
+          <Card.Text className={styles.info}>
+            {info && <>{info}</>}
+            {isDataSelected && (
+              <div className={styles.selectDataContainer}>
+                {isDataSelected}
+              </div>
+            )}
+            {isCampanhaSelected && (
+              <div className={styles.selectCampanhaContainer}>
+                {isCampanhaSelected}
+              </div>
+            )}
+          </Card.Text>
         </Card.Body>
       </Card>
     </Col>

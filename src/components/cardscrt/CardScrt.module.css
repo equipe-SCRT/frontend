@@ -16,3 +16,14 @@
     margin-top: auto !important;
     height: 50% !important;
 }
+
+.selectDataContainer {
+  position: relative;
+  bottom: 8px;
+}
+
+.selectCampanhaContainer {
+    position: relative;
+    bottom: 8px;
+    width: 100%;
+  }
