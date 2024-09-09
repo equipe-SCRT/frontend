@@ -28,7 +28,7 @@ const App = () => {
         <Route path="/dashboard/cadastro-produto-unitario" element={<ProdutoUnitarioCadastro />} />
         <Route path="/dashboard/cadastro-cestas" element={<CestaCadastro />} />
         <Route path="/test" element={<TestPage />} />
-        <Route path="/dashboard/dash-condominio" element={<DashCondominio />} />
+        <Route path="/dashboard/dash-condominios" element={<DashCondominio />} />
 
         <Route path="*" element={<NotFoundPage/>} />
       </Routes>
