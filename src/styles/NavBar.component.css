@@ -62,3 +62,29 @@
     width: 12vw;
     margin: 0.5%;
 }
+
+#link-dropdown {
+    color: white;
+    text-decoration: none;
+    font-size: 0.83rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 50px;
+
+}
+
+#link-dropdown:hover {
+    background-image: linear-gradient(to right, #f07d183f, #306b345d 100%);
+}
+
+.dropdown-content {
+    margin-left: -16px;
+    margin-right: -16px;
+}
+
+@media screen and (min-width: 1920px) {
+    #sidebarMenu {
+        width: 14.3%;
+    }
+}

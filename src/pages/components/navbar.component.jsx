@@ -10,13 +10,15 @@ import iconCampaign from "../../assets/images/icon-campaign.svg";
 import iconMetrics from "../../assets/images/icon-metrics.svg";
 import iconSummary from "../../assets/images/icon-summary.svg";
 import icon from "../../assets/images/icon-placeholder.svg";
+import iconDropdown from "../../assets/images/arrow-down.svg";
 
 
 const NavBar = () => {
   const [activeItem, setActiveItem] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const savedActiveItem = localStorage.getItem('activeItem');
+    const savedActiveItem = localStorage.getItem('activeSidebarItem');
     if (savedActiveItem) {
       setActiveItem(savedActiveItem);
     }
@@ -24,7 +26,11 @@ const NavBar = () => {
 
   const handleItemClick = (item) => {
     setActiveItem(item);
-    localStorage.setItem('activeItem', item);
+    localStorage.setItem('activeSidebarItem', item);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   document.body.style.paddingLeft = "280px";
@@ -57,15 +63,55 @@ const NavBar = () => {
         <div className="position-sticky">
           <div className="list-group list-group-flush mx-3 mt-4" id='components'>
 
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row',
+            }}>
             <a
               href="/home"
               id="link-nav"
               className={classNames('sidebar-item', { active: activeItem === 'home' })}
               onClick={() => handleItemClick('home')}
             >
-              <img src={iconChart} alt='img gráficos' className='componentImage' />
+              <img src={iconChart} alt="img gráficos" className="componentImage" />
               <span>Gráficos</span>
             </a>
+
+            <img
+              src={iconDropdown}
+              alt="ícone dropdown"
+              className={classNames('componentImage', { active: activeItem === 'dropdown' })}
+              style={{
+                alignSelf: 'center',
+                marginLeft: '25%'
+              }}
+              onClick={() => {
+                handleItemClick('dropdown');
+                toggleDropdown();
+              }}
+            />
+            </div>
+
+            {isDropdownOpen && (
+              <div className="dropdown-content">
+                <a
+                  href="/dashboard/dash-condominios"
+                  id="link-dropdown"
+                  className={classNames('sidebar-item', { active: activeItem === 'dash-condominio' })}
+                  onClick={() => handleItemClick('dash-condominios')}
+                >
+                  • Condomínios
+                </a>
+                <a
+                  href="/dashboard-campanhas"
+                  id="link-dropdown"
+                  className={classNames('sidebar-item', { active: activeItem === 'dashboard-campanhas' })}
+                  onClick={() => handleItemClick('dashboard-campanhas')}
+                >
+                  • Campanhas
+                </a>
+              </div>
+            )}
 
             <a
               href="#"
