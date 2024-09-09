@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import style from "./RelatorioPage.module.css"
+import "./RelatorioPage.module.css";
 import NavBar from '../components/navbar.component';
+import * as React from "react";
+
+import { DateRangePicker } from 'rsuite';
+import { Table } from 'rsuite';
+import 'rsuite/dist/rsuite-rtl.css';
 
 
 const Relatorio = () => {
@@ -30,9 +34,9 @@ const Relatorio = () => {
                                 <th style={{ padding: '0px' }}>
                                     <div style={{ display: "flex", cursor: "pointer", backgroundColor: '#F2F4F8' }}>
                                         Disponibilidade
-                                        <span class="material-symbols-outlined" >
+                                        {/* <span class="material-symbols-outlined" >
                                             arrow_upward
-                                        </span>
+                                        </span> */}
                                     </div>
                                 </th>
                                 <th style={{ padding: '0px' }}>
@@ -54,18 +58,13 @@ const Relatorio = () => {
                     <h1 className="title-section" style={{ margin: "0px" }}> Excel</h1>
                     <div style={{ display: "flex" }}>
                         <p style={{ margin: "0px", font: "10px" }}>Selecione o período que deseja gerar as informações em formato excel </p>
-                        <span class="material-symbols-outlined" style={{ cursor: "pointer", margin: "5px" }}>
+                        <span class="material-symbols-outlined" style={{ cursor: "pointer", margin: "5px", marginTop: "0px" }}>
                             help
                         </span>
                     </div>
 
-                    <div style={{ widght: "100%", display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                            <label htmlFor="data_inicio"> Inicio: </label>
-                            <input type="date" id="data_inicio" style={{ marginRight: "50px", marginLeft: "20px" }} />
-                            <label htmlFor="data_fim"> Fim: </label>
-                            <input type="date" id="data_fim" style={{ marginRight: "50px", marginLeft: "20px" }} />
-                        </div>
+                    <div style={{ widght: "100%", display: "flex", justifyContent: "space-between", marginTop: "20px" }}>   
+                       <DateRangePicker format="dd.MM.yyyy"  character=" - " className = "teste"/>
                         <button className="submit-btn">Gerar Planilha</button>
                     </div>
                 </div>
