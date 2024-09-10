@@ -15,7 +15,7 @@ const NavBar = () => {
   document.body.style.paddingLeft = "280px";
 
   return (
-    <header>
+    <header className='header'>
 
       {/* Sidebar */}
       <nav
@@ -108,6 +108,13 @@ const NavBar = () => {
       <nav
         id="main-navbar"
         className="navbar navbar-expand-lg navbar-light fixed-top"
+        style={{
+          backgroundColor: "#fff",
+          width: '82.7%',
+          marginLeft: 'auto',
+          display: 'block',
+          borderBottom: '2px solid #000000'
+        }}
       >
         {/* Container wrapper */}
         <div className="container-fluid">
