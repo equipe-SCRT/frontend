@@ -11,18 +11,26 @@ import iconMetrics from "../../assets/images/icon-metrics.svg";
 import iconSummary from "../../assets/images/icon-summary.svg";
 import icon from "../../assets/images/icon-placeholder.svg";
 import iconDropdown from "../../assets/images/white-down-arrow.png";
-
+import { useLocation } from 'react-router-dom';
 
 const NavBar = () => {
   const [activeItem, setActiveItem] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const location = useLocation();
+
   useEffect(() => {
     const savedActiveItem = localStorage.getItem('activeSidebarItem');
-    if (savedActiveItem) {
+    if (location.pathname === '/dashboard/dash-condominios') {
+      setActiveItem('dash-condominios');
+      setIsDropdownOpen(true);
+    } else if (location.pathname === '/dashboard-campanhas') {
+      setActiveItem('dashboard-campanhas');
+      setIsDropdownOpen(true);
+    } else if (savedActiveItem) {
       setActiveItem(savedActiveItem);
     }
-  }, []);
+  }, [location]);
 
   const handleItemClick = (item) => {
     setActiveItem(item);
@@ -45,7 +53,6 @@ const NavBar = () => {
 
       >
         <div id='img' style={{
-          // width: "1000px", 
           height: "120px",
           display: 'flex',
           alignContent: "center",
@@ -88,7 +95,7 @@ const NavBar = () => {
                 marginLeft: '25%'
               }}
               onClick={() => {
-                handleItemClick('dropdown');
+                handleItemClick(localStorage.getItem('activeSidebarItem'));
                 toggleDropdown();
               }}
             />
@@ -99,7 +106,7 @@ const NavBar = () => {
                 <a
                   href="/dashboard/dash-condominios"
                   id="link-dropdown"
-                  className={classNames('sidebar-item', { active: activeItem === 'dash-condominio' })}
+                  className={classNames('sidebar-item', { active: activeItem === 'dash-condominios' })}
                   onClick={() => handleItemClick('dash-condominios')}
                 >
                   • Condomínios
