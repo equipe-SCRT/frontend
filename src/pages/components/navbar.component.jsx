@@ -10,7 +10,7 @@ import iconCampaign from "../../assets/images/icon-campaign.svg";
 import iconMetrics from "../../assets/images/icon-metrics.svg";
 import iconSummary from "../../assets/images/icon-summary.svg";
 import icon from "../../assets/images/icon-placeholder.svg";
-import iconDropdown from "../../assets/images/arrow-down.svg";
+import iconDropdown from "../../assets/images/white-down-arrow.png";
 
 
 const NavBar = () => {
@@ -82,6 +82,8 @@ const NavBar = () => {
               alt="ícone dropdown"
               className={classNames('componentImage', { active: activeItem === 'dropdown' })}
               style={{
+                width: '25px',
+                height: '25px',
                 alignSelf: 'center',
                 marginLeft: '25%'
               }}
