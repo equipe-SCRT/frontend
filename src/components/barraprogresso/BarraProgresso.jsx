@@ -9,7 +9,8 @@ const BarraProgresso = ({ vencidos, arrecadados, nome }) => {
 
   return (
     <div>
-      <bold>{nome}</bold>
+      
+      <b>{nome}</b>
       <ProgressBar style={{ height: "20px", margin: "10px 0", borderRadius:"10px"}}>
         <ProgressBar
           style={{ padding: "0 10px" }}
