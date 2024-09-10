@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "./ProdutoUnitarioCadastroPage.module.css"
+import "./CampanhaCadastroPage.module.css"
 import NavBar from '../components/navbar.component';
 import Swal from 'sweetalert2';
 
 var pilha = [];
 let contadorPilha = -1;
 
-const ProdutoUnitarioCadastro = () => {
+const CampanhaCadastroPage = () => {
   let [getProdutos, setProdutos] = useState([]);
-  let [getNomeProdutos, setNomeProdutos] = useState([]);
+  let [getNomeCampanhas, setNomeProdutos] = useState([]);
   let [getOrigemNome, setOrigemNome] = useState([]);
   let [getNome, setNome] = useState("");
-  let [getValidade, setValidade] = useState("");
+  let [getValidade, setLocal] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
   let [getPilha, setPilha] = useState([]);
@@ -23,7 +23,7 @@ const ProdutoUnitarioCadastro = () => {
   let [getOrigAlt, setOrigAlt] = useState();
   let [getIdAlt, setIdAlt] = useState();
 
-  
+
   useEffect(() => {
     handleProdutos()
     handleNomeProdutos()
@@ -108,7 +108,7 @@ const ProdutoUnitarioCadastro = () => {
 
   var lista = [];
   const api = axios.create({
-    baseURL: "http://localhost:8080/produtos-unitario",
+    baseURL: "http://localhost:8080/campanhas",
     withCredentials: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -133,15 +133,15 @@ const ProdutoUnitarioCadastro = () => {
             <td id={"nomeProd" + i}>
               <span className={'nome' + id}>{encontrados.data[i].nome}</span>
               {/* <select name="nomeSel" className={'nomeTxt' + id} style={{ display: "none" }}>
-                {getNomeProdutos}
+                {getNomeCampanhas}
               </select> */}
               <input type="text" style={{ display: 'none' }} onChange={(e) => setNomeAlt(e.target.value)} className={'nomeTxt' + id} />
             </td>
             <td id={"dateProd" + i}>
-              <span className={'date' + id}>{encontrados.data[i].dataValidade}</span>
+              <span className={'date' + id}>{encontrados.data[i].localCampanha}</span>
               <input style={{ display: 'none' }}
                 className={"dateTxt" + id}
-                placeholder={encontrados.data[i].dataValidade}
+                placeholder={encontrados.data[i].localCampanha}
                 type="date"
                 id="unit"
                 name="unit"
@@ -149,28 +149,28 @@ const ProdutoUnitarioCadastro = () => {
               />
             </td>
             <td id={"origProd" + i}>
-              <span className={'orig'+id}>{encontrados.data[i].origem.autaDeSouzaRua == 1 ? "Auta de souza" : "Itaporã"}</span>
+              <span className={'orig' + id}>{encontrados.data[i].dataCampanha}</span>
               {/* <select name="origemSel" id="origemSel" className={"origTxt" + id} style={{ display: "none" }} >
                 {getOrigemNome}
               </select> */}
               <input type="text" style={{ display: 'none' }} onChange={(e) => setOrigAlt(e.target.value)}
-                 placeholder={encontrados.data[i].origem.autaDeSouzaRua == 1 ? "Auta de souza" : "Itaporã"} className={"origTxt" + id}/>
+                placeholder={encontrados.data[i].dataCampanha} className={"origTxt" + id} />
             </td>
             <td>
 
-              <div className={"svgAlt"+id}>
-              <svg xmlns="http://www.w3.org/2000/svg" className={"svgAlt"+id} width="16" height="16" fill="currentColor" onClick={() => { changeFieldToInput(id) }} class="bi bi-pencil" viewBox="0 0 16 16">
-                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-              </svg>
-              <svg xmlns="http://www.w3.org/2000/svg"  style={{ marginLeft: "15px", color: "red" }} onClick={() => { excluir(id) }} width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                <path  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-              </svg>
+              <div className={"svgAlt" + id}>
+                <svg xmlns="http://www.w3.org/2000/svg" className={"svgAlt" + id} width="16" height="16" fill="currentColor" onClick={() => { changeFieldToInput(id) }} class="bi bi-pencil" viewBox="0 0 16 16">
+                  <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "15px", color: "red" }} onClick={() => { excluir(id) }} width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                </svg>
               </div>
 
 
-              <button style={{ display: 'none' }} onClick={() => { alterar(id) }} className={'btnAlt'+id}>Alterar</button>
-              <button style={{ display: 'none' }} onClick={() => { changeInputToFiel(id) }} className={'btnCan'+id}>Cancelar</button>
+              <button style={{ display: 'none' }} onClick={() => { alterar(id) }} className={'btnAlt' + id}>Alterar</button>
+              <button style={{ display: 'none' }} onClick={() => { changeInputToFiel(id) }} className={'btnCan' + id}>Cancelar</button>
             </td>
           </tr>
         )
@@ -183,7 +183,7 @@ const ProdutoUnitarioCadastro = () => {
 
   }
 
-  function changeInputToFiel(id){
+  function changeInputToFiel(id) {
     document.getElementsByClassName("idTxt" + id)[0].style = "display:none;";
     document.getElementsByClassName("id" + id)[0].style = "display:block;"
 
@@ -198,12 +198,12 @@ const ProdutoUnitarioCadastro = () => {
     document.getElementsByClassName("origTxt" + id)[0].style = "display:none;"
 
 
-    document.getElementsByClassName("btnAlt"+id)[0].style = "display:none"
-    document.getElementsByClassName("btnCan"+id)[0].style = "display:none"
+    document.getElementsByClassName("btnAlt" + id)[0].style = "display:none"
+    document.getElementsByClassName("btnCan" + id)[0].style = "display:none"
 
     console.log(document.getElementsByClassName("svgAlt" + id))
     document.getElementsByClassName("svgAlt" + id)[0].style = "display:block;";
-    
+
   }
 
   function changeFieldToInput(id) {
@@ -221,18 +221,18 @@ const ProdutoUnitarioCadastro = () => {
     document.getElementsByClassName("origTxt" + id)[0].style = "display:block;"
 
 
-    document.getElementsByClassName("btnAlt"+id)[0].style = "display:block"
-    document.getElementsByClassName("btnCan"+id)[0].style = "display:block"
+    document.getElementsByClassName("btnAlt" + id)[0].style = "display:block"
+    document.getElementsByClassName("btnCan" + id)[0].style = "display:block"
 
     console.log(document.getElementsByClassName("svgAlt" + id))
     document.getElementsByClassName("svgAlt" + id)[0].style = "display:none;";
-    
+
   }
 
 
   async function handleNomeProdutos() {
     try {
-      var encontrados = await apiProdutos.get("produtos");
+      var encontrados = await apiProdutos.get("campanhas");
       var listaNomes = [];
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
@@ -337,18 +337,18 @@ const ProdutoUnitarioCadastro = () => {
 
   async function alterar(id) {
     try {
-      api.put("/"+id, {
+      api.put("/" + id, {
         nome: getNomeAlt,
         dataValidade: getDateAlt,
         origemId: getOrigAlt,
-        produtoId: getIdAlt,  
+        produtoId: getIdAlt,
       }).then(async (response) => {
-        if(response.status(200)){
+        if (response.status(200)) {
           alert("mudado")
-        } else{ 
+        } else {
           alert("?")
         }
-      }).catch((err)=>{
+      }).catch((err) => {
         alert(err)
       })
     } catch (err) {
@@ -363,43 +363,63 @@ const ProdutoUnitarioCadastro = () => {
         <NavBar />
         <div className="form-section" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
-            <h1 className="section-title" style={{ margin: "0px" }}>Produtos</h1>
-            <button className="submit-btn">Cadastrar um produto novo</button>
+            <h1 className="section-title" style={{ margin: "0px" }}>Campanhas</h1>
           </div>
           <div className="card-body-form">
-            <p>Cadastro de Produtos Unitários</p>
+            <p>Cadastro</p>
             <div className="product-form">
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
                 <div className="form-group" id='name'>
-                  <label htmlFor="productName">Nome <span className="required">*</span></label>
-                  <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '23vw' }}>
-                    {getNomeProdutos}
+                  <label htmlFor="productName">Tipo de Campanha <span className="required">*</span></label>
+                  <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '33vw' }}>
+                    {getNomeCampanhas}
                   </select>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="productType">Data validade <span className="required">*</span></label>
-                  <input style={{ width: '23vw' }}
-                    type="date"
+                  <label htmlFor="productType">Local <span className="required">*</span></label>
+                  <input style={{ width: '33vw' }}
+                    type="text"
                     id="unit"
                     name="unit"
-                    onChange={(e) => setValidade(e.target.value)}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="unit">Quantidade <span className="required">*</span></label>
-                  <input style={{ width: '23vw' }}
-                    type="number"
-                    id="unit"
-                    name="unit"
-                    onChange={(e) => setQuantidade(e.target.value)}
+                    onChange={(e) => setLocal(e.target.value)}
                   />
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
                 <div className="form-group">
-                  <label htmlFor="unit">Origem <span className="required">*</span></label>
-                  <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)} >
+                  <label htmlFor="unit">Data campanha <span className="required">*</span></label>
+                  <input style={{ width: '33vw' }}
+                    type="date"
+                    id="unit"
+                    name="unit"
+                    onChange={(e) => setLocal(e.target.value)}
+                  />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="unit">Quantidade arrecadada <span className="required">*</span></label>
+                    <input style={{ width: '33vw' }}
+                      type="number"
+                      id="unit"
+                      name="unit"
+                      onChange={(e) => setQuantidade(e.target.value)}
+                    />
+                  </div>
+
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+                <div className="form-group">
+                  <label htmlFor="unit">Meta <span className="required">*</span></label>
+                  <input style={{ width: '33vw' }}
+                      type="text"
+                      id="unit"
+                      name="unit"
+                      onChange={(e) => setQuantidade(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="unit">Meta <span className="required">*</span></label>
+                  <select name="origemSel" id="origemSel" style={{width: "20vw"}} onChange={(e) => setOrigem(e.target.value)} >
                     {getOrigemNome}
                   </select>
                 </div>
@@ -432,4 +452,4 @@ const ProdutoUnitarioCadastro = () => {
   );
 }
 
-export default ProdutoUnitarioCadastro;
+export default CampanhaCadastroPage;

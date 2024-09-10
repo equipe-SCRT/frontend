@@ -85,6 +85,13 @@
     background-color: #f9f9f9;
 }
 
+.card-body {
+    width: 80vw;
+    padding: 20px;
+    border: 1px solid #DDE1E6;
+    background-color: #f9f9f9;
+}
+
 .card-title {
     margin-bottom: 20px;
 }
@@ -138,21 +145,17 @@
 }
 
 .form-up .form-group #productName {
-    width: 36vw;
+    width: 42vw;
     padding: 10px;
-}
-
-.form-group label img{
-    margin-left: 5px;
 }
 
 .form-up .form-group #productType {
-    width: 36vw;
+    width: 32vw;
     padding: 10px;
 }
 
-.form-down .form-group #unitQuantity {
-    width: 36vw;
+.form-down .form-group #unit {
+    width: 42vw;
 }
 
 .form-down .submit-btn {
@@ -160,13 +163,4 @@
     height: 6vh;
     margin-top: 25px;
     font-family: "Roboto", sans-serif;
-}
-
-.card-body-form p img{
-    margin-left: 10px;
-}
-
-.card-body {
-    width: 80vw;
-    padding: 20px;
 }
