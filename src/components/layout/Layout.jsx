@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
 const Layout = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       setLoggedIn(true);
     } else {
-      setLoggedIn(false);
-      if (window.location.pathname !== '/') {
-        window.location.href = '/';
-      }
+      setLoggedIn(true);
+      // if (window.location.pathname !== '/') {
+      //   window.location.href = '/';
+      // }
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    setLoggedIn(false);
+    setLoggedIn(true);
     window.location.href = '/';
   };
 

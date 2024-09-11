@@ -9,6 +9,9 @@ import Register from './pages/RegisterPage';
 import ProdutoUnitarioCadastro from "./pages/produtounitariocadastro/ProdutoUnitarioCadastroPage"
 import ProdutoCadastro from "./pages/ProdutoCadastroPage"
 import TestPage from './pages/TestePage';
+import ColaboradoresCadastro from './pages/colaboradores/ColaboradoresCadastroPage';
+import TipoCestaCadastro from './pages/tipo-cesta/TipoCestaCadastroPage';
+import RelatorioPage from './pages/relatorios/RelatorioPage';
 
 
 const App = () => {
@@ -22,7 +25,10 @@ const App = () => {
         <Route path="/register" element={<Register/>} />
         <Route path="/dashboard/cadastro-produto" element={<ProdutoCadastro />} />
         <Route path="/dashboard/cadastro-produto-unitario" element={<ProdutoUnitarioCadastro />} />
+        <Route path="/dashboard/cadastro-colaborador" element={<ColaboradoresCadastro />} />
+        <Route path="/dashboard/cadastro-tipo-cesta" element={<TipoCestaCadastro />} />
         <Route path="/test" element={<TestPage />} />
+        <Route path="/relatorios" element={<RelatorioPage />} />
         
 
         <Route path="*" element={<NotFoundPage/>} />
