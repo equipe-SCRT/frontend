@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import api from '../../api/api'
-import './Home.module.css'
-import GraficoLinha from '../../components/graficolinha/GraficoLinha'
-import GraficoPizza from '../../components/graficopizza/GraficoPizza'
+import './DashCondominio.module.css'
+import GraficoLinhaComparativo from '../../components/graficolinhacomparativo/GraficoLinhaComparativo'
 import CardScrt from '../../components/cardscrt/CardScrt'
 import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarraProgresso'
 import NavBar from '../components/navbar.component';
+import GraficoBarra from '../../components/graficobarra/GraficoBarra';
+import GraficoLinha from '../../components/graficolinha/GraficoLinha';
 
 
-const HomePage = () => {
+const DashCondominioPage = () => {
 
   const [dadosEstoque, setDadosEstoque] = useState([]);
   const [dadosVencidosPorMes, setDadosVencidosPorMes] = useState([]);
@@ -24,7 +25,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchDadosEstoque = async () => {
       try {
-        const response = await api.get('produtos-unitario/quantidade-produtos/mes');
+        const response = await api.get('produtos-unitario/quantidade-produtos/mes?ativo=true');
         setDadosEstoque(response.data);
       } catch (error) {
         console.error('Erro ao buscar os dados:', error);
@@ -33,7 +34,7 @@ const HomePage = () => {
 
     const fetchDadosVencidosPorMes = async () => {
       try {
-        const response = await api.get('produtos-unitario/quantidade-produtos/mes/vencidos');
+        const response = await api.get('produtos-unitario/quantidade-produtos/mes?ativo=false');
         setDadosVencidosPorMes(response.data);
       } catch (error) {
         console.error('Erro ao buscar os dados:', error);
@@ -82,29 +83,31 @@ const HomePage = () => {
         <Col md lg={10} style={{ marginTop: "100px" }}>
           <Row>
 
-            <CardScrt legenda="Quantidade de Cestas Produzidas" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
-            <CardScrt legenda="Quantidade em Estoque" info={dadosEstoque.length > 0 ? dadosEstoque[dadosEstoque.length - 1].count : 0} bgColor="#5FED6D" />
-            <CardScrt legenda="Produtos Próximos do Vencimento" info={dadosPizza[1]} bgColor="#FDEA3C" />
-            <CardScrt legenda="Alimentos Vencidos" info={somaCountDadosVencidos} bgColor="#ED8686" />
+            <CardScrt legenda="Selecione o Condomínio" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
+            <CardScrt legenda="Total de Alimentos Arrecadados" info={dadosEstoque.length > 0 ? dadosEstoque[dadosEstoque.length - 1].count : 0} bgColor="#5FED6D" />
+            <CardScrt legenda="" info={dadosPizza[1]} bgColor="#FDEA3C" />
+            <CardScrt legenda="Total de Alimentos Vencidos" info={somaCountDadosVencidos} bgColor="#ED8686" />
           </Row>
           <Row>
             <Col md lg={12}>
               <div>
-                <GraficoLinha data={dadosEstoque} cor={'#22CC52'} titulo={'Quantidade em estoque'} label={'Quantidade'} />
-                <GraficoLinha data={dadosVencidosPorMes} cor={'#FF5555'} titulo={'Produtos estragados'} label={'Quantidade'} />
-
+                <GraficoLinha data={dadosEstoque} cor={'#22CC52'} titulo={'Quantidade total de alimentos arrecadados nos condomínios'} label={'Quantidade'} />
+                <GraficoLinhaComparativo data={dadosVencidosPorMes} cor={'#FF5555'} titulo={'Quantidade de doações variadas por condomínios'} label={'Quantidade'} />
               </div>
             </Col>
           </Row>
           <Row>
-            <Col md lang={6} >
-              <GraficoPizza data={dadosPizza} titulo={"Alimentos próximos a validade:"} />
-            </Col>
-            <Col md lang={6}>
-              <div style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px", height: "100%" }}>
-                <ListaBarraProgresso titulo={"Produtos Vencidos x Arrecadados"} itens={dadosArrecadadosXVencidos}/>
+            <Col md lang={12}>
+              <div>
+                <GraficoBarra data={dadosEstoque} cor={'#22CC52'} titulo={'Quantidade de produto por condomínio'} label={'Quantidade'} />
               </div>
-
+            </Col>
+          </Row>
+          <Row>
+            <Col md lang={12}>
+              <div style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px", height: "100%" }}>
+                <ListaBarraProgresso titulo={"Análise de alimentos por condomínio"} itens={dadosArrecadadosXVencidos}/>
+              </div>
             </Col>
           </Row>
           <Row>
@@ -116,4 +119,4 @@ const HomePage = () => {
   );
 }
 
-export default HomePage;
+export default DashCondominioPage;
