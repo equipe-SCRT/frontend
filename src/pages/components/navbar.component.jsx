@@ -51,42 +51,42 @@ const NavBar = () => {
               <span>Gráficos</span>
             </a>
             <a
-              href="#"
+              href="/voluntarios/cadastro"
               id="link-nav"
             >
               <img src={iconUser} className='componentImage' />
               <span>Voluntários</span>
             </a>
             <a
-              href="/dashboard/cadastro-produto-unitario"
+              href="/produtos-unitarios/cadastro"
               id="link-nav"
             >
               <img src={icon} alt="" className='componentImage' />
               <span>Produtos</span>
             </a>
             <a
-              href="/dashboard/cadastro-cestas"
+              href="/cestas/cadastro"
               id="link-nav"
             >
               <img src={iconCesta} alt="" className='componentImage' />
               <span>Cestas</span>
             </a>
             <a
-              href="#"
+              href="/condominios/cadastro"
               id="link-nav"
             >
               <img src={iconBuilding} alt="" className='componentImage' />
               <span>Condomínios</span>
             </a>
             <a
-              href="#"
+              href="/campanhas/cadastro"
               id="link-nav"
             >
               <img src={iconCampaign} alt="" className='componentImage' />
               <span>Campanhas</span>
             </a>
             <a
-              href="#"
+              href="/indicadores/cadastro"
               id="link-nav"
             >
               <img src={iconMetrics} alt="" className='componentImage' />

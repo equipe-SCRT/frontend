@@ -24,7 +24,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchDadosEstoque = async () => {
       try {
-        const response = await api.get('produtos-unitario/quantidade-produtos/mes?ativo=true');
+        const response = await api.get('produtos-unitario/quantidade-produtos/mes');
         setDadosEstoque(response.data);
       } catch (error) {
         console.error('Erro ao buscar os dados:', error);
@@ -33,7 +33,7 @@ const HomePage = () => {
 
     const fetchDadosVencidosPorMes = async () => {
       try {
-        const response = await api.get('produtos-unitario/quantidade-produtos/mes?ativo=false');
+        const response = await api.get('produtos-unitario/quantidade-produtos/mes/vencidos');
         setDadosVencidosPorMes(response.data);
       } catch (error) {
         console.error('Erro ao buscar os dados:', error);

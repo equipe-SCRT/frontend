@@ -74,10 +74,10 @@ const headCells = [
     label: 'CEP',
   },
   {
-    id: 'endereco',
+    id: 'logradouro',
     numeric: false,
     disablePadding: false,
-    label: 'Endereço',
+    label: 'Logradouro',
   }
 ];
 
@@ -314,7 +314,7 @@ export default function TabelaInterativa({linhas}) {
                     </TableCell>
                     <TableCell align="left">{row.nome}</TableCell>
                     <TableCell align="left">{row.cep}</TableCell>
-                    <TableCell align="left">{row.endereco}</TableCell>
+                    <TableCell align="left">{row.logradouro}</TableCell>
                   </TableRow>
                 );
               })}
