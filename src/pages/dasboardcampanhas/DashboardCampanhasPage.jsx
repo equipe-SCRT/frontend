@@ -21,6 +21,72 @@ const DashboardCampanhas = () => {
   const [qtdArrecadada, setQtdArrecadada] = useState(0);
   const [meta, setMeta] = useState(0);
 
+  const qtdAlimentosArrecadadosPorCampanhaMock = [
+    { mes: "2024-01", count: 30 },
+    { mes: "2024-02", count: 70 },
+    { mes: "2024-03", count: 100 },
+    { mes: "2024-04", count: 20 },
+    { mes: "2024-05", count: 5 },
+    { mes: "2024-06", count: 45 },
+    { mes: "2024-07", count: 65 },
+    { mes: "2024-09", count: 40 }
+];
+
+const qtdDoacoesVariadasPorCampanhas = [
+  [
+    { mes: "2024-01", count: 10 },
+    { mes: "2024-02", count: 30 },
+    { mes: "2024-03", count: 50 },
+    { mes: "2024-04", count: 70 },
+    { mes: "2024-05", count: 20 },
+    { mes: "2024-06", count: 45 },
+    { mes: "2024-07", count: 65 },
+    { mes: "2024-08", count: 25 },
+    { mes: "2024-09", count: 85 },
+    { mes: "2024-10", count: 92 },
+    { mes: "2024-11", count: 19 },
+    { mes: "2024-12", count: 60 }
+  ],
+  [
+    { mes: "2024-01", count: 20 },
+    { mes: "2024-02", count: 68 },
+    { mes: "2024-03", count: 89 },
+    { mes: "2024-04", count: 23 },
+    { mes: "2024-05", count: 11 },
+    { mes: "2024-06", count: 60 },
+    { mes: "2024-07", count: 34 },
+    { mes: "2024-08", count: 74 },
+    { mes: "2024-09", count: 34 },
+    { mes: "2024-10", count: 84 },
+    { mes: "2024-11", count: 94 },
+    { mes: "2024-12", count: 40 }
+  ]
+];
+
+const qtdTesteMock = {
+  Arroz: [
+    { nome: "Colégio Felix", count: 30 },
+    { nome: "Escola Feliz", count: 70 },
+    { nome: "Escola Itaporã", count: 100 },
+    { nome: "Escola Villagio", count: 20 },
+    { nome: "Escola Viva Verda", count: 5 },
+],
+Feijão: [
+    { nome: "Colégio Felix", count: 50 },
+    { nome: "Escola Feliz", count: 60 },
+    { nome: "Escola Itaporã", count: 80 },
+    { nome: "Escola Villagio", count: 40 },
+    { nome: "Escola Viva Verda", count: 10 },
+],
+}
+
+  const alimentosPorCampanha = [
+    { nome: "Campanha Escola Viver - Arroz", arrecadado: 120, vencido: 40 },
+    { nome: "Campanha Escola Villagio - Óleo", arrecadado: 100, vencido: 30 },
+    { nome: "Campanha Condominio Itaporã - Macarrão", arrecadado: 223, vencido: 23 },
+    { nome: "Campanha Condominio Itaporã - Sal", arrecadado: 100, vencido: 10 },
+  ]
+
   const dadosPizza = [
     dadosAlimentosVencimento15E30Dias["vencimento30"],
     dadosAlimentosVencimento15E30Dias["vencimento15"],
@@ -173,19 +239,17 @@ const DashboardCampanhas = () => {
           <Row>
             <Col md lg={12}>
               <div>
-                <GraficoLinha
-                  data={dadosGrafico}
+              <GraficoLinha
+                  data={qtdAlimentosArrecadadosPorCampanhaMock}
                   cor={"#22CC52"}
-                  titulo={
-                    "Quantidade Total de Alimentos Arrecadados nas Campanhas"
-                  }
+                  titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
                   label={"Quantidade"}
                 />
                 <GraficoLinha
-                  data={dadosVencidosPorMes}
-                  cor={"#FF5555"}
+                  data={qtdDoacoesVariadasPorCampanhas}
+                  cor={"#22CC52"}
                   titulo={"Quantidade de Doações Variadas por Campanhas"}
-                  label={"Quantidade"}
+                  label={["Escola Viver", "Escola Viva Verde"]}
                 />
               </div>
             </Col>
@@ -194,7 +258,7 @@ const DashboardCampanhas = () => {
             <Col md lg={12}>
               <div>
                 <GraficoBarrasHorizontais
-                  data={qtdAlimentosArrecadadosPorCampanha}
+                  data={qtdTesteMock}
                   titulo={"Quantidade de produto por campanha"}
                   cor="#FF0000"
                   label="Quantidade"
@@ -214,7 +278,7 @@ const DashboardCampanhas = () => {
               >
                 <ListaBarraProgresso
                   titulo={"Análise de Alimentos por Campanha"}
-                  itens={dadosArrecadadosXVencidos}
+                  itens={alimentosPorCampanha}
                 />
               </div>
             </Col>
