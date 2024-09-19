@@ -104,7 +104,7 @@ const NavBar = () => {
             {isDropdownOpen && (
               <div className="dropdown-content">
                 <a
-                  href="/dashboard/dash-condominios"
+                  href="/condominios"
                   id="link-dropdown"
                   className={classNames('sidebar-item', { active: activeItem === 'dash-condominios' })}
                   onClick={() => handleItemClick('dash-condominios')}
@@ -112,7 +112,7 @@ const NavBar = () => {
                   • Condomínios
                 </a>
                 <a
-                  href="/dashboard-campanhas"
+                  href="/campanhas"
                   id="link-dropdown"
                   className={classNames('sidebar-item', { active: activeItem === 'dashboard-campanhas' })}
                   onClick={() => handleItemClick('dashboard-campanhas')}
@@ -179,7 +179,7 @@ const NavBar = () => {
               <span>Indicadores</span>
             </a>
             <a
-              href="#"
+              href="/relatorios"
               id="link-nav"
               className={classNames('sidebar-item', { active: activeItem === 'relatorios' })}
               onClick={() => handleItemClick('relatorios')}

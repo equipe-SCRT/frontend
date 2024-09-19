@@ -19,6 +19,7 @@ import PerfilPage from './pages/perfil/PerfilPage';
 import DashCondominio from './pages/dashcondominio/DashCondominioPage';
 import IndicadoresCadastro from './pages/indicadores/IndicadoresCadastroPage';
 import CampanhaCadastroPage from './pages/campanhacadastro/CampanhaCadastroPage';
+import RelatorioPage from './pages/relatorios/RelatorioPage';
 
 
 const App = () => {
@@ -41,9 +42,9 @@ const App = () => {
         <Route path="/cestas/cadastro" element={<CestaCadastro />} />
         <Route path="/perfil" element={<PerfilPage />} />
         <Route path="/test" element={<TestPage />} />
-        <Route path="/condominio" element={<DashCondominio />} />
+        <Route path="/condominios" element={<DashCondominio />} />
         <Route path="/indicadores/cadastro" element={<IndicadoresCadastro />} />
-        
+        <Route path="/relatorios" element={<RelatorioPage />} />
 
         <Route path="*" element={<NotFoundPage/>} />
       </Routes>
