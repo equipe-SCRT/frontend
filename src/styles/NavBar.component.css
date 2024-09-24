@@ -1,4 +1,4 @@
-#link-nav{
+#link-nav {
     color: white;
     text-decoration: none;
     font-size: 0.83rem;
@@ -15,7 +15,7 @@
     background-image: linear-gradient(to right, #f07d183f, #306b345d 100%);
 }
 
-#components{
+#components {
     display: flex;
     flex-direction: column;
 }
@@ -57,4 +57,12 @@
 .logo {
     width: 12vw;
     margin: 0.5%;
+}
+
+#main-navbar {
+    background-color: #fff;
+    width: 82.7%;
+    margin-left: auto;
+    display: block;
+    border-bottom: 1px solid #000000
 }
