@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 import "../../styles/NavBar.component.css"
 import imagemLogo from "../../assets/images/logo.svg";
 import iconChart from "../../assets/images/icon-bar-chart.svg";
@@ -9,9 +10,37 @@ import iconCampaign from "../../assets/images/icon-campaign.svg";
 import iconMetrics from "../../assets/images/icon-metrics.svg";
 import iconSummary from "../../assets/images/icon-summary.svg";
 import icon from "../../assets/images/icon-placeholder.svg";
-
+import iconDropdown from "../../assets/images/white-down-arrow.png";
+import { useLocation } from 'react-router-dom';
 
 const NavBar = () => {
+  const [activeItem, setActiveItem] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const savedActiveItem = localStorage.getItem('activeSidebarItem');
+    if (location.pathname === '/dashboard/dash-condominios') {
+      setActiveItem('dash-condominios');
+      setIsDropdownOpen(true);
+    } else if (location.pathname === '/dashboard-campanhas') {
+      setActiveItem('dashboard-campanhas');
+      setIsDropdownOpen(true);
+    } else if (savedActiveItem) {
+      setActiveItem(savedActiveItem);
+    }
+  }, [location]);
+
+  const handleItemClick = (item) => {
+    setActiveItem(item);
+    localStorage.setItem('activeSidebarItem', item);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   document.body.style.paddingLeft = "280px";
 
   return (
@@ -24,7 +53,6 @@ const NavBar = () => {
 
       >
         <div id='img' style={{
-          // width: "1000px",
           height: "120px",
           display: 'flex',
           alignContent: "center",
@@ -42,61 +70,121 @@ const NavBar = () => {
         <div className="position-sticky">
           <div className="list-group list-group-flush mx-3 mt-4" id='components'>
 
+            <div style={{
+              display: 'flex',
+              flexDirection: 'row',
+            }}>
             <a
               href="/home"
               id="link-nav"
-              aria-current="true"
+              className={classNames('sidebar-item', { active: activeItem === 'home' })}
+              onClick={() => handleItemClick('home')}
             >
-              <img src={iconChart} alt='img gráficos' className='componentImage' />
+              <img src={iconChart} alt="img gráficos" className="componentImage" />
               <span>Gráficos</span>
             </a>
+
+            <img
+              src={iconDropdown}
+              alt="ícone dropdown"
+              className={classNames('componentImage', { active: activeItem === 'dropdown' })}
+              style={{
+                width: '25px',
+                height: '25px',
+                alignSelf: 'center',
+                marginLeft: '25%'
+              }}
+              onClick={() => {
+                handleItemClick(localStorage.getItem('activeSidebarItem'));
+                toggleDropdown();
+              }}
+            />
+            </div>
+
+            {isDropdownOpen && (
+              <div className="dropdown-content">
+                <a
+                  href="/condominios"
+                  id="link-dropdown"
+                  className={classNames('sidebar-item', { active: activeItem === 'dash-condominios' })}
+                  onClick={() => handleItemClick('dash-condominios')}
+                >
+                  • Condomínios
+                </a>
+                <a
+                  href="/campanhas"
+                  id="link-dropdown"
+                  className={classNames('sidebar-item', { active: activeItem === 'dashboard-campanhas' })}
+                  onClick={() => handleItemClick('dashboard-campanhas')}
+                >
+                  • Campanhas
+                </a>
+              </div>
+            )}
+
             <a
-              href="#"
+              href="/voluntarios/cadastro"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'voluntarios' })}
+              onClick={() => handleItemClick('voluntarios')}
             >
-              <img src={iconUser} className='componentImage' />
+              <img src={iconUser} alt='img voluntários' className='componentImage' />
               <span>Voluntários</span>
             </a>
+
             <a
-              href="/dashboard/cadastro-produto-unitario"
+              href="/produtos-unitarios/cadastro"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'produtos' })}
+              onClick={() => handleItemClick('produtos')}
             >
-              <img src={icon} alt="" className='componentImage' />
+              <img src={icon} alt='img produtos' className='componentImage' />
               <span>Produtos</span>
             </a>
+
             <a
-              href="/dashboard/cadastro-cestas"
+              href="/cestas/cadastro"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'cestas' })}
+              onClick={() => handleItemClick('cestas')}
             >
-              <img src={iconCesta} alt="" className='componentImage' />
+              <img src={iconCesta} alt='img cestas' className='componentImage' />
               <span>Cestas</span>
             </a>
             <a
-              href="#"
+              href="/condominios/cadastro"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'condominios' })}
+              onClick={() => handleItemClick('condominios')}
             >
-              <img src={iconBuilding} alt="" className='componentImage' />
+              <img src={iconBuilding} alt="img condominios" className='componentImage' />
               <span>Condomínios</span>
             </a>
             <a
-              href="#"
+              href="/campanhas/cadastro"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'campanhas' })}
+              onClick={() => handleItemClick('campanhas')}
             >
-              <img src={iconCampaign} alt="" className='componentImage' />
+              <img src={iconCampaign} alt="img campanhas" className='componentImage' />
               <span>Campanhas</span>
             </a>
             <a
-              href="#"
+              href="/indicadores/cadastro"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'indicadores' })}
+              onClick={() => handleItemClick('indicadores')}
             >
-              <img src={iconMetrics} alt="" className='componentImage' />
+              <img src={iconMetrics} alt="img indicadores" className='componentImage' />
               <span>Indicadores</span>
             </a>
             <a
-              href="#"
+              href="/relatorios"
               id="link-nav"
+              className={classNames('sidebar-item', { active: activeItem === 'relatorios' })}
+              onClick={() => handleItemClick('relatorios')}
             >
-              <img src={iconSummary} alt="" className='componentImage' />
+              <img src={iconSummary} alt="img relatorios" className='componentImage' />
               <span>Relatórios</span>
             </a>
 

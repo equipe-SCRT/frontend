@@ -85,7 +85,7 @@ const DashCondominioPage = () => {
 
             <CardScrt legenda="Selecione o Condomínio" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
             <CardScrt legenda="Total de Alimentos Arrecadados" info={dadosEstoque.length > 0 ? dadosEstoque[dadosEstoque.length - 1].count : 0} bgColor="#5FED6D" />
-            <CardScrt legenda="" info={dadosPizza[1]} bgColor="#FDEA3C" />
+            <CardScrt legenda="Produtos não conformes" info={dadosPizza[1]} bgColor="#FDEA3C" />
             <CardScrt legenda="Total de Alimentos Vencidos" info={somaCountDadosVencidos} bgColor="#ED8686" />
           </Row>
           <Row>

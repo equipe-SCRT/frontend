@@ -11,6 +11,10 @@
 }
 
 #link-nav:hover {
+    background-image: linear-gradient(to right, #f07d183f, #306b345d 100%);
+}
+
+.sidebar-item.active {
     border-left: 4px solid #F07E18;
     background-image: linear-gradient(to right, #f07d183f, #306b345d 100%);
 }
@@ -65,4 +69,33 @@
     margin-left: auto;
     display: block;
     border-bottom: 1px solid #000000
+
+#link-dropdown {
+    color: white;
+    text-decoration: none;
+    font-size: 0.83rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 7px 35px;
+}
+
+#link-dropdown:hover {
+    background-image: linear-gradient(to right, #f07d183f, #306b345d 100%);
+}
+
+.dropdown-content {
+    margin-left: -16px;
+    margin-right: -16px;
+}
+
+#link-dropdown.active {
+    border-left: 4px solid #F07E18;
+    background-image: linear-gradient(to right, #f07d183f, #306b345d 100%);
+}
+
+@media screen and (min-width: 1920px) {
+    #sidebarMenu {
+        width: 14.3%;
+    }
 }

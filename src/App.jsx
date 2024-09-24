@@ -19,6 +19,7 @@ import PerfilPage from './pages/perfil/PerfilPage';
 import DashCondominio from './pages/dashcondominio/DashCondominioPage';
 import IndicadoresCadastro from './pages/indicadores/IndicadoresCadastroPage';
 import CampanhaCadastroPage from './pages/campanhacadastro/CampanhaCadastroPage';
+import RelatorioPage from './pages/relatorios/RelatorioPage';
 
 
 const App = () => {
@@ -30,20 +31,20 @@ const App = () => {
 
         <Route path="/" element={<LoginPage/>} />
         <Route path="/home" element={<HomePage/>} />
-        <Route path="/register" element={<Register/>} />
-        <Route path="/dashboard-campanhas" element={<DashboardCampanhas/>} />
-        <Route path="/dashboard/cadastro-produtos" element={<ProdutoCadastro />} />
-        <Route path="/dashboard/cadastro-produto-unitario" element={<ProdutoUnitarioCadastro />} />
-        <Route path="/dashboard/cadastro-colaborador" element={<ColaboradoresCadastro />} />
-        <Route path="/dashboard/cadastro-tipo-cesta" element={<TipoCestaCadastro />} />
-        <Route path="/cadastro/condominio" element={<CondominioCadastro />} />
-        <Route path="/dashboard/cadastro-campanha" element={<CampanhaCadastroPage />} />
-        <Route path="/dashboard/cadastro-cestas" element={<CestaCadastro />} />
+        <Route path="/trocar-senha" element={<Register/>} />
+        <Route path="/campanhas" element={<DashboardCampanhas/>} />
+        <Route path="/produtos/cadastro" element={<ProdutoCadastro />} />
+        <Route path="/produtos-unitarios/cadastro" element={<ProdutoUnitarioCadastro />} />
+        <Route path="/voluntarios/cadastro" element={<ColaboradoresCadastro />} />
+        <Route path="/tipos-cestas/cadastro" element={<TipoCestaCadastro />} />
+        <Route path="/condominios/cadastro" element={<CondominioCadastro />} />
+        <Route path="/campanhas/cadastro" element={<CampanhaCadastroPage />} />
+        <Route path="/cestas/cadastro" element={<CestaCadastro />} />
         <Route path="/perfil" element={<PerfilPage />} />
         <Route path="/test" element={<TestPage />} />
-        <Route path="/dashboard/dashboard-condominio" element={<DashCondominio />} />
-        <Route path="/dashboard/cadastro-indicadores" element={<IndicadoresCadastro />} />
-        
+        <Route path="/condominios" element={<DashCondominio />} />
+        <Route path="/indicadores/cadastro" element={<IndicadoresCadastro />} />
+        <Route path="/relatorios" element={<RelatorioPage />} />
 
         <Route path="*" element={<NotFoundPage/>} />
       </Routes>

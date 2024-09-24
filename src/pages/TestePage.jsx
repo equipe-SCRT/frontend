@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import '../pages/login/Login.module.css';
 
 import TabelaInterativa from '../components/tabelainterativa/TabelaInterativa';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 const TestPage = () => {
-  let abc = [ 
-    {"id":1, "nome":'nome legal',  "cep":'06694-950', "endereco":'Vila Boa'},
-  {"id":2, "nome":'nome Melhor',  "cep":'06684-344', "endereco":'Casa ruim'},
-  {"id":3, "nome":'nome ruim',  "cep":'02231-123', "endereco":'ABC'},
-  {"id":4, "nome":"Xerif da Galáxia", "cep":"01543-678", "endereco":"Rua das Palmeiras"},
+  let products = [ 
+{"id":1, "nome":'nome legal',  "cep":'06694-950', "endereco":'Vila Boa'},
+{"id":2, "nome":'nome Melhor',  "cep":'06684-344', "endereco":'Casa ruim'},
+{"id":3, "nome":'nome ruim',  "cep":'02231-123', "endereco":'ABC'},
+{"id":4, "nome":"Xerif da Galáxia", "cep":"01543-678", "endereco":"Rua das Palmeiras"},
 {"id":5, "nome":"Carlos Silva", "cep":"04123-987", "endereco":"Avenida dos Estados"},
 {"id":6, "nome":"Alice Souza", "cep":"12345-678", "endereco":"Travessa das Flores"},
 {"id":7, "nome":"Pedro Mendes", "cep":"98765-432", "endereco":"Rua dos Girassóis"},
@@ -43,7 +45,12 @@ const TestPage = () => {
   return (
     <>
     
-      <TabelaInterativa linhas={abc}/>
+    <DataTable value={products} tableStyle={{ minWidth: '50rem' }}>
+    <Column field="id" header="Id" sortable style={{ width: '25%' }}></Column>
+    <Column field="nome" header="Nome" sortable style={{ width: '25%' }}></Column>
+    <Column field="cep" header="CEP" sortable style={{ width: '25%' }}></Column>
+    <Column field="endereco" header="Endereço" sortable style={{ width: '25%' }}></Column>
+</DataTable>
     </>
     );
 }
