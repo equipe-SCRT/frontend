@@ -372,7 +372,7 @@ const ProdutoUnitarioCadastro = () => {
             </div>
           </div>
           <div className="card-body-form" style={{width: "77vw", marginLeft:"2%"}}>
-            <div className="row">
+            <div className="row" style={{marginBottom:"2%"}}>
               <p>Cadastro de produtos unitários</p>
             </div>
             <div className="row">
