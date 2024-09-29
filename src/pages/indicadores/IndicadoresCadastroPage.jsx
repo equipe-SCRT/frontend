@@ -299,95 +299,95 @@ const IndicadoresCadastro = () => {
           </div>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Alterar campo Tipo Produto</p>
+              <p>Alterar campo Tipo Produto:</p>
               <div className="product-form">
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row" }}>
-                    <label htmlFor="productName">Qual alteração desejada: <span className="required">*</span></label>
-                    <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '23vw' }} >
-                      <option value="0">-------</option>
+                  <div className="form-group" id='name' style={{ display: "flex", marginBottom: "5%", flexDirection: "row", alignItems: "center", gap: "50px" }}>
+                    <label htmlFor="productName" style={{ fontSize: "18px" }}>Qual alteração desejada:</label>
+                    <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '10vw' }} >
                       <option value="1">Cadastrar</option>
-                      <option value="2">Alterar</option>
                       <option value="2">Excluir</option>
                     </select>
                   </div>
-                  <div className="form-group" id='name'>
-                    <label htmlFor="productName">Insira o tipo do produto a ser <span className="textoMudanca">cadastrado</span></label>
-                    <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '23vw' }} />
+                  <div className="col-6">
+                    <div className="form-group" id='name' style={{ width: "20vw" }}>
+                      <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo do produto a ser <span className="textoMudanca"><b style={{ textDecoration: "underline", fontSize: "18px" }}>cadastrado:</b></span></label>
+                      <input type="text" name="nomeSel" placeholder='Higiene' id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '32vw' }} />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+              <div className='row d-flex justify-content-lg-end'>
                 <button onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
 
             <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Valores existentes em Tipo Produto</p>
+              <p>Valores existentes em Tipo Produto</p><br />
               <div className="product-form">
                 <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
-                  <span style={{ border: "1px solid gray", background: "lightGray", borderRadius: "10px", fontWeight: "bold" }}>Perecível</span>
-                  <span style={{ border: "1px solid gray", background: "lightGray", borderRadius: "10px", fontWeight: "bold" }}>Enlatados</span>
-                  <span style={{ border: "1px solid gray", background: "lightGray", borderRadius: "10px", fontWeight: "bold" }}>Limpeza</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Perecível</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Enlatados</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Limpeza</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="form-section" id='form-register'>
+        <div className="form-section" id='form-register' style={{ width: "34vw" }}>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <div className="card-body-form" style={{ width: "40vw" }}>
               <p>Quantas casas são atendidas mensalmente</p>
               <div className="product-form">
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row" }}>
-                    <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '23vw' }} />
+                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", marginTop: "4%" }}>
+                    <input type="text" placeholder='156' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '32vw' }} />
                   </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+              <div className='row d-flex justify-content-lg-end'>
                 <button onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="form-section" id='form-register'>
+        <div className="form-section" id='form-register' style={{ width: "34vw" }}>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <div className="card-body-form" style={{ width: "40vw" }}>
+            <div className="card-body-form" style={{ width: "40vw", marginBottom: "4%" }}>
               <p>Alterar campo de Vencimento dos Produtos</p>
               <div className="product-form">
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row" }}>
-                    <label htmlFor="productName">O produto deverá entrar em alerta quando faltar quantos dias para o seu vencimento? <span className="required">*</span></label>
+                  <div className="form-group" id='name' style={{ display: "flex", marginTop: "4%", marginBottom: "4%", flexDirection: "row" }}>
+                    <label htmlFor="productName" style={{ fontSize: "18px" }}>O produto deverá entrar em alerta quando faltar quantos dias para o seu vencimento? <span className="required">*</span></label>
                   </div>
                   <div className="form-group" id='name'>
-                    <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '23vw' }} />
+                    <input type="text" placeholder='15 dias' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '32vw' }} />
                   </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+              <div className='row d-flex justify-content-lg-end'>
                 <button onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="form-section" id='form-register'>
+        <div className="form-section" id='form-register' style={{ width: "34vw" }}>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <div className="card-body-form" style={{ width: "40vw" }}>
               <p>A montagem de cestas estão ocorrendo em qual dia?</p>
               <div className="product-form">
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", gap:"10px" }}>
-                    <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '12vw' }} />
-                    <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '12vw' }} />
-                    <span>Do mês</span>
+                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+                    <input placeholder='Primeiro' type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '12vw' }} />
+                    <input placeholder='Sábado' type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '12vw' }} />
+                    <span style={{ fontSize: "18px" }}>Do mês</span>
                   </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+              <div className='row d-flex justify-content-lg-end'>
                 <button onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
@@ -402,31 +402,29 @@ const IndicadoresCadastro = () => {
               <div className="product-form">
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
                   <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row" }}>
-                    <label htmlFor="productName">Qual alteração desejada: <span className="required">*</span></label>
-                    <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '23vw' }} >
-                      <option value="0">-------</option>
+                    <label htmlFor="productName" style={{ fontSize: "18px" }}>Qual alteração desejada: </label>
+                    <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '10vw' }} >
                       <option value="1">Cadastrar</option>
-                      <option value="2">Alterar</option>
                       <option value="2">Excluir</option>
                     </select>
                   </div>
                   <div className="form-group" id='name'>
-                    <label htmlFor="productName">Insira o tipo da campanha a ser <span className="textoMudanca">cadastrado</span></label>
-                    <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '23vw' }} />
+                    <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo da campanha a ser <span className="textoMudanca"><b style={{ fontSize: "18px", textDecoration: "underline" }}>cadastrado:</b></span></label>
+                    <input type="text" placeholder='Casas' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '23vw' }} />
                   </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+              <div className='row d-flex justify-content-lg-end'>
                 <button onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
 
             <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Valores existentes em Tipo Produto</p>
+              <p>Valores existentes em Tipo de Campanha</p>
               <div className="product-form">
                 <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
-                  <span style={{ border: "1px solid gray", background: "lightGray", borderRadius: "10px", fontWeight: "bold" }}>Condominio</span>
-                  <span style={{ border: "1px solid gray", background: "lightGray", borderRadius: "10px", fontWeight: "bold" }}>Escola</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Condomínio</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Escola</span>
                 </div>
               </div>
             </div>
@@ -436,61 +434,146 @@ const IndicadoresCadastro = () => {
         <div className="form-section" id='form-register'>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Alterar campo Tipo Campanha</p>
+              <p>Páginas liberadas apenas para o perfil Administrador</p>
               <div className="product-form">
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
                   <div className="form-group" id='name' style={{ display: "flex", flexDirection: "column" }}>
-                    <div style={{width: "100%", height: "45px", backgroundColor: "lightGray"}}>
-                      <label for="checkAll">Pagina</label>
-                      <input type="checkbox" id="checkAll" name="checkAll"  />
+                    <div className='row' style={{ width: "100%", alignItems: "center", height: "45px", backgroundColor: "#F2F4G1" }}>
+                      <div className="row">
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Página</b>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Graficos Principais</b>
+                      </div>
+                    </div>
+
+
+
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Graficos Campanha</b>
+                      </div>
+                    </div>
+
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Graficos Condominio</b>
+                      </div>
+                    </div>
+
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Tipo cesta</b>
+                      </div>
                     </div>
                     
-                    <label for="scales">Graficos Principais</label>
-                    <input type="checkbox" id="scales" name="scales"  />
 
-                    <label for="campanha">Graficos Campanha</label>
-                    <input type="checkbox" id="campanha" name="campanha"  />
+                    
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Cestas</b>
+                      </div>
+                    </div>
 
-                    <label for="condominio">Graficos Condominio</label>
-                    <input type="checkbox" id="condominio" name="condominio"  />
+                  
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Produto</b>
+                      </div>
+                    </div>
 
-                    <label for="tipoCestaCampo">Tipo cesta</label>
-                    <input type="checkbox" id="tipoCestaCampo" name="tipoCestaCampo"  />
+                    
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Produto unitário</b>
+                      </div>
+                    </div>
 
-                    <label for="cestasCampo">Cestas</label>
-                    <input type="checkbox" id="cestasCampo" name="cestasCampo"  />
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Condominio</b>
+                      </div>
+                    </div>
 
-                    <label for="produtoCampo">Produto</label>
-                    <input type="checkbox" id="produtoCampo" name="produtoCampo"  />
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Campanha</b>
+                      </div>
+                    </div>
 
-                    <label for="produtoUnitarioCampo">Produto unitário</label>
-                    <input type="checkbox" id="produtoUnitarioCampo" name="produtoUnitarioCampo"  />
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Relatórios</b>
+                      </div>
+                    </div>
 
-                    <label for="condominioCampo">Condominio</label>
-                    <input type="checkbox" id="condominioCampo" name="condominioCampo"  />
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Voluntários</b>
+                      </div>
+                    </div>
 
-                    <label for="campanhaCampo">Campanha</label>
-                    <input type="checkbox" id="campanhaCampo" name="campanhaCampo"  />
-
-                    <label for="relatoriosCampo">Relatórios</label>
-                    <input type="checkbox" id="relatoriosCampo" name="relatoriosCampo"  />
-
-                    <label for="voluntariosCampo">Voluntários</label>
-                    <input type="checkbox" id="voluntariosCampo" name="voluntariosCampo"  />
-
-                    <label for="indicadoresCampo">Indicadores</label>
-                    <input type="checkbox" id="indicadoresCampo" name="indicadoresCampo"  />
+                    <div className="row" style={{marginTop:"2%"}}>
+                      <div className="col-1 justify-content-lg-start">
+                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      </div>
+                      <div className="col-6">
+                        <b>Indicadores</b>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
+              <div className='row d-flex justify-content-lg-end'>
                 <button onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
+
 
     </>
   );
