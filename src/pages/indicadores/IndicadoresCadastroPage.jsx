@@ -377,7 +377,7 @@ const IndicadoresCadastro = () => {
         <div className="form-section" id='form-register' style={{ width: "34vw" }}>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>A montagem de cestas estão ocorrendo em qual dia?</p>
+              <p style={{marginTop:"2%", marginBottom:"2%"}}>A montagem de cestas estão ocorrendo em qual dia?</p>
               <div className="product-form">
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
                   <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
@@ -398,7 +398,7 @@ const IndicadoresCadastro = () => {
         <div className="form-section" id='form-register'>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Alterar campo Tipo Campanha</p>
+              <p style={{marginTop:"2%", marginBottom:"2%"}}>Alterar campo Tipo Campanha</p>
               <div className="product-form">
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
                   <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row" }}>
@@ -420,7 +420,7 @@ const IndicadoresCadastro = () => {
             </div>
 
             <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Valores existentes em Tipo de Campanha</p>
+              <p style={{marginBottom:"4%"}}>Valores existentes em Tipo de Campanha</p>
               <div className="product-form">
                 <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
                   <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Condomínio</span>
@@ -434,7 +434,7 @@ const IndicadoresCadastro = () => {
         <div className="form-section" id='form-register'>
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Páginas liberadas apenas para o perfil Administrador</p>
+              <p style={{marginTop:"2%", marginBottom:"2%"}}>Páginas liberadas apenas para o perfil Administrador</p>
               <div className="product-form">
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
                   <div className="form-group" id='name' style={{ display: "flex", flexDirection: "column" }}>
