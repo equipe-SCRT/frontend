@@ -229,7 +229,7 @@ const VoluntariosCadastro = () => {
 
   async function salvar() {
     if (getTipoUsuario == 0) {
-      alert("Selecione um tipo usuario")
+      alert("Selecione um tipo de usuário")
       return
     }
     try {
@@ -295,7 +295,7 @@ const VoluntariosCadastro = () => {
         <NavBar />
         <div className="form-section" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
-            <h1 className="section-title" style={{ margin: "0px" }}>Voluntários</h1>
+            <h1 className="section-title" style={{ margin: "0px", marginTop: "2.5%"}}>Voluntários</h1>
           </div>
           <div className="card-body-form">
             <p>Cadastro de Voluntários </p>
@@ -310,7 +310,7 @@ const VoluntariosCadastro = () => {
                   <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '23vw' }} />
                 </div>
                 <div className="form-group" id='name'>
-                  <label htmlFor="productName">Tipo Usuario <span className="required">*</span></label>
+                  <label htmlFor="productName">Tipo Usuário <span className="required">*</span></label>
                   <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '23vw' }} >
                     <option value="0">-------</option>
                     <option value="1">Administrador</option>
@@ -348,4 +348,4 @@ const VoluntariosCadastro = () => {
   );
 }
 
-export default VoluntarioCadastro;
+export default VoluntariosCadastro;
