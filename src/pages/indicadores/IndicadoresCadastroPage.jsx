@@ -19,7 +19,7 @@ const IndicadoresCadastro = () => {
   let [getTipoUsuarioAlt, setTipoUsuarioAlt] = useState(0);
 
   useEffect(() => {
-    handleColaboradores()
+    handleVoluntarios()
   }, [])
 
   const apiProdutos = axios.create({
@@ -48,7 +48,7 @@ const IndicadoresCadastro = () => {
           if (res.status == 204) {
             pilha.pop();
             contadorPilha--;
-            handleColaboradores()
+            handleVoluntarios()
             if (pilha.length > 0) {
               let timerInterval;
               Swal.fire({
@@ -96,7 +96,7 @@ const IndicadoresCadastro = () => {
     }
   });
 
-  async function handleColaboradores() {
+  async function handleVoluntarios() {
     try {
       var encontrados = await api.get("");
       //console.log(encontrados)
@@ -118,7 +118,7 @@ const IndicadoresCadastro = () => {
 
             </td>
             <td>
-              <span className={'tipoUsuario' + id}> {encontrados.data[i].tipoUsuario == 1 ? "Administrador" : "Colaborador"}</span>
+              <span className={'tipoUsuario' + id}> {encontrados.data[i].tipoUsuario == 1 ? "Administrador" : "Voluntário"}</span>
               <input type="text" className={'tipoUsuarioTxt' + id} style={{ display: "none" }} onChange={(e) => setTipoUsuarioAlt(e)} />
 
             </td>
@@ -240,7 +240,7 @@ const IndicadoresCadastro = () => {
         senha: String((Math.random() * 10000))
       }).then(async (response) => {
 
-        handleColaboradores();
+        handleVoluntarios();
         //console.log("1020121218902901890----------s")
         //console.log(response)
         let alteracao = {

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "./ColaboradoresCadastroPage.module.css"
+import "./VoluntariosCadastroPage.module.css"
 import NavBar from '../components/navbar.component';
 import Swal from 'sweetalert2';
 
 var pilha = [];
 let contadorPilha = -1;
 
-const ColaboradoresCadastro = () => {
+const VoluntariosCadastro = () => {
   let [getProdutos, setProdutos] = useState([]);
   let [getEmail, setEmail] = useState("");
   let [getNome, setNome] = useState("");
@@ -19,7 +19,7 @@ const ColaboradoresCadastro = () => {
   let [getTipoUsuarioAlt, setTipoUsuarioAlt] = useState(0);
 
   useEffect(() => {
-    handleColaboradores()
+    handleVoluntarios()
   }, [])
 
   const apiProdutos = axios.create({
@@ -48,7 +48,7 @@ const ColaboradoresCadastro = () => {
           if (res.status == 204) {
             pilha.pop();
             contadorPilha--;
-            handleColaboradores()
+            handleVoluntarios()
             if (pilha.length > 0) {
               let timerInterval;
               Swal.fire({
@@ -96,7 +96,7 @@ const ColaboradoresCadastro = () => {
     }
   });
 
-  async function handleColaboradores() {
+  async function handleVoluntarios() {
     try {
       var encontrados = await api.get("");
       //console.log(encontrados)
@@ -118,7 +118,7 @@ const ColaboradoresCadastro = () => {
 
             </td>
             <td>
-              <span className={'tipoUsuario'+id}> {encontrados.data[i].tipoUsuario == 1 ? "Administrador" : "Colaborador"}</span>
+              <span className={'tipoUsuario'+id}> {encontrados.data[i].tipoUsuario == 1 ? "Administrador" : "Voluntário"}</span>
               <input type="text" className={'tipoUsuarioTxt'+id} style={{ display: "none" }} onChange={(e) => setTipoUsuarioAlt(e)} />
 
             </td>
@@ -240,7 +240,7 @@ const ColaboradoresCadastro = () => {
         senha: String((Math.random() * 10000))
       }).then(async (response) => {
 
-        handleColaboradores();
+        handleVoluntarios();
         //console.log("1020121218902901890----------s")
         //console.log(response)
         let alteracao = {
@@ -296,10 +296,9 @@ const ColaboradoresCadastro = () => {
         <div className="form-section" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
             <h1 className="section-title" style={{ margin: "0px" }}>Voluntários</h1>
-            <button className="submit-btn">Cadastrar</button>
           </div>
           <div className="card-body-form">
-            <p>Cadastro de Colaboradores </p>
+            <p>Cadastro de Voluntários </p>
             <div className="product-form">
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
                 <div className="form-group" id='name'>
@@ -315,7 +314,7 @@ const ColaboradoresCadastro = () => {
                   <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '23vw' }} >
                     <option value="0">-------</option>
                     <option value="1">Administrador</option>
-                    <option value="2">Colaborador</option>
+                    <option value="2">Voluntário</option>
                   </select>
                 </div>
               </div>
@@ -349,4 +348,4 @@ const ColaboradoresCadastro = () => {
   );
 }
 
-export default ColaboradoresCadastro;
+export default VoluntarioCadastro;
