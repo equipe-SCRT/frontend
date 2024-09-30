@@ -144,7 +144,7 @@
     cursor: pointer;
 }
 
-.form-up .form-group #productName {
+/* .form-up #productName {
     width: 42vw;
     padding: 10px;
 }
@@ -152,11 +152,11 @@
 .form-up .form-group #productType {
     width: 32vw;
     padding: 10px;
-}
+} */
 
-.form-down .form-group #unit {
+/* .form-down .form-group #unit {
     width: 42vw;
-}
+} */
 
 .form-down .submit-btn {
     width: 17vh;
