@@ -18,5 +18,6 @@
   }
 .main{
   position: relative;
-  padding-left: 250px
+  margin-left: 250px;
+  margin-top:80px
 }

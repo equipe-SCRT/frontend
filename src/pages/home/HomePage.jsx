@@ -76,7 +76,7 @@ const HomePage = () => {
 
   return (
     <>
-        <NavBar />
+     <NavBar />
 
       <div className={styles.main}>
         {/* <Container> */}
