@@ -423,8 +423,8 @@ const IndicadoresCadastro = () => {
               <p style={{marginBottom:"4%"}}>Valores existentes em Tipo de Campanha</p>
               <div className="product-form">
                 <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Condomínio</span>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Escola</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Condomínio</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Escola</span>
                 </div>
               </div>
             </div>
