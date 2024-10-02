@@ -11,6 +11,7 @@
     font-family: "Roboto", sans-serif;
     font-size: 18px;
     font-style: normal;
+    margin-bottom: 2vh;
 }
 
 .form-section {
@@ -20,7 +21,7 @@
 }
 
 .section-title {
-    margin: 122px 20px 20px 0px;
+    margin: 36px 20px 20px 0px;
 }
 
 .product-form .form-group {
@@ -64,8 +65,10 @@
     background-color: #F07E18;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
+    height: 5vh;
+    margin-top: 25px;
+    font-family: "Roboto", sans-serif;
 }
 
 .submit-btn:hover {
@@ -159,13 +162,12 @@
 
 .form-down .form-group #lot {
     width: 36vw;
+    background-color: #DFE0E1;
 }
 
-.submit-btn {
-    width: 17vh;
-    height: 6vh;
-    margin-top: 25px;
-    font-family: "Roboto", sans-serif;
+.form-group #lot {
+    width: 36vw;
+    background-color: #DFE0E1 !important;
 }
 
 .card-body-form p img{
@@ -180,19 +182,20 @@
 .btn-header {
     display: flex;
     width: 80vw;
+    height: 15vh;
     justify-content: space-between;
     align-items: center;
 }
 
 .submit-btn-header {
     display: inline-block;
-    margin: 122px 20px 20px 0px;
+    margin: 36px 0px 20px 0px;
+    border-radius: 5px;
     padding: 10px 20px;
     font-size: 16px;
     color: #fff;
     background-color: #F07E18;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
 }
