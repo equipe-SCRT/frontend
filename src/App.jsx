@@ -13,7 +13,7 @@ import ProdutoCadastro from "./pages/produto/ProdutoCadastroPage"
 import CestaCadastro from "./pages/cesta/CestaCadastroPage"
 import DashboardCampanhas from './pages/dasboardcampanhas/DashboardCampanhasPage';
 import TestPage from './pages/TestePage';
-import ColaboradoresCadastro from './pages/colaboradores/ColaboradoresCadastroPage';
+import VoluntariosCadastro from './pages/voluntarios/VoluntariosCadastroPage';
 import TipoCestaCadastro from './pages/tipo-cesta/TipoCestaCadastroPage';
 import PerfilPage from './pages/perfil/PerfilPage';
 import DashCondominio from './pages/dashcondominio/DashCondominioPage';
@@ -31,11 +31,11 @@ const App = () => {
 
         <Route path="/" element={<LoginPage/>} />
         <Route path="/home" element={<HomePage/>} />
-        <Route path="/trocar-senha" element={<Register/>} />
+        <Route path="/redefinir-senha" element={<Register/>} />
         <Route path="/campanhas" element={<DashboardCampanhas/>} />
         <Route path="/produtos/cadastro" element={<ProdutoCadastro />} />
         <Route path="/produtos-unitarios/cadastro" element={<ProdutoUnitarioCadastro />} />
-        <Route path="/voluntarios/cadastro" element={<ColaboradoresCadastro />} />
+        <Route path="/voluntarios/cadastro" element={<VoluntariosCadastro />} />
         <Route path="/tipos-cestas/cadastro" element={<TipoCestaCadastro />} />
         <Route path="/condominios/cadastro" element={<CondominioCadastro />} />
         <Route path="/campanhas/cadastro" element={<CampanhaCadastroPage />} />
