@@ -318,7 +318,7 @@ const IndicadoresCadastro = () => {
                 </div>
               </div>
               <div className='row d-flex justify-content-lg-end'>
-                <button onClick={salvar} className="submit-btn">Concluir</button>
+                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
 
@@ -326,9 +326,9 @@ const IndicadoresCadastro = () => {
               <p>Valores existentes em Tipo Produto</p><br />
               <div className="product-form">
                 <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Perecível</span>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Enlatados</span>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold" }}>Limpeza</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Perecível</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Enlatados</span>
+                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Limpeza</span>
                 </div>
               </div>
             </div>
@@ -347,7 +347,7 @@ const IndicadoresCadastro = () => {
                 </div>
               </div>
               <div className='row d-flex justify-content-lg-end'>
-                <button onClick={salvar} className="submit-btn">Concluir</button>
+                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
           </div>
@@ -368,7 +368,7 @@ const IndicadoresCadastro = () => {
                 </div>
               </div>
               <div className='row d-flex justify-content-lg-end'>
-                <button onClick={salvar} className="submit-btn">Concluir</button>
+                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
           </div>
@@ -388,7 +388,7 @@ const IndicadoresCadastro = () => {
                 </div>
               </div>
               <div className='row d-flex justify-content-lg-end'>
-                <button onClick={salvar} className="submit-btn">Concluir</button>
+                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
 
@@ -415,7 +415,7 @@ const IndicadoresCadastro = () => {
                 </div>
               </div>
               <div className='row d-flex justify-content-lg-end'>
-                <button onClick={salvar} className="submit-btn">Concluir</button>
+                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
 
@@ -567,7 +567,7 @@ const IndicadoresCadastro = () => {
                 </div>
               </div>
               <div className='row d-flex justify-content-lg-end'>
-                <button onClick={salvar} className="submit-btn">Concluir</button>
+                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
               </div>
             </div>
           </div>
