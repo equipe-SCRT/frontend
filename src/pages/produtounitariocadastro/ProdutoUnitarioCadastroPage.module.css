@@ -1,0 +1,31 @@
+#form-register p {
+    font-weight: bold;
+    color: #2D3648;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    margin-bottom: 2vh;
+}
+
+.product-form .form-group label {
+    color: #21272A;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    margin-bottom: 5px;
+}
+
+.product-form .form-group select ~ .product-form .form-group input{
+    background-color: #F2F4F8;
+    border-bottom: 1px solid #C1C7CD !important;
+    padding: 10px;
+    font-size: 16px;
+    border: transparent;
+    border-bottom-width: medium;
+    border-bottom-style: none;
+    border-bottom-color: transparent;
+}
+.card-body {
+    width: 80vw;
+    padding: 20px;
+}

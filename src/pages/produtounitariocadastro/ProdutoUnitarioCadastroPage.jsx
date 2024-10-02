@@ -16,7 +16,6 @@ const ProdutoUnitarioCadastro = () => {
   let [getValidade, setValidade] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
-  let [getPilha, setPilha] = useState([]);
   let [getTodosProdutos, setTdProdutos] = useState([]);
   let [getNomeAlt, setNomeAlt] = useState();
   let [getDateAlt, setDateAlt] = useState();
@@ -349,7 +348,7 @@ const ProdutoUnitarioCadastro = () => {
     <>
       <div style={{ display: "block", height: "100%" }}>
         <NavBar />
-        <div className="container" style={{ marginLeft: "4%", marginTop: "5%" }}>
+        <div className="container" style={{ marginLeft: "1%", marginTop: "5%", width: "95%" }}>
           <div className="row" style={{marginBottom: "2%"}}>
             <div className="col-6">
               <h1 className="section-title" style={{ margin: "0px" }}>Lotes de Produtos</h1>
