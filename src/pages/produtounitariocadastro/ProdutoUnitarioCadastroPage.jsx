@@ -419,7 +419,7 @@ const ProdutoUnitarioCadastro = () => {
                       </div>
                     </div>
                     <div className="col-5 d-flex justify-content-lg-end" style={{ marginLeft: "2%" }}>
-                      <button onClick={salvar} className="submit-btn">Cadastrar</button>
+                      <button onClick={salvar} className="submit-btn" style={{width: "120px", height:"45px"}}>Cadastrar</button>
                     </div>
                   </div>
                 </div>
