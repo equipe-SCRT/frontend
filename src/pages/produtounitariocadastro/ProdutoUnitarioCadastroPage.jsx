@@ -354,7 +354,7 @@ const ProdutoUnitarioCadastro = () => {
               <h1 className="section-title" style={{ margin: "0px" }}>Lotes de Produtos</h1>
             </div>
             <div className="col-6 d-flex justify-content-lg-end">
-              <button className="submit-btn" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "55px", margin: "0" }}>Cadastrar um produto novo</button>
+              <button className="submit-btn" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "80%", margin: "0" }}>Cadastrar um produto novo</button>
             </div>
           </div>
 
@@ -418,7 +418,7 @@ const ProdutoUnitarioCadastro = () => {
                       </div>
                     </div>
                     <div className="col-5 d-flex justify-content-lg-end" style={{ marginLeft: "2%" }}>
-                      <button onClick={salvar} className="submit-btn" style={{width: "120px", height:"45px"}}>Cadastrar</button>
+                      <button onClick={salvar} className="submit-btn" style={{width: "120px", height:"60%"}}>Cadastrar</button>
                     </div>
                   </div>
                 </div>

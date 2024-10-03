@@ -293,285 +293,314 @@ const IndicadoresCadastro = () => {
     <>
       <div style={{ display: "block", height: "100%" }}>
         <NavBar />
-        <div className="form-section" id='form-register'>
-          <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "40vw" }}>
-            <h1 className="section-title" style={{ margin: "0px" }}>Indicadores</h1>
+        <div className="container" style={{ marginTop: "5%" }}>
+          <div className="row">
+            <div className='col-8'>
+              <h1 className="section-title" style={{ margin: "0px" }}>Indicadores</h1>
+            </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Alterar campo Tipo Produto:</p>
-              <div className="product-form">
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", marginBottom: "5%", flexDirection: "row", alignItems: "center", gap: "50px" }}>
-                    <label htmlFor="productName" style={{ fontSize: "18px" }}>Qual alteração desejada:</label>
-                    <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '10vw' }} >
-                      <option value="1">Cadastrar</option>
-                      <option value="2">Excluir</option>
-                    </select>
+          <div className="row" style={{ margin: "0 0 0 0" }}>
+            <div className='col-6' style={{ margin: "0" }}>
+              <div className="form-section" id='form-register' style={{ width: "100%", margin: "0px" }}>
+                <div className="card-body-form" style={{ width: "100%" }}>
+                  <p>Alterar campo Tipo Produto:</p>
+                  <div className="product-form">
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
+                      <div className="form-group" id='name' style={{ display: "flex", marginBottom: "5%", flexDirection: "row", alignItems: "center", gap: "50px" }}>
+                        <label htmlFor="productName" style={{ fontSize: "18px" }}>Qual alteração desejada:</label>
+                        <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '10vw' }} >
+                          <option value="1">Cadastrar</option>
+                          <option value="2">Excluir</option>
+                        </select>
+                      </div>
+                      <div className='row'>
+                        <div className="form-group" id='name'>
+                          <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo do produto a ser <span className="textoMudanca"><b style={{ textDecoration: "underline", fontSize: "18px" }}>cadastrado:</b></span></label>
+                          <input type="text" name="nomeSel" placeholder='Higiene' id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '100%' }} />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="col-6">
-                    <div className="form-group" id='name' style={{ width: "20vw" }}>
-                      <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo do produto a ser <span className="textoMudanca"><b style={{ textDecoration: "underline", fontSize: "18px" }}>cadastrado:</b></span></label>
-                      <input type="text" name="nomeSel" placeholder='Higiene' id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '32vw' }} />
+                  <div className='row d-flex justify-content-lg-end'>
+                    <button style={{ width: "120px", height: "auto" }} onClick={salvar} className="submit-btn">Concluir</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-6" style={{ margin: "0" }}>
+              <div className="form-section" id='form-register' style={{ width: "100%", margin: "0" }}>
+                <div className="card-body-form" style={{ width: "100%", height: "300px" }}>
+                  <p>Valores existentes em Tipo Produto</p><br />
+                  <div className="product-form">
+                    <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
+                      <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Perecível</span>
+                      <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Enlatados</span>
+                      <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Limpeza</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className='row d-flex justify-content-lg-end'>
-                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
-              </div>
             </div>
+          </div>
 
-            <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Valores existentes em Tipo Produto</p><br />
-              <div className="product-form">
-                <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Perecível</span>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Enlatados</span>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Limpeza</span>
+          <div className="row" style={{ margin: "0 0 0 0" }}>
+            <div className='col-6' style={{ margin: "0" }}>
+              <div className="form-section" id='form-register' style={{ width: "100%", margin: "0px" }}>
+                <div className="card-body-form" style={{ width: "100%" }}>
+                  <p>Quantas casas são atendidas mensalmente</p>
+                  <div className="product-form">
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
+                      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
+                        <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", marginTop: "4%" }}>
+                          <input type="text" placeholder='156' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '100%' }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='row d-flex justify-content-lg-end'>
+                    <button style={{ width: "120px", height: "auto" }} onClick={salvar} className="submit-btn">Concluir</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="form-section" id='form-register' style={{ width: "34vw" }}>
-          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <div className="card-body-form" style={{ width: "40vw" }}>
-              <p>Quantas casas são atendidas mensalmente</p>
-              <div className="product-form">
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", marginTop: "4%" }}>
-                    <input type="text" placeholder='156' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '32vw' }} />
+          <div className="row" style={{ margin: "0 0 0 0" }}>
+            <div className='col-6' style={{ margin: "0" }}>
+              <div className="form-section" id='form-register' style={{ width: "100%", margin: "0px" }}>
+                <div className="card-body-form" style={{ width: "100%" }}>
+                  <p>Alterar campo de Vencimento dos Produtos</p>
+                  <div className="product-form">
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
+                      <div className="form-group" id='name' style={{ display: "flex", marginTop: "4%", marginBottom: "4%", flexDirection: "row" }}>
+                        <label htmlFor="productName" style={{ fontSize: "18px" }}>O produto deverá entrar em alerta quando faltar quantos dias para o seu vencimento? <span className="required">*</span></label>
+                      </div>
+                      <div className="form-group" id='name'>
+                        <input type="text" placeholder='15 dias' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '32vw' }} />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className='row d-flex justify-content-lg-end'>
-                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="form-section" id='form-register' style={{ width: "34vw" }}>
-          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <div className="card-body-form" style={{ width: "40vw", marginBottom: "4%" }}>
-              <p>Alterar campo de Vencimento dos Produtos</p>
-              <div className="product-form">
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", marginTop: "4%", marginBottom: "4%", flexDirection: "row" }}>
-                    <label htmlFor="productName" style={{ fontSize: "18px" }}>O produto deverá entrar em alerta quando faltar quantos dias para o seu vencimento? <span className="required">*</span></label>
+                  <div className='row d-flex justify-content-lg-end'>
+                    <button style={{ width: "120px", height: "auto" }} onClick={salvar} className="submit-btn">Concluir</button>
                   </div>
-                  <div className="form-group" id='name'>
-                    <input type="text" placeholder='15 dias' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '32vw' }} />
-                  </div>
-                </div>
-              </div>
-              <div className='row d-flex justify-content-lg-end'>
-                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="form-section" id='form-register' style={{ width: "34vw" }}>
-          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <div className="card-body-form" style={{ width: "40vw" }}>
-              <p style={{marginTop:"2%", marginBottom:"2%"}}>A montagem de cestas estão ocorrendo em qual dia?</p>
-              <div className="product-form">
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-                    <input placeholder='Primeiro' type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '12vw' }} />
-                    <input placeholder='Sábado' type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '12vw' }} />
-                    <span style={{ fontSize: "18px" }}>Do mês</span>
-                  </div>
-                </div>
-              </div>
-              <div className='row d-flex justify-content-lg-end'>
-                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div className="form-section" id='form-register'>
-          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <div className="card-body-form" style={{ width: "40vw" }}>
-              <p style={{marginTop:"2%", marginBottom:"2%"}}>Alterar campo Tipo Campanha</p>
-              <div className="product-form">
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row" }}>
-                    <label htmlFor="productName" style={{ fontSize: "18px" }}>Qual alteração desejada: </label>
-                    <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '10vw' }} >
-                      <option value="1">Cadastrar</option>
-                      <option value="2">Excluir</option>
-                    </select>
-                  </div>
-                  <div className="form-group" id='name'>
-                    <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo da campanha a ser <span className="textoMudanca"><b style={{ fontSize: "18px", textDecoration: "underline" }}>cadastrado:</b></span></label>
-                    <input type="text" placeholder='Casas' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '33vw' }} />
-                  </div>
-                </div>
-              </div>
-              <div className='row d-flex justify-content-lg-end'>
-                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
-              </div>
-            </div>
-
-            <div className="card-body-form" style={{ width: "40vw" }}>
-              <p style={{marginBottom:"4%"}}>Valores existentes em Tipo de Campanha</p>
-              <div className="product-form">
-                <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Condomínio</span>
-                  <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Escola</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="form-section" id='form-register'>
-          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <div className="card-body-form" style={{ width: "40vw" }}>
-              <p style={{marginTop:"2%", marginBottom:"2%"}}>Páginas liberadas apenas para o perfil Administrador</p>
-              <div className="product-form">
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
-                  <div className="form-group" id='name' style={{ display: "flex", flexDirection: "column" }}>
-                    <div className='row' style={{ width: "100%", alignItems: "center", height: "45px", backgroundColor: "#F2F4G1" }}>
-                      <div className="row">
+          <div className="row" style={{ margin: "0 0 0 0" }}>
+            <div className='col-6' style={{ margin: "0" }}>
+              <div className="form-section" id='form-register' style={{ width: "100%", margin: "0px" }}>
+                <div className="card-body-form" style={{ width: "100%" }}>
+                  <p>A montagem de cestas estão ocorrendo em qual dia?</p>
+                  <div className="product-form">
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
+                      <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+                        <input placeholder='Primeiro' type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '12vw' }} />
+                        <input placeholder='Sábado' type="text" name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '12vw' }} />
+                        <span style={{ fontSize: "18px" }}>Do mês</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='row d-flex justify-content-lg-end'>
+                    <button style={{ width: "120px", height: "auto" }} onClick={salvar} className="submit-btn">Concluir</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row" style={{ margin: "0 0 0 0" }}>
+            <div className='col-6' style={{ margin: "0" }}>
+              <div className="form-section" id='form-register' style={{ width: "100%", margin: "0px" }}>
+                <div className="card-body-form" style={{ width: "100%" }}>
+                  <p>Alterar campo Tipo Campanha:</p>
+                  <div className="product-form">
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
+                      <div className="form-group" id='name' style={{ display: "flex", marginBottom: "5%", flexDirection: "row", alignItems: "center", gap: "50px" }}>
+                        <label htmlFor="productName" style={{ fontSize: "18px" }}>Qual alteração desejada:</label>
+                        <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoUsuario(e.target.value)} style={{ width: '10vw' }} >
+                          <option value="1">Cadastrar</option>
+                          <option value="2">Excluir</option>
+                        </select>
+                      </div>
+                      <div className='row'>
+                        <div className="form-group" id='name'>
+                          <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo da campanha a ser <span className="textoMudanca"><b style={{ fontSize: "18px", textDecoration: "underline" }}>cadastrado:</b></span></label>
+                          <input type="text" name="nomeSel" placeholder='Higiene' id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '100%' }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='row d-flex justify-content-lg-end'>
+                    <button style={{ width: "120px", height: "auto" }} onClick={salvar} className="submit-btn">Concluir</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-6" style={{ margin: "0" }}>
+              <div className="form-section" id='form-register' style={{ width: "100%", margin: "0" }}>
+                <div className="card-body-form" style={{ width: "100%", height: "300px" }}>
+                  <p style={{ marginBottom: "4%" }}>Valores existentes em Tipo de Campanha</p>
+                  <div className="product-form">
+                    <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
+                      <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Condomínio</span>
+                      <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>Escola</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row" style={{ margin: "0 0 0 0" }}>
+            <div className='col-6' style={{ margin: "0" }}>
+              <div className="form-section" id='form-register' style={{ width: "100%", margin: "0px" }}>
+                <div className="card-body-form" style={{ width: "100%" }}>
+                <p style={{ marginTop: "2%", marginBottom: "2%" }}>Páginas liberadas apenas para o perfil Administrador</p>
+                <div className="product-form">
+                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
+                    <div className="form-group" id='name' style={{ display: "flex", flexDirection: "column" }}>
+                      <div className='row' style={{ width: "100%", height: "45px", backgroundColor: "#F2F4G1" }}>
+                        <div className="row">
+                          <div className="col-1 justify-content-lg-start">
+                            <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                          </div>
+                          <div className="col-6">
+                            <b>Página</b>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div className="row" style={{ marginTop: "2%" }}>
                         <div className="col-1 justify-content-lg-start">
-                          <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
                         </div>
                         <div className="col-6">
-                          <b>Página</b>
+                          <b>Graficos Principais</b>
                         </div>
                       </div>
-                    </div>
-
-
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
-                      </div>
-                      <div className="col-6">
-                        <b>Graficos Principais</b>
-                      </div>
-                    </div>
 
 
 
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Graficos Campanha</b>
+                        </div>
                       </div>
-                      <div className="col-6">
-                        <b>Graficos Campanha</b>
-                      </div>
-                    </div>
 
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Graficos Condominio</b>
+                        </div>
                       </div>
-                      <div className="col-6">
-                        <b>Graficos Condominio</b>
-                      </div>
-                    </div>
 
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Tipo cesta</b>
+                        </div>
                       </div>
-                      <div className="col-6">
-                        <b>Tipo cesta</b>
-                      </div>
-                    </div>
-                    
 
-                    
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
-                      </div>
-                      <div className="col-6">
-                        <b>Cestas</b>
-                      </div>
-                    </div>
 
-                  
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
-                      </div>
-                      <div className="col-6">
-                        <b>Produto</b>
-                      </div>
-                    </div>
 
-                    
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Cestas</b>
+                        </div>
                       </div>
-                      <div className="col-6">
-                        <b>Produto unitário</b>
-                      </div>
-                    </div>
 
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
-                      </div>
-                      <div className="col-6">
-                        <b>Condominio</b>
-                      </div>
-                    </div>
 
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Produto</b>
+                        </div>
                       </div>
-                      <div className="col-6">
-                        <b>Campanha</b>
-                      </div>
-                    </div>
 
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
-                      </div>
-                      <div className="col-6">
-                        <b>Relatórios</b>
-                      </div>
-                    </div>
 
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Produto unitário</b>
+                        </div>
                       </div>
-                      <div className="col-6">
-                        <b>Voluntários</b>
-                      </div>
-                    </div>
 
-                    <div className="row" style={{marginTop:"2%"}}>
-                      <div className="col-1 justify-content-lg-start">
-                        <input type="checkbox" style={{WebkitTransform:"scale(1.3)"}} id="checkAll" name="checkAll" />
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Condominio</b>
+                        </div>
                       </div>
-                      <div className="col-6">
-                        <b>Indicadores</b>
+
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Campanha</b>
+                        </div>
+                      </div>
+
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Relatórios</b>
+                        </div>
+                      </div>
+
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Voluntários</b>
+                        </div>
+                      </div>
+
+                      <div className="row" style={{ marginTop: "2%" }}>
+                        <div className="col-1 justify-content-lg-start">
+                          <input type="checkbox" style={{ WebkitTransform: "scale(1.3)" }} id="checkAll" name="checkAll" />
+                        </div>
+                        <div className="col-6">
+                          <b>Indicadores</b>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className='row d-flex justify-content-lg-end'>
-                <button style={{width:"120px", height:"auto"}} onClick={salvar} className="submit-btn">Concluir</button>
+                  <div className='row d-flex justify-content-lg-end'>
+                    <button style={{ width: "120px", height: "auto" }} onClick={salvar} className="submit-btn">Concluir</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
         </div>
+
       </div>
 
 
