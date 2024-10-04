@@ -2,17 +2,19 @@ import { SelectPicker, Stack } from 'rsuite';
 import style from './../components/SelectPicker.module.css';
 import React from 'react';
 
-const Select = () => {
+const Select = ({options}) => {
 
-    var data = ['2024', '2023'].map(
+
+    let data =options.map(
         item => ({ label: item, value: item })
     )
+
     return (
 
         < Stack spacing={10} direction="column" alignItems="flex-start" >
             <SelectPicker 
             data={data} 
-            defaultValue={"2024"}
+            defaultValue={options[0]}
             className={style.fieldSpace}
             />
         </Stack >
