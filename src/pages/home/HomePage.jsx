@@ -6,6 +6,7 @@ import GraficoPizza from '../../components/graficopizza/GraficoPizza';
 import CardScrt from '../../components/cardscrt/CardScrt';
 import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarraProgresso';
 import NavBar from '../../components/navbarscrt/NavBar';
+import HeaderScrt from '../../components/headerscrt/HeaderScrt';
 import styles from './Home.module.css'
 
 
@@ -76,8 +77,10 @@ const HomePage = () => {
 
   return (
     <>
-     <NavBar />
-
+      <NavBar />
+      <HeaderScrt>
+        <p >Essa página é destinada para <br /> centralizar e visualizar de forma <br /> clara e eficiente os dados de <br />estoque </p>
+      </HeaderScrt>
       <div className={styles.main}>
         {/* <Container> */}
         <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
@@ -86,7 +89,7 @@ const HomePage = () => {
             <CardScrt legenda="Quantidade de Cestas Produzidas" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
             <CardScrt legenda="Quantidade em Estoque" info={dadosEstoque.length > 0 ? dadosEstoque[dadosEstoque.length - 1].count : 0} bgColor="#5FED6D" />
             {/* endpoint para produtos  */}
-            <CardScrt legenda="Produtos Próximos do Vencimento" info={dadosPizza[1]+dadosPizza[0]} bgColor="#FDEA3C" infoTotal={236} />
+            <CardScrt legenda="Produtos Próximos do Vencimento" info={dadosPizza[1] + dadosPizza[0]} bgColor="#FDEA3C" infoTotal={236} />
             {/* endpoint para produtos vencidos ultimos 30 dias */}
             <CardScrt legenda="Alimentos Vencidos" info={somaCountDadosVencidos} bgColor="#ED8686" infoTotal={236} />
           </Row>
@@ -96,7 +99,7 @@ const HomePage = () => {
               <GraficoLinha data={dadosEstoque} cores={['#22CC52']} titulo={'Quantidade em estoque'} label={'Quantidade'} />
             </Col>
 
-            <Col md lang={6} >
+            <Col md lg={6} >
               <GraficoPizza data={dadosPizza} titulo={"Alimentos próximos a validade:"} />
             </Col>
           </Row>
@@ -104,7 +107,7 @@ const HomePage = () => {
             <Col md lg={6}>
               <GraficoLinha data={dadosVencidosPorMes} cores={['#FF5555']} titulo={'Produtos estragados'} label={'Quantidade'} />
             </Col>
-            <Col md lang={6}>
+            <Col md lg={6}>
               <ListaBarraProgresso titulo={"Produtos válidos x Não conforme"} itens={dadosArrecadadosXVencidos} />
             </Col>
           </Row>

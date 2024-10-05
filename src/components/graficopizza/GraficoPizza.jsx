@@ -1,9 +1,28 @@
-import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-
-// Register necessary components with ChartJS
-ChartJS.register(ArcElement, Tooltip, Legend);
+import React from "react";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart,
+  registerables,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import "chartjs-adapter-date-fns";
+import { ptBR } from "date-fns/locale";
+Chart.register(
+  ...registerables,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const GraficoPizza = ({ titulo, data }) => {
     console.log(data)
@@ -37,7 +56,6 @@ const GraficoPizza = ({ titulo, data }) => {
 
     const options = {
         indexAxis: 'y',
-        responsive: true,
         plugins: {
             legend: {
                 position: 'top',
@@ -51,7 +69,6 @@ const GraficoPizza = ({ titulo, data }) => {
 
     return (
 
-        <>
             <div
                 style={{ marginTop: "10px", padding: "10px" }}
             >
@@ -60,7 +77,6 @@ const GraficoPizza = ({ titulo, data }) => {
                 </h5>
                 <Bar data={dados} options={options} />
             </div>
-        </>
 
 
     );
