@@ -1,50 +1,51 @@
 import style from "./RelatorioPage.module.css";
 import * as React from "react";
-// import Select from "../components/SelectPicker";
+import Select from "../components/SelectPicker";
 import DataRange from "../components/dataRange/DateRange";
 import PopOver from "../components/PopOver";
-// import { DataTable } from 'primereact/datatable';
-// import { Column } from 'primereact/column';
-//import { Button } from 'primereact/button';
+import Botao from "../components/button/Button"
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 const Relatorio = () => {
     return (
         <div className="container-fluid">
             <div className={style.TituloPrincipal}>
                 <h1>Relatorio</h1>
-                {/* <Select /> */}
             </div>
-            <div>
-                <div className={style.SubTitulo}>
-                    <h2>Listagem</h2>
+            <div className="row">
+                <div className="col-12 d-flex justify-content-between">
+                    <p className={style.SubTitulo} >Listagem</p>
+                    <Select option={['2024', '2023']} />
                 </div>
-                {/* <div className="table-section">
-                    <div className="card-body" style={{ border: "1px solid #DDE1E6", backgroundColor: "#f9f9f9" }}>
+                <div className="table-section">
+                    <div className="card-body">
                         <div className="table-responsive">
-                            <DataTable className="" value={'1'} tableStyle={{ minWidth: '50rem' }}>
-                                <Column field="id" header="#" />
-                                <Column field="nome" header="Nome" body={''}>
-
-                                </Column>
-                                <Column field="cep" header="CEP" body={''}>
-
-                                </Column>
-                                <Column field="logradouro" header="Endereço" body={''}>
-
-                                </Column>
-
-                            </DataTable>
+                            <div>
+                                <div>
+                                    <DataTable className="" >
+                                        <Column field="id" header="teste" body={'1'} >
+                                        </Column>
+                                        <Column field="nome" header='Nome' body={'2'}>
+                                        </Column>
+                                        <Column field="cep" header="CEP" body={'3'}>
+                                        </Column>
+                                    </DataTable>
+                                </div>  
+                            </div>
                         </div>
                     </div>
-                </div> */}
+                </div>
             </div>
-            <div className={style.BotaoImportar}>
-                <button>Importar Arquivo</button>
+            <div className="row">
+                <div className="col-12 d-flex justify-content-end ">
+                    <Botao mensagem={"Importar Arquivo"} />
+                </div>
             </div>
             <div className={style.TituloPrincipal}>
-                <h1>Relatório</h1>
+                <h1>Gerar Arquivo</h1>
             </div>
-            <div>
+            <div className={style.SpaceCima}>
                 <p className={style.SubTexto}>
                     Selecione o período que deseja gerar as informações e em qual formato será exportado
                 </p>
@@ -59,7 +60,7 @@ const Relatorio = () => {
                     </div>
                     <div className="col-4 d-flex">
                         <p className={style.SubTexto}>
-                            Tipo do Arquivo:
+                            Tipo do Arquivo
                         </p>
                         <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar a data de inicio e de fim do filtro, depois clique no botão 'Gerar Planilha'"} />
                     </div>
@@ -68,20 +69,16 @@ const Relatorio = () => {
                     <div className="col-4 d-flex align-items-center">
                         <DataRange />
                     </div>
-                    <div className="col-4 d-flex align-items-center">
-                        <select name="" id="" className="">
-                            <option value="">teste</option>
-                        </select>
-                        
-                        {/* <Select /> */}
+                    <div className="col-4 d-flex">
+                        <Select option={['CSV', 'TXT']} />
                     </div>
-                    <div className="col-4 d-flex align-items-center">
-                        <button>Exportar planilha</button>
+
+                    <div className="col-4 d-flex justify-content-end">
+                        <Botao mensagem={"Exportar Arquivo"} />
                     </div>
                 </div>
             </div>
-        </div >
-
+        </div>
     )
 }
 

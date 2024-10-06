@@ -14,4 +14,10 @@
 .SubTexto {
   font-size: medium;
   font-family: "Roboto", sans-serif;
+  margin-bottom: 5px;
+}
+
+.SpaceCima {
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
