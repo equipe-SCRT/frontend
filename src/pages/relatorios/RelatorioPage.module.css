@@ -15,12 +15,13 @@
 .SubTexto {
   font-size: medium;
   font-family: "Roboto", sans-serif;
-  margin-bottom: 5px;
+  margin-bottom: 1 rem;
+  padding-right: 0.5rem;
 }
 
 .SpaceCima {
-  margin-top: 2%;
-  margin-bottom: 2%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .RemoverEspacoDireito {

@@ -358,13 +358,13 @@ const CampanhaCadastroPage = () => {
 
   return (
     <>
-      <div style={{ display: "block", height: "100%" }}>
+      <div className='container-fluid'>
         
         <div className="form-section" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
             <h1 className="section-title" style={{ margin: "0px" }}>Campanhas</h1>
           </div>
-          <div className="card-body-form">
+          <div className="card-body-form" style={{}}>
             <p>Cadastro</p>
             <div className="product-form">
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
@@ -386,7 +386,7 @@ const CampanhaCadastroPage = () => {
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
                 <div className="form-group">
-                  <label htmlFor="unit">Data campanha <span className="required">*</span></label>
+                  <label htmlFor="unit">Data da campanha <span className="required">*</span></label>
                   <input style={{ width: '33vw' }}
                     type="date"
                     id="unit"

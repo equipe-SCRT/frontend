@@ -39,11 +39,11 @@ const Relatorio = () => {
                 <div className="">
                     <div>
                         <DataTable className="border mb-5" value={data}>
-                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="periodo" header="Período" headerClassName="p-3 mb-2 bg-light text-dark">
+                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="periodo" header="Período" sortable headerClassName="p-3 mb-2 bg-light text-dark">
                             </Column>
-                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="disponibilidade" header='Disponibilidade' headerClassName="p-3 mb-2 bg-light text-dark">
+                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="disponibilidade" sortable header='Disponibilidade' headerClassName="p-3 mb-2 bg-light text-dark">
                             </Column>
-                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="download" header="Download" headerClassName="p-3 mb-2 bg-light text-dark">
+                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="download" header="Download" sortable headerClassName="p-3 mb-2 bg-light text-dark">
                             </Column>
                         </DataTable>
                     </div>
@@ -63,7 +63,7 @@ const Relatorio = () => {
                     Selecione o período que deseja gerar as informações e em qual formato será exportado
                 </p>
             </div>
-            <div className="border p-3"  style={{ marginBottom: 400 }}>
+            <div className="border p-3" style={{ marginBottom: 400 }}>
                 <div className="row">
                     <div className="col-4 d-flex">
                         <p className={style.SubTexto}>
@@ -92,7 +92,6 @@ const Relatorio = () => {
                 </div>
             </div>
         </div>
-
     )
 }
 
