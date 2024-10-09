@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, 
   registerables, 
@@ -12,6 +12,8 @@ import { Chart,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { ptBR } from 'date-fns/locale';
+import Select from '../selectscrt/Select';
+
 Chart.register(  
   ...registerables, 
   CategoryScale, 
@@ -23,9 +25,21 @@ Chart.register(
   Legend );
 
 const GraficoLinha = ({ data, cor1, cor2, titulo, label1, label2 }) => {
-    const labels = data.map(item => item.mes);
-    const dataValues1 = data.map(item => item.count);
-    const dataValues2 = data.map(item => item.count);
+    const [selectedFilter, setSelectedFilter] = useState('');
+    const [filteredData, setFilteredData] = useState(data);
+
+    useEffect(() => {
+        if (selectedFilter) {
+            const newData = data.filter(item => item.category === selectedFilter);
+            setFilteredData(newData);
+        } else {
+            setFilteredData(data);
+        }
+    }, [selectedFilter, data]);
+
+    const labels = filteredData.map(item => item.mes);
+    const dataValues1 = filteredData.map(item => item.count);
+    const dataValues2 = filteredData.map(item => item.count2);
 
     const dados = {
         labels: labels,
@@ -83,6 +97,20 @@ const GraficoLinha = ({ data, cor1, cor2, titulo, label1, label2 }) => {
     return (
         <div style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px" }}>
             <h5>{titulo}</h5>
+            <Select
+                options={[
+                    { value: 'categoria1', label: 'Categoria 1' },
+                    { value: 'categoria2', label: 'Categoria 2' },
+                ]}
+                onChange={setSelectedFilter}
+            />
+            <Select
+                options={[
+                    { value: 'categoria1', label: 'Categoria 1' },
+                    { value: 'categoria2', label: 'Categoria 2' },
+                ]}
+                onChange={setSelectedFilter}
+            />
             <Line data={dados} options={options} />
         </div>
     );
