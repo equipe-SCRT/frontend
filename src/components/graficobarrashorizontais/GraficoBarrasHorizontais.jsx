@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import Select from '../selectscrt/Select';
+import SelectScrt from "../../components/select/SelectScrt";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -20,8 +20,8 @@ ChartJS.register(
     Legend
 );
 
-const GraficoBarrasHorizontais = ({ data, titulo, label }) => {
-    const [selectedFilter, setSelectedFilter] = useState('Arroz');
+const GraficoBarrasHorizontais = ({ data, titulo, label, selectObj, selectFunc }) => {
+    const [selectedFilter, setSelectedFilter] = useState('');
 
     const filteredData = selectedFilter
         ? data[selectedFilter]
@@ -69,14 +69,11 @@ const GraficoBarrasHorizontais = ({ data, titulo, label }) => {
     return (
         <div style={{ marginTop: "10px", padding: "10px", height: "100%" }}>
             <h5 style={{ color: "#21272A" }}><strong>{titulo}</strong></h5>
-            <Select
-                options={[
-                    { value: 'Arroz', label: 'Arroz' },
-                    { value: 'Feijão', label: 'Feijão' },
-                    // Adicione mais opções conforme necessário
-                ]}
-                onChange={(option) => setSelectedFilter(option.value)}
-            />
+            {selectObj != undefined && <>
+        <SelectScrt
+          dados={selectObj}
+          onChange={selectFunc}
+        /></>}
             <Bar data={dados} options={options} />
         </div>
     );
