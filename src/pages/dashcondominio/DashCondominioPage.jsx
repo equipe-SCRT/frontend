@@ -90,15 +90,15 @@ const DashCondominioPage = () => {
           <Row>
             <Col md lg={12}>
               <div>
-                <GraficoLinha data={dadosEstoque} cor={'#22CC52'} titulo={'Quantidade total de alimentos arrecadados nos condomínios'} label={'Quantidade'} />
-                <GraficoLinhaComparativo data={dadosVencidosPorMes} cor={'#FF5555'} titulo={'Quantidade de doações variadas por condomínios'} label={'Quantidade'} />
+                <GraficoLinha data={dadosEstoque} cores={'#22CC52'} titulo={'Quantidade total de alimentos arrecadados nos condomínios'} label={'Quantidade'} />
+                <GraficoLinhaComparativo data={dadosVencidosPorMes} cores={'#FF5555'} titulo={'Quantidade de doações variadas por condomínios'} label={'Quantidade'} />
               </div>
             </Col>
           </Row>
           <Row>
             <Col md lang={12}>
               <div>
-                <GraficoBarra data={dadosEstoque} cor={'#22CC52'} titulo={'Quantidade de produto por condomínio'} label={'Quantidade'} />
+                <GraficoBarra data={dadosEstoque} cores={'#22CC52'} titulo={'Quantidade de produto por condomínio'} label={'Quantidade'} />
               </div>
             </Col>
           </Row>
