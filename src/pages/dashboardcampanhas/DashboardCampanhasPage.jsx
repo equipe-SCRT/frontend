@@ -5,10 +5,9 @@ import "./DashboardCampanhas.module.css";
 import GraficoLinha from "../../components/graficolinha/GraficoLinha";
 import CardScrt from "../../components/cardscrt/CardScrt";
 import ListaBarraProgresso from "../../components/listabarraprogresso/ListaBarraProgresso";
-import NavBar from "../components/navbar.component";
 import GraficoBarrasHorizontais from "../../components/graficobarrashorizontais/GraficoBarrasHorizontais";
 import SelectData from "../../components/selectdata/SelectData";
-import SelectCampanha from "../../components/selectcampanha/SelectCampanha";
+import SelectScrt from "../../components/select/SelectScrt";
 
 const DashboardCampanhas = () => {
   const [
@@ -202,8 +201,8 @@ const DashboardCampanhas = () => {
   // Filtra os dados de qtdAlimentosArrecadadosPorCampanha de acordo com a campanha selecionada
   const dadosFiltrados = selectedCampanha
     ? qtdAlimentosArrecadadosPorCampanha.filter(
-        (dado) => dado.id === selectedCampanha.id
-      )
+      (dado) => dado.id === selectedCampanha.id
+    )
     : [];
 
   // Transformar os dados filtrados para o formato esperado pelo GraficoLinha
@@ -215,48 +214,53 @@ const DashboardCampanhas = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%", marginBottom: "100px" }}>
-        <NavBar />
-        <div className="container" style={{ marginTop: "100px" }}>
+
+        <Col md lg={10} style={{ marginTop: "100px" }}>
           <Row>
-              <CardScrt
-                legenda="Selecione a Campanha"
-                isCampanhaSelected={
-                  <SelectCampanha
-                    dadosCampanhas={dadosCampanhas}
-                    onChange={handleCampanhaChange}
-                  />
-                }
-                bgColor="#D3D3D3"
-              />
-              <CardScrt
-                legenda="Selecione a Data"
-                isDataSelected={<SelectData onChange={handleDateChange} />}
-                bgColor="#5FED6D"
-              />
-              <CardScrt
-                legenda="Quantidade de Meta Alcançada"
-                info={
-                  selectedCampanha
-                    ? `${selectedCampanha.qtdArrecadada} / ${selectedCampanha.meta}`
-                    : "N/A"
-                }
-                bgColor="#FDEA3C"
-              />
-              <CardScrt
-                legenda="Total de Alimentos Vencidos"
-                info={`${somaCountDadosVencidos} Unidade(s)`}
-                bgColor="#ED8686"
-              />
-           
+            <CardScrt
+              legenda="Selecione a Campanha"
+              isCampanhaSelected={
+                <SelectScrt
+                  dados={dadosCampanhas}
+                  onChange={handleCampanhaChange}
+                />
+              }
+              bgColor="#D3D3D3"
+            />
+            <CardScrt
+              legenda="Selecione a Data"
+              isDataSelected={<SelectData onChange={handleDateChange} />}
+              bgColor="#5FED6D"
+            />
+            <CardScrt
+              legenda="Quantidade de Meta Alcançada"
+              info={
+                selectedCampanha
+                  ? `${selectedCampanha.qtdArrecadada} / ${selectedCampanha.meta}`
+                  : "N/A"
+              }
+              bgColor="#FDEA3C"
+            />
+            <CardScrt
+              legenda="Total de Alimentos Vencidos"
+              info={`${somaCountDadosVencidos} Unidade(s)`}
+              bgColor="#ED8686"
+            />
           </Row>
           <Row>
             <Col md lg={6}>
               <div>
                 <GraficoLinha
                   data={qtdAlimentosArrecadadosPorCampanhaMock}
-                  cor={"#22CC52"}
+                  cores={["#22CC52"]}
                   titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
                   label={"Quantidade"}
+                />
+                <GraficoLinha
+                  data={qtdDoacoesVariadasPorCampanhas}
+                  cores={["#22CC52", "#4444FF"]}
+                  titulo={"Quantidade de Doações Variadas por Campanhas"}
+                  label={["Escola Viver", "Escola Viva Verde"]}
                 />
               </div>
             </Col>
@@ -298,8 +302,8 @@ const DashboardCampanhas = () => {
               </div>
             </Col>
           </Row>
-        </div>
-      </div>
+        </Col>
+      </div >
     </>
   );
 };

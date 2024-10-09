@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./TipoCestaPage.module.css"
-import NavBar from '../components/navbar.component';
 import Swal from 'sweetalert2';
 
 var pilha = [];
@@ -246,7 +245,7 @@ const TipoCestaCadastro = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%" }}>
-        <NavBar />
+        
         <div className="form-section" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
             <h1 className="section-title" style={{ margin: "0px" }}>Tipo de cestas</h1>

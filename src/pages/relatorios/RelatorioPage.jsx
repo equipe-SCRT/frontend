@@ -1,5 +1,4 @@
 import style from "./RelatorioPage.module.css";
-import NavBar from '../components/navbar.component';
 import * as React from "react";
 import LineTable from "../components/LineTable";
 import Select from "../components/SelectPicker";
@@ -10,7 +9,7 @@ const Relatorio = () => {
 
     return (
         <div style={{ display: "block", height: "100%" }}>
-            <NavBar />
+            
             <div className="form-section" id='form-register'>
                 <div className='title-style'>
                     <h1 className="title-section" style={{ margin: "0px" }}>Relatórios</h1>

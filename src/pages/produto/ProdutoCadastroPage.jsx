@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import NavBar from "../components/navbar.component";
-import "./ProdutoCadastroPage.css";
-import engrenagem from "../../assets/images/engrenagem.svg";
-import informacao from "../../assets/images/informacao.svg";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './ProdutoCadastroPage.css';
+import engrenagem from '../../assets/images/engrenagem.svg';
+import informacao from '../../assets/images/informacao.svg';
 
 const ProdutosCadastro = () => {
   const [produtos, setProdutos] = useState([]);
@@ -82,7 +81,6 @@ const ProdutosCadastro = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%" }}>
-        <NavBar />
         <div className="form-section" id="form-register">
           <div className="row btn-header">
             <div className="col-6">

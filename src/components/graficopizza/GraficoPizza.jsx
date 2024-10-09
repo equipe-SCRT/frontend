@@ -1,32 +1,61 @@
-import React from 'react';
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import React from "react";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart,
+  registerables,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import "chartjs-adapter-date-fns";
+import { ptBR } from "date-fns/locale";
+Chart.register(
+  ...registerables,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-// Register necessary components with ChartJS
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-const GraficoPizza = ({titulo, data}) => {
+const GraficoPizza = ({ titulo, data }) => {
+    console.log(data)
     const dados = {
-        labels: ['30 dias', '15 dias'],
+        labels: ['Produtos'],
         datasets: [
             {
-                label: 'Quantidade',
-                data: data,
+                label: 'Vencimento em 30 Dias',
+                data: [data[0]],
                 backgroundColor: [
-                    '#0BDC2B',
-                    '#F0A202'
+                    '#0BDC2B'
                 ],
                 borderColor: [
-                    '#0BDC2B',
-                    '#F0A202'
+                    '#0BDC2B'
                 ],
                 borderWidth: 1,
             },
+            {
+                label: 'Vencimento em 15 Dias',
+                data: [data[1]],
+                backgroundColor: [
+                    '#F0A202'
+                ],
+                borderColor: [
+                    '#F0A202'
+                ],
+                borderWidth: 1,
+            }
         ],
     };
 
     const options = {
-        responsive: true,
+        indexAxis: 'y',
         plugins: {
             legend: {
                 position: 'top',
@@ -35,18 +64,21 @@ const GraficoPizza = ({titulo, data}) => {
                 enabled: true,
             },
         },
+        barThickness: 40
     };
 
     return (
 
-        <>
-            <div style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px", height:"100%", display:"flex", justifyContent:"center"}}>
-                <div style={{width:"50%"}}>
-                <h5>{titulo}</h5>
-                <Pie data={dados} options={options} />
-                </div>
+            <div
+                style={{ marginTop: "10px", padding: "10px" }}
+            >
+                <h5 style={{ color: "#21272A" }}>
+                    <strong>{titulo}</strong>
+                </h5>
+                <Bar data={dados} options={options} />
             </div>
-        </>
+
+
     );
 
 };
