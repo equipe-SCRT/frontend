@@ -343,108 +343,105 @@ const ProdutoUnitarioCadastro = () => {
 
   return (
     <>
-      <div style={{ display: "block", height: "100%" }}>
-
-        <div className="container" style={{ marginLeft: "1%", marginTop: "5%", width: "95%" }}>
-          <div className="row" style={{marginBottom: "2%"}}>
-            <div className="col-6">
-              <h1 className="section-title" style={{ margin: "0px" }}>Lotes de Produtos</h1>
-            </div>
-            <div className="col-6 d-flex justify-content-lg-end">
-              <button className="submit-btn" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "80%", margin: "0" }}>Cadastrar um produto novo</button>
-            </div>
+      <div className="base-pag" style={{marginLeft: "2%", marginRight: "2%"}}>
+        <div className="row" style={{ marginBottom: "2%" }}>
+          <div className="col-6">
+            <h1 className="section-title" style={{ margin: "0px" }}>Lotes de Produtos</h1>
           </div>
+          <div className="col-6 d-flex justify-content-lg-end">
+            <button className="submit-btn" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "80%", margin: "0" }}>Cadastrar um produto novo</button>
+          </div>
+        </div>
 
-          <div className="row">
-            <div className="form-section" id='form-register' style={{ margin: "0px", marginRight: "2%", width: "100%"}}>
-              <div className="card-body-form" style={{ width: "100%" }}>
-                <div className="row" style={{ marginBottom: "2%" }}>
-                  <p>Cadastro de produtos unitários</p>
-                </div>
-                <div className="product-form">
-                  <div className="row gap-40" style={{ display: 'flex', flexDirection: 'row', gap: "30px" }}>
-                    <div className="col-3">
-                      <div className="form-group" id='name'>
-                        <label htmlFor="productName">Nome <span className="required">*</span></label>
-                        <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)}>
-                          {getNomeProdutos}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-3">
-                      <div className="form-group">
-                        <label htmlFor="productType">Data validade <span className="required">*</span></label>
-                        <input
-                          type="date"
-                          id="unit"
-                          name="unit"
-                          onChange={(e) => setValidade(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-
-                    <div className="col-3">
-                      <div className="form-group">
-                        <label htmlFor="unit">Quantidade <span className="required">*</span></label>
-                        <input
-                          type="number"
-                          id="unit"
-                          name="unit"
-                          onChange={(e) => setQuantidade(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row" style={{ gap: "30px" }}>
-                    <div className="col-3">
-                      <div className="form-group">
-                        <label htmlFor="unit">Origem <span className="required">*</span></label>
-                        <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)} >
-                          {getOrigemNome}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-3">
-                      <div className="form-group">
-                        <label htmlFor="unit">Produto em conforme: <span className="required">*</span></label>
-                        <select name="origemSel" id="origemSel" onChange={(e) => setAtivo(e.target.value)} >
-                          <option value="1">Sim</option>
-                          <option value="2">Não</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-5 d-flex justify-content-lg-end" style={{ marginLeft: "2%" }}>
-                      <button onClick={salvar} className="submit-btn" style={{width: "120px", height:"60%"}}>Cadastrar</button>
-                    </div>
-                  </div>
-                </div>
+        <div className="row">
+          <div className="form-section" id='form-register' style={{ margin: "0px", marginRight: "2%", width: "100%" }}>
+            <div className="card-body-form" style={{ width: "100%" }}>
+              <div className="row" style={{ marginBottom: "2%" }}>
+                <p>Cadastro de produtos unitários</p>
               </div>
-            </div>
-          </div>
-            <div className="row">
-              <div className="table-section" style={{ margin: "0px", marginRight: "2%", width: "100%"}}>
-                <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9', width: "100%" }}>
-                  <p className="card-description">Listagem</p>
-                  <div className="table-responsive">
-                    <table className="table table-striped">
-                      <thead>
-                        <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                        <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                        <th>Validade <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                        <th>Origem <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                        <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                      </thead>
-                      <tbody>
-                        {getProdutos}
-                      </tbody>
-                    </table>
+              <div className="product-form">
+                <div className="row gap-40" style={{ display: 'flex', flexDirection: 'row', gap: "30px" }}>
+                  <div className="col-3">
+                    <div className="form-group" id='name'>
+                      <label htmlFor="productName">Nome <span className="required">*</span></label>
+                      <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)}>
+                        {getNomeProdutos}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label htmlFor="productType">Data validade <span className="required">*</span></label>
+                      <input
+                        type="date"
+                        id="unit"
+                        name="unit"
+                        onChange={(e) => setValidade(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label htmlFor="unit">Quantidade <span className="required">*</span></label>
+                      <input
+                        type="number"
+                        id="unit"
+                        name="unit"
+                        onChange={(e) => setQuantidade(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row" style={{ gap: "30px" }}>
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label htmlFor="unit">Origem <span className="required">*</span></label>
+                      <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)} >
+                        {getOrigemNome}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label htmlFor="unit">Produto em conforme: <span className="required">*</span></label>
+                      <select name="origemSel" id="origemSel" onChange={(e) => setAtivo(e.target.value)} >
+                        <option value="1">Sim</option>
+                        <option value="2">Não</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-5 d-flex justify-content-lg-end" style={{ marginLeft: "2%" }}>
+                    <button onClick={salvar} className="submit-btn" style={{ width: "120px", height: "60%" }}>Cadastrar</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div className="row">
+          <div className="table-section" style={{ margin: "0px", marginRight: "2%", width: "100%" }}>
+            <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9', width: "100%" }}>
+              <p className="card-description">Listagem</p>
+              <div className="table-responsive">
+                <table className="table table-striped">
+                  <thead>
+                    <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
+                    <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                    <th>Validade <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                    <th>Origem <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                    <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
+                  </thead>
+                  <tbody>
+                    {getProdutos}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
