@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { format } from 'date-fns'
+import React, { useEffect, useState } from "react";
+import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import NavBar from "../components/navbar.component";
 import "./CestaCadastroPage.css";
@@ -13,6 +14,7 @@ const CestasCadastro = () => {
   const [qtdCestasMontadas, setQtdCestasMontadas] = useState("");
   const [tipoCestaId, setTipoCestaId] = useState("");
   const [dataMontagem, setDataMontagem] = useState("");
+  const navigate = useNavigate();
 
   const api = axios.create({
     baseURL: "http://localhost:8080",
@@ -22,6 +24,10 @@ const CestasCadastro = () => {
       "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
     },
   });
+
+  const handleRedirect = () => {
+    navigate('/tipos-cestas/cadastro');
+  };
 
   async function handleCestas() {
     try {
@@ -47,8 +53,8 @@ const CestasCadastro = () => {
   }, []);
 
   const formatDate = (dateString) => {
-    return format(new Date(dateString), 'dd/MM/yyyy')
-  }
+    return format(new Date(dateString), 'dd/MM/yyyy');
+  };
 
   async function cadastrar(evento) {
     evento.preventDefault();
@@ -78,27 +84,23 @@ const CestasCadastro = () => {
       <div style={{ display: "block", height: "100%" }}>
         <NavBar />
         <div className="form-section" id="form-register">
-          <div className="btn-header">
-            <h1 className="section-title">Cestas</h1>
-            <button type="submit" className="submit-btn-header">
-              Cadastrar Tipo Cesta
-            </button>
+          <div className="row btn-header">
+            <div className="col-6">
+              <h1 className="section-title">Cestas</h1>
+            </div>
+            <div className="col-6 d-flex justify-content-end">
+              <button type="button" className="submit-btn-header" onClick={handleRedirect}>
+                Cadastrar Tipo Cesta
+              </button>
+            </div>
           </div>
           <div className="card-body-form">
-            <p>
-              Cadastro
-              <img src={informacao} alt="" height="20px" />
-            </p>
+            <div className="row">
+              <p>Cadastro</p>
+            </div>
             <form className="product-form" onSubmit={cadastrar}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-                className="form-up"
-              >
-                <div className="form-group">
+              <div className="row form-up">
+                <div className="col-md-6 form-group">
                   <label htmlFor="productName">
                     Tipo de Cesta <span className="required">*</span>
                   </label>
@@ -107,6 +109,7 @@ const CestasCadastro = () => {
                     name="productName"
                     value={tipoCestaId}
                     onChange={(e) => setTipoCestaId(e.target.value)}
+                    className="form-control"
                   >
                     <option value="">-</option>
                     {tiposCestas.length > 0 ? (
@@ -120,10 +123,9 @@ const CestasCadastro = () => {
                     )}
                   </select>
                 </div>
-                <div className="form-group">
+                <div className="col-md-6 form-group">
                   <label htmlFor="productType">
-                    Data da Montagem <span className="required">*</span>{" "}
-                    <img src={informacao} alt="" height="15px" />
+                    Data da Montagem <span className="required">*</span>
                   </label>
                   <input
                     type="date"
@@ -131,21 +133,14 @@ const CestasCadastro = () => {
                     name="productType"
                     value={dataMontagem}
                     onChange={(e) => setDataMontagem(e.target.value)}
-                  ></input>
+                    className="form-control"
+                  />
                 </div>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-                className="form-down"
-              >
-                <div className="form-group">
+              <div className="row form-down">
+                <div className="col-md-6 form-group">
                   <label htmlFor="unitQuantity">
-                    Quantidade de Cestas Montadas{" "}
-                    <span className="required">*</span>
+                    Quantidade de Cestas Montadas <span className="required">*</span>
                   </label>
                   <input
                     type="number"
@@ -153,110 +148,62 @@ const CestasCadastro = () => {
                     name="unitQuantity"
                     value={qtdCestasMontadas}
                     onChange={(e) => setQtdCestasMontadas(e.target.value)}
+                    className="form-control"
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="lot">
-                    Lote <span className="required">*</span>
-                  </label>
+                <div className="col-md-6 form-group">
+                  <label htmlFor="lot">Lote</label>
                   <input
                     type="text"
                     id="lot"
                     name="lot"
                     value={lote}
                     onChange={(e) => setLote(e.target.value)}
+                    className="form-control"
                   />
                 </div>
               </div>
-              <div className="btn-end">
-                <button type="submit" className="submit-btn">
-                  Cadastrar
-                </button>
+              <div className="row btn-end">
+                <div className="col-12 d-flex justify-content-end">
+                  <button type="submit" className="submit-btn btn btn-primary">
+                    Cadastrar Cesta
+                  </button>
+                </div>
               </div>
             </form>
           </div>
         </div>
         <div className="table-section">
-          <div
-            className="card-body"
-            style={{ border: "1px solid #DDE1E6", backgroundColor: "# f9f9f9" }}
-          >
+          <div className="card-body" style={{ border: "1px solid #DDE1E6", backgroundColor: "#f9f9f9" }}>
             <p className="card-description">Listagem</p>
             <div className="table-responsive">
               <table className="table table-striped">
                 <thead>
                   <tr>
-                    <th>
-                      #{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="14px"
-                        viewBox="0 -960 960 960"
-                        width="14px"
-                        fill="#000000"
-                      >
-                        <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
-                      </svg>
-                    </th>
-                    <th>
-                      Tipo de Cesta{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="14px"
-                        viewBox="0 -960 960 960"
-                        width="14px"
-                        fill="#000000"
-                      >
-                        <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
-                      </svg>
-                    </th>
-                    <th>
-                      Data da Montagem{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="14px"
-                        viewBox="0 -960 960 960"
-                        width="14px"
-                        fill="#000000"
-                      >
-                        <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
-                      </svg>
-                    </th>
-                    <th>
-                      Lote{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        height="14px"
-                        viewBox="0 -960 960 960"
-                        width="14px"
-                        fill="#000000"
-                      >
-                        <path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" />
-                      </svg>
-                    </th>
+                    <th>#</th>
+                    <th>Tipo de Cesta</th>
+                    <th>Data da Montagem</th>
+                    <th>Lote</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {cestas.length > 0 ? (
                     cestas.map((cesta, index) => (
-                      console.log(cesta),
                       <tr key={index}>
                         <td>{cesta.id}</td>
                         <td>{cesta.tipoCesta?.nome}</td>
                         <td>{formatDate(cesta.dataMontagem)}</td>
                         <td>{cesta.lote}</td>
                         <td style={{ width: "5px" }}>
-                          <img
-                            src={engrenagem}
-                            alt="engrenagem"
-                            height="20px"
-                          />
+                          <img src={engrenagem} alt="engrenagem" height="20px" />
                         </td>
                       </tr>
                     ))
                   ) : (
-                    <span></span>
+                    <tr>
+                      <td colSpan="5">Nenhuma cesta encontrada</td>
+                    </tr>
                   )}
                 </tbody>
               </table>
