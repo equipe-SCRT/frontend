@@ -65,8 +65,6 @@ const DashCondominioPage = () => {
       }
     };
 
-    // /arrecadados-x-vencidos
-
     fetchDadosEstoque();
     fetchDadosVencidosPorMes();
     fetchDadosCestasProduzidas();
@@ -76,8 +74,8 @@ const DashCondominioPage = () => {
 
   return (
     <>
-      <div style={{ display: "block", height: "100%", marginBottom: "100px" }}>
-        <Col md lg={10} style={{ marginTop: "100px" }}>
+      <Col md lg={12}>
+        <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
           <Row>
             <CardScrt legenda="Selecione o Condomínio" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
             <CardScrt legenda="Total de Alimentos Arrecadados" info={dadosEstoque.length > 0 ? dadosEstoque[dadosEstoque.length - 1].count : 0} bgColor="#5FED6D" />
@@ -103,13 +101,13 @@ const DashCondominioPage = () => {
               </div>
             </Col>
             <Col md lang={6}>
-              <div style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px", height: "100%" }}>
-                <ListaBarraProgresso titulo={"Análise de alimentos por condomínio"} itens={dadosArrecadadosXVencidos}/>
+              <div style={{ marginTop: "10px", padding: "10px", height: "100%" }}>
+                <ListaBarraProgresso titulo={"Análise de alimentos por condomínio"} itens={dadosArrecadadosXVencidos} />
               </div>
             </Col>
           </Row>
         </Col>
-      </div>
+      </Col>
     </>
   );
 }
