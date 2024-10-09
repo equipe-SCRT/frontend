@@ -75,7 +75,7 @@ const GraficoBarra = ({ data, cor, titulo, label }) => {
     };
 
     return (
-        <div style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px" }}>
+        <div style={{ marginTop: "10px", padding: "10px" }}>
             <h5>{titulo}</h5>
             <Select
                 options={[

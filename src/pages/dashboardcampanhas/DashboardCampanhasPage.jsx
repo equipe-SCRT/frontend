@@ -289,7 +289,6 @@ const DashboardCampanhas = () => {
             <Col md lg={6}>
               <div
                 style={{
-                  border: "1px solid #0005",
                   marginTop: "10px",
                   padding: "10px",
                   height: "100%",
