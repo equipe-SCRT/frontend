@@ -12,7 +12,7 @@ const ProdutoUnitarioCadastro = () => {
   let [getProdutos, setProdutos] = useState([]);
   let [getNomeProdutos, setNomeProdutos] = useState([]);
   let [getOrigemNome, setOrigemNome] = useState([]);
-  let [getNome, setNome] = useState("");
+  let [getNome, setNome] = useState(0);
   let [getValidade, setValidade] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
@@ -21,6 +21,7 @@ const ProdutoUnitarioCadastro = () => {
   let [getDateAlt, setDateAlt] = useState();
   let [getOrigAlt, setOrigAlt] = useState();
   let [getIdAlt, setIdAlt] = useState();
+  let [getAtivo, setAtivo] = useState();
   let navigate = useNavigate();
 
 
@@ -237,7 +238,7 @@ const ProdutoUnitarioCadastro = () => {
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
         listaNomes.push(
-          <option value={encontrados.data[i].nome}>{encontrados.data[i].nome}</option>
+          <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
         )
       }
       setNomeProdutos(listaNomes);
@@ -271,7 +272,6 @@ const ProdutoUnitarioCadastro = () => {
   async function salvar() {
     try {
       api.post("", {
-        nome: getNome,
         dataValidade: getValidade,
         quantidade: getQuantidade,
         peso: 5,
@@ -279,9 +279,7 @@ const ProdutoUnitarioCadastro = () => {
         ativo: true,
         unidadeMedidaId: 1,
         cestaId: 1,
-        produtoId: 1,
-        rotaId: 1,
-        metricaId: 1
+        produtoId: getNome,
       }).then(async (response) => {
 
         handleProdutos();
@@ -411,7 +409,7 @@ const ProdutoUnitarioCadastro = () => {
                     <div className="col-3">
                       <div className="form-group">
                         <label htmlFor="unit">Produto em conforme: <span className="required">*</span></label>
-                        <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)} >
+                        <select name="origemSel" id="origemSel" onChange={(e) => setAtivo(e.target.value)} >
                           <option value="1">Sim</option>
                           <option value="2">Não</option>
                         </select>
