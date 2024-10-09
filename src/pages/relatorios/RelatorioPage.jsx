@@ -26,7 +26,6 @@ const Relatorio = () => {
 
     ]
     return (
-
         <div className="container-fluid mb-5" >
             <div className={style.TituloPrincipal}>
                 <h1>Relatorio</h1>

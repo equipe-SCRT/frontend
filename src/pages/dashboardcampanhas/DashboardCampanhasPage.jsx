@@ -5,17 +5,24 @@ import "./DashboardCampanhas.module.css";
 import GraficoLinha from "../../components/graficolinha/GraficoLinha";
 import CardScrt from "../../components/cardscrt/CardScrt";
 import ListaBarraProgresso from "../../components/listabarraprogresso/ListaBarraProgresso";
-import NavBar from "../components/navbar.component";
 import GraficoBarrasHorizontais from "../../components/graficobarrashorizontais/GraficoBarrasHorizontais";
 import SelectData from "../../components/selectdata/SelectData";
-import SelectCampanha from "../../components/selectcampanha/SelectCampanha";
+import SelectScrt from "../../components/select/SelectScrt";
 
 const DashboardCampanhas = () => {
-  const [qtdAlimentosArrecadadosPorCampanha, setQtdAlimentosArrecadadosPorCampanha] = useState([]);
+  const [
+    qtdAlimentosArrecadadosPorCampanha,
+    setQtdAlimentosArrecadadosPorCampanha,
+  ] = useState([]);
   const [dadosVencidosPorMes, setDadosVencidosPorMes] = useState([]);
   const [dadosCampanhas, setDadosCampanhas] = useState([]);
-  const [dadosAlimentosVencimento15E30Dias,setDadosAlimentosVencimento15E30Dias,] = useState([]);
-  const [dadosArrecadadosXVencidos, setDadosArrecadadosXVencidos] = useState([]);
+  const [
+    dadosAlimentosVencimento15E30Dias,
+    setDadosAlimentosVencimento15E30Dias,
+  ] = useState([]);
+  const [dadosArrecadadosXVencidos, setDadosArrecadadosXVencidos] = useState(
+    []
+  );
   const [selectedCampanha, setSelectedCampanha] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [qtdArrecadada, setQtdArrecadada] = useState(0);
@@ -29,63 +36,67 @@ const DashboardCampanhas = () => {
     { mes: "2024-05", count: 5 },
     { mes: "2024-06", count: 45 },
     { mes: "2024-07", count: 65 },
-    { mes: "2024-09", count: 40 }
-];
+    { mes: "2024-09", count: 40 },
+  ];
 
-const qtdDoacoesVariadasPorCampanhas = [
-  [
-    { mes: "2024-01", count: 10 },
-    { mes: "2024-02", count: 30 },
-    { mes: "2024-03", count: 50 },
-    { mes: "2024-04", count: 70 },
-    { mes: "2024-05", count: 20 },
-    { mes: "2024-06", count: 45 },
-    { mes: "2024-07", count: 65 },
-    { mes: "2024-08", count: 25 },
-    { mes: "2024-09", count: 85 },
-    { mes: "2024-10", count: 92 },
-    { mes: "2024-11", count: 19 },
-    { mes: "2024-12", count: 60 }
-  ],
-  [
-    { mes: "2024-01", count: 20 },
-    { mes: "2024-02", count: 68 },
-    { mes: "2024-03", count: 89 },
-    { mes: "2024-04", count: 23 },
-    { mes: "2024-05", count: 11 },
-    { mes: "2024-06", count: 60 },
-    { mes: "2024-07", count: 34 },
-    { mes: "2024-08", count: 74 },
-    { mes: "2024-09", count: 34 },
-    { mes: "2024-10", count: 84 },
-    { mes: "2024-11", count: 94 },
-    { mes: "2024-12", count: 40 }
-  ]
-];
+  const qtdDoacoesVariadasPorCampanhas = [
+    [
+      { mes: "2024-01", count: 10 },
+      { mes: "2024-02", count: 30 },
+      { mes: "2024-03", count: 50 },
+      { mes: "2024-04", count: 70 },
+      { mes: "2024-05", count: 20 },
+      { mes: "2024-06", count: 45 },
+      { mes: "2024-07", count: 65 },
+      { mes: "2024-08", count: 25 },
+      { mes: "2024-09", count: 85 },
+      { mes: "2024-10", count: 92 },
+      { mes: "2024-11", count: 19 },
+      { mes: "2024-12", count: 60 },
+    ],
+    [
+      { mes: "2024-01", count: 20 },
+      { mes: "2024-02", count: 68 },
+      { mes: "2024-03", count: 89 },
+      { mes: "2024-04", count: 23 },
+      { mes: "2024-05", count: 11 },
+      { mes: "2024-06", count: 60 },
+      { mes: "2024-07", count: 34 },
+      { mes: "2024-08", count: 74 },
+      { mes: "2024-09", count: 34 },
+      { mes: "2024-10", count: 84 },
+      { mes: "2024-11", count: 94 },
+      { mes: "2024-12", count: 40 },
+    ],
+  ];
 
-const qtdTesteMock = {
-  Arroz: [
-    { nome: "Colégio Felix", count: 30 },
-    { nome: "Escola Feliz", count: 70 },
-    { nome: "Escola Itaporã", count: 100 },
-    { nome: "Escola Villagio", count: 20 },
-    { nome: "Escola Viva Verda", count: 5 },
-],
-Feijão: [
-    { nome: "Colégio Felix", count: 50 },
-    { nome: "Escola Feliz", count: 60 },
-    { nome: "Escola Itaporã", count: 80 },
-    { nome: "Escola Villagio", count: 40 },
-    { nome: "Escola Viva Verda", count: 10 },
-],
-}
+  const qtdTesteMock = {
+    Arroz: [
+      { nome: "Colégio Felix", count: 30 },
+      { nome: "Escola Feliz", count: 70 },
+      { nome: "Escola Itaporã", count: 100 },
+      { nome: "Escola Villagio", count: 20 },
+      { nome: "Escola Viva Verda", count: 5 },
+    ],
+    Feijão: [
+      { nome: "Colégio Felix", count: 50 },
+      { nome: "Escola Feliz", count: 60 },
+      { nome: "Escola Itaporã", count: 80 },
+      { nome: "Escola Villagio", count: 40 },
+      { nome: "Escola Viva Verda", count: 10 },
+    ],
+  };
 
   const alimentosPorCampanha = [
     { nome: "Campanha Escola Viver - Arroz", arrecadado: 120, vencido: 40 },
     { nome: "Campanha Escola Villagio - Óleo", arrecadado: 100, vencido: 30 },
-    { nome: "Campanha Condominio Itaporã - Macarrão", arrecadado: 223, vencido: 23 },
+    {
+      nome: "Campanha Condominio Itaporã - Macarrão",
+      arrecadado: 223,
+      vencido: 23,
+    },
     { nome: "Campanha Condominio Itaporã - Sal", arrecadado: 100, vencido: 10 },
-  ]
+  ];
 
   const dadosPizza = [
     dadosAlimentosVencimento15E30Dias["vencimento30"],
@@ -110,9 +121,7 @@ Feijão: [
 
     const fetchQtdAlimentosArrecadadosPorCampanha = async () => {
       try {
-        const response = await api.get(
-          "campanhas"
-        );
+        const response = await api.get("campanhas");
         setQtdAlimentosArrecadadosPorCampanha(response.data);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
@@ -191,26 +200,28 @@ Feijão: [
 
   // Filtra os dados de qtdAlimentosArrecadadosPorCampanha de acordo com a campanha selecionada
   const dadosFiltrados = selectedCampanha
-    ? qtdAlimentosArrecadadosPorCampanha.filter((dado) => dado.id === selectedCampanha.id)
+    ? qtdAlimentosArrecadadosPorCampanha.filter(
+      (dado) => dado.id === selectedCampanha.id
+    )
     : [];
 
   // Transformar os dados filtrados para o formato esperado pelo GraficoLinha
-  const dadosGrafico = dadosFiltrados.map(dado => ({
+  const dadosGrafico = dadosFiltrados.map((dado) => ({
     mes: dado.mes,
-    count: dado.qtdArrecadada
+    count: dado.qtdArrecadada,
   }));
 
   return (
     <>
       <div style={{ display: "block", height: "100%", marginBottom: "100px" }}>
-        <NavBar />
+
         <Col md lg={10} style={{ marginTop: "100px" }}>
           <Row>
             <CardScrt
               legenda="Selecione a Campanha"
               isCampanhaSelected={
-                <SelectCampanha
-                  dadosCampanhas={dadosCampanhas}
+                <SelectScrt
+                  dados={dadosCampanhas}
                   onChange={handleCampanhaChange}
                 />
               }
@@ -237,25 +248,23 @@ Feijão: [
             />
           </Row>
           <Row>
-            <Col md lg={12}>
+            <Col md lg={6}>
               <div>
-              <GraficoLinha
+                <GraficoLinha
                   data={qtdAlimentosArrecadadosPorCampanhaMock}
-                  cor={"#22CC52"}
+                  cores={["#22CC52"]}
                   titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
                   label={"Quantidade"}
                 />
                 <GraficoLinha
                   data={qtdDoacoesVariadasPorCampanhas}
-                  cor={"#22CC52"}
+                  cores={["#22CC52", "#4444FF"]}
                   titulo={"Quantidade de Doações Variadas por Campanhas"}
                   label={["Escola Viver", "Escola Viva Verde"]}
                 />
               </div>
             </Col>
-          </Row>
-          <Row>
-            <Col md lg={12}>
+            <Col md lg={6}>
               <div>
                 <GraficoBarrasHorizontais
                   data={qtdTesteMock}
@@ -267,7 +276,17 @@ Feijão: [
             </Col>
           </Row>
           <Row>
-            <Col md lang={12}>
+            <Col md lg={6}>
+              <div>
+                <GraficoLinha
+                  data={qtdDoacoesVariadasPorCampanhas}
+                  cor={"#22CC52"}
+                  titulo={"Quantidade de Doações Variadas por Campanhas"}
+                  label={["Escola Viver", "Escola Viva Verde"]}
+                />
+              </div>
+            </Col>
+            <Col md lg={6}>
               <div
                 style={{
                   border: "1px solid #0005",
@@ -283,9 +302,8 @@ Feijão: [
               </div>
             </Col>
           </Row>
-          <Row></Row>
         </Col>
-      </div>
+      </div >
     </>
   );
 };
