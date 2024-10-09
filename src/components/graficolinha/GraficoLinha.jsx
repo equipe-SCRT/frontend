@@ -12,7 +12,6 @@ import {
   Legend,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
-import { ptBR } from "date-fns/locale";
 Chart.register(
   ...registerables,
   CategoryScale,
@@ -67,11 +66,11 @@ const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => 
       x: {
         type: "time",
         time: {
-          parser: "yyyy-MM", // Definindo o formato de data personalizado
-          tooltipFormat: "MMM yyyy", // Formato de tooltip
+          parser: "yyyy-MM",
+          tooltipFormat: "MMM yyyy",
           unit: "month",
           displayFormats: {
-            month: "MMM yyyy", // Formato de exibição para os rótulos do eixo x
+            month: "MMM yyyy",
           },
         },
         title: {
@@ -101,7 +100,7 @@ const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => 
       <h5 style={{ color: "#21272A" }}>
         <strong>{titulo}</strong>
       </h5>
-        {selectObj != undefined && <>
+      {selectObj != undefined && <>
         <SelectScrt
           dados={selectObj}
           onChange={selectFunc}

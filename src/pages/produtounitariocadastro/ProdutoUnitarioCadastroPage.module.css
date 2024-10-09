@@ -7,6 +7,10 @@
     margin-bottom: 2vh;
 }
 
+.base-pag{
+    margin: 0px 2% 0px 2%;
+}
+
 .product-form .form-group label {
     color: #21272A;
     font-family: "Roboto", sans-serif;
