@@ -269,7 +269,7 @@ const DashboardCampanhas = () => {
                 <GraficoBarrasHorizontais
                   data={qtdTesteMock}
                   titulo={"Quantidade de produto por campanha"}
-                  cor="#FF0000"
+                  cores="#FF0000"
                   label="Quantidade"
                 />
               </div>
@@ -280,7 +280,7 @@ const DashboardCampanhas = () => {
               <div>
                 <GraficoLinha
                   data={qtdDoacoesVariadasPorCampanhas}
-                  cor={"#22CC52"}
+                  cores={"#22CC52"}
                   titulo={"Quantidade de Doações Variadas por Campanhas"}
                   label={["Escola Viver", "Escola Viva Verde"]}
                 />
