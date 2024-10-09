@@ -1,9 +1,12 @@
+body{
+    overflow-x:hidden;
+}
+
 .cardScrt {
     border-radius: 5px !important;
     border: 4px solid;
     height: 100% !important;
     max-width: 95%;
-    overflow:hidden;
     text-align: justify;
     margin: auto;
     display: flex;

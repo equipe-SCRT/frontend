@@ -213,9 +213,7 @@ const DashboardCampanhas = () => {
 
   return (
     <>
-      <div style={{ display: "block", height: "100%", marginBottom: "100px" }}>
-
-        <Col md lg={10} style={{ marginTop: "100px" }}>
+        <Col md lg={11} className="m-auto" style={{ marginTop: "100px" }}>
           <Row>
             <CardScrt
               legenda="Selecione a Campanha"
@@ -249,60 +247,46 @@ const DashboardCampanhas = () => {
           </Row>
           <Row>
             <Col md lg={6}>
-              <div>
+              
                 <GraficoLinha
                   data={qtdAlimentosArrecadadosPorCampanhaMock}
                   cores={["#22CC52"]}
                   titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
                   label={"Quantidade"}
                 />
+                
+            </Col>
+            <Col md lg={6}>
+              
+                <GraficoBarrasHorizontais
+                  data={qtdTesteMock}
+                  titulo={"Quantidade de produto por campanha"}
+                  cores="#FF0000"
+                  label="Quantidade"
+                  selectObj={[{ id: 1, nome: "Arroz" }]}
+                />
+              
+            </Col>
+          </Row>
+          <Row>
+            <Col md lg={6}>
+            
                 <GraficoLinha
                   data={qtdDoacoesVariadasPorCampanhas}
                   cores={["#22CC52", "#4444FF"]}
                   titulo={"Quantidade de Doações Variadas por Campanhas"}
                   label={["Escola Viver", "Escola Viva Verde"]}
                 />
-              </div>
+              
             </Col>
             <Col md lg={6}>
-              <div>
-                <GraficoBarrasHorizontais
-                  data={qtdTesteMock}
-                  titulo={"Quantidade de produto por campanha"}
-                  cor="#FF0000"
-                  label="Quantidade"
-                />
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col md lg={6}>
-              <div>
-                <GraficoLinha
-                  data={qtdDoacoesVariadasPorCampanhas}
-                  cor={"#22CC52"}
-                  titulo={"Quantidade de Doações Variadas por Campanhas"}
-                  label={["Escola Viver", "Escola Viva Verde"]}
-                />
-              </div>
-            </Col>
-            <Col md lg={6}>
-              <div
-                style={{
-                  marginTop: "10px",
-                  padding: "10px",
-                  height: "100%",
-                }}
-              >
                 <ListaBarraProgresso
                   titulo={"Análise de Alimentos por Campanha"}
                   itens={alimentosPorCampanha}
                 />
-              </div>
             </Col>
           </Row>
         </Col>
-      </div >
     </>
   );
 };
