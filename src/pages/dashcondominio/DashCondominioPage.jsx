@@ -5,7 +5,7 @@ import './DashCondominio.module.css'
 import GraficoLinhaComparativo from '../../components/graficolinhacomparativo/GraficoLinhaComparativo'
 import CardScrt from '../../components/cardscrt/CardScrt'
 import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarraProgresso'
-import NavBar from '../components/navbar.component';
+import NavBar from '../../components/navbarscrt/NavBar';
 import GraficoBarra from '../../components/graficobarra/GraficoBarra';
 import GraficoLinha from '../../components/graficolinha/GraficoLinha';
 

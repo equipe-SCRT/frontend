@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import style from "./CondominioCadastroPage.module.css"
-import NavBar from "../components/navbar.component";
+import NavBar from "../../components/navbarscrt/NavBar";
 import Swal from "sweetalert2";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';

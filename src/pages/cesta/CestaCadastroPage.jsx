@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import NavBar from "../components/navbar.component";
+import NavBar from "../../components/navbarscrt/NavBar";
 import "./CestaCadastroPage.css";
 import engrenagem from "../../assets/images/engrenagem.svg";
 import informacao from "../../assets/images/informacao.svg";

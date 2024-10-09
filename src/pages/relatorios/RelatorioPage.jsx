@@ -1,5 +1,5 @@
 import style from "./RelatorioPage.module.css";
-import NavBar from '../components/navbar.component';
+import NavBar from '../../components/navbarscrt/NavBar';
 import * as React from "react";
 import LineTable from "../components/LineTable";
 import Select from "../components/SelectPicker";

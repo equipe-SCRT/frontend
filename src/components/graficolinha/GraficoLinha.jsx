@@ -24,7 +24,7 @@ Chart.register(
   Legend
 );
 
-const GraficoLinha = ({ data, cor, titulo, label }) => {
+const GraficoLinha = ({ data, cores, titulo, label }) => {
   let datasets = [];
   let labels = [];
   let unicoDataset = !Array.isArray(data[0]);
@@ -43,15 +43,14 @@ const GraficoLinha = ({ data, cor, titulo, label }) => {
     }
     labels.push(labels2);
     
-    let color = ["#22CC52", "#004AAD"]
 
     datasets.push({
       label: label[i],
-      backgroundColor: color[i] + "44",
-      borderColor: color[i],
+      backgroundColor: cores[i] + "44",
+      borderColor: cores[i],
       borderWidth: 1,
-      hoverBackgroundColor: cor,
-      hoverBorderColor: cor,
+      hoverBackgroundColor: cores[i],
+      hoverBorderColor: cores[i],
       data: dataValues,
     });
   });
@@ -87,12 +86,16 @@ const GraficoLinha = ({ data, cor, titulo, label }) => {
         },
       },
     },
-    plugins: {},
+    plugins: {
+      legend:{
+        display:false
+      }
+    },
   };
 
   return (
     <div
-      style={{ marginTop: "10px", padding: "10px", height: "100%" }}
+      style={{marginTop: "10px", padding: "10px" }}
     >
       <h5 style={{ color: "#21272A" }}>
         <strong>{titulo}</strong>

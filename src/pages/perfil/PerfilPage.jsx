@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavBar from "../components/navbar.component";
+import NavBar from "../../components/navbarscrt/NavBar";
 import "./PerfilPage.css";
 import perfilEditIcon from "../../assets/images/perfil-edit.svg";
 

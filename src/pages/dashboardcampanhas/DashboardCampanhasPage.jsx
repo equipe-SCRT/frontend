@@ -5,7 +5,7 @@ import "./DashboardCampanhas.module.css";
 import GraficoLinha from "../../components/graficolinha/GraficoLinha";
 import CardScrt from "../../components/cardscrt/CardScrt";
 import ListaBarraProgresso from "../../components/listabarraprogresso/ListaBarraProgresso";
-import NavBar from "../components/navbar.component";
+import NavBar from "../../components/navbarscrt/NavBar";
 import GraficoBarrasHorizontais from "../../components/graficobarrashorizontais/GraficoBarrasHorizontais";
 import SelectData from "../../components/selectdata/SelectData";
 import SelectCampanha from "../../components/selectcampanha/SelectCampanha";
@@ -254,9 +254,15 @@ const DashboardCampanhas = () => {
               <div>
                 <GraficoLinha
                   data={qtdAlimentosArrecadadosPorCampanhaMock}
-                  cor={"#22CC52"}
+                  cores={["#22CC52"]}
                   titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
                   label={"Quantidade"}
+                />
+                <GraficoLinha
+                  data={qtdDoacoesVariadasPorCampanhas} 
+                  cores={["#22CC52", "#4444FF"]}
+                  titulo={"Quantidade de Doações Variadas por Campanhas"}
+                  label={["Escola Viver", "Escola Viva Verde"]}
                 />
               </div>
             </Col>
