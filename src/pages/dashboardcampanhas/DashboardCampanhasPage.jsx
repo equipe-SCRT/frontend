@@ -201,8 +201,8 @@ const DashboardCampanhas = () => {
   // Filtra os dados de qtdAlimentosArrecadadosPorCampanha de acordo com a campanha selecionada
   const dadosFiltrados = selectedCampanha
     ? qtdAlimentosArrecadadosPorCampanha.filter(
-        (dado) => dado.id === selectedCampanha.id
-      )
+      (dado) => dado.id === selectedCampanha.id
+    )
     : [];
 
   // Transformar os dados filtrados para o formato esperado pelo GraficoLinha
@@ -214,14 +214,14 @@ const DashboardCampanhas = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%", marginBottom: "100px" }}>
-        
+
         <Col md lg={10} style={{ marginTop: "100px" }}>
           <Row>
             <CardScrt
               legenda="Selecione a Campanha"
               isCampanhaSelected={
                 <SelectScrt
-                dados={dadosCampanhas}
+                  dados={dadosCampanhas}
                   onChange={handleCampanhaChange}
                 />
               }
@@ -257,7 +257,7 @@ const DashboardCampanhas = () => {
                   label={"Quantidade"}
                 />
                 <GraficoLinha
-                  data={qtdDoacoesVariadasPorCampanhas} 
+                  data={qtdDoacoesVariadasPorCampanhas}
                   cores={["#22CC52", "#4444FF"]}
                   titulo={"Quantidade de Doações Variadas por Campanhas"}
                   label={["Escola Viver", "Escola Viva Verde"]}
@@ -302,8 +302,8 @@ const DashboardCampanhas = () => {
               </div>
             </Col>
           </Row>
-        </div>
-      </div>
+        </Col>
+      </div >
     </>
   );
 };

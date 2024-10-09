@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "./ColaboradoresCadastroPage.module.css"
+import "./VoluntariosCadastroPage.module.css"
 import Swal from 'sweetalert2';
 
 var pilha = [];
