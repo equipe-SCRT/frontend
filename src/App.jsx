@@ -11,7 +11,7 @@ import ProdutoUnitarioCadastro from "./pages/produtounitariocadastro/ProdutoUnit
 import CondominioCadastro from "./pages/condominiocadastro/CondominioCadastroPage"
 import ProdutoCadastro from "./pages/produto/ProdutoCadastroPage"
 import CestaCadastro from "./pages/cesta/CestaCadastroPage"
-import DashboardCampanhas from './pages/dasboardcampanhas/DashboardCampanhasPage';
+import DashboardCampanhas from './pages/dashboardcampanhas/DashboardCampanhasPage';
 import TestPage from './pages/TestePage';
 import VoluntariosCadastro from './pages/voluntarios/VoluntariosCadastroPage';
 import TipoCestaCadastro from './pages/tipo-cesta/TipoCestaCadastroPage';
