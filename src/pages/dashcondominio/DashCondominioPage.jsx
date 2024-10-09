@@ -5,7 +5,6 @@ import './DashCondominio.module.css'
 import GraficoLinhaComparativo from '../../components/graficolinhacomparativo/GraficoLinhaComparativo'
 import CardScrt from '../../components/cardscrt/CardScrt'
 import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarraProgresso'
-import NavBar from '../components/navbar.component';
 import GraficoBarra from '../../components/graficobarra/GraficoBarra';
 import GraficoLinha from '../../components/graficolinha/GraficoLinha';
 
@@ -78,7 +77,7 @@ const DashCondominioPage = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%", marginBottom: "100px" }}>
-        <NavBar />
+        
         {/* <Container> */}
         <Col md lg={10} style={{ marginTop: "100px" }}>
           <Row>

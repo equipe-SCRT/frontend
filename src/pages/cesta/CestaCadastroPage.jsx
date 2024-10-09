@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import NavBar from "../components/navbar.component";
 import "./CestaCadastroPage.css";
 import engrenagem from "../../assets/images/engrenagem.svg";
 import informacao from "../../assets/images/informacao.svg";
@@ -82,7 +81,7 @@ const CestasCadastro = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%" }}>
-        <NavBar />
+        
         <div className="form-section" id="form-register">
           <div className="row btn-header">
             <div className="col-6">

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./ProdutoUnitarioCadastroPage.module.css"
-import NavBar from '../components/navbar.component';
 import Swal from 'sweetalert2';
 
 var pilha = [];
@@ -345,7 +344,7 @@ const ProdutoUnitarioCadastro = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%" }}>
-        <NavBar />
+
         <div className="container" style={{ marginLeft: "1%", marginTop: "5%", width: "95%" }}>
           <div className="row" style={{marginBottom: "2%"}}>
             <div className="col-6">

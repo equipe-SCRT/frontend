@@ -1,92 +1,98 @@
 import style from "./RelatorioPage.module.css";
-import NavBar from '../components/navbar.component';
 import * as React from "react";
-import LineTable from "../components/LineTable";
 import Select from "../components/SelectPicker";
 import DataRange from "../components/dataRange/DateRange";
 import PopOver from "../components/PopOver";
+import Botao from "../components/button/Button"
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 const Relatorio = () => {
 
+    let data = [
+        { "periodo": "Janeiro", "disponibilidade": "Disponível", "download": "Relatório de Janeiro de 2024" },
+        { "periodo": "Fevereiro", "disponibilidade": "Disponível", "download": "Relatório de Fevereiro de 2024" },
+        { "periodo": "Março", "disponibilidade": "Disponível", "download": "Relatório de Março de 2024" },
+        { "periodo": "Abril", "disponibilidade": "Disponível", "download": "Relatório de Abril de 2024" },
+        { "periodo": "Maio", "disponibilidade": "Disponível", "download": "Relatório de Maio de 2024" },
+        { "periodo": "Junho", "disponibilidade": "Disponível", "download": "Relatório de Junho de 2024" },
+        { "periodo": "Julho", "disponibilidade": "Disponível", "download": "Relatório de Julho de 2024" },
+        { "periodo": "Agosto", "disponibilidade": "Disponível", "download": "Relatório de Agosto de 2024" },
+        { "periodo": "Setembro", "disponibilidade": "Disponível", "download": "Relatório de Setembro de 2024" },
+        { "periodo": "Outubro", "disponibilidade": "Indisponível", "download": "Relatório de Outubro de 2024" },
+        { "periodo": "Novembro", "disponibilidade": "Indisponível", "download": "Relatório de Novembro de 2024" },
+        { "periodo": "Dezembro", "disponibilidade": "Indisponível", "download": "Relatório de Dezembro de 2024" }
+
+
+    ]
     return (
-        <div style={{ display: "block", height: "100%" }}>
-            <NavBar />
-            <div className="form-section" id='form-register'>
-                <div className='title-style'>
-                    <h1 className="title-section" style={{ margin: "0px" }}>Relatórios</h1>
+        <div className="container-fluid mb-5" >
+            <div className={style.TituloPrincipal}>
+                <h1>Relatorio</h1>
+            </div>
+            <div className="row">
+                <div className="col-12 d-flex justify-content-between p-3">
+                    <p className={style.SubTitulo} >Listagem</p>
+                    <Select option={['2024', '2023']} />
+                </div>
+
+                <div className="">
+                    <div>
+                        <DataTable className="border mb-5" value={data}>
+                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="periodo" header="Período" headerClassName="p-3 mb-2 bg-light text-dark">
+                            </Column>
+                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="disponibilidade" header='Disponibilidade' headerClassName="p-3 mb-2 bg-light text-dark">
+                            </Column>
+                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="download" header="Download" headerClassName="p-3 mb-2 bg-light text-dark">
+                            </Column>
+                        </DataTable>
+                    </div>
+                </div>
+
+            </div>
+            <div className="row">
+                <div className="col-12 d-flex justify-content-end p-3">
+                    <Botao mensagem={"Importar Arquivo"} />
                 </div>
             </div>
-            <div className="table-section-full" style={{ margin: '30px' }}>
-                <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        <p className="card-description" style={{ margin: '15px', alignContent: "center" }}>Listagem</p>
-                        <p style={{ margin: "10px" }}>
-                            <Select />
+            <div className={style.TituloPrincipal}>
+                <h1>Gerar Arquivo</h1>
+            </div>
+            <div className={style.SpaceCima}>
+                <p className={style.SubTexto}>
+                    Selecione o período que deseja gerar as informações e em qual formato será exportado
+                </p>
+            </div>
+            <div className="border p-3"  style={{ marginBottom: 400 }}>
+                <div className="row">
+                    <div className="col-4 d-flex">
+                        <p className={style.SubTexto}>
+                            Período
                         </p>
+                        <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar a data de inicio e de fim do filtro de tempo"} />
+                    </div>
+                    <div className="col-4 d-flex">
+                        <p className={style.SubTexto}>
+                            Tipo do Arquivo
+                        </p>
+                        <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar o formato que será exportado a planilha"} />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-4 d-flex align-items-center">
+                        <DataRange />
+                    </div>
+                    <div className="col-4 d-flex align-items-center">
+                        <Select option={['CSV', 'TXT']} />
                     </div>
 
-                    <div className="table-responsive" >
-                        <table className="table table-striped">
-                            <thead >
-                                <th style={{ padding: '0px' }}>
-                                    <div style={{ display: "flex", cursor: "pointer", backgroundColor: '#F2F4F8', mmarginRight: "5px" }}>
-                                        Periodo
-                                        <span class="material-symbols-outlined" style={{ fontSize: "20px", marginLeft: "5px" }}>
-                                            arrow_downward
-                                        </span>
-                                    </div>
-                                </th>
-                                <th style={{ padding: '0px' }}>
-                                    <div style={{ display: "flex", cursor: "pointer", backgroundColor: '#F2F4F8' }}>
-                                        Disponibilidade
-                                        {/* <span class="material-symbols-outlined" >
-                                            arrow_upward
-                                        </span>  */}
-                                    </div>
-                                </th>
-                                <th style={{ padding: '0px' }}>
-                                    <div style={{ display: "flex", cursor: "pointer", backgroundColor: '#F2F4F8' }}>
-                                        Donwload
-                                        <span class="material-symbols-outlined">
-                                        </span>
-                                    </div>
-                                </th>
-                            </thead>
-                            <LineTable mes="Janeiro" disponibilidade="true" />
-                            <LineTable mes="Fevereiro" disponibilidade="true" />
-                            <LineTable mes="Março" disponibilidade="true" />
-                            <LineTable mes="Abril" disponibilidade="true" />
-                            <LineTable mes="Maio" disponibilidade="true" />
-                            <LineTable mes="Junho" disponibilidade="true" />
-                            <LineTable mes="Julho" disponibilidade="true" />
-                            <LineTable mes="Agosto" disponibilidade="true" />
-                            <LineTable mes="Setembro" disponibilidade="false" />
-                            <LineTable mes="Outbro" disponibilidade="false" />
-                            <LineTable mes="Novembro" disponibilidade="false" />
-                            <LineTable mes="Dezembro" disponibilidade="false" />
-                        </table>
+                    <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 0 }} >
+                        <Botao mensagem={"Exportar Arquivo"} />
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div className="form-section" id='form-register-excel'>
-                <div className="title-style">
-                    <h1 className="title-section" style={{ margin: "0px" }}> Excel</h1>
-                    <div style={{ display: "flex" }}>
-                        <p style={{ margin: "0px", font: "10px", alignContent: "center" }}>Selecione o período que deseja gerar as informações em formato excel </p>
-                        {/* <span class="material-symbols-outlined" style={{ cursor: "pointer", margin: "5px", marginTop: "0px" }}>
-                            help
-                        </span> */}
-                        <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar a data de inicio e de fim do filtro, depois clique no botão 'Gerar Planilha'"} />
-                    </div>
-                    <DataRange />
-                </div>
-            </div>
-
-            <div style={{ padding: "50px" }}></div>
-
-
-        </div >
     )
 }
 

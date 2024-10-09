@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import api from '../../api/api'
-import './Home.module.css'
-import GraficoLinha from '../../components/graficolinha/GraficoLinha'
-import GraficoPizza from '../../components/graficopizza/GraficoPizza'
-import CardScrt from '../../components/cardscrt/CardScrt'
-import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarraProgresso'
-import NavBar from '../components/navbar.component';
+import api from '../../api/api';
+import GraficoLinha from '../../components/graficolinha/GraficoLinha';
+import GraficoPizza from '../../components/graficopizza/GraficoPizza';
+import CardScrt from '../../components/cardscrt/CardScrt';
+import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarraProgresso';
+import styles from './Home.module.css'
 
 
 const HomePage = () => {
@@ -76,42 +75,42 @@ const HomePage = () => {
 
   return (
     <>
-      <div style={{ display: "block", height: "100%", marginBottom: "100px" }}>
-        <NavBar />
-        {/* <Container> */}
-        <Col md lg={10} style={{ marginTop: "100px" }}>
-          <Row>
 
+      <Col md lg={12}>
+        {/* <Container> */}
+        <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
+
+          <Row>
             <CardScrt legenda="Quantidade de Cestas Produzidas" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
             <CardScrt legenda="Quantidade em Estoque" info={dadosEstoque.length > 0 ? dadosEstoque[dadosEstoque.length - 1].count : 0} bgColor="#5FED6D" />
-            <CardScrt legenda="Produtos Próximos do Vencimento" info={dadosPizza[1]} bgColor="#FDEA3C" />
-            <CardScrt legenda="Alimentos Vencidos" info={somaCountDadosVencidos} bgColor="#ED8686" />
+            {/* endpoint para produtos  */}
+            <CardScrt legenda="Produtos Próximos do Vencimento" info={dadosPizza[1] + dadosPizza[0]} bgColor="#FDEA3C" infoTotal={236} />
+            {/* endpoint para produtos vencidos ultimos 30 dias */}
+            <CardScrt legenda="Alimentos Vencidos" info={somaCountDadosVencidos} bgColor="#ED8686" infoTotal={236} />
           </Row>
-          <Row>
-            <Col md lg={12}>
-              <div>
-                <GraficoLinha data={dadosEstoque} cor={'#22CC52'} titulo={'Quantidade em estoque'} label={'Quantidade'} />
-                <GraficoLinha data={dadosVencidosPorMes} cor={'#FF5555'} titulo={'Produtos estragados'} label={'Quantidade'} />
 
-              </div>
-            </Col>
-          </Row>
           <Row>
-            <Col md lang={6} >
+            <Col md lg={6}>
+              <GraficoLinha data={dadosEstoque} cores={['#22CC52']} titulo={'Quantidade em estoque'} label={'Quantidade'} selectObj={[{ "id": 1, "nome": "Arroz" }]} selectFunc={() => { console.log("funciona") }} />
+            </Col>
+
+            <Col md lg={6} >
               <GraficoPizza data={dadosPizza} titulo={"Alimentos próximos a validade:"} />
             </Col>
-            <Col md lang={6}>
-              <div style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px", height: "100%" }}>
-                <ListaBarraProgresso titulo={"Produtos Vencidos x Arrecadados"} itens={dadosArrecadadosXVencidos}/>
-              </div>
-
+          </Row>
+          <Row>
+            <Col md lg={6}>
+              <GraficoLinha data={dadosVencidosPorMes} cores={['#FF5555']} titulo={'Produtos estragados'} label={'Quantidade'} selectObj={[{ "id": 1, "nome": "Arroz" }]} selectFunc={() => { console.log("funciona") }} />
+            </Col>
+            <Col md lg={6}>
+              <ListaBarraProgresso titulo={"Produtos válidos x Não conforme"} itens={dadosArrecadadosXVencidos} />
             </Col>
           </Row>
           <Row>
           </Row>
         </Col>
         {/* </Container> */}
-      </div>
+      </Col>
     </>
   );
 }
