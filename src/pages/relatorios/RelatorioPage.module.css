@@ -9,6 +9,7 @@
   font-size: medium;
   font-weight: bold;
   font-family: "Roboto", sans-serif;
+  align-content: end;
 }
 
 .SubTexto {
@@ -20,4 +21,8 @@
 .SpaceCima {
   margin-top: 2%;
   margin-bottom: 2%;
+}
+
+.RemoverEspacoDireito {
+  padding-right: 0px;
 }
