@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import NavBar from "../../components/navbarscrt/NavBar";
 import "./PerfilPage.css";
 import perfilEditIcon from "../../assets/images/perfil-edit.svg";
 
@@ -32,7 +31,7 @@ const PerfilPage = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%" }}></div>
-      <NavBar />
+      
       <div className="form-section" id="form-register">
         <h1 className="section-title">Perfil</h1>
         <div className="profile-header">

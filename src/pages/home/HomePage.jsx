@@ -5,8 +5,6 @@ import GraficoLinha from '../../components/graficolinha/GraficoLinha';
 import GraficoPizza from '../../components/graficopizza/GraficoPizza';
 import CardScrt from '../../components/cardscrt/CardScrt';
 import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarraProgresso';
-import NavBar from '../../components/navbarscrt/NavBar';
-import HeaderScrt from '../../components/headerscrt/HeaderScrt';
 import styles from './Home.module.css'
 
 
@@ -77,11 +75,8 @@ const HomePage = () => {
 
   return (
     <>
-      <NavBar />
-      <HeaderScrt>
-        <p >Essa página é destinada para <br /> centralizar e visualizar de forma <br /> clara e eficiente os dados de <br />estoque </p>
-      </HeaderScrt>
-      <div className={styles.main}>
+
+      <Col md lg={12}>
         {/* <Container> */}
         <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
 
@@ -96,7 +91,7 @@ const HomePage = () => {
 
           <Row>
             <Col md lg={6}>
-              <GraficoLinha data={dadosEstoque} cores={['#22CC52']} titulo={'Quantidade em estoque'} label={'Quantidade'} />
+              <GraficoLinha data={dadosEstoque} cores={['#22CC52']} titulo={'Quantidade em estoque'} label={'Quantidade'} selectObj={[{ "id": 1, "nome": "Arroz" }]} selectFunc={() => { console.log("funciona") }} />
             </Col>
 
             <Col md lg={6} >
@@ -105,7 +100,7 @@ const HomePage = () => {
           </Row>
           <Row>
             <Col md lg={6}>
-              <GraficoLinha data={dadosVencidosPorMes} cores={['#FF5555']} titulo={'Produtos estragados'} label={'Quantidade'} />
+              <GraficoLinha data={dadosVencidosPorMes} cores={['#FF5555']} titulo={'Produtos estragados'} label={'Quantidade'} selectObj={[{ "id": 1, "nome": "Arroz" }]} selectFunc={() => { console.log("funciona") }} />
             </Col>
             <Col md lg={6}>
               <ListaBarraProgresso titulo={"Produtos válidos x Não conforme"} itens={dadosArrecadadosXVencidos} />
@@ -115,7 +110,7 @@ const HomePage = () => {
           </Row>
         </Col>
         {/* </Container> */}
-      </div>
+      </Col>
     </>
   );
 }

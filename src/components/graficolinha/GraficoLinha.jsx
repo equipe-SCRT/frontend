@@ -23,12 +23,13 @@ Chart.register(
   Tooltip,
   Legend
 );
+import SelectScrt from "../../components/select/SelectScrt";
 
-const GraficoLinha = ({ data, cores, titulo, label }) => {
+const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => {
   let datasets = [];
   let labels = [];
   let unicoDataset = !Array.isArray(data[0]);
-  if (unicoDataset){
+  if (unicoDataset) {
     data = [data]
     label = [label]
   }
@@ -36,13 +37,13 @@ const GraficoLinha = ({ data, cores, titulo, label }) => {
     let dataValues = [];
     let labels2 = []
     for (let j = 0; j < element.length; j++) {
-        labels2.push(element[j].mes);
+      labels2.push(element[j].mes);
     }
     for (let j = 0; j < element.length; j++) {
-        dataValues.push(element[j].count);
+      dataValues.push(element[j].count);
     }
     labels.push(labels2);
-    
+
 
     datasets.push({
       label: label[i],
@@ -54,7 +55,7 @@ const GraficoLinha = ({ data, cores, titulo, label }) => {
       data: dataValues,
     });
   });
-  
+
   const dados = {
     labels: labels[0],
     datasets: datasets,
@@ -87,19 +88,24 @@ const GraficoLinha = ({ data, cores, titulo, label }) => {
       },
     },
     plugins: {
-      legend:{
-        display:false
+      legend: {
+        display: false
       }
     },
   };
 
   return (
     <div
-      style={{marginTop: "10px", padding: "10px" }}
+      style={{ marginTop: "10px", padding: "10px" }}
     >
       <h5 style={{ color: "#21272A" }}>
         <strong>{titulo}</strong>
       </h5>
+        {selectObj != undefined && <>
+        <SelectScrt
+          dados={selectObj}
+          onChange={selectFunc}
+        /></>}
       <Line data={dados} options={options} />
     </div>
   );

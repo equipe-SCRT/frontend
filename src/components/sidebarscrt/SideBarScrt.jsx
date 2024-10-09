@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import styles from "./NavBar.module.css"
+import React, { useState } from 'react';
+import styles from "./SideBarScrt.module.css"
 import {
   Sidebar,
   SubMenu,
@@ -9,10 +9,10 @@ import {
 } from "react-pro-sidebar";
 
 import imagemLogo from "../../assets/images/logo.svg";
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
-function Sidebars() {
+function SideBarScrt() {
   //const { collapseSidebar } = useProSidebar();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -112,6 +112,6 @@ function Sidebars() {
 
 //     );
 // }
-export default Sidebars;
+export default SideBarScrt;
 
 // export default NavBar;

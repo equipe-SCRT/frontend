@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import NavBar from '../../components/navbarscrt/NavBar';
 import './ProdutoCadastroPage.css';
 import engrenagem from '../../assets/images/engrenagem.svg';
 import informacao from '../../assets/images/informacao.svg';

@@ -36,7 +36,7 @@ const CardScrt = ({
               </div>
             )}
             {isCampanhaSelected && (
-              <div className={styles.selectCampanhaContainer}>
+              <div className={styles.SelectScrtContainer}>
                 {isCampanhaSelected}
               </div>
             )}
