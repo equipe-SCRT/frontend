@@ -95,7 +95,7 @@ const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => 
 
   return (
     <div
-      style={{ border: "1px solid #0005", marginTop: "10px", padding: "10px" }}
+      style={{ marginTop: "10px", padding: "10px" }}
     >
       <h5 style={{ color: "#21272A" }}>
         <strong>{titulo}</strong>
