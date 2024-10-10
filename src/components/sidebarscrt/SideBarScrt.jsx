@@ -68,7 +68,7 @@ function SideBarScrt() {
 
                   <div id='img' className={styles.logo}
                     style={{
-                      marginTop: "20px",
+                      marginTop: "120px",
                       padding: "9px"
                     }}>
                     <img src={imagemLogo} className='logo' alt="SCRT Logo" loading="lazy" />
@@ -81,63 +81,63 @@ function SideBarScrt() {
               <SubMenu
                 component={<Link to="/home" />}
                 label={
-                  <div style={{ display: "flex", alignItems: "center" }}>
+                  <div>
                     <img src={iconChart} alt="icon gráficos" style={{ marginRight: "8px" }} />
                     Gráficos
                   </div>
                 }
                 className={`${styles.sidebarChild}`}
               >
-                <MenuItem className={'${styles.sidebarChild}'}
+                <MenuItem className={`${styles.customMenuItem}`}
                   component={<Link to="/campanhas" />}> Campanhas </MenuItem>
-                <MenuItem className={'${styles.sidebarChild}'}
+                <MenuItem className={`${styles.customMenuItem}`}
                   component={<Link to="/condominios" />}> Condomínios </MenuItem>
               </SubMenu>
 
-              <MenuItem className={`${styles.sidebarChild}`} component={<Link to="/voluntarios/cadastro" />}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/voluntarios/cadastro" />}>
+                <div>
                   <img src={iconUser} alt="icon colaboradores" style={{ marginRight: "8px" }} />
                   Colaboradores
                 </div>
               </MenuItem>
 
-              <MenuItem className={`${styles.sidebarChild}`} component={<Link to="/produtos-unitarios/cadastro" />}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/produtos-unitarios/cadastro" />}>
+                <div>
                   <img src={icon} alt="icon produtos" style={{ marginRight: "8px" }} />
                   Produtos
                 </div>
               </MenuItem>
 
-              <MenuItem className={`${styles.sidebarChild}`} component={<Link to="/cestas/cadastro" />}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/cestas/cadastro" />}>
+                <div>
                   <img src={iconCesta} alt="icon cestas" style={{ marginRight: "8px" }} />
                   Cestas
                 </div>
               </MenuItem>
 
-              <MenuItem className={`${styles.sidebarChild}`} component={<Link to="/condominios/cadastro" />}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/condominios/cadastro" />}>
+                <div>
                   <img src={iconBuilding} alt="icon condomínios" style={{ marginRight: "8px" }} />
                   Condomínios
                 </div>
               </MenuItem>
 
-              <MenuItem className={`${styles.sidebarChild}`} component={<Link to="/campanhas/cadastro" />}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/campanhas/cadastro" />}>
+                <div>
                   <img src={iconCampaign} alt="icon campanhas" style={{ marginRight: "8px" }} />
                   Campanhas
                 </div>
               </MenuItem>
 
-              <MenuItem className={`${styles.sidebarChild}`} component={<Link to="/indicadores/cadastro" />}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/indicadores/cadastro" />}>
+                <div>
                   <img src={iconMetrics} alt="icon indicadores" style={{ marginRight: "8px" }} />
                   Indicadores
                 </div>
               </MenuItem>
 
-              <MenuItem className={`${styles.sidebarChild}`} component={<Link to="/relatorios" />}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/relatorios" />}>
+                <div>
                   <img src={iconSummary} alt="icon relatórios" style={{ marginRight: "8px" }} />
                   Relatórios
                 </div>
