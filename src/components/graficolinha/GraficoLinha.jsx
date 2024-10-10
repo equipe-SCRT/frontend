@@ -97,7 +97,7 @@ const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => 
     <div
       style={{ marginTop: "10px", padding: "10px" }}
     >
-      <h5 style={{ color: "#21272A" }}>
+      <h5 style={{ color: "#21272A", marginBottom: "10px" }}>
         <strong>{titulo}</strong>
       </h5>
       {selectObj != undefined && <>
