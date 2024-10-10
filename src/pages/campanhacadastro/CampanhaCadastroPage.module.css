@@ -37,6 +37,14 @@
     margin-bottom: 5px;
 }
 
+.pergunta {
+    color: #21272A;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    margin-bottom: 5px;
+}
+
 .product-form .form-group input,
 .product-form .form-group select {
     background-color: #F2F4F8;

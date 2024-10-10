@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./CampanhaCadastroPage.module.css"
 import Swal from 'sweetalert2';
+import Botao from "../components/button/Button"
 
 var pilha = [];
 let contadorPilha = -1;
@@ -359,13 +360,112 @@ const CampanhaCadastroPage = () => {
   return (
     <>
       <div className='container-fluid'>
-        
-        <div className="form-section" id='form-register'>
+
+        <div className="col-12 mb-5" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
             <h1 className="section-title" style={{ margin: "0px" }}>Campanhas</h1>
           </div>
-          <div className="card-body-form" style={{}}>
+
+          <div className="border mb-5 p-3">
             <p>Cadastro</p>
+            <div className='col-12 d-flex'>
+
+              <div className='col-6 d-flex flex-column'>
+
+                <label htmlFor="productName">Tipo de Campanha <span className="required">*</span></label>
+                <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '33vw' }}>
+                  {getNomeCampanhas}
+                </select>
+
+                <label htmlFor="unit">Data da campanha <span className="required">*</span></label>
+                <input style={{ pe }}
+                  type="date"
+                  id="unit"
+                  name="unit"
+                  onChange={(e) => setLocal(e.target.value)}
+                />
+
+                <div className='row d-flex justify-content-start'>
+                  <div className='col-4 d-flex flex-column'>
+                    <label htmlFor="unit">Meta <span className="required">*</span></label>
+                    <input
+                      type="text"
+                      id="unit"
+                      name="unit"
+                      onChange={(e) => setQuantidade(e.target.value)}
+                    />
+                  </div>
+                  <div className='col-4 d-flex flex-column'>
+                    <label htmlFor="unit">Produto <span className="required">*</span></label>
+                    <input
+                      type="text"
+                      id="unit"
+                      name="unit"
+                      onChange={(e) => setQuantidade(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className='col-6 d-flex flex-column'>
+
+                <label htmlFor="productType">Local <span className="required">*</span></label>
+                
+                <input style={{ width: '33vw' }}
+                  type="text"
+                  id="unit"
+                  name="unit"
+                  onChange={(e) => setLocal(e.target.value)}
+                />
+
+                <label htmlFor="unit">Quantidade arrecadada <span className="required">*</span></label>
+                <input style={{ width: '33vw' }}
+                  type="number"
+                  id="unit"
+                  name="unit"
+                  onChange={(e) => setQuantidade(e.target.value)}
+                />
+
+                <div className="d-flex justify-content-end" style={{ paddingRight: 0 }} >
+                  <Botao mensagem={"Exportar Arquivo"} />
+                </div>
+
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div className="product-form">
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
                 <div className="form-group" id='name'>
@@ -393,16 +493,16 @@ const CampanhaCadastroPage = () => {
                     name="unit"
                     onChange={(e) => setLocal(e.target.value)}
                   />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="unit">Quantidade arrecadada <span className="required">*</span></label>
-                    <input style={{ width: '33vw' }}
-                      type="number"
-                      id="unit"
-                      name="unit"
-                      onChange={(e) => setQuantidade(e.target.value)}
-                    />
-                  </div>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="unit">Quantidade arrecadada <span className="required">*</span></label>
+                  <input style={{ width: '33vw' }}
+                    type="number"
+                    id="unit"
+                    name="unit"
+                    onChange={(e) => setQuantidade(e.target.value)}
+                  />
+                </div>
 
               </div>
 
@@ -410,15 +510,15 @@ const CampanhaCadastroPage = () => {
                 <div className="form-group">
                   <label htmlFor="unit">Meta <span className="required">*</span></label>
                   <input style={{ width: '33vw' }}
-                      type="text"
-                      id="unit"
-                      name="unit"
-                      onChange={(e) => setQuantidade(e.target.value)}
-                    />
+                    type="text"
+                    id="unit"
+                    name="unit"
+                    onChange={(e) => setQuantidade(e.target.value)}
+                  />
                 </div>
                 <div className="form-group">
                   <label htmlFor="unit">Meta <span className="required">*</span></label>
-                  <select name="origemSel" id="origemSel" style={{width: "20vw"}} onChange={(e) => setOrigem(e.target.value)} >
+                  <select name="origemSel" id="origemSel" style={{ width: "20vw" }} onChange={(e) => setOrigem(e.target.value)} >
                     {getOrigemNome}
                   </select>
                 </div>
