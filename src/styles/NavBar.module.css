@@ -95,9 +95,3 @@
     border-left: 4px solid #F07E18;
     background-image: linear-gradient(to right, #f07d183f, #306b345d 100%);
 }
-
-@media screen and (min-width: 1920px) {
-    #sidebarMenu {
-        width: 14.3%;
-    }
-}

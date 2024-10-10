@@ -1,0 +1,17 @@
+.sidebar{
+    position: fixed;
+    height: 100vh;
+    /* overflow-y: auto;  */
+    color: #FFFFFF;
+    /* padding-top: 10px; */
+}
+
+.sidebarChild{
+    background-color: #306B34!important;
+    /* padding-top: 10px; */
+    /* padding-bottom: 30px; */
+}
+.sidebar *{
+    background-color: #306B34!important;
+}
+/*  */
