@@ -48,11 +48,40 @@ const ProdutoUnitarioCadastro = () => {
 
   async function excluir(id) {
     apiProdutos.delete("produtos-unitario/" + id).then((response) => {
-      //console.log(response);
-      alert("excluido");
-      // window.location.reload()
+      handleProdutos()
+      let timerInterval
+      clearInterval(timerInterval)
+      Swal.fire({
+        title: "Produto excluido",
+        html: `Produto de id ${id} apagado`,
+        position: 'bottom-end',
+        width: "190px",
+        height: "100px",
+        timer: 30000,
+        toast: true,
+        backdrop: false,
+        showCancelButton: true,
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      })   
     }).catch((err) => {
-      //console.log(err)
+      let timerInterval
+      clearInterval(timerInterval)
+      Swal.fire({
+        title: "Falha ao excluir o produto",
+        html: `${err}`,
+        position: 'bottom-end',
+        width: "190px",
+        height: "100px",
+        timer: 30000,
+        toast: true,
+        backdrop: false,
+        showCancelButton: true,
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }) 
     })
   }
 
@@ -132,10 +161,10 @@ const ProdutoUnitarioCadastro = () => {
             </td>
             <td id={"nomeProd" + i}>
               <span className={'nome' + id}>{encontrados.data[i].nome}</span>
-              {/* <select name="nomeSel" className={'nomeTxt' + id} style={{ display: "none" }}>
+              <select name="nomeSel" className={'nomeTxt' + id} style={{ display: "none" }}>
                 {getNomeProdutos}
-              </select> */}
-              <input type="text" style={{ display: 'none' }} onChange={(e) => setNomeAlt(e.target.value)} className={'nomeTxt' + id} />
+              </select>
+              {/* <input type="text" style={{ display: 'none' }} onChange={(e) => setNomeAlt(e.target.value)} className={'nomeTxt' + id} /> */}
             </td>
             <td id={"dateProd" + i}>
               <span className={'date' + id}>{encontrados.data[i].dataValidade}</span>
@@ -312,8 +341,22 @@ const ProdutoUnitarioCadastro = () => {
           }
         });
       }).catch((err) => {
-        alert("valide os campos\n" + err)
-      })
+        let timerInterval
+        clearInterval(timerInterval)
+        Swal.fire({
+          title: "Por favor, valide os campos",
+          html: `${err}`,
+          position: 'bottom-end',
+          width: "190px",
+          height: "100px",
+          timer: 30000,
+          toast: true,
+          backdrop: false,
+          showCancelButton: true,
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
+        })       })
     } catch (err) {
       console.log(err);
     }
