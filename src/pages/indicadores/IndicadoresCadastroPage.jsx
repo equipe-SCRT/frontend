@@ -291,7 +291,6 @@ const IndicadoresCadastro = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%" }}>
-        <NavBar />
         <div className="container" style={{ marginTop: "5%" }}>
           <div className="row">
             <div className='col-8'>

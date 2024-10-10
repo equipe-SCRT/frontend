@@ -97,7 +97,8 @@ const ProdutoUnitarioCadastro = () => {
     } else {
       if (pilha[contadorPilha].operacao == "salvar") {
         console.log("aqui: ")
-        apiProdutos.delete("/produtos-unitario/" + pilha[contadorPilha].id).then((res) => {
+        console.log(pilha[contadorPilha].id)
+        apiProdutos.post("/produtos-unitario/lotes-delete",  pilha[contadorPilha].id).then((res) => {
           console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
@@ -306,24 +307,28 @@ const ProdutoUnitarioCadastro = () => {
 
   }
 
+  function criarBodyLotes(quantidade){
+    const bodyReq = [];
+    for(let i = 0; i < quantidade; i++){
+      bodyReq.push({
+        dataValidade: getValidade,
+        quantidade: getQuantidade,
+        origemId: getOrigem,
+        ativo: true,
+        produtoId: getNome,
+      })
+    }
+    return bodyReq;
+  }
 
   async function salvar() {
     try {
-      api.post("", {
-        dataValidade: getValidade,
-        quantidade: getQuantidade,
-        peso: 5,
-        origemId: getOrigem,
-        ativo: true,
-        unidadeMedidaId: 1,
-        cestaId: 1,
-        produtoId: getNome,
-      }).then(async (response) => {
-
+      let bodyR = criarBodyLotes(getQuantidade);
+      api.post("/lotes", bodyR).then(async (response) => {
         handleProdutos();
         let alteracao = {
           operacao: "salvar",
-          id: response.data.id
+          id: response.data
         }
         push(alteracao);
         let timerInterval;
