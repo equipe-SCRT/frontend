@@ -96,8 +96,8 @@ function SideBarScrt() {
 
               <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/voluntarios/cadastro" />}>
                 <div>
-                  <img src={iconUser} alt="icon colaboradores" style={{ marginRight: "8px" }} />
-                  Colaboradores
+                  <img src={iconUser} alt="icon voluntários" style={{ marginRight: "8px" }} />
+                  Voluntários
                 </div>
               </MenuItem>
 
