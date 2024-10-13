@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import "./CampanhaCadastroPage.module.css"
+import style from "./CampanhaCadastroPage.module.css"
 import Swal from 'sweetalert2';
 import Botao from "../components/button/Button"
+import { red } from '@mui/material/colors';
 
 var pilha = [];
 let contadorPilha = -1;
@@ -357,192 +358,80 @@ const CampanhaCadastroPage = () => {
   }
 
 
+
   return (
     <>
       <div className='container-fluid'>
 
         <div className="col-12 mb-5" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
-            <h1 className="section-title" style={{ margin: "0px" }}>Campanhas</h1>
+            <h1 className={style.title}>Campanhas</h1>
           </div>
 
           <div className="border mb-5 p-3">
-            <p>Cadastro</p>
-            <div className='col-12 d-flex'>
+            <p style={{ marginBottom: '20', fontWeight: 'bolder' }}>Cadastro</p>
+            <div className='d-flex justify-content-around'>
 
-              <div className='col-6 d-flex flex-column'>
-
-                <label htmlFor="productName">Tipo de Campanha <span className="required">*</span></label>
-                <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '33vw' }}>
+              <div className='col-5 d-flex flex-column'>
+                <label htmlFor="">Tipo de Campanha <span className={style.colorRed}>*</span></label>
+                <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)}
+                  className={style.inputLabel}>
+                  <option value="" disabled selected>-</option>
                   {getNomeCampanhas}
                 </select>
-
-                <label htmlFor="unit">Data da campanha <span className="required">*</span></label>
-                <input style={{ pe }}
-                  type="date"
+                <label htmlFor="">Data da Campanha <span className={style.colorRed}>*</span></label>
+                <input
                   id="unit"
                   name="unit"
                   onChange={(e) => setLocal(e.target.value)}
-                />
+                  type="date" className={style.inputLabel} />
 
                 <div className='row d-flex justify-content-start'>
-                  <div className='col-4 d-flex flex-column'>
-                    <label htmlFor="unit">Meta <span className="required">*</span></label>
-                    <input
-                      type="text"
-                      id="unit"
-                      name="unit"
-                      onChange={(e) => setQuantidade(e.target.value)}
-                    />
+                  <div className='col-6 d-flex flex-column'>
+                    <label htmlFor="">Meta <span className={style.colorRed}>*</span></label>
+                    <input type="text" className={style.inputLabel} />
                   </div>
-                  <div className='col-4 d-flex flex-column'>
-                    <label htmlFor="unit">Produto <span className="required">*</span></label>
-                    <input
-                      type="text"
-                      id="unit"
-                      name="unit"
-                      onChange={(e) => setQuantidade(e.target.value)}
-                    />
+                  <div className='col-6 d-flex flex-column'>
+                    <label htmlFor="">Produto <span className={style.colorRed}>*</span></label>
+                    <select name="" id="" onChange={(e) => setNome(e.target.value)}
+                      className={style.inputLabel}>
+                      <option value="" disabled selected>-</option>
+                      {getNomeCampanhas}
+                    </select>
                   </div>
                 </div>
               </div>
-              <div className='col-6 d-flex flex-column'>
-
-                <label htmlFor="productType">Local <span className="required">*</span></label>
-                
-                <input style={{ width: '33vw' }}
-                  type="text"
-                  id="unit"
-                  name="unit"
-                  onChange={(e) => setLocal(e.target.value)}
-                />
-
-                <label htmlFor="unit">Quantidade arrecadada <span className="required">*</span></label>
-                <input style={{ width: '33vw' }}
-                  type="number"
-                  id="unit"
-                  name="unit"
-                  onChange={(e) => setQuantidade(e.target.value)}
-                />
-
-                <div className="d-flex justify-content-end" style={{ paddingRight: 0 }} >
-                  <Botao mensagem={"Exportar Arquivo"} />
+              <div className='col-5 d-flex flex-column'>
+                <label htmlFor="">Local <span className={style.colorRed}>*</span></label>
+                <input type="text" className={style.inputLabel} placeholder='-' />
+                <label htmlFor="">Quantidade arrecadada <span className={style.colorRed}>*</span></label>
+                <input type="text" className={style.inputLabel} placeholder='-' />
+                <div className="col-12 d-flex justify-content-end text-white" style={{ margin: '20px' }}>
+                  <Botao mensagem={"Cadastrar Campanha"} onClick={salvar} />
                 </div>
-
               </div>
             </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div className="product-form">
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
-                <div className="form-group" id='name'>
-                  <label htmlFor="productName">Tipo de Campanha <span className="required">*</span></label>
-                  <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '33vw' }}>
-                    {getNomeCampanhas}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="productType">Local <span className="required">*</span></label>
-                  <input style={{ width: '33vw' }}
-                    type="text"
-                    id="unit"
-                    name="unit"
-                    onChange={(e) => setLocal(e.target.value)}
-                  />
+            <div className="table-section">
+              <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
+                <p className="card-description">Listagem</p>
+                <div className="table-responsive">
+                  <table className="table table-striped">
+                    <thead>
+                      <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
+                      <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                      <th>Validade <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                      <th>Origem <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                      <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
+                    </thead>
+                    <tbody>
+                      {getProdutos}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-                <div className="form-group">
-                  <label htmlFor="unit">Data da campanha <span className="required">*</span></label>
-                  <input style={{ width: '33vw' }}
-                    type="date"
-                    id="unit"
-                    name="unit"
-                    onChange={(e) => setLocal(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="unit">Quantidade arrecadada <span className="required">*</span></label>
-                  <input style={{ width: '33vw' }}
-                    type="number"
-                    id="unit"
-                    name="unit"
-                    onChange={(e) => setQuantidade(e.target.value)}
-                  />
-                </div>
-
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-                <div className="form-group">
-                  <label htmlFor="unit">Meta <span className="required">*</span></label>
-                  <input style={{ width: '33vw' }}
-                    type="text"
-                    id="unit"
-                    name="unit"
-                    onChange={(e) => setQuantidade(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="unit">Meta <span className="required">*</span></label>
-                  <select name="origemSel" id="origemSel" style={{ width: "20vw" }} onChange={(e) => setOrigem(e.target.value)} >
-                    {getOrigemNome}
-                  </select>
-                </div>
-                <button onClick={salvar} className="submit-btn">Cadastrar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="table-section">
-          <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
-            <p className="card-description">Listagem</p>
-            <div className="table-responsive">
-              <table className="table table-striped">
-                <thead>
-                  <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                  <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                  <th>Validade <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                  <th>Origem <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                  <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                </thead>
-                <tbody>
-                  {getProdutos}
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
