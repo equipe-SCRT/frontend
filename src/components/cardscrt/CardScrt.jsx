@@ -29,7 +29,7 @@ const CardScrt = ({
           <Card.Title className={styles.titulo}>{legenda} <br />{sublegenda} </Card.Title>
           
           <Card.Text className={styles.info}>
-            {elementoInfo}
+            {(!isDataSelected && !isCampanhaSelected) && elementoInfo}
             {isDataSelected && (
               <div className={styles.selectDataContainer}>
                 {isDataSelected}
