@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import style from "./CampanhaCadastroPage.module.css"
 import Swal from 'sweetalert2';
 import Botao from "../components/button/Button"
-import { red } from '@mui/material/colors';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 var pilha = [];
 let contadorPilha = -1;
@@ -412,24 +412,27 @@ const CampanhaCadastroPage = () => {
               </div>
             </div>
 
+            <div className="row border">
+              <div className="col-12 d-flex justify-content-between p-3">
+                <p className={style.SubTitulo} >Listagem</p>
+              </div>
 
-
-            <div className="table-section">
-              <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
-                <p className="card-description">Listagem</p>
-                <div className="table-responsive">
-                  <table className="table table-striped">
-                    <thead>
-                      <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                      <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                      <th>Validade <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                      <th>Origem <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                      <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                    </thead>
-                    <tbody>
-                      {getProdutos}
-                    </tbody>
-                  </table>
+              <div className="">
+                <div>
+                  <DataTable className="border mb-5" value={getProdutos}>
+                  <Column className="col-4 border-top p-3 mb-2 text-dark" field="" header="" headerClassName="p-3 mb-2 bg-light text-dark">
+                  </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="#" header="#" sortable headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="tipoCampanha" header="Tipo da Campanha" sortable headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="local" sortable header='Local' headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="data" header="Data" sortable headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="" header="" headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                  </DataTable>
                 </div>
               </div>
             </div>
