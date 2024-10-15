@@ -11,7 +11,7 @@ const ProdutoUnitarioCadastro = () => {
   let [getProdutos, setProdutos] = useState([]);
   let [getNomeProdutos, setNomeProdutos] = useState([]);
   let [getOrigemNome, setOrigemNome] = useState([]);
-  let [getNome, setNome] = useState("");
+  let [getNome, setNome] = useState(0);
   let [getValidade, setValidade] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
@@ -20,6 +20,7 @@ const ProdutoUnitarioCadastro = () => {
   let [getDateAlt, setDateAlt] = useState();
   let [getOrigAlt, setOrigAlt] = useState();
   let [getIdAlt, setIdAlt] = useState();
+  let [getAtivo, setAtivo] = useState();
   let navigate = useNavigate();
 
 
@@ -47,14 +48,48 @@ const ProdutoUnitarioCadastro = () => {
 
   async function excluir(id) {
     apiProdutos.delete("produtos-unitario/" + id).then((response) => {
-      //console.log(response);
-      alert("excluido");
-      // window.location.reload()
+      handleProdutos()
+      let timerInterval
+      clearInterval(timerInterval)
+      Swal.fire({
+        title: "Produto excluido",
+        html: `Produto de id ${id} apagado`,
+        position: 'bottom-end',
+        width: "190px",
+        height: "100px",
+        timer: 30000,
+        toast: true,
+        backdrop: false,
+        showCancelButton: true,
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      })   
     }).catch((err) => {
-      //console.log(err)
+      let timerInterval
+      clearInterval(timerInterval)
+      Swal.fire({
+        title: "Falha ao excluir o produto",
+        html: `${err}`,
+        position: 'bottom-end',
+        width: "190px",
+        height: "100px",
+        timer: 30000,
+        toast: true,
+        backdrop: false,
+        showCancelButton: true,
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }) 
     })
   }
 
+  function compareDates (date) {
+    date = new Date(date) 
+    
+    return date >= new Date()
+  }
 
   function pop() {
     if (contadorPilha == -1) {
@@ -62,7 +97,8 @@ const ProdutoUnitarioCadastro = () => {
     } else {
       if (pilha[contadorPilha].operacao == "salvar") {
         console.log("aqui: ")
-        apiProdutos.delete("/produtos-unitario/" + pilha[contadorPilha].id).then((res) => {
+        console.log(pilha[contadorPilha].id)
+        apiProdutos.post("/produtos-unitario/lotes-delete",  pilha[contadorPilha].id).then((res) => {
           console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
@@ -72,7 +108,7 @@ const ProdutoUnitarioCadastro = () => {
               let timerInterval;
               Swal.fire({
                 title: "Produtos adicionados",
-                html: "desfazer?",
+                html: "Desfazer?",
                 position: 'bottom-end',
                 width: "190px",
                 height: "100px",
@@ -122,6 +158,11 @@ const ProdutoUnitarioCadastro = () => {
       setTdProdutos(encontrados.data)
       console.log(getTodosProdutos)
       for (var i = 0; i < encontrados.data.length; i++) {
+        let corDataValidade = { color: "black"};
+        let verificacao = compareDates(encontrados.data[i].dataValidade);
+        if(!verificacao){
+          corDataValidade = {color: "red"}
+        } 
         let id = encontrados.data[i].id
         lista.push(
           <tr key={encontrados.data[i]}>
@@ -131,13 +172,13 @@ const ProdutoUnitarioCadastro = () => {
             </td>
             <td id={"nomeProd" + i}>
               <span className={'nome' + id}>{encontrados.data[i].nome}</span>
-              {/* <select name="nomeSel" className={'nomeTxt' + id} style={{ display: "none" }}>
+              <select name="nomeSel" className={'nomeTxt' + id} style={{ display: "none" }}>
                 {getNomeProdutos}
-              </select> */}
-              <input type="text" style={{ display: 'none' }} onChange={(e) => setNomeAlt(e.target.value)} className={'nomeTxt' + id} />
+              </select>
+              {/* <input type="text" style={{ display: 'none' }} onChange={(e) => setNomeAlt(e.target.value)} className={'nomeTxt' + id} /> */}
             </td>
             <td id={"dateProd" + i}>
-              <span className={'date' + id}>{encontrados.data[i].dataValidade}</span>
+              <span style={corDataValidade} className={'date' + id}>{encontrados.data[i].dataValidade}</span>
               <input style={{ display: 'none' }}
                 className={"dateTxt" + id}
                 placeholder={encontrados.data[i].dataValidade}
@@ -236,7 +277,7 @@ const ProdutoUnitarioCadastro = () => {
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
         listaNomes.push(
-          <option value={encontrados.data[i].nome}>{encontrados.data[i].nome}</option>
+          <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
         )
       }
       setNomeProdutos(listaNomes);
@@ -266,27 +307,28 @@ const ProdutoUnitarioCadastro = () => {
 
   }
 
+  function criarBodyLotes(quantidade){
+    const bodyReq = [];
+    for(let i = 0; i < quantidade; i++){
+      bodyReq.push({
+        dataValidade: getValidade,
+        quantidade: getQuantidade,
+        origemId: getOrigem,
+        ativo: true,
+        produtoId: getNome,
+      })
+    }
+    return bodyReq;
+  }
 
   async function salvar() {
     try {
-      api.post("", {
-        nome: getNome,
-        dataValidade: getValidade,
-        quantidade: getQuantidade,
-        peso: 5,
-        origemId: getOrigem,
-        ativo: true,
-        unidadeMedidaId: 1,
-        cestaId: 1,
-        produtoId: 1,
-        rotaId: 1,
-        metricaId: 1
-      }).then(async (response) => {
-
+      let bodyR = criarBodyLotes(getQuantidade);
+      api.post("/lotes", bodyR).then(async (response) => {
         handleProdutos();
         let alteracao = {
           operacao: "salvar",
-          id: response.data.id
+          id: response.data
         }
         push(alteracao);
         let timerInterval;
@@ -314,8 +356,22 @@ const ProdutoUnitarioCadastro = () => {
           }
         });
       }).catch((err) => {
-        alert("valide os campos\n" + err)
-      })
+        let timerInterval
+        clearInterval(timerInterval)
+        Swal.fire({
+          title: "Por favor, valide os campos",
+          html: `${err}`,
+          position: 'bottom-end',
+          width: "190px",
+          height: "100px",
+          timer: 30000,
+          toast: true,
+          backdrop: false,
+          showCancelButton: true,
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
+        })       })
     } catch (err) {
       console.log(err);
     }
@@ -345,108 +401,105 @@ const ProdutoUnitarioCadastro = () => {
 
   return (
     <>
-      <div style={{ display: "block", height: "100%" }}>
-
-        <div className="container" style={{ marginLeft: "1%", marginTop: "5%", width: "95%" }}>
-          <div className="row" style={{marginBottom: "2%"}}>
-            <div className="col-6">
-              <h1 className="section-title" style={{ margin: "0px" }}>Lotes de Produtos</h1>
-            </div>
-            <div className="col-6 d-flex justify-content-lg-end">
-              <button className="submit-btn" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "55px", margin: "0" }}>Cadastrar um produto novo</button>
-            </div>
+      <div className="base-pag" style={{marginLeft: "2%", marginRight: "2%"}}>
+        <div className="row" style={{ marginBottom: "2%" }}>
+          <div className="col-6">
+            <h1 className="section-title" style={{ margin: "0px" }}>Lotes de Produtos</h1>
           </div>
+          <div className="col-6 d-flex justify-content-lg-end">
+            <button className="submit-btn" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "80%", margin: "0" }}>Cadastrar um produto novo</button>
+          </div>
+        </div>
 
-          <div className="row">
-            <div className="form-section" id='form-register' style={{ margin: "0px", marginRight: "2%", width: "100%"}}>
-              <div className="card-body-form" style={{ width: "100%" }}>
-                <div className="row" style={{ marginBottom: "2%" }}>
-                  <p>Cadastro de produtos unitários</p>
-                </div>
-                <div className="product-form">
-                  <div className="row gap-40" style={{ display: 'flex', flexDirection: 'row', gap: "30px" }}>
-                    <div className="col-3">
-                      <div className="form-group" id='name'>
-                        <label htmlFor="productName">Nome <span className="required">*</span></label>
-                        <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)}>
-                          {getNomeProdutos}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-3">
-                      <div className="form-group">
-                        <label htmlFor="productType">Data validade <span className="required">*</span></label>
-                        <input
-                          type="date"
-                          id="unit"
-                          name="unit"
-                          onChange={(e) => setValidade(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-
-                    <div className="col-3">
-                      <div className="form-group">
-                        <label htmlFor="unit">Quantidade <span className="required">*</span></label>
-                        <input
-                          type="number"
-                          id="unit"
-                          name="unit"
-                          onChange={(e) => setQuantidade(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row" style={{ gap: "30px" }}>
-                    <div className="col-3">
-                      <div className="form-group">
-                        <label htmlFor="unit">Origem <span className="required">*</span></label>
-                        <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)} >
-                          {getOrigemNome}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-3">
-                      <div className="form-group">
-                        <label htmlFor="unit">Produto em conforme: <span className="required">*</span></label>
-                        <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)} >
-                          <option value="1">Sim</option>
-                          <option value="2">Não</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-5 d-flex justify-content-lg-end" style={{ marginLeft: "2%" }}>
-                      <button onClick={salvar} className="submit-btn" style={{width: "120px", height:"45px"}}>Cadastrar</button>
-                    </div>
-                  </div>
-                </div>
+        <div className="row">
+          <div className="form-section" id='form-register' style={{ margin: "0px", marginRight: "2%", width: "100%" }}>
+            <div className="card-body-form" style={{ width: "100%" }}>
+              <div className="row" style={{ marginBottom: "2%" }}>
+                <p>Cadastro de produtos unitários</p>
               </div>
-            </div>
-          </div>
-            <div className="row">
-              <div className="table-section" style={{ margin: "0px", marginRight: "2%", width: "100%"}}>
-                <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9', width: "100%" }}>
-                  <p className="card-description">Listagem</p>
-                  <div className="table-responsive">
-                    <table className="table table-striped">
-                      <thead>
-                        <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                        <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                        <th>Validade <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                        <th>Origem <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                        <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{backgroundColor: "#ffffff00"}} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                      </thead>
-                      <tbody>
-                        {getProdutos}
-                      </tbody>
-                    </table>
+              <div className="product-form">
+                <div className="row gap-40" style={{ display: 'flex', flexDirection: 'row', gap: "30px" }}>
+                  <div className="col-3">
+                    <div className="form-group" id='name'>
+                      <label htmlFor="productName">Nome <span className="required">*</span></label>
+                      <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)}>
+                        {getNomeProdutos}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label htmlFor="productType">Data validade <span className="required">*</span></label>
+                      <input
+                        type="date"
+                        id="unit"
+                        name="unit"
+                        onChange={(e) => setValidade(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label htmlFor="unit">Quantidade <span className="required">*</span></label>
+                      <input
+                        type="number"
+                        id="unit"
+                        name="unit"
+                        onChange={(e) => setQuantidade(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row" style={{ gap: "30px" }}>
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label htmlFor="unit">Origem <span className="required">*</span></label>
+                      <select name="origemSel" id="origemSel" onChange={(e) => setOrigem(e.target.value)} >
+                        {getOrigemNome}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-3">
+                    <div className="form-group">
+                      <label htmlFor="unit">Produto em conforme: <span className="required">*</span></label>
+                      <select name="origemSel" id="origemSel" onChange={(e) => setAtivo(e.target.value)} >
+                        <option value="1">Sim</option>
+                        <option value="2">Não</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-5 d-flex justify-content-lg-end" style={{ marginLeft: "2%" }}>
+                    <button onClick={salvar} className="submit-btn" style={{ width: "120px", height: "60%" }}>Cadastrar</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div className="row">
+          <div className="table-section" style={{ margin: "0px", marginRight: "2%", width: "100%" }}>
+            <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9', width: "100%" }}>
+              <p className="card-description">Listagem</p>
+              <div className="table-responsive">
+                <table className="table table-striped">
+                  <thead>
+                    <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
+                    <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                    <th>Validade <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                    <th>Origem <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
+                    <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" style={{ backgroundColor: "#ffffff00" }} fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
+                  </thead>
+                  <tbody>
+                    {getProdutos}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

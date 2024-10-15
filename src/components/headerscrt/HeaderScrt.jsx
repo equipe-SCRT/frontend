@@ -2,8 +2,7 @@ import { Navbar, Nav } from 'rsuite';
 import styles from './HeaderScrt.module.css'
 
 const HeaderScrt = ({ children }) => (
-    // <></>
-    <Navbar className={styles.header}>
+    <Navbar className={styles.header} style={{ backgroundColor: "#fff" }}>
         <Nav>
             <Nav.Menu trigger={'hover'} icon={
                 <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 256 256">

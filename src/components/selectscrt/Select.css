@@ -1,61 +1,36 @@
-  .custom-select-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    max-width: 200px; /* Ajuste conforme necessário */
-  }
-  
-  .custom-select-arrow {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-  
-  .custom-select-arrow img {
-    width: 35px; /* Ajuste o tamanho conforme necessário */
-    height: auto;
-  }
-  
-  .custom-select {
-    font-size: 16px;
-    text-decoration-line: underline;
-    color: #000000;
-    border: none;
-    padding: 10px;
-    padding-left: 45px; /* Espaço para a seta */
-    appearance: none;
-    width: 100%;
-    cursor: pointer;
-  }
-  
-  .custom-select:focus {
-    outline: none;
-  }
-
+.custom-select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 200px;
+}
 
 .custom-select-arrow {
   position: absolute;
-  left: 10px;
+  left: 15px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
 }
 
 .custom-select-arrow img {
-  width: 35px;
+  width: 28px;
   height: auto;
 }
 
 .custom-select {
-  font-size: 16px;
-  /* color: #000000; */
+  text-decoration-line: underline;
+  color: #000000;
   border: none;
   padding: 10px;
-  padding-left: 45px;
+  padding-left: 40px;
   appearance: none;
   width: 100%;
-  background-color: transparent;
   cursor: pointer;
+  font-size: 14px;
+  background-color: transparent;
+}
+
+.custom-select:focus {
+  outline: none;
 }

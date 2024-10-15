@@ -1,29 +1,205 @@
-
-.TituloPrincipal {
-  font-size: larger;
-  font-weight: bold;
-  font-family: "Inter", sans-serif ;
+#form-register h1 {
+    color: #2D3648;
+    font-size: 48px;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
 }
 
-.SubTitulo {
-  font-size: medium;
-  font-weight: bold;
-  font-family: "Roboto", sans-serif;
-  align-content: end;
+#form-register p {
+    font-weight: bold;
+    color: #2D3648;
+    font-family: "Roboto", sans-serif;
+    font-size: 18px;
+    font-style: normal;
 }
 
-.SubTexto {
-  font-size: medium;
-  font-family: "Roboto", sans-serif;
-  margin-bottom: 1 rem;
-  padding-right: 0.5rem;
+.form-section {
+    display: block;
+    width: 70vw;
+    margin: 30px;
 }
 
-.SpaceCima {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+.section-title {
+    margin: 122px 20px 20px 0px;
 }
 
-.RemoverEspacoDireito {
-  padding-right: 0px;
+.product-form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.product-form .form-group label {
+    color: #21272A;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    margin-bottom: 5px;
+}
+
+.pergunta {
+    color: #21272A;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    margin-bottom: 5px;
+}
+
+.product-form .form-group input,
+.product-form .form-group select {
+    background-color: #F2F4F8;
+    border-bottom: 1px solid #C1C7CD !important;
+    padding: 10px;
+    font-size: 16px;
+    border: transparent;
+}
+
+.product-form .form-group input:focus,
+.product-form .form-group select:focus {
+    border-color: #F2F4F8;
+    outline: none;
+}
+
+.product-form .required {
+    color: red;
+}
+
+.colorRed {
+    color: red;
+}
+
+.inputLabel {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #F2F4F8;
+    border: none;
+    padding-left: 1rem;
+}
+
+.title {
+    margin-bottom: 1rem;
+    font-size: xx-large;
+}
+
+.subTitle {
+    margin-bottom: 2rem;
+}
+
+.PaddingOption {
+    padding-left: 1rem;
+}
+
+.submit-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #F07E18;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #F07E18;
+}
+
+.table-section {
+    width: 80%;
+    margin: 30px;
+}
+
+.card-body-form {
+    width: 80vw;
+    padding: 20px;
+    margin-bottom: 40px;
+    border: 1px solid #DDE1E6;
+    background-color: #f9f9f9;
+}
+
+.card-body {
+    width: 80vw;
+    padding: 20px;
+    border: 1px solid #DDE1E6;
+    background-color: #f9f9f9;
+}
+
+.card-title {
+    margin-bottom: 20px;
+}
+
+.card-description {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2D3648;
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 20px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table.table-striped {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table.table-striped th,
+.table.table-striped td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table.table-striped th {
+    background-color: #F2F4F8;
+    color: #121619;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
+
+.table>:not(:first-child) {
+    border-top: 1px solid #D9D9D9;
+}
+
+.table.table-striped td {
+    --bs-table-accent-bg: rgb(255 255 255 / 5%) !important;
+}
+
+.table.table-striped th input[type="checkbox"],
+.table.table-striped td input[type="checkbox"] {
+    margin: 0;
+}
+
+.table.table-striped .sort-arrow {
+    cursor: pointer;
+}
+
+.form-up .form-group #productName {
+    width: 42vw;
+    padding: 10px;
+}
+
+.form-up .form-group #productType {
+    width: 32vw;
+    padding: 10px;
+}
+
+.form-down .form-group #unit {
+    width: 42vw;
+}
+
+.form-down .submit-btn {
+    width: 17vh;
+    height: 6vh;
+    margin-top: 25px;
+    font-family: "Roboto", sans-serif;
+}
+
+.inputFormat {
+    padding: 10px;
 }
