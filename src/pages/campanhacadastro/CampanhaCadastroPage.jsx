@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import "./CampanhaCadastroPage.module.css"
+import style from "./CampanhaCadastroPage.module.css"
 import Swal from 'sweetalert2';
+import Botao from "../components/button/Button"
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 var pilha = [];
 let contadorPilha = -1;
@@ -356,93 +358,83 @@ const CampanhaCadastroPage = () => {
   }
 
 
+
   return (
     <>
-      <div style={{ display: "block", height: "100%" }}>
-        
-        <div className="form-section" id='form-register'>
+      <div className='container-fluid'>
+
+        <div className="col-12 mb-5" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
-            <h1 className="section-title" style={{ margin: "0px" }}>Campanhas</h1>
+            <h1 className={style.title}>Campanhas</h1>
           </div>
-          <div className="card-body-form">
-            <p>Cadastro</p>
-            <div className="product-form">
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
-                <div className="form-group" id='name'>
-                  <label htmlFor="productName">Tipo de Campanha <span className="required">*</span></label>
-                  <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '33vw' }}>
-                    {getNomeCampanhas}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="productType">Local <span className="required">*</span></label>
-                  <input style={{ width: '33vw' }}
-                    type="text"
-                    id="unit"
-                    name="unit"
-                    onChange={(e) => setLocal(e.target.value)}
-                  />
+
+          <div className="border mb-5 p-3">
+            <p style={{ marginBottom: '20', fontWeight: 'bolder' }}>Cadastro</p>
+            <div className='d-flex justify-content-around'>
+
+              <div className='col-5 d-flex flex-column'>
+                <label htmlFor="">Tipo de Campanha <span className={style.colorRed}>*</span></label>
+                <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)}
+                  className={style.inputLabel}>
+                  <option value="" disabled selected>-</option>
+                  {getNomeCampanhas}
+                </select>
+                <label htmlFor="">Data da Campanha <span className={style.colorRed}>*</span></label>
+                <input
+                  id="unit"
+                  name="unit"
+                  onChange={(e) => setLocal(e.target.value)}
+                  type="date" className={style.inputLabel} />
+
+                <div className='row d-flex justify-content-start'>
+                  <div className='col-6 d-flex flex-column'>
+                    <label htmlFor="">Meta <span className={style.colorRed}>*</span></label>
+                    <input type="text" className={style.inputLabel} />
+                  </div>
+                  <div className='col-6 d-flex flex-column'>
+                    <label htmlFor="">Produto <span className={style.colorRed}>*</span></label>
+                    <select name="" id="" onChange={(e) => setNome(e.target.value)}
+                      className={style.inputLabel}>
+                      <option value="" disabled selected>-</option>
+                      {getNomeCampanhas}
+                    </select>
+                  </div>
                 </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-                <div className="form-group">
-                  <label htmlFor="unit">Data campanha <span className="required">*</span></label>
-                  <input style={{ width: '33vw' }}
-                    type="date"
-                    id="unit"
-                    name="unit"
-                    onChange={(e) => setLocal(e.target.value)}
-                  />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="unit">Quantidade arrecadada <span className="required">*</span></label>
-                    <input style={{ width: '33vw' }}
-                      type="number"
-                      id="unit"
-                      name="unit"
-                      onChange={(e) => setQuantidade(e.target.value)}
-                    />
-                  </div>
-
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-                <div className="form-group">
-                  <label htmlFor="unit">Meta <span className="required">*</span></label>
-                  <input style={{ width: '33vw' }}
-                      type="text"
-                      id="unit"
-                      name="unit"
-                      onChange={(e) => setQuantidade(e.target.value)}
-                    />
+              <div className='col-5 d-flex flex-column'>
+                <label htmlFor="">Local <span className={style.colorRed}>*</span></label>
+                <input type="text" className={style.inputLabel} placeholder='-' />
+                <label htmlFor="">Quantidade arrecadada <span className={style.colorRed}>*</span></label>
+                <input type="text" className={style.inputLabel} placeholder='-' />
+                <div className="col-12 d-flex justify-content-end text-white" style={{ margin: '20px' }}>
+                  <Botao mensagem={"Cadastrar Campanha"} onClick={salvar} />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="unit">Meta <span className="required">*</span></label>
-                  <select name="origemSel" id="origemSel" style={{width: "20vw"}} onChange={(e) => setOrigem(e.target.value)} >
-                    {getOrigemNome}
-                  </select>
-                </div>
-                <button onClick={salvar} className="submit-btn">Cadastrar</button>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="table-section">
-          <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
-            <p className="card-description">Listagem</p>
-            <div className="table-responsive">
-              <table className="table table-striped">
-                <thead>
-                  <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                  <th>Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                  <th>Validade <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                  <th>Origem <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                  <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                </thead>
-                <tbody>
-                  {getProdutos}
-                </tbody>
-              </table>
+
+            <div className="row border">
+              <div className="col-12 d-flex justify-content-between p-3">
+                <p className={style.SubTitulo} >Listagem</p>
+              </div>
+
+              <div className="">
+                <div>
+                  <DataTable className="border mb-5" value={getProdutos}>
+                  <Column className="col-4 border-top p-3 mb-2 text-dark" field="" header="" headerClassName="p-3 mb-2 bg-light text-dark">
+                  </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="#" header="#" sortable headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="tipoCampanha" header="Tipo da Campanha" sortable headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="local" sortable header='Local' headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="data" header="Data" sortable headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="" header="" headerClassName="p-3 mb-2 bg-light text-dark">
+                    </Column>
+                  </DataTable>
+                </div>
+              </div>
             </div>
           </div>
         </div>
