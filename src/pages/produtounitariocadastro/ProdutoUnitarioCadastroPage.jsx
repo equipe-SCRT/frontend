@@ -27,10 +27,17 @@ const ProdutoUnitarioCadastro = () => {
   const [editedRowData, setEditedRowData] = useState(null);
   let navigate = useNavigate();
 
-
-
   const apiProdutos = axios.create({
     baseURL: "http://localhost:8080/",
+    withCredentials: false,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    }
+  });
+
+  const api = axios.create({
+    baseURL: "http://localhost:8080/produtos-unitario",
     withCredentials: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -69,7 +76,6 @@ const ProdutoUnitarioCadastro = () => {
   function push(info) {
     contadorPilha++;
     pilha.push(info);
-    //console.log("pilha adicionada: ")
     console.log(pilha)
   }
 
@@ -84,6 +90,7 @@ const ProdutoUnitarioCadastro = () => {
           console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
+            _alertaSucesso("Sucesso", "Sucesso ao desfazer")
             contadorPilha--;
             handleProdutos()
             if (pilha.length > 0) {
@@ -106,31 +113,18 @@ const ProdutoUnitarioCadastro = () => {
                   clearInterval(timerInterval);
                 }
               }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                  //console.log("I was closed by the timer");
-                } else if (result.isConfirmed) {
+                 if (result.isConfirmed) {
                   pop();
-                } else {
-                  //console.log("I was closed by the user"); 
-                }
+                } 
               });
             }
           }
         }).catch((err) => {
-          //console.log(err)
+          _alertaError("Erro ao desfazer", err)
         })
       }
     }
   }
-
-  const api = axios.create({
-    baseURL: "http://localhost:8080/produtos-unitario",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
 
   function _alertaSucesso(titulo, texto) {
     Swal.fire({
