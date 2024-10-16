@@ -61,3 +61,14 @@ hr {
   margin-bottom: 0px;
   opacity: 0.15;
 }
+.rs-input-number-btn-group-vertical{
+  display: none!important;
+}
+.btn-scrt{
+  margin: auto;
+  margin-right: 0;
+  background-color: #F07E18!important;
+  color: #FFFFFF!important;
+  font-weight: bolder!important;
+  height: 48px!important;
+}
