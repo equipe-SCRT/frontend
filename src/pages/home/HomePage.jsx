@@ -79,7 +79,9 @@ const HomePage = () => {
       <Col md lg={12}>
         {/* <Container> */}
         <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
-
+        <h3 style={{
+          marginBottom: '10px'
+        }}>Visão Geral dos Produtos em Estoque</h3>
           <Row>
             <CardScrt legenda="Quantidade de Cestas Produzidas" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
             <CardScrt legenda="Quantidade em Estoque" info={dadosEstoque.length > 0 ? dadosEstoque[dadosEstoque.length - 1].count : 0} bgColor="#5FED6D" />

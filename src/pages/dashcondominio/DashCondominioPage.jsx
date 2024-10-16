@@ -76,6 +76,9 @@ const DashCondominioPage = () => {
     <>
       <Col md lg={12}>
         <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
+        <h3 style={{
+          marginBottom: '10px'
+        }}>Visão Geral dos Condomínios</h3>
           <Row>
             <CardScrt legenda="Selecione o Condomínio" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
             <CardScrt legenda="Total de Alimentos Arrecadados" info={dadosEstoque.length > 0 ? dadosEstoque[dadosEstoque.length - 1].count : 0} bgColor="#5FED6D" />
