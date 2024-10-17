@@ -1,3 +1,4 @@
+import SelectScrt from "../../components/select/SelectScrt";
 import React from "react";
 import { Line } from "react-chartjs-2";
 import {
@@ -22,7 +23,6 @@ Chart.register(
   Tooltip,
   Legend
 );
-import SelectScrt from "../../components/select/SelectScrt";
 
 const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => {
   let datasets = [];
