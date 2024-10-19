@@ -28,8 +28,13 @@ const Login = () => {
         senha: senhaV
       }).then((response) => {
         if(response.status == 200){
-
+          
           localStorage.setItem('token', response.data.token);
+          sessionStorage.setItem('userId', response.data.userId)
+          sessionStorage.setItem('nome', response.data.nome)
+          sessionStorage.setItem('email', response.data.email)
+          sessionStorage.setItem('tipoUsuario', response.data.tipoUsuario)
+          
           window.location.href = '/home';
 
           idUsuario = response.data.idUsuario;

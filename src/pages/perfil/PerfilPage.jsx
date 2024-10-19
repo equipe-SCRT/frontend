@@ -3,6 +3,22 @@ import "./PerfilPage.css";
 import perfilEditIcon from "../../assets/images/perfil-edit.svg";
 
 const PerfilPage = () => {
+
+  const api = axios.create({
+    baseURL: "http://localhost:8080/usuarios",
+    withCredentials: false,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    }
+  });
+
+  async function ftechGetUsuario(){
+    api.get
+    
+
+  }
+
   const [userInfo, setUserInfo] = useState({
     nome: "Fulvia",
     sobrenome: "Cristina",
@@ -67,7 +83,7 @@ const PerfilPage = () => {
                     id="nome"
                     name="nome"
                     value={userInfo.nome}
-                    onChange={handleInputChange}
+                     onChange={handleInputChange}
                     disabled={!isEditing}
                   />
                 </div>
