@@ -47,6 +47,10 @@ const CampanhaCadastroPage = () => {
     console.log(pilha)
   }
 
+  async function cadastrarProduto(){
+
+  }
+
   async function excluir(id) {
     apiProdutos.delete("produtos-unitario/" + id).then((response) => {
       //console.log(response);
@@ -381,19 +385,19 @@ const CampanhaCadastroPage = () => {
                 </select>
                 <label htmlFor="">Data da Campanha <span className={style.colorRed}>*</span></label>
                 <input
-                  id="unit"
-                  name="unit"
+                  id="dataCampanha"
+                  name="dataCampanha"
                   onChange={(e) => setLocal(e.target.value)}
                   type="date" className={style.inputLabel} />
 
                 <div className='row d-flex justify-content-start'>
                   <div className='col-6 d-flex flex-column'>
                     <label htmlFor="">Meta <span className={style.colorRed}>*</span></label>
-                    <input type="text" className={style.inputLabel} />
+                    <input id="meta" name='meta' type="number" className={style.inputLabel} />
                   </div>
                   <div className='col-6 d-flex flex-column'>
                     <label htmlFor="">Produto <span className={style.colorRed}>*</span></label>
-                    <select name="" id="" onChange={(e) => setNome(e.target.value)}
+                    <select name="produto" id="produto" onChange={(e) => setNome(e.target.value)}
                       className={style.inputLabel}>
                       <option value="" disabled selected>-</option>
                       {getNomeCampanhas}
