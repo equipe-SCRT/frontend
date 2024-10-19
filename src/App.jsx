@@ -6,7 +6,8 @@ import HomePage from './pages/home/HomePage';
 import LoginPage from './pages/login/LoginPage';
 import NotFoundPage from './pages/notfound/NotFoundPage';
 import Layout from './components/layout/Layout';
-import Register from './pages/RegisterPage';
+import Register from './pages/recuperar-senha/RegisterPage';
+import RegisterNewPasswordPage from './pages/recuperar-senha/RegisterNewPasswordPage';
 import ProdutoUnitarioCadastro from "./pages/produtounitariocadastro/ProdutoUnitarioCadastroPage"
 import CondominioCadastro from "./pages/condominiocadastro/CondominioCadastroPage"
 import ProdutoCadastro from "./pages/produto/ProdutoCadastroPage"
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/" element={<LoginPage/>} />
         <Route path="/home" element={<HomePage/>} />
         <Route path="/redefinir-senha" element={<Register/>} />
+        <Route path="/redefinir-senha-nova-senha" element={<RegisterNewPasswordPage/>} />
         <Route path="/campanhas" element={<DashboardCampanhas/>} />
         <Route path="/produtos/cadastro" element={<ProdutoCadastro />} />
         <Route path="/produtos-unitarios/cadastro" element={<ProdutoUnitarioCadastro />} />
