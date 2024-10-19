@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./PerfilPage.css";
 import perfilEditIcon from "../../assets/images/perfil-edit.svg";
+import axios from 'axios'
 
 const PerfilPage = () => {
 
   const api = axios.create({
-    baseURL: "http://localhost:8080/usuarios",
+    baseURL: "http://localhost:8080",
     withCredentials: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -13,17 +14,17 @@ const PerfilPage = () => {
     }
   });
 
-  async function ftechGetUsuario(){
-    api.get
+  async function fetchAtualizarUsuario(){
+    api.patch("/usuarios/atualizar-usuario", userInfo)
     
 
   }
 
   const [userInfo, setUserInfo] = useState({
-    nome: "Fulvia",
-    sobrenome: "Cristina",
-    email: "fulvia.cristina@itapora.com",
-    tipoUsuario: "Administrador do Sistema",
+    id: sessionStorage.getItem("userId"),
+    nome: sessionStorage.getItem("nome"),
+    email: sessionStorage.getItem("email"),
+    tipoUsuario: sessionStorage.getItem("tipoUsuario")
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -58,7 +59,7 @@ const PerfilPage = () => {
             <h4>
               {userInfo.nome} {userInfo.sobrenome}
             </h4>
-            <p>{userInfo.tipoUsuario}</p>
+            <p>{userInfo.tipoUsuario == 1 ? "Administrador do Sistema" : "Usuário Comum"}</p>
           </div>
         </div>
 
@@ -117,13 +118,13 @@ const PerfilPage = () => {
                     type="text"
                     id="tipoUsuario"
                     name="tipoUsuario"
-                    value={userInfo.tipoUsuario}
+                    value={userInfo.tipoUsuario == 1 ? "Administrador do Sistema" : "Usuário Comum"}
                     disabled
                   />
                 </div>
               </div>
               {isEditing && (
-                <button type="submit" className="submit-btn">
+                <button type="submit" className="submit-btn" onClick={fetchAtualizarUsuario}>
                   Salvar
                 </button>
               )}

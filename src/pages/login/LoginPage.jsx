@@ -10,6 +10,7 @@ const Login = () => {
   let logado = false;
   let button;
   let idUsuario;
+
   const api = axios.create({
     baseURL: "http://localhost:8080/usuarios",
     withCredentials: false,
@@ -28,7 +29,7 @@ const Login = () => {
         senha: senhaV
       }).then((response) => {
         if(response.status == 200){
-          
+
           localStorage.setItem('token', response.data.token);
           sessionStorage.setItem('userId', response.data.userId)
           sessionStorage.setItem('nome', response.data.nome)
