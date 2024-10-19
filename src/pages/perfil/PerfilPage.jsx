@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import "./PerfilPage.css";
 import perfilEditIcon from "../../assets/images/perfil-edit.svg";
 import axios from 'axios'
@@ -15,9 +16,15 @@ const PerfilPage = () => {
   });
 
   async function fetchAtualizarUsuario(){
+    // for (let i = 0; i < userInfo.nome.length; i++) {
+    //   if(isNaN(userInfo.nome[i]) != true){
+    //     api.patch("/usuarios/atualizar-usuario", userInfo)
+    //   }else{
+    //     console.log("Não pode ter número")
+    //     return;
+    //   }
+    // }
     api.patch("/usuarios/atualizar-usuario", userInfo)
-    
-
   }
 
   const [userInfo, setUserInfo] = useState({
@@ -84,7 +91,7 @@ const PerfilPage = () => {
                     id="nome"
                     name="nome"
                     value={userInfo.nome}
-                     onChange={handleInputChange}
+                    onChange={handleInputChange}
                     disabled={!isEditing}
                   />
                 </div>
@@ -128,6 +135,9 @@ const PerfilPage = () => {
                   Salvar
                 </button>
               )}
+              <p className="small mb-5 pb-lg-2" style={{fontFamily: "'Montserrat', sans-serif"}}>
+                <a style={{color:"gray", fontSize: 12}} href="#">Esqueceu a senha?</a>
+              </p>
             </form>
           </div>
         </div>
