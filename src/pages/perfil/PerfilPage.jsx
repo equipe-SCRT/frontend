@@ -16,15 +16,14 @@ const PerfilPage = () => {
   });
 
   async function fetchAtualizarUsuario(){
-    // for (let i = 0; i < userInfo.nome.length; i++) {
-    //   if(isNaN(userInfo.nome[i]) != true){
-    //     api.patch("/usuarios/atualizar-usuario", userInfo)
-    //   }else{
-    //     console.log("Não pode ter número")
-    //     return;
-    //   }
-    // }
-    api.patch("/usuarios/atualizar-usuario", userInfo)
+    var possuiNumeros = false;
+    userInfo.name.map((x) => {
+      if(!isNaN(x)){
+        possuiNumeros = true;
+      }
+    })
+    
+    possuiNumeros ? alert("Não pode ter número") :   api.patch("/usuarios/atualizar-usuario", userInfo);
   }
 
   const [userInfo, setUserInfo] = useState({

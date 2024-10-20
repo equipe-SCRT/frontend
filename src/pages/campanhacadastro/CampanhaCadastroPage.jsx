@@ -11,14 +11,20 @@ let contadorPilha = -1;
 
 const CampanhaCadastroPage = () => {
   let [getProdutos, setProdutos] = useState([]);
-  let [getNomeCampanhas, setNomeProdutos] = useState([]);
+  let [getNomeCampanhas, setNomeCampanhas] = useState([]);
   let [getOrigemNome, setOrigemNome] = useState([]);
   let [getNome, setNome] = useState("");
   let [getValidade, setLocal] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
+  let [getTipoCampanha, setTipoCampanha] = useState(null);
+  let [getDataCampanha, setDataCampanha] = useState(null);
+  let [getMetaCampanha, setMetaCampanha] = useState(null);
+  let [getProdutoCampanha, setProdutoCampanha] = useState(null);
+  let [getLocalCampanha, setLocalCampanha] = useState(null);
+  let [getQtdArrecadadaCampanha, setQtdArrecadadaCampanha] = useState(null);
   let [getPilha, setPilha] = useState([]);
-  let [getTodosProdutos, setTdProdutos] = useState([]);
+  let [getTodosProdutos, setTdCampanhas] = useState([]);
   let [getNomeAlt, setNomeAlt] = useState();
   let [getDateAlt, setDateAlt] = useState();
   let [getOrigAlt, setOrigAlt] = useState();
@@ -26,13 +32,13 @@ const CampanhaCadastroPage = () => {
 
 
   useEffect(() => {
-    handleProdutos()
+    handleCampanhas()
     handleNomeProdutos()
     handleOrigem()
   }, [])
 
   const apiProdutos = axios.create({
-    baseURL: "http://localhost:8080/",
+    baseURL: "http://localhost:8080",
     withCredentials: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -47,12 +53,8 @@ const CampanhaCadastroPage = () => {
     console.log(pilha)
   }
 
-  async function cadastrarProduto(){
-
-  }
-
   async function excluir(id) {
-    apiProdutos.delete("produtos-unitario/" + id).then((response) => {
+    apiProdutos.delete("/produtos-unitario/" + id).then((response) => {
       //console.log(response);
       alert("excluido");
       // window.location.reload()
@@ -73,7 +75,7 @@ const CampanhaCadastroPage = () => {
           if (res.status == 204) {
             pilha.pop();
             contadorPilha--;
-            handleProdutos()
+            handleCampanhas()
             if (pilha.length > 0) {
               let timerInterval;
               Swal.fire({
@@ -121,14 +123,19 @@ const CampanhaCadastroPage = () => {
     }
   });
 
-  async function handleProdutos() {
+  async function handleCampanhas() {
     try {
-      var encontrados = await api.get("");
-      //console.log(encontrados)
-      setTdProdutos(encontrados.data)
-      console.log(getTodosProdutos)
+      var encontrados = await apiProdutos.get("/tipo-campanhas");
+      var nomeCampanhas = [];
+
+      console.log(encontrados)
+      setTdCampanhas(encontrados.data)
+
       for (var i = 0; i < encontrados.data.length; i++) {
         let id = encontrados.data[i].id
+        nomeCampanhas.push(
+          <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
+        )
         lista.push(
           <tr key={encontrados.data[i]}>
             <td className="py-1" id={"idProd" + i}>
@@ -141,25 +148,6 @@ const CampanhaCadastroPage = () => {
                 {getNomeCampanhas}
               </select> */}
               <input type="text" style={{ display: 'none' }} onChange={(e) => setNomeAlt(e.target.value)} className={'nomeTxt' + id} />
-            </td>
-            <td id={"dateProd" + i}>
-              <span className={'date' + id}>{encontrados.data[i].localCampanha}</span>
-              <input style={{ display: 'none' }}
-                className={"dateTxt" + id}
-                placeholder={encontrados.data[i].localCampanha}
-                type="date"
-                id="unit"
-                name="unit"
-                onChange={(e) => setDateAlt(e.target.value)}
-              />
-            </td>
-            <td id={"origProd" + i}>
-              <span className={'orig' + id}>{encontrados.data[i].dataCampanha}</span>
-              {/* <select name="origemSel" id="origemSel" className={"origTxt" + id} style={{ display: "none" }} >
-                {getOrigemNome}
-              </select> */}
-              <input type="text" style={{ display: 'none' }} onChange={(e) => setOrigAlt(e.target.value)}
-                placeholder={encontrados.data[i].dataCampanha} className={"origTxt" + id} />
             </td>
             <td>
 
@@ -180,7 +168,7 @@ const CampanhaCadastroPage = () => {
           </tr>
         )
       }
-      setProdutos(lista);
+      setNomeCampanhas(nomeCampanhas);
       lista = []
     } catch (err) {
       //console.log(err);
@@ -234,18 +222,31 @@ const CampanhaCadastroPage = () => {
 
   }
 
+  async function handleCadastroCampanhas(){
+    const campanhaNova = {
+      fkTipoCampanha: getTipoCampanha,
+      dataCampanha: getDataCampanha,
+      meta: getMetaCampanha,
+      fkProduto: getProdutoCampanha,
+      localCampanha: getLocalCampanha,
+      qtdArrecadada: getQtdArrecadadaCampanha
+    }
+
+    const response = await apiProdutos.post("campanhas", campanhaNova);
+    console.log("Campanha cadastrada: " + response)
+  }
 
   async function handleNomeProdutos() {
     try {
-      var encontrados = await apiProdutos.get("campanhas");
+      var encontrados = await apiProdutos.get("/produtos");
       var listaNomes = [];
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
         listaNomes.push(
-          <option value={encontrados.data[i].nome}>{encontrados.data[i].nome}</option>
+          <option onChange={(e) => setProdutoCampanha(e.target.value)} value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
         )
       }
-      setNomeProdutos(listaNomes);
+      setProdutos(listaNomes);
       listaNomes = []
     } catch (err) {
       //console.log(err);
@@ -291,7 +292,7 @@ const CampanhaCadastroPage = () => {
         metricaId: 1
       }).then(async (response) => {
 
-        handleProdutos();
+        handleCampanhas();
         //console.log("1020121218902901890----------s")
         //console.log(response)
         let alteracao = {
@@ -378,7 +379,7 @@ const CampanhaCadastroPage = () => {
 
               <div className='col-5 d-flex flex-column'>
                 <label htmlFor="">Tipo de Campanha <span className={style.colorRed}>*</span></label>
-                <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)}
+                <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoCampanha(e.target.value)}
                   className={style.inputLabel}>
                   <option value="" disabled selected>-</option>
                   {getNomeCampanhas}
@@ -387,31 +388,37 @@ const CampanhaCadastroPage = () => {
                 <input
                   id="dataCampanha"
                   name="dataCampanha"
-                  onChange={(e) => setLocal(e.target.value)}
+                  onChange={(e) => setDataCampanha(e.target.value)}
                   type="date" className={style.inputLabel} />
 
                 <div className='row d-flex justify-content-start'>
                   <div className='col-6 d-flex flex-column'>
                     <label htmlFor="">Meta <span className={style.colorRed}>*</span></label>
-                    <input id="meta" name='meta' type="number" className={style.inputLabel} />
+                    <input 
+                    id="meta" 
+                    name='meta' 
+                    type="number" 
+                    className={style.inputLabel} 
+                    onChange={(e) => setMetaCampanha(e.target.value)}
+                    />
                   </div>
                   <div className='col-6 d-flex flex-column'>
                     <label htmlFor="">Produto <span className={style.colorRed}>*</span></label>
-                    <select name="produto" id="produto" onChange={(e) => setNome(e.target.value)}
+                    <select name="produto" id="produto" onChange={(e) => setProdutoCampanha(e.target.value)}
                       className={style.inputLabel}>
                       <option value="" disabled selected>-</option>
-                      {getNomeCampanhas}
+                      {getProdutos}
                     </select>
                   </div>
                 </div>
               </div>
               <div className='col-5 d-flex flex-column'>
                 <label htmlFor="">Local <span className={style.colorRed}>*</span></label>
-                <input type="text" className={style.inputLabel} placeholder='-' />
+                <input type="text" className={style.inputLabel} placeholder='-' onChange={(e) => setLocalCampanha(e.target.value)}/>
                 <label htmlFor="">Quantidade arrecadada <span className={style.colorRed}>*</span></label>
-                <input type="text" className={style.inputLabel} placeholder='-' />
+                <input type="text" className={style.inputLabel} placeholder='-' onChange={(e) => setQtdArrecadadaCampanha(e.target.value)}/>
                 <div className="col-12 d-flex justify-content-end text-white" style={{ margin: '20px' }}>
-                  <Botao mensagem={"Cadastrar Campanha"} onClick={salvar} />
+                  <Botao mensagem={"Cadastrar Campanha"} onClick={handleCadastroCampanhas()} />
                 </div>
               </div>
             </div>
@@ -436,7 +443,7 @@ const CampanhaCadastroPage = () => {
                     </Column>
                     <Column className="col-4 border-top p-3 mb-2 text-dark" field="" header="" headerClassName="p-3 mb-2 bg-light text-dark">
                     </Column>
-                  </DataTable>
+                  </DataTable> 
                 </div>
               </div>
             </div>
