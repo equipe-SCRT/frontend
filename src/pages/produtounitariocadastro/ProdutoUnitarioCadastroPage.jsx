@@ -327,7 +327,8 @@ const ProdutoUnitarioCadastro = () => {
     console.log(editedRowData)
     api.put(`/${editedRowData.id}`,
       {
-        "nome": editedRowData.nome,
+        "id": editedRowData.id,
+        "produtoId": editedRowData.nome,
         "dataValidade": editedRowData.dataValidade,
         "origemId": editedRowData.origem
       }
