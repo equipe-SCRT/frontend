@@ -31,6 +31,8 @@ const IndicadoresCadastro = () => {
   let [estiloSelectTipoCampanha, setEstiloSelectTipoCampanha] = useState({ display: "none" })
   let [getTipoProdutosSelectTxt, setTipoProdutosSelectTxt] = useState([]);
   let [getTipoCampanhasSelectTxt, setTipoCampanhasSelectTxt] = useState([]);
+  let [getQuantidadeCasas, setQuantidadeCasas] = useState(0);
+  let [getQtdDiasVencimento, setQtdDiasVencimento] = useState(0);
 
 
   const api = axios.create({
@@ -86,6 +88,24 @@ const IndicadoresCadastro = () => {
       )
     }
     setTipoProdutosSelectTxt(returnSelectTipoProd)
+  }
+
+  async function salvarQtdCasas(){
+    api.post("/metricas", {
+      "qtdCasas": getQuantidadeCasas
+    }).then((res) => {
+      _alertaSucesso("Sucesso ao cadastrar", "Sucesso ao cadastrar quantidade casas")
+      handleTipoProduto();
+    }).catch((err) => _alertaError("Erro ao cadastrar quantidade casas", err));
+  }
+
+  async function salvarDiasVencimento(){
+    api.post("/metricas", {
+      "qtdCasas": getQtdDiasVencimento
+    }).then((res) => {
+      _alertaSucesso("Sucesso ao cadastrar", "Sucesso ao cadastrar quantidade casas")
+      handleTipoProduto();
+    }).catch((err) => _alertaError("Erro ao cadastrar quantidade casas", err));
   }
 
   async function handleTipoProdutoExistentes() {
@@ -270,13 +290,13 @@ const IndicadoresCadastro = () => {
                   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
                       <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", marginTop: "4%" }}>
-                        <input type="text" placeholder='156' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '100%' }} />
+                        <input type="text" placeholder='156' name="nomeSel" id="nomeSel" onChange={(e) => setQuantidadeCasas(e.target.value)} style={{ width: '100%' }} />
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className='row d-flex justify-content-lg-end'>
-                  <button style={{ width: "120px", height: "auto" }} onClick={handleTipoProduto} className="submit-btn">Concluir</button>
+                  <button style={{ width: "120px", height: "auto" }} onClick={salvarQtdCasas} className="submit-btn">Concluir</button>
                 </div>
               </div>
             </div>
@@ -294,12 +314,12 @@ const IndicadoresCadastro = () => {
                       <label htmlFor="productName" style={{ fontSize: "18px" }}>O produto deverá entrar em alerta quando faltar quantos dias para o seu vencimento? <span className="required">*</span></label>
                     </div>
                     <div className="form-group" id='name'>
-                      <input type="text" placeholder='15 dias' name="nomeSel" id="nomeSel" onChange={(e) => setEmail(e.target.value)} style={{ width: '32vw' }} />
+                      <input type="text" placeholder='15 dias' name="nomeSel" id="nomeSel" onChange={(e) => setQtdDiasVencimento(e.target.value)} style={{ width: '32vw' }} />
                     </div>
                   </div>
                 </div>
                 <div className='row d-flex justify-content-lg-end'>
-                  <button style={{ width: "120px", height: "auto" }} onClick={handleTipoProduto} className="submit-btn">Concluir</button>
+                  <button style={{ width: "120px", height: "auto" }} onClick={salvarDiasVencimento} className="submit-btn">Concluir</button>
                 </div>
               </div>
             </div>
