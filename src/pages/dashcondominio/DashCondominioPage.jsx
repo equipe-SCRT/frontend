@@ -7,82 +7,133 @@ import CardScrt from '../../components/cardscrt/CardScrt'
 import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarraProgresso'
 import GraficoBarra from '../../components/graficobarra/GraficoBarra';
 import GraficoLinha from '../../components/graficolinha/GraficoLinha';
-
+import SelectScrt from "../../components/select/SelectScrt";
 
 const DashCondominioPage = () => {
 
-  const [dadosEstoque, setDadosEstoque] = useState([]);
+  const [
+    qtdAlimentosArrecadadosPorCondominio,
+    setQtdAlimentosArrecadadosPorCondominio,
+  ] = useState([]);
   const [dadosVencidosPorMes, setDadosVencidosPorMes] = useState([]);
-  const [dadosCestasProduzidas, setDadosCestasProduzidas] = useState([]);
-  const [dadosAlimentosVencimento15E30Dias, setDadosAlimentosVencimento15E30Dias] = useState([]);
+  const [dadosCondominios, setDadosCondominios] = useState([]);
+
+  const [selectedCondominio, setSelectedCondominio] = useState(null);
+
+  const [dadosEstoque, setDadosEstoque] = useState([]);
   const [dadosArrecadadosXVencidos, setDadosArrecadadosXVencidos] = useState([]);
+  const [qtdArrecadada, setQtdArrecadada] = useState(0);
 
-
-  const dadosPizza = [dadosAlimentosVencimento15E30Dias['vencimento30'], dadosAlimentosVencimento15E30Dias['vencimento15']];
-  const somaCountDadosVencidos = dadosVencidosPorMes.length > 0 ? dadosVencidosPorMes.reduce((total, item) => total + item.count, 0) : 0;
+  const somaCountDadosVencidos =
+    dadosVencidosPorMes.length > 0
+      ? dadosVencidosPorMes.reduce((total, item) => total + item.count, 0)
+      : 0;
 
   useEffect(() => {
-    const fetchDadosEstoque = async () => {
-      try {
-        const response = await api.get('produtos-unitario/quantidade-produtos/mes?ativo=true');
-        setDadosEstoque(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar os dados:', error);
-      }
-    };
-
     const fetchDadosVencidosPorMes = async () => {
       try {
-        const response = await api.get('produtos-unitario/quantidade-produtos/mes?ativo=false');
+        const response = await api.get(
+          "produtos-unitario/quantidade-produtos/mes?ativo=false"
+        );
         setDadosVencidosPorMes(response.data);
       } catch (error) {
-        console.error('Erro ao buscar os dados:', error);
+        console.error("Erro ao buscar os dados:", error);
       }
     };
 
-    const fetchDadosCestasProduzidas = async () => {
+    const fetchQtdAlimentosArrecadadosPorCondominio = async (id) => {
       try {
-        const response = await api.get('cestas/quantidade-cestas');
-        setDadosCestasProduzidas(response.data);
+        if (!id) return;
+        const response = await api.get(`produtos-unitario/por-condominio/${id}`);
+        setQtdAlimentosArrecadadosPorCondominio(response.data);
       } catch (error) {
-        console.error('Erro ao buscar os dados:', error);
+        console.error("Erro ao buscar os dados:", error);
       }
     };
-    const fetchDadosAlimentosVencimento15E30Dias = async () => {
+
+    const fetchDadosCondominios = async () => {
       try {
-        const response = await api.get('produtos-unitario/vencimento-em-15-e-30-dias');
-        setDadosAlimentosVencimento15E30Dias(response.data);
+        const response = await api.get("condominios");
+        const condominios = response.data;
+        const totalQtdArrecadada = condominios.reduce(
+          (acc, condominio) => acc + condominio.qtdArrecadada,
+          0
+        );
+        setQtdArrecadada(totalQtdArrecadada);
+        setDadosCondominios(condominios);
+
+        if (condominios.length > 0) {
+          setSelectedCondominio(condominios[0]);
+        }
       } catch (error) {
-        console.error('Erro ao buscar os dados:', error);
+        console.error("Erro ao buscar os dados:", error);
       }
     };
+
     const fetchDadosArrecadadosXVencidos = async () => {
       try {
-        const response = await api.get('produtos-unitario/arrecadados-x-vencidos');
+        const response = await api.get(
+          "produtos-unitario/arrecadados-x-vencidos"
+        );
         setDadosArrecadadosXVencidos(response.data);
       } catch (error) {
-        console.error('Erro ao buscar os dados:', error);
+        console.error("Erro ao buscar os dados:", error);
       }
     };
 
-    fetchDadosEstoque();
+    fetchQtdAlimentosArrecadadosPorCondominio();
     fetchDadosVencidosPorMes();
-    fetchDadosCestasProduzidas();
-    fetchDadosAlimentosVencimento15E30Dias();
+    fetchDadosCondominios();
     fetchDadosArrecadadosXVencidos();
   }, []);
+
+  useEffect(() => {
+  }, [dadosCondominios]);
+
+  useEffect(() => {
+  }, [qtdAlimentosArrecadadosPorCondominio]);
+
+  const handleCondominioChange = (event) => {
+    const condominioId = event.target.value;
+    const condominio = dadosCondominios.find((c) => c.id === parseInt(condominioId));
+    setSelectedCondominio(condominio);
+
+    fetchQtdAlimentosArrecadadosPorCondominio(condominioId);
+  };
+
+  const dadosFiltrados = selectedCondominio
+    ? qtdAlimentosArrecadadosPorCondominio.filter(
+      (dado) => dado.id === selectedCondominio.id
+    )
+    : [];
+
+  const dadosGrafico = dadosFiltrados.map((dado) => ({
+    mes: dado.mes,
+    count: dado.qtdArrecadada,
+  }));
 
   return (
     <>
       <Col md lg={12}>
         <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
-        <h3 style={{
-          marginBottom: '10px'
-        }}>Visão Geral dos Condomínios</h3>
+          <h3 style={{
+            marginBottom: '10px'
+          }}>Visão Geral dos Condomínios</h3>
           <Row>
-            <CardScrt legenda="Selecione o Condomínio" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
-            <CardScrt legenda="Total de Alimentos Arrecadados" info={dadosEstoque.length > 0 ? dadosEstoque[dadosEstoque.length - 1].count : 0} bgColor="#5FED6D" />
-            <CardScrt legenda="Produtos não conformes" info={dadosPizza[1]} bgColor="#FDEA3C" />
+            <CardScrt
+              legenda="Selecione o Condomínio"
+              isCondominioSelected={
+                <SelectScrt
+                  dados={dadosCondominios}
+                  onChange={handleCondominioChange}
+                />
+              }
+              bgColor="#D3D3D3" />
+            <CardScrt onChange={handleCondominioChange}
+              legenda="Total de Alimentos Arrecadados"
+              info={qtdAlimentosArrecadadosPorCondominio}
+              bgColor="#5FED6D" />
+            <CardScrt legenda="Produtos não conformes" bgColor="#FDEA3C" />
             <CardScrt legenda="Total de Alimentos Vencidos" info={somaCountDadosVencidos} bgColor="#ED8686" />
           </Row>
           <Row>
