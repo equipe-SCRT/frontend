@@ -224,10 +224,10 @@ const IndicadoresCadastro = () => {
 
   return (
     <>
-      <div className="container" style={{ marginTop: "5%" }}>
+      <div className="container">
         <div className="row">
           <div className='col-8'>
-            <h1 className="section-title" style={{ margin: "0px" }}>Indicadores</h1>
+            <h1 className="section-title" style={{ margin: "2%" }}>Indicadores</h1>
           </div>
         </div>
         <div className="row" style={{ margin: "0 0 0 0" }}>
