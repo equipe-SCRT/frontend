@@ -34,8 +34,11 @@ const IndicadoresCadastro = () => {
   });
   useEffect(() => {
     handleTipoProduto();
-    handleTipoProdutoExistentes();
   }, [])
+
+  useEffect(() => {
+    handleTipoProdutoExistentes();
+  }, [getReqTipoProduto])
 
 
   function _alertaSucesso(titulo, texto) {
