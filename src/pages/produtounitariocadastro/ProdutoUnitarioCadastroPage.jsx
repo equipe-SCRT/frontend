@@ -281,6 +281,15 @@ const ProdutoUnitarioCadastro = () => {
     })
   }
 
+  function compareDates (date) {
+    let today = new Date()     
+    
+    let dateRecebida = new Date(date) 
+    
+  
+    return dateRecebida >= today;
+  }
+
   const renderEditableCell = (rowData, field) => {
     console.log(`${Object.keys(rowData)}`)
     if (editMode && rowData.id === editedRowData?.id) {
@@ -313,8 +322,18 @@ const ProdutoUnitarioCadastro = () => {
     } else {
       if (field === "nome")
         return rowData.nome;
-      else if (field === "dataValidade")
-        return rowData.dataValidade;
+      else if (field === "dataValidade"){
+        let resultado = compareDates(rowData.dataValidade);
+        let estilo = {color:"black"}
+        if(!resultado){
+          estilo = {color: "red"}
+        }
+        return <>
+          <span style={estilo}>
+            {rowData.dataValidade}
+          </span>
+        </>;
+      }
       else if (field == "origem")
         return rowData.origem.id == 1 ? "Auta de Souza" : "Itaporã"
       else
@@ -327,7 +346,8 @@ const ProdutoUnitarioCadastro = () => {
     console.log(editedRowData)
     api.put(`/${editedRowData.id}`,
       {
-        "nome": editedRowData.nome,
+        "id": editedRowData.id,
+        "produtoId": editedRowData.nome,
         "dataValidade": editedRowData.dataValidade,
         "origemId": editedRowData.origem
       }
