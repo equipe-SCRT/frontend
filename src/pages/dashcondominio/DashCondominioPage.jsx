@@ -21,8 +21,9 @@ const DashCondominioPage = () => {
   const [selectedCondominio, setSelectedCondominio] = useState(null);
 
   const [dadosEstoque, setDadosEstoque] = useState([]);
-  const [dadosArrecadadosXVencidos, setDadosArrecadadosXVencidos] = useState([]);
+  const [dadosConformeXNaoConforme, setDadosConformeXNaoConforme] = useState([]);
   const [qtdArrecadada, setQtdArrecadada] = useState(0);
+  const [dadosVencidos, setDadosVencidos] = useState([]);
 
   const somaCountDadosVencidos =
     dadosVencidosPorMes.length > 0
@@ -70,21 +71,31 @@ const DashCondominioPage = () => {
       }
     };
 
-    const fetchDadosArrecadadosXVencidos = async () => {
+    const fetchDadosVencidos = async () => {
       try {
         const response = await api.get(
-          "produtos-unitario/arrecadados-x-vencidos"
+          "condominios/qtd-produtos-vencidos"
         );
-        setDadosArrecadadosXVencidos(response.data);
+        setDadosVencidos(response.data);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
+      }
+    };
+
+    const fetchDadosConformeXNaoConforme = async () => {
+      try {
+        const response = await api.get("condominios/produtos-conforme-e-nao-conforme");
+        setDadosConformeXNaoConforme(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar os dados:', error);
       }
     };
 
     fetchQtdAlimentosArrecadadosPorCondominio();
     fetchDadosVencidosPorMes();
     fetchDadosCondominios();
-    fetchDadosArrecadadosXVencidos();
+    fetchDadosVencidos();
+    fetchDadosConformeXNaoConforme();
   }, []);
 
   useEffect(() => {
@@ -130,16 +141,18 @@ const DashCondominioPage = () => {
               }
               bgColor="#D3D3D3" />
             <CardScrt onChange={handleCondominioChange}
-              legenda="Total de Alimentos Arrecadados"
+              legenda="Alimentos Arrecadados"
               info={qtdAlimentosArrecadadosPorCondominio}
               bgColor="#5FED6D" />
             <CardScrt legenda="Produtos não conformes" bgColor="#FDEA3C" />
-            <CardScrt legenda="Total de Alimentos Vencidos" info={somaCountDadosVencidos} bgColor="#ED8686" />
+            <CardScrt legenda="Alimentos Vencidos"
+              info={dadosVencidos}
+              bgColor="#ED8686" />
           </Row>
           <Row>
             <Col md lg={6}>
               <div>
-                <GraficoLinha data={dadosEstoque} cores={'#22CC52'} titulo={'Quantidade total de alimentos arrecadados nos condomínios'} label={'Quantidade'} />
+                <GraficoLinha data={qtdArrecadada} cores={'#22CC52'} titulo={'Quantidade total de alimentos arrecadados nos condomínios'} label={'Quantidade'} />
               </div>
             </Col>
             <Col md lg={6}>
@@ -156,7 +169,7 @@ const DashCondominioPage = () => {
             </Col>
             <Col md lang={6}>
               <div style={{ marginTop: "10px", padding: "10px", height: "100%" }}>
-                <ListaBarraProgresso titulo={"Análise de alimentos por condomínio"} itens={dadosArrecadadosXVencidos} />
+                <ListaBarraProgresso titulo={"Análise de alimentos por condomínio"} itens={dadosConformeXNaoConforme} />
               </div>
             </Col>
           </Row>
