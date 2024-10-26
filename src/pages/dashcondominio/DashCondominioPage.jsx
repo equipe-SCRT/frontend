@@ -20,9 +20,9 @@ const DashCondominioPage = () => {
 
   const [selectedCondominio, setSelectedCondominio] = useState(null);
 
-  const [dadosEstoque, setDadosEstoque] = useState([]);
   const [dadosConformeXNaoConforme, setDadosConformeXNaoConforme] = useState([]);
   const [qtdArrecadada, setQtdArrecadada] = useState(0);
+  const [dadosNaoConforme, setDadosNaoConforme] = useState([]);
   const [dadosVencidos, setDadosVencidos] = useState([]);
 
   const somaCountDadosVencidos =
@@ -71,12 +71,21 @@ const DashCondominioPage = () => {
       }
     };
 
+    const fetchDadosNaoConforme = async () => {
+      try {
+        const response = await api.get("condominios/qtd-produtos-nao-conforme");
+        const arrayDadosNaoConforme = response.data.map(item => item.qtdProdutos);
+        setDadosNaoConforme(arrayDadosNaoConforme);
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+      }
+    };
+
     const fetchDadosVencidos = async () => {
       try {
-        const response = await api.get(
-          "condominios/qtd-produtos-vencidos"
-        );
-        setDadosVencidos(response.data);
+        const response = await api.get("condominios/qtd-produtos-vencidos");
+        const arrayDadosVencidos = response.data.map(item => item.qtdVencidos);
+        setDadosVencidos(arrayDadosVencidos);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
       }
@@ -85,15 +94,23 @@ const DashCondominioPage = () => {
     const fetchDadosConformeXNaoConforme = async () => {
       try {
         const response = await api.get("condominios/produtos-conforme-e-nao-conforme");
-        setDadosConformeXNaoConforme(response.data);
+        const dadosFormatados = response.data.map(item => ({
+          nome: item.nomeCondominio,
+          qtdConforme: item.qtdConforme,
+          qtdNaoConforme: item.qtdNaoConforme,
+        }));
+        
+        setDadosConformeXNaoConforme(dadosFormatados);
+        console.log("Dados conforme/não conforme:", dadosFormatados);
       } catch (error) {
-        console.error('Erro ao buscar os dados:', error);
+        console.error("Erro ao buscar os dados:", error);
       }
     };
 
     fetchQtdAlimentosArrecadadosPorCondominio();
     fetchDadosVencidosPorMes();
     fetchDadosCondominios();
+    fetchDadosNaoConforme();
     fetchDadosVencidos();
     fetchDadosConformeXNaoConforme();
   }, []);
@@ -108,8 +125,6 @@ const DashCondominioPage = () => {
     const condominioId = event.target.value;
     const condominio = dadosCondominios.find((c) => c.id === parseInt(condominioId));
     setSelectedCondominio(condominio);
-
-    fetchQtdAlimentosArrecadadosPorCondominio(condominioId);
   };
 
   const dadosFiltrados = selectedCondominio
@@ -144,7 +159,9 @@ const DashCondominioPage = () => {
               legenda="Alimentos Arrecadados"
               info={qtdAlimentosArrecadadosPorCondominio}
               bgColor="#5FED6D" />
-            <CardScrt legenda="Produtos não conformes" bgColor="#FDEA3C" />
+            <CardScrt legenda="Produtos não conformes"
+              info={dadosNaoConforme}
+              bgColor="#FDEA3C" />
             <CardScrt legenda="Alimentos Vencidos"
               info={dadosVencidos}
               bgColor="#ED8686" />
@@ -164,7 +181,7 @@ const DashCondominioPage = () => {
           <Row>
             <Col md lang={6}>
               <div>
-                <GraficoBarra data={dadosEstoque} cores={'#22CC52'} titulo={'Quantidade de produto por condomínio'} label={'Quantidade'} />
+                <GraficoBarra data={dadosNaoConforme} cores={'#22CC52'} titulo={'Quantidade de produto por condomínio'} label={'Quantidade'} />
               </div>
             </Col>
             <Col md lang={6}>
