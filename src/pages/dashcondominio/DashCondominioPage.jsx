@@ -95,9 +95,9 @@ const DashCondominioPage = () => {
       try {
         const response = await api.get("condominios/produtos-conforme-e-nao-conforme");
         const dadosFormatados = response.data.map(item => ({
-          nome: item.nomeCondominio,
-          qtdConforme: item.qtdConforme,
-          qtdNaoConforme: item.qtdNaoConforme,
+          nome: `${item.nomeCondominio} - ${item.nomeProduto}`,
+          arrecadado: item.qtdConforme,
+          vencido: item.qtdNaoConforme,
         }));
         
         setDadosConformeXNaoConforme(dadosFormatados);
