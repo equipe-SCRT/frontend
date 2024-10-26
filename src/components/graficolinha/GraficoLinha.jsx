@@ -13,6 +13,8 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { ptBR } from "date-fns/locale";
+import SelectScrt from "../../components/select/SelectScrt";
+
 Chart.register(
   ...registerables,
   CategoryScale,
@@ -23,7 +25,7 @@ Chart.register(
   Tooltip,
   Legend
 );
-import SelectScrt from "../../components/select/SelectScrt";
+
 
 const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => {
   let datasets = [];
@@ -101,7 +103,7 @@ const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => 
       <h5 style={{ color: "#21272A" }}>
         <strong>{titulo}</strong>
       </h5>
-        {selectObj != undefined && <>
+        {selectObj !== undefined && <>
         <SelectScrt
           dados={selectObj}
           onChange={selectFunc}
