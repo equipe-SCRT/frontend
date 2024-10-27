@@ -22,9 +22,22 @@ const Relatorio = () => {
         { "periodo": "Outubro", "disponibilidade": "Indisponível", "download": "Relatório de Outubro de 2024" },
         { "periodo": "Novembro", "disponibilidade": "Indisponível", "download": "Relatório de Novembro de 2024" },
         { "periodo": "Dezembro", "disponibilidade": "Indisponível", "download": "Relatório de Dezembro de 2024" }
-
-
     ]
+
+
+    useEffect(() => {
+        const fetchRelatorio = async () => {
+          try {
+            const response = await api.get(
+              "relatorio/" + dataInicial + "/" + dataFim + "/" + tipoArquivo
+            );
+          } catch (error) {
+            console.error("Erro ao buscar os dados:", error);
+          }
+        };
+    })
+
+
     return (
         <div className="container-fluid mb-5" >
             <div className={style.TituloPrincipal}>
@@ -87,7 +100,7 @@ const Relatorio = () => {
                     </div>
 
                     <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 0 }} >
-                        <Botao mensagem={"Exportar Arquivo"} />
+                        <Botao onClick={fetchRelatorio} mensagem={"Exportar Arquivo"} />
                     </div>
                 </div>
             </div>
