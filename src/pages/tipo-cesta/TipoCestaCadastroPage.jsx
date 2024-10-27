@@ -4,92 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import "./TipoCestaPage.module.css"
 import Swal from 'sweetalert2';
 
-var pilha = [];
-let contadorPilha = -1;
-
 const TipoCestaCadastro = () => {
-  let [getProdutos, setProdutos] = useState([]);
-  let [getNomeProdutos, setNomeProdutos] = useState([]);
-  let [getOrigemNome, setOrigemNome] = useState([]);
-  let [getNome, setNome] = useState("");
-  let [getValidade, setValidade] = useState("");
-  let [getOrigem, setOrigem] = useState(0);
-  let [getQuantidade, setQuantidade] = useState(0);
-  let [getPilha, setPilha] = useState([]);
+  const [getNomeProdutos, setNomeProdutos] = useState([]);
+  const [getProdutoId, setProdutoId] = useState(0);
+  const [getNome, setNome] = useState("");
+  const [getQuantidade, setQuantidade] = useState(0);
+  const [getTipoCestaId, setTipoCestaId] = useState(0);
+  const [getProdutos, setProdutos] = useState([])
+  const [getNomeProdutoLista, setNomeProdutoLista] = useState("")
 
+  
   useEffect(() => {
-    handleProdutos()
     handleNomeProdutos()
-    handleOrigem()
   }, [])
 
-  const apiProdutos = axios.create({
-    baseURL: "http://localhost:8080/",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
-
-  function push(info) {
-    contadorPilha++;
-    pilha.push(info);
-    //console.log("pilha adicionada: ")
-    console.log(pilha)
-  }
-  function pop() {
-    if (contadorPilha == -1) {
-      //console.log("pilha vazia")
-    } else {
-      if (pilha[contadorPilha].operacao == "salvar") {
-        console.log("aqui: ")
-        apiProdutos.delete("/tipos-cestas/" + pilha[contadorPilha].id).then((res) => {
-          console.log(pilha);
-          if (res.status == 204) {
-            pilha.pop();
-            contadorPilha--;
-            handleProdutos()
-            if (pilha.length > 0) {
-              let timerInterval;
-              Swal.fire({
-                title: "Produtos adicionados",
-                html: "desfazer?",
-                position: 'bottom-end',
-                width: "190px",
-                height: "100px",
-                timer: 30000,
-                toast: true,
-                backdrop: false,
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Desfazer",
-                cancelButtonText: "Cancelar",
-                willClose: () => {
-                  clearInterval(timerInterval);
-                }
-              }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                  //console.log("I was closed by the timer");
-                } else if (result.isConfirmed) {
-                  pop();
-                } else {
-                  //console.log("I was closed by the user"); 
-                }
-              });
-            }
-          }
-        }).catch((err) => {
-          //console.log(err)
-        })
-      }
-    }
-  }
-
-  var lista = [];
   const api = axios.create({
-    baseURL: "http://localhost:8080/tipos-cestas",
+    baseURL: "http://localhost:8080",
     withCredentials: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -97,54 +27,41 @@ const TipoCestaCadastro = () => {
     }
   });
 
-  async function handleProdutos() {
-    try {
-      var encontrados = await api.get("");
-      //console.log(encontrados)
-      for (var i = 0; i < encontrados.data.length; i++) {
-        lista.push(
-          <tr>
-            <td className="py-1">
-              {i + 1}
-            </td>
-            <td>{encontrados.data[i].nome}</td>
-            <td>
-              
-            </td>
-            <td></td>
-            <td>
-              <svg value={encontrados.data[i].id} onClick={(e) => excluir(e.target.value)}
-                xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#00000"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z" /></svg>
-            </td>
-          </tr>
-        )
-      }
-      setProdutos(lista);
-      lista = []
-    } catch (err) {
-      //console.log(err);
+  async function handleCadastroTipoCestaProduto(){
+    const tipoCesta = {
+      nome: getNome
     }
 
+    try{
+      var response = await api.post("/tipos-cestas", tipoCesta);
+      if (response.status == 201) {
+        setTipoCestaId(response.data.id)
+        handleProdutoCesta();
+      }
+    }catch(error){
+      console.log(error)
+    }
   }
+  async function handleProdutoCesta(){
 
-  async function excluir(id) {
-    apiProdutos.delete("produtos-unitario/" + id).then((response) => {
-      //console.log(response);
-      alert("excluido");
-      // window.location.reload()
-    }).catch((err) => {
-      //console.log(err)
-    })
+    for (let i = 0; i < getProdutos.length; i++) {
+      var produtoCesta = {
+        produto: getProdutos[i],
+        idTipoCesta: getTipoCestaId
+      }
+      
+      const response = await api.post("produto-cestas", produtoCesta)
+    }
   }
 
   async function handleNomeProdutos() {
     try {
-      var encontrados = await apiProdutos.get("produtos");
+      var encontrados = await api.get("/produtos");
       var listaNomes = [];
-      listaNomes.push(<option value="null">-</option>)
+      listaNomes.push(<option value="null" disabled>-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
         listaNomes.push(
-          <option value={encontrados.data[i].nome}>{encontrados.data[i].nome}</option>
+          <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
         )
       }
       setNomeProdutos(listaNomes);
@@ -155,91 +72,14 @@ const TipoCestaCadastro = () => {
 
   }
 
-  async function handleOrigem() {
-    try {
-      var encontrados = await apiProdutos.get("/origens");
-      var listaOrigens = [];
-      listaOrigens.push(<option value="null">-</option>)
-      for (var i = 0; i < encontrados.data.length; i++) {
-        //console.log("Origem")
-        //console.log(encontrados.data[i])
-        listaOrigens.push(
-          <option value={encontrados.data[i].itapora}>
-            {encontrados.data[i].itapora == 1 ? "Itaporã" : "Auta de souza"}</option>
-        )
-      }
-      setOrigemNome(listaOrigens);
-      listaOrigens = []
-    } catch (err) {
-      //console.log(err);
-    }
-
-  }
-
-
-  async function salvar() {
-    try {
-      api.post("", {
-        nome: getNome,
-        dataValidade: getValidade,
-        quantidade: getQuantidade,
-        peso: 5,
-        origemId: getOrigem,
-        ativo: true,
-        unidadeMedidaId: 1,
-        cestaId: 1,
-        produtoId: 1,
-        rotaId: 1,
-        metricaId: 1
-      }).then(async (response) => {
-
-        handleProdutos();
-        //console.log("1020121218902901890----------s")
-        //console.log(response)
-        let alteracao = {
-          operacao: "salvar",
-          id: response.data.id
-        }
-        push(alteracao);
-        //console.log(" pilha> ")
-        //console.log(pilha)
-        let timerInterval;
-        clearInterval(timerInterval);
-        await Swal.fire({
-          title: "Produtos adicionados",
-          html: "desfazer?",
-          position: 'bottom-end',
-          timer: 30000,
-          width: 300,
-          toast: true,
-          backdrop: false,
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Desfazer",
-          cancelButtonText: "Cancelar",
-          willClose: () => {
-            clearInterval(timerInterval);
-            pilha.splice(response.data.id, response.data.id);
-          }
-        }).then((result) => {
-          /* Read more about handling dismissals below */
-          if (result.dismiss === Swal.DismissReason.timer) {
-            //console.log("I was closed by the timer");
-
-          } else if (result.isConfirmed) {
-            pop();
-          } else {
-            //console.log("I was closed by the user"); 
-          }
-        });
-      }).catch((err) => {
-        alert("valide os campos")
-        //console.log(err)
-      })
-    } catch (err) {
-      //console.log(err);
-    }
+  function handleAdicionarProduto(){
+      const produtos = {
+        idProduto: getProdutoId,
+        qtdProduto: getQuantidade,
+        // nome: getNomeProdutoLista
+        nome: "teste"
+      } 
+      setProdutos(prevLista => [...prevLista, produtos]);
   }
 
   return (
@@ -257,26 +97,32 @@ const TipoCestaCadastro = () => {
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
                 <div className="form-group" id='name'>
                   <label htmlFor="productName">Nome <span className="required">*</span></label>
-                  <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '23vw' }} />
+                  <input type="text" name="nome" id="nome" onChange={(e) => setNome(e.target.value)} style={{ width: '23vw' }} />
                 </div>
                 <div className="form-group" id='name'>
                   <label htmlFor="productName">Produto <span className="required">*</span></label>
-                  <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '23vw' }} >
+                  <select name="produto" id="produto" onBlur={(e) => setNomeProdutoLista(e.target.innerHTML)} onChange={(e) => setProdutoId(e.target.value)} style={{ width: '23vw' }} >
                     <option value="">--</option>
+                    {getNomeProdutos}
                   </select>
                   </div>
                 
                 </div>
                 <div className="form-group" id='name'>
-               
                 <div className="form-group" id='name'>
                   <label htmlFor="productName">Quantidade <span className="required">*</span></label>
-                  <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '23vw' }} />
-               </div> 
+                  <input type="text" name="quantidade" id="quantidade" onChange={(e) => setQuantidade(e.target.value)} style={{ width: '23vw' }} />
+                </div> 
               </div>
+              <button onClick={() => handleAdicionarProduto()} className="submit-btn">Adicionar produto</button>
+              {getProdutos.map((item, itemIndex) => (
+                              <div key={itemIndex} style={{ margin: '0 10px' }}>
+                                  <p>{item.nome}/{item.qtdProduto}</p>
+                              </div>
+                          ))}
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-              <button onClick={salvar} className="submit-btn">Cadastrar</button>
+              <button onClick={() => handleCadastroTipoCestaProduto()} className="submit-btn">Cadastrar</button>
             </div>
           </div>
         </div>
@@ -294,7 +140,6 @@ const TipoCestaCadastro = () => {
                 <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
               </thead>
               <tbody>
-                {getProdutos}
               </tbody>
             </table>
           </div>
