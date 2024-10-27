@@ -16,13 +16,9 @@ const TipoCestaCadastro = () => {
   const [getProdutos, setProdutos] = useState([])
   const [getNomeProdutoLista, setNomeProdutoLista] = useState("")
   const [getTipoCestas, setTipoCestas] = useState([]);
+  const [getProdutoCestas, setProdutoCestas] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editedRowData, setEditedRowData] = useState(null);
-
-  
-  useEffect(() => {
-    handleNomeProdutos()
-  }, [])
 
   const api = axios.create({
     baseURL: "http://localhost:8080",
@@ -38,21 +34,48 @@ const TipoCestaCadastro = () => {
       try{
         const response = await api.get("/tipos-cestas")
         setTipoCestas(response.data)
-        console.log(response.data)
       }catch(error){
         console.log(error)
       }
     }
       handleTipoCestas();
-    }, []);
+  }, []);
 
+  useEffect(() => {
+    async function handleNomeProdutos() {
+      try {
+        var encontrados = await api.get("/produtos");
+        var listaNomes = [];
+        listaNomes.push(<option value="null" disabled>-</option>)
+        for (var i = 0; i < encontrados.data.length; i++) {
+          listaNomes.push(
+            <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
+          )
+        }
+        setNomeProdutos(listaNomes);
+        listaNomes = []
+      } catch (err) {
+        //console.log(err);
+      }
   
+    }
+    handleNomeProdutos();
+  }, []);
+    
+  async function HandleListagemProdutoCesta(rowData){
+    try{
+      const response = await api.get(`/produto-cestas`, rowData.id)
+      setProdutoCestas(response.data)
+    }catch(error){
+      console.log(error)
+    }
+
+  }
 
   async function handleCadastroTipoCestaProduto(){
     const tipoCesta = {
       nome: getNome
     }
-
     try{
       var response = await api.post("/tipos-cestas", tipoCesta);
       if (response.status == 201) {
@@ -63,6 +86,7 @@ const TipoCestaCadastro = () => {
       console.log(error)
     }
   }
+
   async function handleProdutoCesta(){
 
     for (let i = 0; i < getProdutos.length; i++) {
@@ -73,29 +97,13 @@ const TipoCestaCadastro = () => {
 
       try{
         await api.post("produto-cestas", produtoCesta)
+        window.location.reload()
       }catch(error){
 
       }
     }
   }
 
-  async function handleNomeProdutos() {
-    try {
-      var encontrados = await api.get("/produtos");
-      var listaNomes = [];
-      listaNomes.push(<option value="null" disabled>-</option>)
-      for (var i = 0; i < encontrados.data.length; i++) {
-        listaNomes.push(
-          <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
-        )
-      }
-      setNomeProdutos(listaNomes);
-      listaNomes = []
-    } catch (err) {
-      //console.log(err);
-    }
-
-  }
 
   function handleAdicionarProduto(){
       const produtos = {
@@ -108,7 +116,7 @@ const TipoCestaCadastro = () => {
   }
 
   const renderEditableCell = (rowData, field) => {
-    console.log(`${Object.keys(rowData)}`)
+    // console.log(`${Object.keys(rowData)}`)
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "id") {
         return (
@@ -131,6 +139,7 @@ const TipoCestaCadastro = () => {
                 <td key={field}>
                     <input
                         type="text"
+                        onClick={HandleListagemProdutoCesta(rowData.id)}
                         defaultValue={rowData[field]}
                         onChange={(e) => {
                             setEditedRowData({ ...editedRowData, [field]: e.target.value });
@@ -242,7 +251,7 @@ const handleDelete = (id) => {
           });
           Toast.fire({
             icon: "error",
-            title: "Erro ao excluir usuário!"
+            title: "Erro ao excluir tipo de cesta!"
           });
         }
       }
@@ -364,6 +373,7 @@ const handleAlterar = (rowData) => {
                   <input type="text" name="quantidade" id="quantidade" onChange={(e) => setQuantidade(e.target.value)} style={{ width: '23vw' }} />
                 </div> 
               </div>
+              <h2>{getNome}</h2>
               <button onClick={() => handleAdicionarProduto()} className="submit-btn">Adicionar produto</button>
               {getProdutos.map((item, itemIndex) => (
                               <div key={itemIndex} style={{ margin: '0 10px' }}>

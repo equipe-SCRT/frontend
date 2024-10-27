@@ -406,7 +406,7 @@ const CampanhaCadastroPage = () => {
                 <input type="text" id="qtdArrecadada" className={style.inputLabel} placeholder='-' onChange={(e) => setQtdArrecadadaCampanha(e.target.value)} />
                 <div className="col-12 d-flex justify-content-end text-white" style={{ margin: '20px' }}>
                   {/* <Botao mensagem={"Cadastrar Campanha"} onClick={() => handleCadastroCampanhas()} /> */}
-                  <button onClick={handleCadastroCampanhas}>Cadastrar Campanha</button>
+                  <button onClick={handleCadastroCampanhas} className="submit-btn" style={{height:"6vh"}}>Cadastrar Campanha</button>
                   {/* <Botao mensagem={"Cadastrar Campanha"} /> */}
                 </div>
               </div>/
