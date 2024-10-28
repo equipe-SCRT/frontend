@@ -1,5 +1,6 @@
 import style from "./RelatorioPage.module.css";
-import * as React from "react";
+import React, { useEffect } from "react";
+import api from "../../api/api";
 import Select from "../components/SelectPicker";
 import DataRange from "../components/dataRange/DateRange";
 import PopOver from "../components/PopOver";
@@ -7,7 +8,7 @@ import Botao from "../components/button/Button"
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
-const Relatorio = () => {
+const Relatorio = ({ dataFim, dataInicial, tipoArquivo }) => {
 
     let data = [
         { "periodo": "Janeiro", "disponibilidade": "Disponível", "download": "Relatório de Janeiro de 2024" },
@@ -25,17 +26,32 @@ const Relatorio = () => {
     ]
 
 
-    useEffect(() => {
-        const fetchRelatorio = async () => {
-          try {
-            const response = await api.get(
-              "relatorio/" + dataInicial + "/" + dataFim + "/" + tipoArquivo
-            );
-          } catch (error) {
+    const fetchSalvarRelatorio = async () => {
+        try {
+            const response = await api.get(`relatorio/${dataInicial}/${dataFim}/${tipoArquivo}`);
+            console.log("Relatório salvo:", response.data);
+        } catch (error) {
             console.error("Erro ao buscar os dados:", error);
-          }
-        };
-    })
+        }
+    };
+
+    const fetchBaixarRelatorio = async () => {
+        try {
+            const response = await api.get("relatorio");
+            console.log("Relatório baixado:", response.data);
+        } catch (error) {
+            console.error("Erro ao buscar os dados:", error);
+        }
+    };
+
+    const baixarRelatorio = () => {
+        fetchBaixarRelatorio();
+    };
+
+    const importarRelatorio = () => {
+        fetchSalvarRelatorio();
+    }
+
 
 
     return (
@@ -45,7 +61,7 @@ const Relatorio = () => {
             </div>
             <div className="row">
                 <div className="col-12 d-flex justify-content-between p-3">
-                    <p className={style.SubTitulo} >Listagem</p>
+                    <p>Listagem</p>
                     <Select option={['2024', '2023']} />
                 </div>
 
@@ -65,30 +81,36 @@ const Relatorio = () => {
             </div>
             <div className="row">
                 <div className="col-12 d-flex justify-content-end p-3">
-                    <Botao mensagem={"Importar Arquivo"} />
+                    <Botao
+                        onClick={importarRelatorio}
+                        mensagem={"Importar Arquivo"} />
                 </div>
             </div>
             <div className={style.TituloPrincipal}>
                 <h1>Gerar Arquivo</h1>
             </div>
-            <div className={style.SpaceCima}>
-                <p className={style.SubTexto}>
+            <div>
+                <p className={style.SubTitulo}>
                     Selecione o período que deseja gerar as informações e em qual formato será exportado
                 </p>
             </div>
             <div className="border p-3" style={{ marginBottom: 400 }}>
                 <div className="row">
                     <div className="col-4 d-flex">
-                        <p className={style.SubTexto}>
+                        <p >
                             Período
                         </p>
-                        <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar a data de inicio e de fim do filtro de tempo"} />
+                        <div className={style.popUp}>
+                            <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar a data de inicio e de fim do filtro de tempo"} />
+                        </div>
                     </div>
                     <div className="col-4 d-flex">
                         <p className={style.SubTexto}>
                             Tipo do Arquivo
                         </p>
-                        <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar o formato que será exportado a planilha"} />
+                        <div className={style.popUp}>
+                            <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar o formato que será exportado a planilha"} />
+                        </div>
                     </div>
                 </div>
                 <div className="row">
@@ -100,7 +122,9 @@ const Relatorio = () => {
                     </div>
 
                     <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 0 }} >
-                        <Botao onClick={fetchRelatorio} mensagem={"Exportar Arquivo"} />
+                        <Botao
+                            onClick={baixarRelatorio}
+                            mensagem={"Exportar Arquivo"} />
                     </div>
                 </div>
             </div>
