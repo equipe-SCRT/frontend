@@ -11,7 +11,6 @@ import { Chart,
   Legend 
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
-import { ptBR } from 'date-fns/locale';
 import Select from '../selectscrt/Select';
 
 Chart.register(  
@@ -71,11 +70,11 @@ const GraficoLinha = ({ data, cor1, cor2, titulo, label1, label2 }) => {
             x: {
                 type: 'time',
                 time: {
-                    parser: 'yyyy-MM', // Definindo o formato de data personalizado
-                    tooltipFormat: 'MMM yyyy', // Formato de tooltip
+                    parser: 'yyyy-MM',
+                    tooltipFormat: 'MMM yyyy',
                     unit: 'month',
                     displayFormats: {
-                        month: 'MMM yyyy' // Formato de exibição para os rótulos do eixo x
+                        month: 'MMM yyyy'
                     },
                 },
                 title: {
