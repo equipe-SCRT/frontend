@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import "./ProdutoUnitarioCadastroPage.module.css"
 import styles from "./ProdutoUnitarioCadastroPage.module.css"
 import Swal from 'sweetalert2';
@@ -10,11 +10,11 @@ import { Button } from 'primereact/button';
 import { Row } from 'react-bootstrap'
 import { CornerTopLeftIcon } from '@radix-ui/react-icons';
 
-
 var pilha = [];
 let contadorPilha = -1;
 
 const ProdutoUnitarioCadastro = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   let [getProdutos, setProdutos] = useState([]);
   let [getNomeProdutos, setNomeProdutos] = useState([]);
   let [getOrigemNome, setOrigemNome] = useState([]);
@@ -51,7 +51,7 @@ const ProdutoUnitarioCadastro = () => {
         {editMode && rowData.id === editedRowData?.id ? (
           <>
             <Button icon={
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" /><path fill="#000" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6.414A2 2 0 0 0 19.414 5L17 2.586A2 2 0 0 0 15.586 2zm0 2h9.586L18 6.414V20H6zm10.238 6.793a1 1 0 1 0-1.414-1.414l-4.242 4.243l-1.415-1.415a1 1 0 0 0-1.414 1.414l2.05 2.051a1.1 1.1 0 0 0 1.556 0l4.88-4.879Z" /></g></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" fillRule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" /><path fill="#000" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6.414A2 2 0 0 0 19.414 5L17 2.586A2 2 0 0 0 15.586 2zm0 2h9.586L18 6.414V20H6zm10.238 6.793a1 1 0 1 0-1.414-1.414l-4.242 4.243l-1.415-1.415a1 1 0 0 0-1.414 1.414l2.05 2.051a1.1 1.1 0 0 0 1.556 0l4.88-4.879Z" /></g></svg>
             } onClick={handleSaveClick} className="btn" />
             <Button icon={
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#FF4444" d="m8.4 17l3.6-3.6l3.6 3.6l1.4-1.4l-3.6-3.6L17 8.4L15.6 7L12 10.6L8.4 7L7 8.4l3.6 3.6L7 15.6zm3.6 5q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" /></svg>
@@ -143,13 +143,33 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   async function handleProdutos() {
-    api.get("").then((res) => {
-      let encontrados = res.data;
-      setProdutos(encontrados);
-      console.log(getProdutos)
-    }).catch((err) => {
-      _alertaError("Erro ao consultar os produtos", err)
-    });
+    const inicio = searchParams.get('vencimentoInicio');
+    const fim = searchParams.get('vencimentoFim');
+    
+    if(inicio && fim){
+      api.get("/data-vencimento",{
+        params:{
+          "inicio":inicio,
+          "fim":fim
+        }
+      }).then((res) => {
+        let encontrados = res.data;
+        setProdutos(encontrados);
+  
+      }).catch((err) => {
+        _alertaError("Erro ao consultar os produtos", err)
+      });
+    }else{
+      api.get("").then((res) => {
+        let encontrados = res.data;
+        setProdutos(encontrados);
+  
+      }).catch((err) => {
+        _alertaError("Erro ao consultar os produtos", err)
+      });
+    }
+    
+
   }
 
 
@@ -342,9 +362,10 @@ const ProdutoUnitarioCadastro = () => {
   };
 
   useEffect(() => {
-    handleNomeProdutos()
-    handleOrigem()
-    handleProdutos()
+    handleNomeProdutos();
+    handleOrigem();
+    handleProdutos();
+    
   }, [])
 
   return (
@@ -432,7 +453,7 @@ const ProdutoUnitarioCadastro = () => {
               <p className="card-description">Listagem</p>
               <div className="table-responsive">
                 <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%', minHeight: "500px" }}>
-                  <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
+                  <Column style={{ color: "black", padding: '10px'}} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable />
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
 
                   </Column>
