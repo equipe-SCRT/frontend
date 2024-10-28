@@ -12,7 +12,6 @@ import {
   Legend,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
-import { ptBR } from "date-fns/locale";
 Chart.register(
   ...registerables,
   CategoryScale,
@@ -25,7 +24,7 @@ Chart.register(
 );
 
 const GraficoPizza = ({ titulo, data }) => {
-    console.log(data)
+    // console.log(data)
     const dados = {
         labels: ['Produtos'],
         datasets: [
