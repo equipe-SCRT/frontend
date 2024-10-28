@@ -5,10 +5,7 @@
     color: #FFFFFF;
 }
 
-.customMenuItem {
-    display: flex;
-    align-items: center;
-}
+
 
 .sidebar *{
     background-color: #306B34!important;

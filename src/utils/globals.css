@@ -72,3 +72,26 @@ hr {
   font-weight: bolder!important;
   height: 48px!important;
 }
+.p-datatable .p-sortable-column-icon::before {
+    content: ""!important;
+    display: inline-block!important;
+    width: 2em!important;
+    height: 2em!important;
+    background-repeat: no-repeat!important;
+    background-size: 100% 100%!important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m5 12l7-7l7 7m-7 7V5'/%3E%3C/svg%3E")!important;
+}
+
+.table-section tr td{
+  padding: 5px!important;
+  /* background-color: #FFFFFF; */
+
+}
+.table-section tr{
+  border-top: 0.5px solid #05050544 ;
+  border-bottom: 0.5px solid #05050544 ;
+  background-color: #FFFFFF;
+}
+.table-section th{
+  background-color: #F2F4F8;
+}
