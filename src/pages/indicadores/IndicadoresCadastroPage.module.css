@@ -13,10 +13,8 @@
   font-style: normal;
 }
 
-.form-section {
-  display: block;
-  width: 60vw;
-  margin: 30px;
+#form-register {
+  margin: 0 !important;
 }
 
 .section-title {
