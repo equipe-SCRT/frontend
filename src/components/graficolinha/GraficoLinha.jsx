@@ -27,14 +27,11 @@ Chart.register(
   Tooltip,
   Legend
 );
-
  
 const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, selectFunc }) => {
   let datasets = [];
   let labels = [];
   let unicoDataset = !Array.isArray(data[0]);
-  xValue = xValue == undefined ? 'mes' : xValue; 
-  yValue = yValue == undefined ? 'count' : yValue; 
   if (unicoDataset) {
     data = [data]
     label = [label]
@@ -43,11 +40,10 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
     let dataValues = [];
     let labels2 = []
     for (let j = 0; j < element.length; j++) {
-      
-      labels2.push(element[j][xValue]);
+      labels2.push(element[j].mes);
     }
     for (let j = 0; j < element.length; j++) {
-      dataValues.push(element[j][yValue]);
+      dataValues.push(element[j].count);
     }
     labels.push(labels2);
 
@@ -74,8 +70,8 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
       x: {
         type: "time",
         time: {
-          parser: "yyyy-MM-dd",
-          tooltipFormat: "dd MMM yyyy",
+          parser: "yyyy-MM",
+          tooltipFormat: "MMM yyyy",
           unit: "month",
           displayFormats: {
             month: "MMM yyyy",
@@ -100,6 +96,7 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
       }
     },
   };
+
   return (
     <div
       style={{ marginTop: "10px", padding: "10px" }}
