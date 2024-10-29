@@ -10,33 +10,70 @@ import SelectData from "../../components/selectdata/SelectData";
 import SelectScrt from "../../components/select/SelectScrt";
 
 const DashboardCampanhas = () => {
-  const [qtdAlimentosArrecadadosPorCampanha, setQtdAlimentosArrecadadosPorCampanha] = useState([]);
   const [dadosVencidosPorMes, setDadosVencidosPorMes] = useState([]);
   const [dadosCampanhas, setDadosCampanhas] = useState([]);
-  const [dadosAlimentosVencimento15E30Dias,setDadosAlimentosVencimento15E30Dias] = useState([]);
   const [dadosAlimentosArrecadadosMes, setDadosAlimentosArrecadadosMes] = useState([]);
-  const [selectedProduto, setSelectedProduto] = useState(null);
   const [dadosFiltradosPorProduto, setDadosFiltradosPorProduto] = useState([]);
   const [selectedCampanha, setSelectedCampanha] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [qtdArrecadada, setQtdArrecadada] = useState(0);
   const [meta, setMeta] = useState(0);
-  const [produtos, setProdutos] = useState([{"id":1}]);
-
-  const somaCountDadosVencidos =
-    dadosVencidosPorMes.length > 0
-      ? dadosVencidosPorMes.reduce((total, item) => total + item.count, 0)
-      : 0;
+  const [produtos, setProdutos] = useState([]);
+  const [produtosVencidosPorCampanha, setProdutosVencidosPorCampanha] = useState([]);
+  const [produtosConformeNaoConforme, setProdutosConformeNaoConforme] = useState([]);
+  const [dadosSelecionados, setDadosSelecionados] = useState([]);
+  const [dadosComparacao, setDadosComparacao] = useState([]);
+  const [nomeCampanhaSelecionada, setNomeCampanhaSelecionada] = useState("");
+  const [nomeCampanhaComparada, setNomeCampanhaComparada] = useState("");
 
   const fetchDadosFiltradosPorProduto = async (id) => {
     try {
-      const response = await api.get(`produtos-unitario/${id}/qtd-produto-por-campanha`);
+      const response = await api.get(`produtos-unitario/${id}/produto-por-campanha`);
       setDadosFiltradosPorProduto(response.data);
     } catch (error) {
       console.error("Erro ao buscar os dados filtrados por produto:", error);
     }
   };
-  
+
+  const fetchProdutosVencidosPorCampanha = async (campanhaId) => {
+    try {
+      const response = await api.get(`produtos-unitario/${campanhaId}/produtos-vencidos-por-campanha`);
+      setProdutosVencidosPorCampanha(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar os dados de produtos vencidos por campanha:", error);
+    }
+  };
+
+  const fetchDadosComparacao = async (nomeCampanha) => {
+    try {
+      const response = await api.get(`campanhas/doacoes-por-campanhas`, {
+        params: { 'nome' : nomeCampanha }
+      });
+      const dadosTransformados = response.data.map(item => ({
+        mes: `${item.ano}-${String(item.mes).padStart(2, '0')}`,
+        count: item.qtdArrecadada
+      }));
+      setDadosComparacao(dadosTransformados);
+    } catch (error) {
+      console.error("Erro ao buscar os dados de comparação:", error);
+    }
+  };
+
+  const fetchDadosSelecionados = async (nomeCampanha) => {
+    try {
+      const response = await api.get(`campanhas/doacoes-por-campanhas`, {
+        params: { 'nome' : nomeCampanha }
+      });
+      const dadosTransformados = response.data.map(item => ({
+        mes: `${item.ano}-${String(item.mes).padStart(2, '0')}`,
+        count: item.qtdArrecadada
+      }));
+      setDadosSelecionados(dadosTransformados);
+    } catch (error) {
+      console.error("Erro ao buscar os dados da campanha selecionada:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchDadosVencidosPorMes = async () => {
       try {
@@ -69,19 +106,12 @@ const DashboardCampanhas = () => {
         campanhas.reverse();
         
         if (campanhas.length > 0) {
-          setSelectedCampanha(campanhas[0]);
+          const ultimaCampanha = campanhas[0];
+          setSelectedCampanha(ultimaCampanha);
+          setNomeCampanhaSelecionada(ultimaCampanha.nome);
+          setNomeCampanhaComparada(ultimaCampanha.nome);
+          fetchDadosSelecionados(ultimaCampanha.nome);
         }
-      } catch (error) {
-        console.error("Erro ao buscar os dados:", error);
-      }
-    };
-
-    const fetchDadosAlimentosVencimento15E30Dias = async () => {
-      try {
-        const response = await api.get(
-          "produtos-unitario/vencimento-em-15-e-30-dias"
-        );
-        setDadosAlimentosVencimento15E30Dias(response.data);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
       }
@@ -100,6 +130,20 @@ const DashboardCampanhas = () => {
       }
     };
 
+    const fetchDadosConformeNaoConforme = async () => {
+      try {
+        const response = await api.get("produtos-unitario/produtos-conforme-nao-conforme-campanhas");
+        const dadosTransformados = response.data.map(item => ({
+          nome: item.nome,
+          arrecadado: item.conforme,
+          vencido: item.naoConforme
+        }));
+        setProdutosConformeNaoConforme(dadosTransformados);
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+      }
+    }
+
     const fetchProdutos = async () => {
       try {
         const response = await api.get("produtos");
@@ -111,11 +155,16 @@ const DashboardCampanhas = () => {
 
     fetchDadosVencidosPorMes();
     fetchDadosCampanhas();
-    fetchDadosAlimentosVencimento15E30Dias();
     fetchDadosAlimentosArrecadadosMes();
-    fetchDadosFiltradosPorProduto(produtos[0].id);
     fetchProdutos();
+    fetchDadosConformeNaoConforme();
   }, []);
+
+  useEffect(() => {
+    if (produtos.length > 0) {
+      fetchDadosFiltradosPorProduto(produtos[0].id);
+    }
+  }, [produtos]);
 
   useEffect(() => {
     console.log("Estado dadosCampanhas:", dadosCampanhas);
@@ -125,19 +174,11 @@ const DashboardCampanhas = () => {
     const campanhaId = event.target.value;
     const campanha = dadosCampanhas.find((c) => c.id === parseInt(campanhaId));
     setSelectedCampanha(campanha);
+    fetchProdutosVencidosPorCampanha(campanhaId);
+    fetchDadosSelecionados(campanha.nome);
+    setNomeCampanhaSelecionada(campanha.nome);
     console.log("Selecione a Campanha:", campanha);
   };
-
-  const dadosFiltrados = selectedCampanha
-    ? qtdAlimentosArrecadadosPorCampanha.filter(
-      (dado) => dado.id === selectedCampanha.id
-    )
-    : [];
-
-  const dadosGrafico = dadosFiltrados.map((dado) => ({
-    mes: dado.mes,
-    count: dado.qtdArrecadada,
-  }));
 
   return (
     <>
@@ -170,7 +211,11 @@ const DashboardCampanhas = () => {
             />
             <CardScrt
               legenda="Total de Alimentos Vencidos"
-              info={`${somaCountDadosVencidos} Unidade(s)`}
+              info={
+                produtosVencidosPorCampanha.length > 0
+                  ? `${produtosVencidosPorCampanha[0].qtdProdutosVencidos} Unidade(s)`
+                  : "N/A"
+              }
               bgColor="#ED8686"
             />
           </Row>
@@ -202,17 +247,19 @@ const DashboardCampanhas = () => {
             <Col md lg={6}>
             
                 <GraficoLinha
-                  data={[]}
+                  data={[dadosSelecionados, dadosComparacao]}
                   cores={["#22CC52", "#4444FF"]}
                   titulo={"Quantidade de Doações Variadas por Campanhas"}
-                  label={["Escola Viver", "Escola Viva Verde"]}
-                />
+                  selectObj={dadosCampanhas}
+                  selectFunc={(e) => {setNomeCampanhaComparada(e.target.options[e.target.selectedIndex].text); fetchDadosComparacao(e.target.options[e.target.selectedIndex].text)}}
+                  label={[nomeCampanhaSelecionada, nomeCampanhaComparada]}
+                  />
               
             </Col>
             <Col md lg={6}>
                 <ListaBarraProgresso
                   titulo={"Análise de Alimentos por Campanha"}
-                  itens={[]}
+                  itens={produtosConformeNaoConforme}
                 />
             </Col>
           </Row>

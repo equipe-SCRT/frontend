@@ -27,7 +27,7 @@ const GraficoBarrasHorizontais = ({
   selectObj,
   selectFunc,
 }) => {
-  alert(JSON.stringify(data))
+  
   const labels = data.map((item) => item.nome);
   const dataValues = data.map((item) => item.qtdProdutos);
 
@@ -64,6 +64,7 @@ const GraficoBarrasHorizontais = ({
         },
       },
     },
+    barThickness: 40,
   };
 
   return (
@@ -82,16 +83,3 @@ const GraficoBarrasHorizontais = ({
 };
 
 export default GraficoBarrasHorizontais;
-
-// labels.forEach((element, index) => {
-//   alert(dataValues[index])
-//   datasetsV.push({
-//     label: element,
-//     backgroundColor: colors.map((color) => color),
-//     borderColor: colors.map((color) => color),
-//     borderWidth: 1,
-//     hoverBackgroundColor: colors,
-//     hoverBorderColor: colors,
-//     data: dataValues[index],
-//   });
-// });
