@@ -20,6 +20,7 @@ const DashCondominioPage = () => {
 
   const [selectedCondominio, setSelectedCondominio] = useState(null);
 
+  const [dadosPorCondominio, setDadosPorCondominio] = useState([]);
   const [dadosConformeXNaoConforme, setDadosConformeXNaoConforme] = useState([]);
   const [qtdArrecadada, setQtdArrecadada] = useState(0);
   const [dadosNaoConforme, setDadosNaoConforme] = useState([]);
@@ -71,6 +72,15 @@ const DashCondominioPage = () => {
       }
     };
 
+    const fetchDadosPorCondominio = async () => {
+      try {
+        const response = await api.get("condominios/produtos-arrecadados-por-condominio");
+        setDadosPorCondominio(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar os dados:", error);
+      }
+    };
+
     const fetchDadosNaoConforme = async () => {
       try {
         const response = await api.get("condominios/qtd-produtos-nao-conforme");
@@ -110,6 +120,7 @@ const DashCondominioPage = () => {
     fetchQtdAlimentosArrecadadosPorCondominio();
     fetchDadosVencidosPorMes();
     fetchDadosCondominios();
+    fetchDadosPorCondominio();
     fetchDadosNaoConforme();
     fetchDadosVencidos();
     fetchDadosConformeXNaoConforme();
@@ -169,7 +180,7 @@ const DashCondominioPage = () => {
           <Row>
             <Col md lg={6}>
               <div>
-                <GraficoLinha data={qtdArrecadada} cores={'#22CC52'} titulo={'Quantidade total de alimentos arrecadados nos condomínios'} label={'Quantidade'} />
+                <GraficoLinha data={dadosPorCondominio} cores={'#22CC52'} titulo={'Quantidade total de alimentos arrecadados nos condomínios'} label={'Quantidade'} />
               </div>
             </Col>
             <Col md lg={6}>
