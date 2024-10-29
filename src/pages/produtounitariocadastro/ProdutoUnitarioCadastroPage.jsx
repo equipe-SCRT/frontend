@@ -295,7 +295,7 @@ const ProdutoUnitarioCadastro = () => {
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "nome") {
         return <>
-          <select name="nomeSel" id="nomeSel" onChange={(e) => setEditedRowData({ ...editedRowData, [field]: e.target.value })}>
+          <select name="nomeSel" id="nomeSel" onChange={(e) =>{alert(e.target.value);  setEditedRowData({ ...editedRowData, [field]: e.target.value })}}>
             {getNomeProdutos}
           </select>
         </>;
@@ -342,12 +342,13 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   const handleSaveClick = () => {
+    _alertaSucesso("Atualizado com sucesso", JSON.stringify(editedRowData))
     setEditMode(false);
     console.log(editedRowData)
     api.put(`/${editedRowData.id}`,
       {
         "id": editedRowData.id,
-        "produtoId": editedRowData.nome,
+        "produtoId": editedRowData.produto.id,
         "dataValidade": editedRowData.dataValidade,
         "origemId": editedRowData.origem
       }
@@ -451,8 +452,9 @@ const ProdutoUnitarioCadastro = () => {
             <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9', width: "100%" }}>
               <p className="card-description">Listagem</p>
               <div className="table-responsive">
-                <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%', minHeight: "500px" }}>
+                <DataTable value={getProdutos} size='10' tableStyle={{minWidth: '90%'}}>
                   <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
+
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
 
                   </Column>
