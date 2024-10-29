@@ -29,14 +29,20 @@ function SideBarScrt() {
   const handleCollapsedChange = () => {
     setCollapsed(!collapsed);
   };
-
+  const handleToggleSidebar = (value) => {
+    setToggled(value);
+  };
 
   return (
     <>
       <div>
         <Sidebar
           // className={`app ${toggled ? "toggled" : ""}`}
-          style={{ height: "100%", position: "fixed", borderRightWidth: "0px"}}
+          style={{ height: "100%", position: "fixed", borderRightWidth: "0px", minWidth: "17.2%", width: "17.2%" }}
+          collapsed={collapsed}
+          toggled={toggled}
+          handleToggleSidebar={handleToggleSidebar}
+          handleCollapsedChange={handleCollapsedChange}
           className={`${styles.sidebar}`}
         >
           <main
@@ -50,11 +56,13 @@ function SideBarScrt() {
                 <MenuItem
                   className={`${styles.sidebarChild}`}
 
+                  onClick={handleCollapsedChange}
                 ></MenuItem>
               ) : (
                 <MenuItem
                   className={`${styles.sidebarChild}`}
 
+                  onClick={handleCollapsedChange}
                   component={<Link to="/home" />}
                 >
 

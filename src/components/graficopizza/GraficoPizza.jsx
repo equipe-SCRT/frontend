@@ -30,7 +30,7 @@ const GraficoPizza = ({ titulo, data }) => {
         datasets: [
             {
                 label: 'Vencimento em 30 Dias',
-                data: [data['vencimento30']],
+                data: [data[0]],
                 backgroundColor: [
                     '#0BDC2B'
                 ],
@@ -41,7 +41,7 @@ const GraficoPizza = ({ titulo, data }) => {
             },
             {
                 label: 'Vencimento em 15 Dias',
-                data: [data['vencimento15']],
+                data: [data[1]],
                 backgroundColor: [
                     '#F0A202'
                 ],
