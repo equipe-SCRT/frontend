@@ -315,7 +315,7 @@ const ProdutoUnitarioCadastro = () => {
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "nome") {
         return <>
-          <select name="nomeSel" id="nomeSel" onChange={(e) =>{alert(e.target.value);  setEditedRowData({ ...editedRowData, [field]: e.target.value })}}>
+          <select name="nomeSel" id="nomeSel" onChange={(e) =>{setEditedRowData({ ...editedRowData, [field]: e.target.value })}}>
             {getNomeProdutos}
           </select>
         </>;
@@ -362,7 +362,6 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   const handleSaveClick = () => {
-    _alertaSucesso("Atualizado com sucesso", JSON.stringify(editedRowData))
     setEditMode(false);
     console.log(editedRowData)
     api.put(`/${editedRowData.id}`,
