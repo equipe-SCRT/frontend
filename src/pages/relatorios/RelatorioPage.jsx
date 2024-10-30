@@ -4,54 +4,71 @@ import api from "../../api/api";
 import Select from "../components/SelectPicker";
 import DataRange from "../components/dataRange/DateRange";
 import PopOver from "../components/PopOver";
-import Botao from "../components/button/Button"
+//import Botao from "../components/button/Button"
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Indent } from "lucide-react";
 
 const Relatorio = ({ dataFim, dataInicial, tipoArquivo }) => {
 
-    let data = [
-        { "periodo": "Janeiro", "disponibilidade": "Disponível", "download": "Relatório de Janeiro de 2024" },
-        { "periodo": "Fevereiro", "disponibilidade": "Disponível", "download": "Relatório de Fevereiro de 2024" },
-        { "periodo": "Março", "disponibilidade": "Disponível", "download": "Relatório de Março de 2024" },
-        { "periodo": "Abril", "disponibilidade": "Disponível", "download": "Relatório de Abril de 2024" },
-        { "periodo": "Maio", "disponibilidade": "Disponível", "download": "Relatório de Maio de 2024" },
-        { "periodo": "Junho", "disponibilidade": "Disponível", "download": "Relatório de Junho de 2024" },
-        { "periodo": "Julho", "disponibilidade": "Disponível", "download": "Relatório de Julho de 2024" },
-        { "periodo": "Agosto", "disponibilidade": "Disponível", "download": "Relatório de Agosto de 2024" },
-        { "periodo": "Setembro", "disponibilidade": "Disponível", "download": "Relatório de Setembro de 2024" },
-        { "periodo": "Outubro", "disponibilidade": "Indisponível", "download": "Relatório de Outubro de 2024" },
-        { "periodo": "Novembro", "disponibilidade": "Indisponível", "download": "Relatório de Novembro de 2024" },
-        { "periodo": "Dezembro", "disponibilidade": "Indisponível", "download": "Relatório de Dezembro de 2024" }
-    ]
+    const baseRelatorio = [
+        { periodo: 'Janeiro', value: '1', path: '/relatorios' },
+        { periodo: 'Fevereiro', value: '2', path: '/relatorios' },
+        { periodo: 'Março', value: '3', path: '/relatorios' },
+        { periodo: 'Abril', value: '4', path: '/relatorios' },
+        { periodo: 'Maio', value: '5', path: '/relatorios' },
+        { periodo: 'Junho', value: '6', path: '/relatorios' },
+        { periodo: 'Julho', value: '7', path: '/relatorios' },
+        { periodo: 'Agosto', value: '8', path: '/relatorios' },
+        { periodo: 'Setembro', value: '9', path: '/relatorios' },
+        { periodo: 'Outubro', value: '10', path: '/relatorios' },
+        { periodo: 'Novembro', value: '11', path: '/relatorios' },
+        { periodo: 'Dezembro', value: '12', path: '/relatorios' }
+    ];
+    const data = baseRelatorio.map((item) => {
+        const isAvailable = item.value < new Date().getMonth() + 1;
+        return {
+            periodo: item.periodo,
+            disponibilidade: isAvailable ? 'Disponível' : 'Indisponível',
+            download: isAvailable ? <label className={style.baixarRelatorio} href={item.path} target="_blank" rel="noopener noreferrer">Baixar relatório</label> : 'Baixar Relatório '
+        }
+    });
 
 
-    const fetchSalvarRelatorio = async () => {
+    const fetchExportarRelatorio = async () => {
         try {
-            const response = await api.get(`relatorio/${dataInicial}/${dataFim}/${tipoArquivo}`);
+            alert()
+            const response = await api.get(`relatorio/exportar/${dataInicial}/${dataFim}/${tipoArquivo}`);
             console.log("Relatório salvo:", response.data);
         } catch (error) {
             console.error("Erro ao buscar os dados:", error);
         }
     };
 
-    const fetchBaixarRelatorio = async () => {
+    const fetchImportarRelatorio = async (selectedFile) => {
         try {
-            const response = await api.get("relatorio");
+
+            if (selectedFile) {
+                console.log("Arquivo selecionado:", selectedFile.name);
+            } else {
+                console.log("Nenhum arquivo selecionado.");
+            }
+
+            const response = await api.get(`relatorio/importar`);
             console.log("Relatório baixado:", response.data);
         } catch (error) {
             console.error("Erro ao buscar os dados:", error);
         }
     };
 
-    const baixarRelatorio = () => {
-        fetchBaixarRelatorio();
+    const exportarRelatorio = async () => {
+        await fetchExportarRelatorio();
     };
 
-    const importarRelatorio = () => {
-        fetchSalvarRelatorio();
+    const importarRelatorio = (event) => {
+        const selectedFile = event.target.files[0];
+        fetchImportarRelatorio(selectedFile);
     }
-
 
 
     return (
@@ -61,8 +78,8 @@ const Relatorio = ({ dataFim, dataInicial, tipoArquivo }) => {
             </div>
             <div className="row">
                 <div className="col-12 d-flex justify-content-between p-3">
-                    <p>Listagem</p>
-                    <Select option={['2024', '2023']} />
+                    <p className="d-flex align-items-center">Listagem</p>
+                    <Select option={['2024']} />
                 </div>
 
                 <div className="">
@@ -81,9 +98,13 @@ const Relatorio = ({ dataFim, dataInicial, tipoArquivo }) => {
             </div>
             <div className="row">
                 <div className="col-12 d-flex justify-content-end p-3">
-                    <Botao
+
+                    {/* <Botao
                         onClick={importarRelatorio}
-                        mensagem={"Importar Arquivo"} />
+                        mensagem={"Importar Arquivo"} /> */}
+
+                    <label className={style.Botao} for="actual-btn">Importar Arquivo</label>
+                    <input onChange={importarRelatorio} type="file" id="actual-btn" hidden />
                 </div>
             </div>
             <div className={style.TituloPrincipal}>
@@ -122,9 +143,10 @@ const Relatorio = ({ dataFim, dataInicial, tipoArquivo }) => {
                     </div>
 
                     <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 0 }} >
-                        <Botao
-                            onClick={baixarRelatorio}
-                            mensagem={"Exportar Arquivo"} />
+                        {/* <Botao
+                            onClick={exportarRelatorio} 
+                            mensagem={"Exportar Arquivo"} >*/}
+                        <label htmlFor="" onClick={exportarRelatorio} className={style.Botao}>Exportar Arquivo</label>
                     </div>
                 </div>
             </div>
