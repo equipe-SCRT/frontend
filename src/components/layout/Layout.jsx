@@ -73,7 +73,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      {useLocation().pathname !== "/" && <>
+      {(window.location.pathname !== "/" && window.location.pathname !== "/redefinir-senha" &&  window.location.pathname !== "/redefinir-senha-nova-senha") && <>
         <SideBarScrt/>
         <HeaderScrt>
           {pageDesc}
@@ -84,6 +84,20 @@ const Layout = ({ children }) => {
       </>}
       {
         useLocation().pathname === "/" &&
+        <div>
+          {children}
+        </div>
+      }
+
+      {
+        useLocation().pathname === "/redefinir-senha" &&
+        <div>
+          {children}
+        </div>
+      }
+
+{
+        useLocation().pathname === "/redefinir-senha-nova-senha" &&
         <div>
           {children}
         </div>
