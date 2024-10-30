@@ -116,9 +116,6 @@ const CestasCadastro = () => {
         ) : (
           <>
             <Button icon={
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 36 36"><path fill="#000" d="M33.87 8.32L28 2.42a2.07 2.07 0 0 0-2.92 0L4.27 23.2l-1.9 8.2a2.06 2.06 0 0 0 2 2.5a2 2 0 0 0 .43 0l8.29-1.9l20.78-20.76a2.07 2.07 0 0 0 0-2.92M12.09 30.2l-7.77 1.63l1.77-7.62L21.66 8.7l6 6ZM29 13.25l-6-6l3.48-3.46l5.9 6Z" /><path fill="none" d="M0 0h36v36H0z" /></svg>
-            } onClick={() => handleEditClick(rowData)} className="btn" />
-            <Button icon={
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#FF4444" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m-5 5l4 4m0-4l-4 4" /></svg>
             }
               onClick={() => handleDelete(rowData.id)}
@@ -195,11 +192,6 @@ const CestasCadastro = () => {
   const handleCancelClick = () => {
     setEditMode(false);
     setEditedRowData(null);
-  };
-
-  const handleEditClick = (rowData) => {
-    setEditMode(true);
-    setEditedRowData(rowData);
   };
 
   const handleDelete = async (id) => {

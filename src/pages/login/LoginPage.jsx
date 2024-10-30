@@ -82,7 +82,7 @@ const Login = () => {
               </Form.Group>
 
               <p className="small mb-5 pb-lg-2">
-                <a className="text-primary" href="#">Esqueceu a senha?</a>
+                <a className="text-primary" href="/redefinir-senha">Esqueceu a senha?</a>
               </p>
 
               <div className="pt-1 mb-4 row">
