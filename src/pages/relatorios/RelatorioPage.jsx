@@ -54,7 +54,7 @@ const Relatorio = ({ ano }) => {
             return formatDate(date);
         });
 
-        const caminho = `/${dates[0]}/${dates[1]}/csv`;
+        const caminho = `/${dates[0]}/${dates[1]}/${tipo}`;
         const periodo = `${dates[0]}-${dates[1]}`;
 
         console.log(dates); // Log formatted dates
@@ -78,7 +78,7 @@ const Relatorio = ({ ano }) => {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'relatorio ' + item.periodo + ".csv";
+            a.download = 'relatorio ' + item.periodo ;
             document.body.appendChild(a);
             a.click();
             a.remove();
