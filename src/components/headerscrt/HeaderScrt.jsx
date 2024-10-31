@@ -1,9 +1,22 @@
 import { Navbar, Nav } from 'rsuite';
-import styles from './HeaderScrt.module.css'
+import styles from './HeaderScrt.module.css';
+import { useNavigate } from 'react-router-dom';
 
-const HeaderScrt = ({ children }) => (
-    // <></>
-    <Navbar className={styles.header}>
+const HeaderScrt = ({ children }) => {
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+
+        navigate("/");
+    };
+
+    const perfil = () => {
+        navigate("/perfil");
+    }
+
+    return (
+<Navbar className={styles.header} style={{ backgroundColor: "#fff" }}>
         <Nav>
             <Nav.Menu trigger={'hover'} icon={
                 <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 256 256">
@@ -17,7 +30,7 @@ const HeaderScrt = ({ children }) => (
             </Nav.Menu>
             <Nav.Menu trigger={'hover'} icon={
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
-                    <path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.134 11C18.715 16.375 21 18 21 18H3s3-2.133 3-9.6c0-1.697.632-3.325 1.757-4.525S10.41 2 12 2q.507 0 1 .09M19 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6m-5.27 13a2 2 0 0 1-3.46 0" /></svg>
+                    <path fill="none" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M18.134 11C18.715 16.375 21 18 21 18H3s3-2.133 3-9.6c0-1.697.632-3.325 1.757-4.525S10.41 2 12 2q.507 0 1 .09M19 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6m-5.27 13a2 2 0 0 1-3.46 0" /></svg>
             }>
                 <Nav.Item icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
@@ -40,9 +53,9 @@ const HeaderScrt = ({ children }) => (
                 <Nav.Item icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 48 48">
                         <g fill="none">
-                            <path stroke="#22CC52" stroke-linejoin="round" stroke-width="4" d="M24 44a19.94 19.94 0 0 0 14.142-5.858A19.94 19.94 0 0 0 44 24a19.94 19.94 0 0 0-5.858-14.142A19.94 19.94 0 0 0 24 4A19.94 19.94 0 0 0 9.858 9.858A19.94 19.94 0 0 0 4 24a19.94 19.94 0 0 0 5.858 14.142A19.94 19.94 0 0 0 24 44Z" />
-                            <path fill="#22CC52" fill-rule="evenodd" d="M24 37a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5" clip-rule="evenodd" />
-                            <path stroke="#22CC52" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M24 12v16" />
+                            <path stroke="#22CC52" strokeLinejoin="round" strokeWidth="4" d="M24 44a19.94 19.94 0 0 0 14.142-5.858A19.94 19.94 0 0 0 44 24a19.94 19.94 0 0 0-5.858-14.142A19.94 19.94 0 0 0 24 4A19.94 19.94 0 0 0 9.858 9.858A19.94 19.94 0 0 0 4 24a19.94 19.94 0 0 0 5.858 14.142A19.94 19.94 0 0 0 24 44Z" />
+                            <path fill="#22CC52" fillRule="evenodd" d="M24 37a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5" clipRule="evenodd" />
+                            <path stroke="#22CC52" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M24 12v16" />
                         </g>
                     </svg>}>
                     <div style={{ textAlign: "left" }}>
@@ -58,14 +71,18 @@ const HeaderScrt = ({ children }) => (
                 <Nav.Item icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
                     <path fill="black" d="M12 11.385q-1.237 0-2.119-.882T9 8.385t.881-2.12T12 5.386t2.119.88t.881 2.12t-.881 2.118t-2.119.882m-7 7.23V16.97q0-.619.36-1.158q.361-.54.97-.838q1.416-.679 2.834-1.018q1.417-.34 2.836-.34t2.837.34t2.832 1.018q.61.298.97.838q.361.539.361 1.158v1.646zm1-1h12v-.646q0-.332-.215-.625q-.214-.292-.593-.494q-1.234-.598-2.546-.916T12 14.616t-2.646.318t-2.546.916q-.38.202-.593.494Q6 16.637 6 16.97zm6-7.23q.825 0 1.413-.588T14 8.384t-.587-1.412T12 6.384t-1.412.588T10 8.384t.588 1.413t1.412.587m0 7.232" /></svg>
-            }>Perfil</Nav.Item>
+            } onClick={perfil}
+            >Perfil</Nav.Item>
                 <Nav.Item icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 32 32">
                     <path fill="#000" d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
-                </svg>}>Sair</Nav.Item>
+                </svg>}
+                onClick={handleLogout}
+                >Sair</Nav.Item>
             </Nav.Menu>
         </Nav>
     </Navbar>
-);
+    )
+}
 
 export default HeaderScrt;

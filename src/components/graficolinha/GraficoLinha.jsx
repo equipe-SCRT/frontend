@@ -1,5 +1,8 @@
+import SelectScrt from "../../components/select/SelectScrt";
 import React from "react";
 import { Line } from "react-chartjs-2";
+import { ptBR } from "date-fns/locale";
+import SelectScrt from "../../components/select/SelectScrt";
 import {
   Chart,
   registerables,
@@ -12,8 +15,7 @@ import {
   Legend,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
-import { ptBR } from "date-fns/locale";
-import SelectScrt from "../../components/select/SelectScrt";
+
 
 Chart.register(
   ...registerables,
@@ -26,11 +28,13 @@ Chart.register(
   Legend
 );
 
-
-const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => {
+ 
+const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, selectFunc }) => {
   let datasets = [];
   let labels = [];
   let unicoDataset = !Array.isArray(data[0]);
+  xValue = xValue == undefined ? 'mes' : xValue; 
+  yValue = yValue == undefined ? 'count' : yValue; 
   if (unicoDataset) {
     data = [data]
     label = [label]
@@ -39,10 +43,11 @@ const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => 
     let dataValues = [];
     let labels2 = []
     for (let j = 0; j < element.length; j++) {
-      labels2.push(element[j].mes);
+      
+      labels2.push(element[j][xValue]);
     }
     for (let j = 0; j < element.length; j++) {
-      dataValues.push(element[j].count);
+      dataValues.push(element[j][yValue]);
     }
     labels.push(labels2);
 
@@ -69,11 +74,11 @@ const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => 
       x: {
         type: "time",
         time: {
-          parser: "yyyy-MM", // Definindo o formato de data personalizado
-          tooltipFormat: "MMM yyyy", // Formato de tooltip
+          parser: "yyyy-MM-dd",
+          tooltipFormat: "dd MMM yyyy",
           unit: "month",
           displayFormats: {
-            month: "MMM yyyy", // Formato de exibição para os rótulos do eixo x
+            month: "MMM yyyy",
           },
         },
         title: {
@@ -95,15 +100,15 @@ const GraficoLinha = ({ data, cores, titulo, label, selectObj, selectFunc }) => 
       }
     },
   };
-
   return (
     <div
       style={{ marginTop: "10px", padding: "10px" }}
     >
-      <h5 style={{ color: "#21272A" }}>
+      <h5 style={{ color: "#21272A", marginBottom: "10px" }}>
         <strong>{titulo}</strong>
       </h5>
-        {selectObj !== undefined && <>
+      {selectObj != undefined && <>
+
         <SelectScrt
           dados={selectObj}
           onChange={selectFunc}
