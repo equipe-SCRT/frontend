@@ -156,7 +156,7 @@ const ProdutoUnitarioCadastro = () => {
       }).then((res) => {
         let encontrados = res.data;
         setProdutos(encontrados);
-        
+  
       }).catch((err) => {
         _alertaError("Erro ao consultar os produtos", err)
       });
@@ -230,7 +230,7 @@ const ProdutoUnitarioCadastro = () => {
       bodyReq.push({
         dataValidade: getValidade,
         quantidade: getQuantidade,
-        origemId: getOrigem,
+        origemId: 4,
         ativo: getAtivo,
         produtoId: getNome,
       })
@@ -487,7 +487,7 @@ const ProdutoUnitarioCadastro = () => {
               <p className="card-description">Listagem</p>
               <div className="table-responsive">
                 <DataTable value={getProdutos} size='10' tableStyle={{minWidth: '90%'}}>
-                  <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
+                  <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable />
 
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
 
