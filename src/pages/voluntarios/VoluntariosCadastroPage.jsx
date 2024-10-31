@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import api from '../../api/api'
 import { useNavigate } from 'react-router-dom';
 import style from "./VoluntariosCadastroPage.module.css"
-import NavBar from '../components/navbar.component';
 import Swal from 'sweetalert2';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -473,7 +472,6 @@ const VoluntariosCadastro = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%" }}>
-        <NavBar />
         <div className="form-section" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
             <h1 className="section-title" style={{ margin: "0px", marginTop: "2.5%" }}>Voluntários</h1>

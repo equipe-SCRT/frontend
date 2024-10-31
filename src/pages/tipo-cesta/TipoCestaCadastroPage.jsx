@@ -442,7 +442,7 @@ const TipoCestaCadastro = () => {
     document.getElementById('modal').style.width = "100%";
     var produtoCestaAlterada = {
       id : rowData.id,
-      produto : rowData.nomeProduto,
+      nome : rowData.nomeProduto,
       qtdProduto: rowData.quantidade
     }
 
@@ -522,7 +522,7 @@ const TipoCestaCadastro = () => {
           listaProdutos.push({
             id: element.id,
             nomeProduto: element.produto,
-            quantidade: element.quantidade
+            quantidade: element.qtdProduto
           });
         });
       }
