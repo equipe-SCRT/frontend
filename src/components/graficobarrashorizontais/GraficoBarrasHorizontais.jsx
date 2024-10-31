@@ -60,7 +60,7 @@ const GraficoBarrasHorizontais = ({
       y: {
         title: {
           display: true,
-          text: "Campanha",
+          // text: "Campanha",
         },
       },
     },
