@@ -145,12 +145,25 @@ const ProdutoUnitarioCadastro = () => {
   async function handleProdutos() {
     const inicio = searchParams.get('vencimentoInicio');
     const fim = searchParams.get('vencimentoFim');
+    const data = searchParams.get('data');
     
     if(inicio && fim){
       api.get("/data-vencimento",{
         params:{
           "inicio":inicio,
           "fim":fim
+        }
+      }).then((res) => {
+        let encontrados = res.data;
+        setProdutos(encontrados);
+        
+      }).catch((err) => {
+        _alertaError("Erro ao consultar os produtos", err)
+      });
+    }else if(data){
+      api.get("/data-vencimento/menor-que",{
+        params:{
+          "data":data,
         }
       }).then((res) => {
         let encontrados = res.data;

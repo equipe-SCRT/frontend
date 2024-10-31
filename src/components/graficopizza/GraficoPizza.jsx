@@ -25,7 +25,6 @@ Chart.register(
 );
 
 const GraficoPizza = ({ titulo, data }) => {
-    console.log(data)
     const dados = {
         labels: ['Produtos'],
         datasets: [
