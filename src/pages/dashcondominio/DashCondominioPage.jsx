@@ -34,7 +34,6 @@ const DashCondominioPage = () => {
         qtdProdutos: `${item.qtdProdutos}`,
       }));
       setDadosFiltradosPorProduto(dadosFormatados);
-      console.log(dadosFormatados)
     } catch (error) {
       console.error("Erro ao buscar os dados filtrados por produto:", error);
     }
@@ -223,7 +222,11 @@ const DashCondominioPage = () => {
           <Row>
             <Col md lg={6}>
               <div>
-                <GraficoLinha data={produtosCondominios} cores={'#22CC52'} titulo={'Quantidade total de alimentos arrecadados nos condomínios'} label={'Quantidade'} />
+                <GraficoLinha 
+                data={produtosCondominios} 
+                cores={['#22CC52']} 
+                titulo={'Quantidade total de alimentos arrecadados nos condomínios'} 
+                label={'Quantidade'} />
               </div>
             </Col>
             <Col md lg={6}>
