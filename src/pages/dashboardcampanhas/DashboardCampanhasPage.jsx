@@ -8,9 +8,9 @@ import ListaBarraProgresso from "../../components/listabarraprogresso/ListaBarra
 import GraficoBarrasHorizontais from "../../components/graficobarrashorizontais/GraficoBarrasHorizontais";
 import SelectData from "../../components/selectdata/SelectData";
 import SelectScrt from "../../components/select/SelectScrt";
+import { parseISO, format } from 'date-fns';
 
 const DashboardCampanhas = () => {
-  const [dadosVencidosPorMes, setDadosVencidosPorMes] = useState([]);
   const [dadosCampanhas, setDadosCampanhas] = useState([]);
   const [dadosAlimentosArrecadadosMes, setDadosAlimentosArrecadadosMes] = useState([]);
   const [dadosFiltradosPorProduto, setDadosFiltradosPorProduto] = useState([]);
@@ -75,17 +75,6 @@ const DashboardCampanhas = () => {
   };
 
   useEffect(() => {
-    const fetchDadosVencidosPorMes = async () => {
-      try {
-        const response = await api.get(
-          "produtos-unitario/quantidade-produtos/mes?ativo=false"
-        );
-        setDadosVencidosPorMes(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar os dados:", error);
-      }
-    };
-
     const fetchDadosCampanhas = async () => {
       try {
         const response = await api.get("campanhas");
@@ -110,6 +99,7 @@ const DashboardCampanhas = () => {
           setSelectedCampanha(ultimaCampanha);
           setNomeCampanhaSelecionada(ultimaCampanha.nome);
           setNomeCampanhaComparada(ultimaCampanha.nome);
+          setSelectedDate(parseISO(ultimaCampanha.dataCampanha));
           fetchDadosSelecionados(ultimaCampanha.nome);
         }
       } catch (error) {
@@ -153,7 +143,6 @@ const DashboardCampanhas = () => {
       }
     };
 
-    fetchDadosVencidosPorMes();
     fetchDadosCampanhas();
     fetchDadosAlimentosArrecadadosMes();
     fetchProdutos();
@@ -177,8 +166,18 @@ const DashboardCampanhas = () => {
     fetchProdutosVencidosPorCampanha(campanhaId);
     fetchDadosSelecionados(campanha.nome);
     setNomeCampanhaSelecionada(campanha.nome);
+    setSelectedDate(parseISO(campanha.dataCampanha));
     console.log("Selecione a Campanha:", campanha);
   };
+
+  const formatDate = (dateString) => {
+    return format(parseISO(dateString), 'dd/MM/yyyy');
+  };
+
+  const campanhasComData = dadosCampanhas.map(campanha => ({
+    ...campanha,
+    nome: `${campanha.nome} - ${formatDate(campanha.dataCampanha)}` 
+  }));
 
   return (
     <>
@@ -196,8 +195,8 @@ const DashboardCampanhas = () => {
               bgColor="#D3D3D3"
             />
             <CardScrt
-              legenda="Selecione a Data"
-              isDataSelected={<SelectData onChange={ (e) => setSelectedDate(e.value)} />}
+              legenda="Data da Campanha"
+              isDataSelected={<SelectData onChange={ (e) => setSelectedDate(e)} initialValue={selectedDate} />}
               bgColor="#5FED6D"
             />
             <CardScrt
