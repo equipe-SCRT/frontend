@@ -1,8 +1,6 @@
 import SelectScrt from "../../components/select/SelectScrt";
 import React from "react";
 import { Line } from "react-chartjs-2";
-import { ptBR } from "date-fns/locale";
-import SelectScrt from "../../components/select/SelectScrt";
 import {
   Chart,
   registerables,
