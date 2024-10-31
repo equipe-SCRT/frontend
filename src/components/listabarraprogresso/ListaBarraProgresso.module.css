@@ -1,0 +1,14 @@
+.container {
+    margin-top: 10px;
+    padding: 10px;
+}
+
+h5 {
+    color: #21272A;
+    margin-bottom: 10px;
+}
+
+svg {
+    height: 35px;
+    width: 30px;
+}

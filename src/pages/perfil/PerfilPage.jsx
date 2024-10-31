@@ -1,14 +1,36 @@
 import React, { useState } from "react";
-import NavBar from "../components/navbar.component";
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import "./PerfilPage.css";
 import perfilEditIcon from "../../assets/images/perfil-edit.svg";
+import axios from 'axios'
 
 const PerfilPage = () => {
+
+  const api = axios.create({
+    baseURL: "http://localhost:8080",
+    withCredentials: false,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    }
+  });
+
+  async function fetchAtualizarUsuario(){
+    var possuiNumeros = false;
+    userInfo.name.map((x) => {
+      if(!isNaN(x)){
+        possuiNumeros = true;
+      }
+    })
+    
+    possuiNumeros ? alert("Não pode ter número") :   api.patch("/usuarios/atualizar-usuario", userInfo);
+  }
+
   const [userInfo, setUserInfo] = useState({
-    nome: "Fulvia",
-    sobrenome: "Cristina",
-    email: "fulvia.cristina@itapora.com",
-    tipoUsuario: "Administrador do Sistema",
+    id: sessionStorage.getItem("userId"),
+    nome: sessionStorage.getItem("nome"),
+    email: sessionStorage.getItem("email"),
+    tipoUsuario: sessionStorage.getItem("tipoUsuario")
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -32,7 +54,7 @@ const PerfilPage = () => {
   return (
     <>
       <div style={{ display: "block", height: "100%" }}></div>
-      <NavBar />
+      
       <div className="form-section" id="form-register">
         <h1 className="section-title">Perfil</h1>
         <div className="profile-header">
@@ -43,7 +65,7 @@ const PerfilPage = () => {
             <h4>
               {userInfo.nome} {userInfo.sobrenome}
             </h4>
-            <p>{userInfo.tipoUsuario}</p>
+            <p>{userInfo.tipoUsuario == 1 ? "Administrador do Sistema" : "Usuário Comum"}</p>
           </div>
         </div>
 
@@ -102,16 +124,19 @@ const PerfilPage = () => {
                     type="text"
                     id="tipoUsuario"
                     name="tipoUsuario"
-                    value={userInfo.tipoUsuario}
+                    value={userInfo.tipoUsuario == 1 ? "Administrador do Sistema" : "Usuário Comum"}
                     disabled
                   />
                 </div>
               </div>
               {isEditing && (
-                <button type="submit" className="submit-btn">
+                <button type="submit" className="submit-btn" onClick={fetchAtualizarUsuario}>
                   Salvar
                 </button>
               )}
+              <p className="small mb-5 pb-lg-2" style={{fontFamily: "'Montserrat', sans-serif"}}>
+                <a style={{color:"gray", fontSize: 12}} href="#">Esqueceu a senha?</a>
+              </p>
             </form>
           </div>
         </div>

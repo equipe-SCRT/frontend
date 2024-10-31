@@ -2,251 +2,610 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./TipoCestaPage.module.css"
-import NavBar from '../components/navbar.component';
 import Swal from 'sweetalert2';
-
-var pilha = [];
-let contadorPilha = -1;
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { Button } from 'primereact/button';
 
 const TipoCestaCadastro = () => {
-  let [getProdutos, setProdutos] = useState([]);
-  let [getNomeProdutos, setNomeProdutos] = useState([]);
-  let [getOrigemNome, setOrigemNome] = useState([]);
-  let [getNome, setNome] = useState("");
-  let [getValidade, setValidade] = useState("");
-  let [getOrigem, setOrigem] = useState(0);
-  let [getQuantidade, setQuantidade] = useState(0);
-  let [getPilha, setPilha] = useState([]);
+  const [getNomeProdutos, setNomeProdutos] = useState([]);
+  const [getProdutoId, setProdutoId] = useState(0);
+  const [getNome, setNome] = useState("");
+  const [getQuantidade, setQuantidade] = useState(0);
+  const [getTipoCestaId, setTipoCestaId] = useState(0);
+  const [getProdutos, setProdutos] = useState([])
+  const [getNomeProdutoLista, setNomeProdutoLista] = useState("")
+  const [getTipoCestas, setTipoCestas] = useState([]);
+  const [getProdutoCestas, setProdutoCestas] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+  const [editModeModal, setEditModeModal] = useState(false);
+  const [editedRowData, setEditedRowData] = useState(null);
+  const [editedModalData, setEditedModalData] = useState(null);
+  const [modalData, setModalData] = useState([]);
+  const [getNomeCestaAtual, setNomeCestaAtual] = useState("");
+
+  const api = axios.create({
+    baseURL: "http://localhost:8080",
+    withCredentials: false,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    }
+  });
 
   useEffect(() => {
-    handleProdutos()
-    handleNomeProdutos()
-    handleOrigem()
-  }, [])
-
-  const apiProdutos = axios.create({
-    baseURL: "http://localhost:8080/",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
-
-  function push(info) {
-    contadorPilha++;
-    pilha.push(info);
-    //console.log("pilha adicionada: ")
-    console.log(pilha)
-  }
-  function pop() {
-    if (contadorPilha == -1) {
-      //console.log("pilha vazia")
-    } else {
-      if (pilha[contadorPilha].operacao == "salvar") {
-        console.log("aqui: ")
-        apiProdutos.delete("/tipos-cestas/" + pilha[contadorPilha].id).then((res) => {
-          console.log(pilha);
-          if (res.status == 204) {
-            pilha.pop();
-            contadorPilha--;
-            handleProdutos()
-            if (pilha.length > 0) {
-              let timerInterval;
-              Swal.fire({
-                title: "Produtos adicionados",
-                html: "desfazer?",
-                position: 'bottom-end',
-                width: "190px",
-                height: "100px",
-                timer: 30000,
-                toast: true,
-                backdrop: false,
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Desfazer",
-                cancelButtonText: "Cancelar",
-                willClose: () => {
-                  clearInterval(timerInterval);
-                }
-              }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                  //console.log("I was closed by the timer");
-                } else if (result.isConfirmed) {
-                  pop();
-                } else {
-                  //console.log("I was closed by the user"); 
-                }
-              });
-            }
-          }
-        }).catch((err) => {
-          //console.log(err)
-        })
+    async function handleTipoCestas() {
+      try {
+        const response = await api.get("/tipos-cestas")
+        setTipoCestas(response.data)
+      } catch (error) {
+        console.log(error)
       }
     }
-  }
+    handleTipoCestas();
+  }, []);
 
-  var lista = [];
-  const api = axios.create({
-    baseURL: "http://localhost:8080/tipos-cestas",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
-
-  async function handleProdutos() {
-    try {
-      var encontrados = await api.get("");
-      //console.log(encontrados)
-      for (var i = 0; i < encontrados.data.length; i++) {
-        lista.push(
-          <tr>
-            <td className="py-1">
-              {i + 1}
-            </td>
-            <td>{encontrados.data[i].nome}</td>
-            <td>
-              
-            </td>
-            <td></td>
-            <td>
-              <svg value={encontrados.data[i].id} onClick={(e) => excluir(e.target.value)}
-                xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#00000"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z" /></svg>
-            </td>
-          </tr>
-        )
-      }
-      setProdutos(lista);
-      lista = []
-    } catch (err) {
-      //console.log(err);
-    }
-
-  }
-
-  async function excluir(id) {
-    apiProdutos.delete("produtos-unitario/" + id).then((response) => {
-      //console.log(response);
-      alert("excluido");
-      // window.location.reload()
-    }).catch((err) => {
-      //console.log(err)
-    })
-  }
-
-  async function handleNomeProdutos() {
-    try {
-      var encontrados = await apiProdutos.get("produtos");
-      var listaNomes = [];
-      listaNomes.push(<option value="null">-</option>)
-      for (var i = 0; i < encontrados.data.length; i++) {
-        listaNomes.push(
-          <option value={encontrados.data[i].nome}>{encontrados.data[i].nome}</option>
-        )
-      }
-      setNomeProdutos(listaNomes);
-      listaNomes = []
-    } catch (err) {
-      //console.log(err);
-    }
-
-  }
-
-  async function handleOrigem() {
-    try {
-      var encontrados = await apiProdutos.get("/origens");
-      var listaOrigens = [];
-      listaOrigens.push(<option value="null">-</option>)
-      for (var i = 0; i < encontrados.data.length; i++) {
-        //console.log("Origem")
-        //console.log(encontrados.data[i])
-        listaOrigens.push(
-          <option value={encontrados.data[i].itapora}>
-            {encontrados.data[i].itapora == 1 ? "Itaporã" : "Auta de souza"}</option>
-        )
-      }
-      setOrigemNome(listaOrigens);
-      listaOrigens = []
-    } catch (err) {
-      //console.log(err);
-    }
-
-  }
-
-
-  async function salvar() {
-    try {
-      api.post("", {
-        nome: getNome,
-        dataValidade: getValidade,
-        quantidade: getQuantidade,
-        peso: 5,
-        origemId: getOrigem,
-        ativo: true,
-        unidadeMedidaId: 1,
-        cestaId: 1,
-        produtoId: 1,
-        rotaId: 1,
-        metricaId: 1
-      }).then(async (response) => {
-
-        handleProdutos();
-        //console.log("1020121218902901890----------s")
-        //console.log(response)
-        let alteracao = {
-          operacao: "salvar",
-          id: response.data.id
+  useEffect(() => {
+    async function handleNomeProdutos() {
+      try {
+        var encontrados = await api.get("/produtos");
+        var listaNomes = [];
+        listaNomes.push(<option value="null" disabled>-</option>)
+        for (var i = 0; i < encontrados.data.length; i++) {
+          listaNomes.push(
+            <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
+          )
         }
-        push(alteracao);
-        //console.log(" pilha> ")
-        //console.log(pilha)
-        let timerInterval;
-        clearInterval(timerInterval);
-        await Swal.fire({
-          title: "Produtos adicionados",
-          html: "desfazer?",
-          position: 'bottom-end',
-          timer: 30000,
-          width: 300,
-          toast: true,
-          backdrop: false,
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Desfazer",
-          cancelButtonText: "Cancelar",
-          willClose: () => {
-            clearInterval(timerInterval);
-            pilha.splice(response.data.id, response.data.id);
-          }
-        }).then((result) => {
-          /* Read more about handling dismissals below */
-          if (result.dismiss === Swal.DismissReason.timer) {
-            //console.log("I was closed by the timer");
+        setNomeProdutos(listaNomes);
+        listaNomes = []
+      } catch (err) {
+        //console.log(err);
+      }
 
-          } else if (result.isConfirmed) {
-            pop();
+    }
+    handleNomeProdutos();
+  }, []);
+
+  async function HandleListagemProdutoCesta(rowData) {
+    try {
+      const response = await api.get(`/produto-cestas`, rowData.id)
+      setProdutoCestas(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+  async function handleCadastroTipoCestaProduto() {
+    const tipoCesta = {
+      nome: getNome
+    }
+    try {
+      var response = await api.post("/tipos-cestas", tipoCesta);
+      if (response.status == 201) {
+        setTipoCestaId(response.data.id)
+        handleProdutoCesta();
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function handleProdutoCesta() {
+
+    for (let i = 0; i < getProdutos.length; i++) {
+      var produtoCesta = {
+        produto: getProdutos[i],
+        idTipoCesta: getTipoCestaId
+      }
+
+      try {
+        await api.post("produto-cestas", produtoCesta)
+        window.location.reload()
+      } catch (error) {
+
+      }
+    }
+  }
+
+
+  function handleAdicionarProduto() {
+    const produtos = {
+      idProduto: getProdutoId,
+      qtdProduto: getQuantidade,
+      // nome: getNomeProdutoLista
+      nome: "teste"
+    }
+    setProdutos(prevLista => [...prevLista, produtos]);
+  }
+
+  const renderEditableCell = (rowData, field) => {
+    // console.log(`${Object.keys(rowData)}`)
+    if (editMode && rowData.id === editedRowData?.id) {
+      if (field == "id") {
+        return (
+          <>
+            <td key={field}>
+              <input
+                type="text"
+                defaultValue={rowData[field]}
+                onChange={(e) => {
+                  setEditedRowData({ ...editedRowData, [field]: e.target.value });
+                }}
+                disabled
+              />
+            </td>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <td key={field}>
+              <input
+                type="text"
+                defaultValue={rowData[field]}
+                onChange={(e) => {
+                  setEditedRowData({ ...editedRowData, [field]: e.target.value });
+                }}
+              />
+            </td>
+          </>
+        );
+      }
+    }
+
+    return (
+      <>
+        <td  onClick={() => handleProdutosCestas(rowData)} style={{cursor: "pointer"}} key={field}>{rowData[field]}</td>
+      </>
+    );
+  };
+
+  const handleCancelClick = (rowData) => {
+    setEditMode(false);
+    setEditedRowData(rowData);
+  };
+
+  const renderActionCell = (rowData) => {
+    return (
+      <>
+        {editMode && rowData.id === editedRowData?.id ? (
+          <>
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" /><path fill="#000" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6.414A2 2 0 0 0 19.414 5L17 2.586A2 2 0 0 0 15.586 2zm0 2h9.586L18 6.414V20H6zm10.238 6.793a1 1 0 1 0-1.414-1.414l-4.242 4.243l-1.415-1.415a1 1 0 0 0-1.414 1.414l2.05 2.051a1.1 1.1 0 0 0 1.556 0l4.88-4.879Z" /></g></svg>
+            } onClick={() => handleAlterar(editedRowData)} className="btn" />
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#FF4444" d="m8.4 17l3.6-3.6l3.6 3.6l1.4-1.4l-3.6-3.6L17 8.4L15.6 7L12 10.6L8.4 7L7 8.4l3.6 3.6L7 15.6zm3.6 5q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" /></svg>
+            } onClick={() => handleCancelClick(rowData)} className="btn" />
+          </>
+        ) : (
+          <>
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 36 36"><path fill="#000" d="M33.87 8.32L28 2.42a2.07 2.07 0 0 0-2.92 0L4.27 23.2l-1.9 8.2a2.06 2.06 0 0 0 2 2.5a2 2 0 0 0 .43 0l8.29-1.9l20.78-20.76a2.07 2.07 0 0 0 0-2.92M12.09 30.2l-7.77 1.63l1.77-7.62L21.66 8.7l6 6ZM29 13.25l-6-6l3.48-3.46l5.9 6Z" class="clr-i-outline clr-i-outline-path-1" /><path fill="none" d="M0 0h36v36H0z" /></svg>
+            } onClick={() => handleEditClick(rowData)} className="btn" />
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#FF4444" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m-5 5l4 4m0-4l-4 4" /></svg>
+            }
+              onClick={() => handleDelete(rowData.id)}
+              className="btn" />
+          </>
+        )}
+      </>
+    );
+  };
+
+  const handleEditClick = (rowData) => {
+    setEditMode(true);
+    setEditedRowData(rowData);
+  };
+
+  const handleDelete = (id) => {
+    if (sessionStorage.getItem('userId') === id) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: "Atenção! Você não pode deletar a si mesmo!"
+      });
+    } else {
+      api.delete("/tipos-cestas/" + id)
+        .then((response) => {
+          if (response.status === 204) {
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Usuário excluido com sucesso!"
+            });
           } else {
-            //console.log("I was closed by the user"); 
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "error",
+              title: "Erro ao excluir o usuário!"
+            });
+          }
+        }
+        ).catch(() => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Erro ao excluir usuário!"
+          });
+        })
+    }
+  }
+
+  const renderActionCellModal = (modalData) => {
+    return (
+      <>
+        {editModeModal && modalData.id === editedModalData?.id ? (
+          <>
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" /><path fill="#000" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6.414A2 2 0 0 0 19.414 5L17 2.586A2 2 0 0 0 15.586 2zm0 2h9.586L18 6.414V20H6zm10.238 6.793a1 1 0 1 0-1.414-1.414l-4.242 4.243l-1.415-1.415a1 1 0 0 0-1.414 1.414l2.05 2.051a1.1 1.1 0 0 0 1.556 0l4.88-4.879Z" /></g></svg>
+            } onClick={() => handleAlterarModal(editedModalData)} className="btn" />
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#FF4444" d="m8.4 17l3.6-3.6l3.6 3.6l1.4-1.4l-3.6-3.6L17 8.4L15.6 7L12 10.6L8.4 7L7 8.4l3.6 3.6L7 15.6zm3.6 5q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" /></svg>
+            } onClick={() => handleCancelClickModal(modalData)} className="btn" />
+          </>
+        ) : (
+          <>
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 36 36"><path fill="#000" d="M33.87 8.32L28 2.42a2.07 2.07 0 0 0-2.92 0L4.27 23.2l-1.9 8.2a2.06 2.06 0 0 0 2 2.5a2 2 0 0 0 .43 0l8.29-1.9l20.78-20.76a2.07 2.07 0 0 0 0-2.92M12.09 30.2l-7.77 1.63l1.77-7.62L21.66 8.7l6 6ZM29 13.25l-6-6l3.48-3.46l5.9 6Z" class="clr-i-outline clr-i-outline-path-1" /><path fill="none" d="M0 0h36v36H0z" /></svg>
+            } onClick={() => handleEditClickModal(modalData)} className="btn" />
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#FF4444" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m-5 5l4 4m0-4l-4 4" /></svg>
+            }
+              onClick={() => handleDeleteModal(modalData.id)}
+              className="btn" />
+          </>
+        )}
+      </>
+    );
+  };
+
+  const renderEditableCellModal = (modalData, field) => {
+    // console.log(`${Object.keys(modalData)}`)
+    if (editModeModal && modalData.id === editedModalData?.id) {
+      if (field == "id" || field == "nomeProduto") {
+        return (
+          <>
+            <td key={field}>
+              <input
+                type="text"
+                defaultValue={modalData[field]}
+                onChange={(e) => {
+                  setEditedModalData({ ...editedModalData, [field]: e.target.value });
+                }}
+                disabled
+              />
+            </td>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <td key={field}>
+              <input
+                type="text"
+                defaultValue={modalData[field]}
+                onChange={(e) => {
+                  setEditedModalData({ ...editedModalData, [field]: e.target.value });
+                }}
+              />
+            </td>
+          </>
+        );
+      }
+    }
+
+    return (
+      <>
+        <td  onClick={() => handleProdutosCestas(modalData)} style={{cursor: "crosshair"}} key={field}>{modalData[field]}</td>
+      </>
+    );
+  };
+
+  const handleCancelClickModal = (modalData) => {
+    setEditModeModal(false);
+    setEditedModalData(modalData);
+  };
+
+  const handleEditClickModal = (modalData) => {
+    setEditModeModal(true);
+    setEditedModalData(modalData);
+  };
+
+  const handleDeleteModal = (id) => {
+    if (sessionStorage.getItem('userId') === id) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: "Atenção! Você não pode deletar a si mesmo!"
+      });
+    } else {
+      api.delete("/produto-cestas/" + id)
+        .then((response) => {
+          if (response.status === 204) {
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Usuário excluido com sucesso!"
+            });
+          } else {
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "error",
+              title: "Erro ao excluir o usuário!"
+            });
+          }
+        }
+        ).catch(() => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Erro ao excluir usuário!"
+          });
+        })
+    }
+  }
+
+  const handleAlterarModal = (rowData) => {
+    const id = rowData.id
+    document.getElementById('modal').style.width = "100%";
+    var produtoCestaAlterada = {
+      id : rowData.id,
+      produto : rowData.nomeProduto,
+      qtdProduto: rowData.quantidade
+    }
+
+    api.put(`/produto-cestas/${id}`, produtoCestaAlterada)
+      .then((response) => {
+        if (response.status === 200) {
+
+          setEditMode(false);
+
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Produto Cesta atualizado com sucesso!"
+          });
+          window.location.reload()
+        } else {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Erro ao atualizar Produto Cesta!"
+          });
+        }
+      }
+      ).catch(() => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
           }
         });
-      }).catch((err) => {
-        alert("valide os campos")
-        //console.log(err)
+        Toast.fire({
+          icon: "error",
+          title: "Erro ao atualizar Produto Cesta!"
+        });
       })
-    } catch (err) {
-      //console.log(err);
-    }
+  };
+
+  async function handleProdutosCestas(rowData) {
+    let id = rowData.id;
+    setNomeCestaAtual(rowData.nome);
+    setModalData([]);
+    await api.get(`/produto-cestas/${id}`).then((response) => {
+      
+      // Corrigindo para acessar os dados
+      const produtos = response.data;
+
+      // Verifica se produtos é realmente uma lista antes de aplicar forEach
+      var listaProdutos = [];
+      console.log(response.data);
+      if (Array.isArray(produtos)) {
+        produtos.forEach(element => {
+          listaProdutos.push({
+            id: element.id,
+            nomeProduto: element.produto,
+            quantidade: element.quantidade
+          });
+        });
+      }
+
+      setModalData(listaProdutos);
+      document.getElementById("modal").style.display = "block";
+    });
+}
+
+  const unhandleAlterar = () => {
+    document.getElementById('modal').style.display = "none";
   }
+
+  const handleAlterar = (rowData) => {
+    const id = rowData.id
+
+    var tipoCestaAlterada = {
+      nome: rowData.nome
+    }
+
+    api.put(`/tipos-cestas/${id}`, tipoCestaAlterada)
+      .then((response) => {
+        if (response.status === 200) {
+
+          setEditMode(false);
+
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Usuário atualizado com sucesso!"
+          });
+          window.location.reload()
+        } else {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Erro ao atualizar usuário!"
+          });
+        }
+      }
+      ).catch(() => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "error",
+          title: "Erro ao atualizar usuário!"
+        });
+      })
+  };
 
   return (
     <>
-      <div style={{ display: "block", height: "100%" }}>
-        <NavBar />
+
+      <div style={{ display: "block", height: "100%", }}>
         <div className="form-section" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
             <h1 className="section-title" style={{ margin: "0px" }}>Tipo de cestas</h1>
@@ -258,35 +617,45 @@ const TipoCestaCadastro = () => {
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-up'>
                 <div className="form-group" id='name'>
                   <label htmlFor="productName">Nome <span className="required">*</span></label>
-                  <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '23vw' }} />
+                  <input type="text" name="nome" id="nome" onChange={(e) => setNome(e.target.value)} style={{ width: '23vw' }} />
                 </div>
                 <div className="form-group" id='name'>
                   <label htmlFor="productName">Produto <span className="required">*</span></label>
-                  <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '23vw' }} >
+                  <select name="produto" id="produto" onBlur={(e) => setNomeProdutoLista(e.target.innerHTML)} onChange={(e) => setProdutoId(e.target.value)} style={{ width: '23vw' }} >
                     <option value="">--</option>
+                    {getNomeProdutos}
                   </select>
-                  </div>
-                
                 </div>
-                <div className="form-group" id='name'>
-               
+
+              </div>
+              <div className="form-group" id='name'>
                 <div className="form-group" id='name'>
                   <label htmlFor="productName">Quantidade <span className="required">*</span></label>
-                  <input type="text" name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)} style={{ width: '23vw' }} />
-               </div> 
+                  <input type="text" name="quantidade" id="quantidade" onChange={(e) => setQuantidade(e.target.value)} style={{ width: '23vw' }} />
+                </div>
               </div>
+              <h2>{getNome}</h2>
+              <button onClick={() => handleAdicionarProduto()} className="submit-btn">Adicionar produto</button>
+              {getProdutos.map((item, itemIndex) => (
+                <div key={itemIndex} style={{ margin: '0 10px' }}>
+                  <p>{item.nome}/{item.qtdProduto}</p>
+                </div>
+              ))}
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-              <button onClick={salvar} className="submit-btn">Cadastrar</button>
+              <button onClick={() => handleCadastroTipoCestaProduto()} className="submit-btn">Cadastrar</button>
             </div>
           </div>
         </div>
       </div>
+
+      
+
       <div className="table-section">
         <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
           <p className="card-description">Listagem</p>
           <div className="table-responsive">
-            <table className="table table-striped">
+            {/* <table className="table table-striped">
               <thead>
                 <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
                 <th> Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
@@ -295,9 +664,41 @@ const TipoCestaCadastro = () => {
                 <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
               </thead>
               <tbody>
-                {getProdutos}
               </tbody>
-            </table>
+            </table> */}
+            <DataTable value={getTipoCestas} tableStyle={{ minWidth: '50rem' }}>
+              <Column field="id" header="#" body={(rowData) => renderEditableCell(rowData, "id")} sortable />
+              <Column field="nome" header="nome" body={(rowData) => renderEditableCell(rowData, "nome")} sortable />
+              <Column header="Ações" body={renderActionCell} />
+            </DataTable>
+          </div>
+        </div>
+      </div>
+
+
+      <div id='modal' style={{ display : "none", width: "100%"}}>
+        <div style={{ width: "100%", 
+        position: "fixed", height: "100%", background: "#00000057", top: "0%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div style={{ "display": "flex", height: "50%", width: "50%", position: "relative", left: "-7%" }}>
+            <div style={{ padding: "5%", "background-color": "white", width: "100%", border: "2px solid black"}}>
+              <div style={{display : "flex", alignItems : "center", justifyContent : "space-between"}}>
+                <div>
+                  <h6>Listagem dos produtos na {getNomeCestaAtual}</h6>
+                </div>
+                <div style={{cursor : "pointer"}} onClick={unhandleAlterar}>
+                  <h4>X</h4>
+                </div>
+              </div>
+              <div style={{ marginTop: "5%" }}>
+                <DataTable value={modalData} tableStyle={{ minWidth: '20rem' }}>
+                  <Column field='id' header='#' body={(modalData) => renderEditableCellModal(modalData, "id")} sortable />
+                  <Column field='nomeProduto' body={(modalData) => renderEditableCellModal(modalData, "nomeProduto")} header='Produto' sortable />
+                  <Column field='quantidade' body={(modalData) => renderEditableCellModal(modalData, "quantidade")} header='Quantidade' sortable />
+                  <Column header='Ações'body={renderActionCellModal}/>
+                  <Column />
+                </DataTable>
+              </div>
+            </div>
           </div>
         </div>
       </div>

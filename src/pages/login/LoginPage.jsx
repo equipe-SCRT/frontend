@@ -10,6 +10,7 @@ const Login = () => {
   let logado = false;
   let button;
   let idUsuario;
+
   const api = axios.create({
     baseURL: "http://localhost:8080/usuarios",
     withCredentials: false,
@@ -30,6 +31,11 @@ const Login = () => {
         if(response.status == 200){
 
           localStorage.setItem('token', response.data.token);
+          sessionStorage.setItem('userId', response.data.userId)
+          sessionStorage.setItem('nome', response.data.nome)
+          sessionStorage.setItem('email', response.data.email)
+          sessionStorage.setItem('tipoUsuario', response.data.tipoUsuario)
+          
           window.location.href = '/home';
 
           idUsuario = response.data.idUsuario;
@@ -82,7 +88,7 @@ const Login = () => {
               </Form.Group>
 
               <p className="small mb-5 pb-lg-2">
-                <a className="text-primary" href="#">Esqueceu a senha?</a>
+                <a className="text-primary" href="/redefinir-senha">Esqueceu a senha?</a>
               </p>
 
               <div className="pt-1 mb-4 row">

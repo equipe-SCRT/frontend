@@ -32,3 +32,43 @@ code {
 iframe {
   display: none;
 }
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif !important;
+}
+
+a:hover {
+  color: #0000ff; /* #0ab4ff */
+  font-size: 1.1rem;
+}
+.menu-anchor:hover {
+  background-color: #cbcafc !important;
+  font-weight: bolder;
+}
+
+.menu-label {
+  font-size: 13px;
+}
+
+button {
+  right: 20px;
+}
+hr {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  opacity: 0.15;
+}
+.rs-input-number-btn-group-vertical{
+  display: none!important;
+}
+.btn-scrt{
+  margin: auto;
+  margin-right: 0;
+  background-color: #F07E18!important;
+  color: #FFFFFF!important;
+  font-weight: bolder!important;
+  height: 48px!important;
+}
