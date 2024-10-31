@@ -12,6 +12,7 @@ const CardScrt = ({
   children,
   isDataSelected,
   isCampanhaSelected,
+  isCondominioSelected,
   infoTotal,
   link
 }) => {
@@ -29,17 +30,22 @@ const CardScrt = ({
       <Card.Title className={styles.titulo}>{legenda} <br />{sublegenda} </Card.Title>
 
       <Card.Text className={styles.info}>
-        {(!isDataSelected && !isCampanhaSelected) && elementoInfo}
-        {isDataSelected && (
-          <div className={styles.selectDataContainer}>
-            {isDataSelected}
-          </div>
-        )}
-        {isCampanhaSelected && (
-          <div className={styles.SelectScrtContainer}>
-            {isCampanhaSelected}
-          </div>
-        )}
+      {(!isDataSelected && !isCampanhaSelected && !isCondominioSelected) && elementoInfo}
+            {isDataSelected && (
+              <div className={styles.selectDataContainer}>
+                {isDataSelected}
+              </div>
+            )}
+            {isCampanhaSelected && (
+              <div className={styles.SelectScrtContainer}>
+                {isCampanhaSelected}
+              </div>
+            )}
+            {isCondominioSelected && (
+              <div className={styles.SelectScrtContainer}>
+                {isCondominioSelected}
+              </div>
+            )}
       </Card.Text>
     </div >
   </> :
