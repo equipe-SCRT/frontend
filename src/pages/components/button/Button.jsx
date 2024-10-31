@@ -6,7 +6,7 @@ const Botao = ({mensagem}) => {
 
     return (
         <ButtonToolbar>
-            <Button color="orange" appearance="primary" className='p-3 mb-2' >
+            <Button type="file" color="orange" appearance="primary" className='p-3 mb-2' >
                 {mensagem}
             </Button>
         </ButtonToolbar>

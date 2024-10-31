@@ -68,6 +68,33 @@
     color: red;
 }
 
+.popUp {
+    margin-left: 3%;
+
+}
+
+.Botao {
+    background-color: orange;
+    color: white;
+    padding: 1rem;
+    font-family: sans-serif;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    margin-top: 1rem;
+
+
+}
+.baixarRelatorio {
+    cursor: pointer;
+    color: blue;
+}
+
+.baixarRelatorio:hover {
+    text-decoration:underline;
+}
+  
+
+
 .inputLabel {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
@@ -89,6 +116,11 @@
 
 .PaddingOption {
     padding-left: 1rem;
+}
+
+.SubTitulo {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .submit-btn {
