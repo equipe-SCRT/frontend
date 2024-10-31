@@ -10,6 +10,11 @@
 .base-pag{
     margin: 0px 2% 0px 2%;
 }
+.formRow{
+    display: flex!important;
+    flex-direction: row!important;
+    justify-content: space-between!important;
+}
 
 .product-form .form-group label {
     color: #21272A;

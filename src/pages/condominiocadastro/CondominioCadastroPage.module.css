@@ -2,3 +2,8 @@
     border-top: 0.5px solid #05050544 ;
     border-bottom: 0.5px solid #05050544 ;
 }
+.formRow{
+    display: flex!important;
+    flex-direction: row!important;
+    justify-content: space-between!important;
+}

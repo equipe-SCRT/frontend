@@ -214,6 +214,9 @@ const DashboardCampanhas = () => {
   return (
     <>
         <Col md lg={11} className="m-auto" style={{ marginTop: "100px" }}>
+        <h3 style={{
+          marginBottom: '10px'
+        }}>Visão Geral das Campanhas</h3>
           <Row>
             <CardScrt
               legenda="Selecione a Campanha"
