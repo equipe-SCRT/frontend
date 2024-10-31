@@ -5,34 +5,23 @@ import Swal from 'sweetalert2';
 import Botao from "../components/button/Button"
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-
-var pilha = [];
-let contadorPilha = -1;
+import { Button } from 'primereact/button';
 
 const CampanhaCadastroPage = () => {
-  let [getProdutos, setProdutos] = useState([]);
-  let [getNomeCampanhas, setNomeProdutos] = useState([]);
-  let [getOrigemNome, setOrigemNome] = useState([]);
-  let [getNome, setNome] = useState("");
-  let [getValidade, setLocal] = useState("");
-  let [getOrigem, setOrigem] = useState(0);
-  let [getQuantidade, setQuantidade] = useState(0);
-  let [getPilha, setPilha] = useState([]);
-  let [getTodosProdutos, setTdProdutos] = useState([]);
-  let [getNomeAlt, setNomeAlt] = useState();
-  let [getDateAlt, setDateAlt] = useState();
-  let [getOrigAlt, setOrigAlt] = useState();
-  let [getIdAlt, setIdAlt] = useState();
-
-
-  useEffect(() => {
-    handleProdutos()
-    handleNomeProdutos()
-    handleOrigem()
-  }, [])
+  const [getCampanhas, setCampanhas] = useState([]);
+  const [getProdutos, setProdutos] = useState([]);
+  const [getNomeCampanhas, setNomeCampanhas] = useState([]);
+  const [getTipoCampanha, setTipoCampanha] = useState(null);
+  const [getDataCampanha, setDataCampanha] = useState(null);
+  const [getMetaCampanha, setMetaCampanha] = useState(null);
+  const [getProdutoCampanha, setProdutoCampanha] = useState(null);
+  const [getLocalCampanha, setLocalCampanha] = useState(null);
+  const [getQtdArrecadadaCampanha, setQtdArrecadadaCampanha] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editedRowData, setEditedRowData] = useState(null);
 
   const apiProdutos = axios.create({
-    baseURL: "http://localhost:8080/",
+    baseURL: "http://localhost:8080",
     withCredentials: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -40,322 +29,325 @@ const CampanhaCadastroPage = () => {
     }
   });
 
-  function push(info) {
-    contadorPilha++;
-    pilha.push(info);
-    //console.log("pilha adicionada: ")
-    console.log(pilha)
-  }
-
   async function excluir(id) {
-    apiProdutos.delete("produtos-unitario/" + id).then((response) => {
+    apiProdutos.delete("/produtos-unitario/" + id).then((response) => {
       //console.log(response);
-      alert("excluido");
       // window.location.reload()
     }).catch((err) => {
       //console.log(err)
     })
   }
 
-
-  function pop() {
-    if (contadorPilha == -1) {
-      //console.log("pilha vazia")
-    } else {
-      if (pilha[contadorPilha].operacao == "salvar") {
-        console.log("aqui: ")
-        apiProdutos.delete("/produtos-unitario/" + pilha[contadorPilha].id).then((res) => {
-          console.log(pilha);
-          if (res.status == 204) {
-            pilha.pop();
-            contadorPilha--;
-            handleProdutos()
-            if (pilha.length > 0) {
-              let timerInterval;
-              Swal.fire({
-                title: "Produtos adicionados",
-                html: "desfazer?",
-                position: 'bottom-end',
-                width: "190px",
-                height: "100px",
-                timer: 30000,
-                toast: true,
-                backdrop: false,
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Desfazer",
-                cancelButtonText: "Cancelar",
-                willClose: () => {
-                  clearInterval(timerInterval);
-                }
-              }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                  //console.log("I was closed by the timer");
-                } else if (result.isConfirmed) {
-                  pop();
-                } else {
-                  //console.log("I was closed by the user"); 
-                }
-              });
+  const renderActionCell = (rowData) => {
+    return (
+      <>
+        {editMode && rowData.id === editedRowData?.id ? (
+          <>
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" /><path fill="#000" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6.414A2 2 0 0 0 19.414 5L17 2.586A2 2 0 0 0 15.586 2zm0 2h9.586L18 6.414V20H6zm10.238 6.793a1 1 0 1 0-1.414-1.414l-4.242 4.243l-1.415-1.415a1 1 0 0 0-1.414 1.414l2.05 2.051a1.1 1.1 0 0 0 1.556 0l4.88-4.879Z" /></g></svg>
+            } onClick={() => handleAlterar(editedRowData)} className="btn" />
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#FF4444" d="m8.4 17l3.6-3.6l3.6 3.6l1.4-1.4l-3.6-3.6L17 8.4L15.6 7L12 10.6L8.4 7L7 8.4l3.6 3.6L7 15.6zm3.6 5q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" /></svg>
+            } onClick={() => handleCancelClick} className="btn" />
+          </>
+        ) : (
+          <>
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 36 36"><path fill="#000" d="M33.87 8.32L28 2.42a2.07 2.07 0 0 0-2.92 0L4.27 23.2l-1.9 8.2a2.06 2.06 0 0 0 2 2.5a2 2 0 0 0 .43 0l8.29-1.9l20.78-20.76a2.07 2.07 0 0 0 0-2.92M12.09 30.2l-7.77 1.63l1.77-7.62L21.66 8.7l6 6ZM29 13.25l-6-6l3.48-3.46l5.9 6Z" class="clr-i-outline clr-i-outline-path-1" /><path fill="none" d="M0 0h36v36H0z" /></svg>
+            } onClick={() => handleEditClick(rowData)} className="btn" />
+            <Button icon={
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#FF4444" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m-5 5l4 4m0-4l-4 4" /></svg>
             }
-          }
-        }).catch((err) => {
-          //console.log(err)
-        })
-      }
-    }
-  }
+              onClick={() => handleDelete(rowData.id)}
+              className="btn" />
+          </>
+        )}
+      </>
+    );
+  };
 
-  var lista = [];
-  const api = axios.create({
-    baseURL: "http://localhost:8080/campanhas",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
+  const handleEditClick = (rowData) => {
+    setEditMode(true);
+    setEditedRowData(rowData);
+  };
 
-  async function handleProdutos() {
-    try {
-      var encontrados = await api.get("");
-      //console.log(encontrados)
-      setTdProdutos(encontrados.data)
-      console.log(getTodosProdutos)
-      for (var i = 0; i < encontrados.data.length; i++) {
-        let id = encontrados.data[i].id
-        lista.push(
-          <tr key={encontrados.data[i]}>
-            <td className="py-1" id={"idProd" + i}>
-              <span className={'id' + id}>{encontrados.data[i].id}</span>
-              <input type="text" placeholder={encontrados.data[i].id} onChange={(e) => setIdAlt(e.target.value)} style={{ display: "none" }} className={"idTxt" + id} />
-            </td>
-            <td id={"nomeProd" + i}>
-              <span className={'nome' + id}>{encontrados.data[i].nome}</span>
-              {/* <select name="nomeSel" className={'nomeTxt' + id} style={{ display: "none" }}>
-                {getNomeCampanhas}
-              </select> */}
-              <input type="text" style={{ display: 'none' }} onChange={(e) => setNomeAlt(e.target.value)} className={'nomeTxt' + id} />
-            </td>
-            <td id={"dateProd" + i}>
-              <span className={'date' + id}>{encontrados.data[i].localCampanha}</span>
-              <input style={{ display: 'none' }}
-                className={"dateTxt" + id}
-                placeholder={encontrados.data[i].localCampanha}
-                type="date"
-                id="unit"
-                name="unit"
-                onChange={(e) => setDateAlt(e.target.value)}
-              />
-            </td>
-            <td id={"origProd" + i}>
-              <span className={'orig' + id}>{encontrados.data[i].dataCampanha}</span>
-              {/* <select name="origemSel" id="origemSel" className={"origTxt" + id} style={{ display: "none" }} >
-                {getOrigemNome}
-              </select> */}
-              <input type="text" style={{ display: 'none' }} onChange={(e) => setOrigAlt(e.target.value)}
-                placeholder={encontrados.data[i].dataCampanha} className={"origTxt" + id} />
-            </td>
-            <td>
-
-              <div className={"svgAlt" + id}>
-                <svg xmlns="http://www.w3.org/2000/svg" className={"svgAlt" + id} width="16" height="16" fill="currentColor" onClick={() => { changeFieldToInput(id) }} class="bi bi-pencil" viewBox="0 0 16 16">
-                  <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "15px", color: "red" }} onClick={() => { excluir(id) }} width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                </svg>
-              </div>
-
-
-              <button style={{ display: 'none' }} onClick={() => { alterar(id) }} className={'btnAlt' + id}>Alterar</button>
-              <button style={{ display: 'none' }} onClick={() => { changeInputToFiel(id) }} className={'btnCan' + id}>Cancelar</button>
-            </td>
-          </tr>
-        )
-      }
-      setProdutos(lista);
-      lista = []
-    } catch (err) {
-      //console.log(err);
-    }
-
-  }
-
-  function changeInputToFiel(id) {
-    document.getElementsByClassName("idTxt" + id)[0].style = "display:none;";
-    document.getElementsByClassName("id" + id)[0].style = "display:block;"
-
-    document.getElementsByClassName("nomeTxt" + id)[0].style = "display:none;";
-    document.getElementsByClassName("nome" + id)[0].style = "display:block;"
-
-
-    document.getElementsByClassName("dateTxt" + id)[0].style = "display:none;";
-    document.getElementsByClassName("date" + id)[0].style = "display:block;"
-
-    document.getElementsByClassName("orig" + id)[0].style = "display:block;"
-    document.getElementsByClassName("origTxt" + id)[0].style = "display:none;"
-
-
-    document.getElementsByClassName("btnAlt" + id)[0].style = "display:none"
-    document.getElementsByClassName("btnCan" + id)[0].style = "display:none"
-
-    console.log(document.getElementsByClassName("svgAlt" + id))
-    document.getElementsByClassName("svgAlt" + id)[0].style = "display:block;";
-
-  }
-
-  function changeFieldToInput(id) {
-    document.getElementsByClassName("idTxt" + id)[0].style = "display:block;";
-    document.getElementsByClassName("id" + id)[0].style = "display:none;"
-
-    document.getElementsByClassName("nomeTxt" + id)[0].style = "display:block;";
-    document.getElementsByClassName("nome" + id)[0].style = "display:none;"
-
-
-    document.getElementsByClassName("dateTxt" + id)[0].style = "display:block;";
-    document.getElementsByClassName("date" + id)[0].style = "display:none;"
-
-    document.getElementsByClassName("orig" + id)[0].style = "display:none;"
-    document.getElementsByClassName("origTxt" + id)[0].style = "display:block;"
-
-
-    document.getElementsByClassName("btnAlt" + id)[0].style = "display:block"
-    document.getElementsByClassName("btnCan" + id)[0].style = "display:block"
-
-    console.log(document.getElementsByClassName("svgAlt" + id))
-    document.getElementsByClassName("svgAlt" + id)[0].style = "display:none;";
-
-  }
-
-
-  async function handleNomeProdutos() {
-    try {
-      var encontrados = await apiProdutos.get("campanhas");
-      var listaNomes = [];
-      listaNomes.push(<option value="null">-</option>)
-      for (var i = 0; i < encontrados.data.length; i++) {
-        listaNomes.push(
-          <option value={encontrados.data[i].nome}>{encontrados.data[i].nome}</option>
-        )
-      }
-      setNomeProdutos(listaNomes);
-      listaNomes = []
-    } catch (err) {
-      //console.log(err);
-    }
-
-  }
-
-  async function handleOrigem() {
-    try {
-      var encontrados = await apiProdutos.get("/origens");
-      var listaOrigens = [];
-      listaOrigens.push(<option value="null">-</option>)
-      for (var i = 0; i < encontrados.data.length; i++) {
-        //console.log("Origem")
-        //console.log(encontrados.data[i])
-        listaOrigens.push(
-          <option value={encontrados.data[i].itapora}>
-            {encontrados.data[i].itapora == 1 ? "Itaporã" : "Auta de souza"}</option>
-        )
-      }
-      setOrigemNome(listaOrigens);
-      listaOrigens = []
-    } catch (err) {
-      //console.log(err);
-    }
-
-  }
-
-
-  async function salvar() {
-    try {
-      api.post("", {
-        nome: getNome,
-        dataValidade: getValidade,
-        quantidade: getQuantidade,
-        peso: 5,
-        origemId: getOrigem,
-        ativo: true,
-        unidadeMedidaId: 1,
-        cestaId: 1,
-        produtoId: 1,
-        rotaId: 1,
-        metricaId: 1
-      }).then(async (response) => {
-
-        handleProdutos();
-        //console.log("1020121218902901890----------s")
-        //console.log(response)
-        let alteracao = {
-          operacao: "salvar",
-          id: response.data.id
+  const handleDelete = (id) => {
+    if (sessionStorage.getItem('userId') === id) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
         }
-        push(alteracao);
-        //console.log(" pilha> ")
-        //console.log(pilha)
-        let timerInterval;
-        clearInterval(timerInterval);
-        await Swal.fire({
-          title: "Produtos adicionados",
-          html: "desfazer?",
-          position: 'bottom-end',
-          timer: 30000,
-          width: 300,
-          toast: true,
-          backdrop: false,
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Desfazer",
-          cancelButtonText: "Cancelar",
-          willClose: () => {
-            clearInterval(timerInterval);
-            pilha.splice(response.data.id, response.data.id);
-          }
-        }).then((result) => {
-          /* Read more about handling dismissals below */
-          if (result.dismiss === Swal.DismissReason.timer) {
-            //console.log("I was closed by the timer");
+      });
+      Toast.fire({
+        icon: "error",
+        title: "Atenção! Você não pode deletar a si mesmo!"
+      });
+    } else {
+      apiProdutos.delete("/campanhas/" + id)
+        .then((response) => {
+          if (response.status === 204) {
 
-          } else if (result.isConfirmed) {
-            pop();
+            setTimeout(() => {
+              // setVoluntarios([]);
+              // handleVoluntarios();
+            }, 1000);
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Usuário excluido com sucesso!"
+            });
           } else {
-            //console.log("I was closed by the user"); 
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top-end",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: "error",
+              title: "Erro ao excluir usuário!"
+            });
+          }
+        }
+        ).catch(() => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Erro ao excluir usuário!"
+          });
+        })
+    }
+  }
+
+  const handleAlterar = (rowData) => {
+    const id = rowData.id
+    var campanhaAlterada = {
+      
+      localCampanha: rowData.localCampanha,
+      dataCampanha: rowData.dataCampanha,
+      qtdArrecadada: rowData.qtdArrecadada,
+      meta: rowData.meta
+    }
+
+    apiProdutos.put(`/campanhas/${id}`, campanhaAlterada)
+      .then((response) => {
+        if (response.status === 200) {
+
+          setEditMode(false);
+
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Usuário atualizado com sucesso!"
+          });
+        } else {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Erro ao atualizar usuário!"
+          });
+        }
+      }
+      ).catch(() => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
           }
         });
-      }).catch((err) => {
-        alert("valide os campos")
-        //console.log(err)
+        Toast.fire({
+          icon: "error",
+          title: "Erro ao atualizar usuário!"
+        });
       })
-    } catch (err) {
-      //console.log(err);
+  };
+
+  const handleCancelClick = () => {
+    setEditMode(false);
+    setEditedRowData(null);
+  };
+
+  const renderEditableCell = (rowData, field) => {
+    console.log(`${Object.keys(rowData)}`)
+    if (editMode && rowData.id === editedRowData?.id) {
+      if (field == "id") {
+        return (
+          <>
+              <td key={field}>
+                  <input
+                      type="text"
+                      defaultValue={rowData[field]}
+                      onChange={(e) => {
+                          setEditedRowData({ ...editedRowData, [field]: e.target.value });
+                      }}
+                      disabled
+                  />
+              </td>
+          </>
+      );
+      }else{
+        return (
+            <>
+                <td key={field}>
+                    <input
+                        type="text"
+                        defaultValue={rowData[field]}
+                        onChange={(e) => {
+                            setEditedRowData({ ...editedRowData, [field]: e.target.value });
+                        }}
+                    />
+                </td>
+            </>
+        );
+      }
     }
+
+    return (
+        <>
+            <td key={field}>{rowData[field]}</td>
+        </>
+    );
+};
+
+  useEffect(() => {
+    async function handleCampanhas() {
+      try {
+        const encontrados = await apiProdutos.get("/campanhas");
+        setCampanhas(encontrados.data); 
+      } catch (error) {
+        console.error(error);
+      }
+    }
+      handleCampanhas();
+    }, []);
+
+
+  useEffect(() => {
+    async function handleTipoCampanhas() {
+      try {
+        var encontrados = await apiProdutos.get("/tipo-campanhas");
+        var nomeCampanhas = [];
+
+
+        for (var i = 0; i < encontrados.data.length; i++) {
+          nomeCampanhas.push(
+            <option value={encontrados.data[i].idTipoCampanha}>{encontrados.data[i].nome}</option>
+          )
+        }
+        setNomeCampanhas(nomeCampanhas);
+        nomeCampanhas = []
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    handleTipoCampanhas();
+  }, []);
+
+
+  function handleCadastroCampanhas() {
+    console.log("Tipo de campanha", getNomeCampanhas[0].props.value)
+    console.log("QtdArrecada", getQtdArrecadadaCampanha)
+    console.log("Local ", getLocalCampanha)
+    console.log("Data da campanha", getDataCampanha)
+    console.log("Meta", getMetaCampanha)
+    console.log("Produto", getProdutoCampanha)
+
+    const campanhaNova = {
+      fkTipoCampanha: getTipoCampanha,
+      dataCampanha: getDataCampanha,  
+      meta: getMetaCampanha,
+      fkProduto: getProdutoCampanha,
+      localCampanha: getLocalCampanha,
+      qtdArrecadada: getQtdArrecadadaCampanha
+    }
+
+    console.log("campanhaNova", campanhaNova)
+
+    apiProdutos.post("/campanhas", campanhaNova)
+    .then((response) => {
+      console.log(response)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
-  async function alterar(id) {
-    try {
-      api.put("/" + id, {
-        nome: getNomeAlt,
-        dataValidade: getDateAlt,
-        origemId: getOrigAlt,
-        produtoId: getIdAlt,
-      }).then(async (response) => {
-        if (response.status(200)) {
-          alert("mudado")
-        } else {
-          alert("?")
+  useEffect(() => {
+    async function handleNomeProdutos() {
+      try {
+        var encontrados = await apiProdutos.get("/produtos");
+        var listaNomes = [];
+        listaNomes.push(<option value="null">-</option>)
+        for (var i = 0; i < encontrados.data.length; i++) {
+          listaNomes.push(
+            <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
+          )
         }
-      }).catch((err) => {
-        alert(err)
-      })
-    } catch (err) {
-      alert(err)
+        setProdutos(listaNomes);
+        listaNomes = []
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
+    handleNomeProdutos();
+  }, []);
 
 
 
@@ -374,42 +366,50 @@ const CampanhaCadastroPage = () => {
 
               <div className='col-5 d-flex flex-column'>
                 <label htmlFor="">Tipo de Campanha <span className={style.colorRed}>*</span></label>
-                <select name="nomeSel" id="nomeSel" onChange={(e) => setNome(e.target.value)}
+                <select name="nomeSel" id="tipoCampanha"
+                  onChange={(e) => setTipoCampanha(e.target.value)}
                   className={style.inputLabel}>
                   <option value="" disabled selected>-</option>
                   {getNomeCampanhas}
                 </select>
                 <label htmlFor="">Data da Campanha <span className={style.colorRed}>*</span></label>
                 <input
-                  id="unit"
-                  name="unit"
-                  onChange={(e) => setLocal(e.target.value)}
-                  type="date" className={style.inputLabel} />
-
+                  id="dataCampanha"
+                  name="dataCampanha"
+                  type="date" className={style.inputLabel} onChange={(e) => setDataCampanha(e.target.value)} />
                 <div className='row d-flex justify-content-start'>
                   <div className='col-6 d-flex flex-column'>
                     <label htmlFor="">Meta <span className={style.colorRed}>*</span></label>
-                    <input type="text" className={style.inputLabel} />
+                    <input
+                      id="meta"
+                      name='meta'
+                      type="number"
+                      className={style.inputLabel}
+                      onChange={(e) => setMetaCampanha(e.target.value)}
+                    />
                   </div>
                   <div className='col-6 d-flex flex-column'>
                     <label htmlFor="">Produto <span className={style.colorRed}>*</span></label>
-                    <select name="" id="" onChange={(e) => setNome(e.target.value)}
-                      className={style.inputLabel}>
+                    <select name="produto" id="produto"
+                      className={style.inputLabel}
+                      onChange={(e) => setProdutoCampanha(e.target.value)}>
                       <option value="" disabled selected>-</option>
-                      {getNomeCampanhas}
+                      {getProdutos}
                     </select>
                   </div>
                 </div>
               </div>
               <div className='col-5 d-flex flex-column'>
                 <label htmlFor="">Local <span className={style.colorRed}>*</span></label>
-                <input type="text" className={style.inputLabel} placeholder='-' />
+                <input type="text" id="local" className={style.inputLabel} placeholder='-' onChange={(e) => setLocalCampanha(e.target.value)} />
                 <label htmlFor="">Quantidade arrecadada <span className={style.colorRed}>*</span></label>
-                <input type="text" className={style.inputLabel} placeholder='-' />
+                <input type="text" id="qtdArrecadada" className={style.inputLabel} placeholder='-' onChange={(e) => setQtdArrecadadaCampanha(e.target.value)} />
                 <div className="col-12 d-flex justify-content-end text-white" style={{ margin: '20px' }}>
-                  <Botao mensagem={"Cadastrar Campanha"} onClick={salvar} />
+                  {/* <Botao mensagem={"Cadastrar Campanha"} onClick={() => handleCadastroCampanhas()} /> */}
+                  <button onClick={handleCadastroCampanhas} className="submit-btn" style={{height:"6vh"}}>Cadastrar Campanha</button>
+                  {/* <Botao mensagem={"Cadastrar Campanha"} /> */}
                 </div>
-              </div>
+              </div>/
             </div>
 
             <div className="row border">
@@ -419,19 +419,13 @@ const CampanhaCadastroPage = () => {
 
               <div className="">
                 <div>
-                  <DataTable className="border mb-5" value={getProdutos}>
-                  <Column className="col-4 border-top p-3 mb-2 text-dark" field="" header="" headerClassName="p-3 mb-2 bg-light text-dark">
-                  </Column>
-                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="#" header="#" sortable headerClassName="p-3 mb-2 bg-light text-dark">
-                    </Column>
-                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="tipoCampanha" header="Tipo da Campanha" sortable headerClassName="p-3 mb-2 bg-light text-dark">
-                    </Column>
-                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="local" sortable header='Local' headerClassName="p-3 mb-2 bg-light text-dark">
-                    </Column>
-                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="data" header="Data" sortable headerClassName="p-3 mb-2 bg-light text-dark">
-                    </Column>
-                    <Column className="col-4 border-top p-3 mb-2 text-dark" field="" header="" headerClassName="p-3 mb-2 bg-light text-dark">
-                    </Column>
+                  <DataTable value={getCampanhas} tableStyle={{ minWidth: '50rem' }}>
+                  <Column field="id" header="#" body={(rowData) => renderEditableCell(rowData, "id")} sortable />
+                    <Column field="localCampanha" header="Local" body={(rowData) => renderEditableCell(rowData, "localCampanha")} sortable />
+                    <Column field="dataCampanha" header="Data" body={(rowData) => renderEditableCell(rowData, "dataCampanha")} sortable />
+                    <Column field="qtdArrecadada" header="Arrecadados" body={(rowData) => renderEditableCell(rowData, "qtdArrecadada")} sortable />
+                    <Column field="meta" header="Meta" body={(rowData) => renderEditableCell(rowData, "meta")} sortable />
+                    <Column header="Ações" body={renderActionCell} />
                   </DataTable>
                 </div>
               </div>
