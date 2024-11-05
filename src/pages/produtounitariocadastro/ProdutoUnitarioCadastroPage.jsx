@@ -198,7 +198,7 @@ const ProdutoUnitarioCadastro = () => {
         dataValidade: getValidade,
         quantidade: getQuantidade,
         origemId: getOrigem,
-        ativo: getAtivo,
+        ativo: getAtivo === 1,
         produtoId: getNome,
       })
     }
