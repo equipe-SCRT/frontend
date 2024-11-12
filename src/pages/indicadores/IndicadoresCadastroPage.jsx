@@ -211,7 +211,6 @@ const IndicadoresCadastro = () => {
         <span style={{ background: "lightGray", marginRight: "20px", borderRadius: "10px", width: "110px", height: "25px", paddingLeft: "5px", fontWeight: "bold", paddingTop: "2px" }}>{getReqTipoCampanha[i].nome}</span>
       )
     }
-    alert(returnSelectTipoCampanha)
     setTipoCampanhaExistentes(returnSelectTipoCampanha)
   }
 
