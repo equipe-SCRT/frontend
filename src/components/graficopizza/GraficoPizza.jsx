@@ -12,6 +12,7 @@ import {
   Legend,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
+import { ptBR } from "date-fns/locale";
 Chart.register(
   ...registerables,
   CategoryScale,
@@ -24,13 +25,12 @@ Chart.register(
 );
 
 const GraficoPizza = ({ titulo, data }) => {
-    // console.log(data)
     const dados = {
         labels: ['Produtos'],
         datasets: [
             {
                 label: 'Vencimento em 30 Dias',
-                data: [data[0]],
+                data: [data['vencimento30']],
                 backgroundColor: [
                     '#0BDC2B'
                 ],
@@ -41,7 +41,7 @@ const GraficoPizza = ({ titulo, data }) => {
             },
             {
                 label: 'Vencimento em 15 Dias',
-                data: [data[1]],
+                data: [data['vencimento15']],
                 backgroundColor: [
                     '#F0A202'
                 ],

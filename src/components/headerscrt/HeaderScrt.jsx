@@ -25,7 +25,7 @@ const HeaderScrt = ({ children }) => {
             const response = await api.get('produtos-unitario/quantidade-produtos/mes/vencidos');
             setDadosVencidosPorMes(response.data);
         } catch (error) {
-            console.error('Erro ao buscar os dados:', error);
+            // console.error('Erro ao buscar os dados:', error);
         }
     };
 
@@ -34,7 +34,7 @@ const HeaderScrt = ({ children }) => {
             const response = await api.get('produtos-unitario/vencimento-em-15-e-30-dias');
             setDadosAlimentosVencimento15E30Dias(response.data);
         } catch (error) {
-            console.error('Erro ao buscar os dados:', error);
+            // console.error('Erro ao buscar os dados:', error);
         }
     };
 
@@ -61,7 +61,7 @@ const HeaderScrt = ({ children }) => {
                 </Nav.Menu>
                 <Nav.Menu trigger={'hover'} icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
-                        <path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.134 11C18.715 16.375 21 18 21 18H3s3-2.133 3-9.6c0-1.697.632-3.325 1.757-4.525S10.41 2 12 2q.507 0 1 .09M19 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6m-5.27 13a2 2 0 0 1-3.46 0" /></svg>
+                        <path fill="none" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M18.134 11C18.715 16.375 21 18 21 18H3s3-2.133 3-9.6c0-1.697.632-3.325 1.757-4.525S10.41 2 12 2q.507 0 1 .09M19 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6m-5.27 13a2 2 0 0 1-3.46 0" /></svg>
                 }>
                     <Nav.Item icon={
                         <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
@@ -84,9 +84,9 @@ const HeaderScrt = ({ children }) => {
                     <Nav.Item icon={
                         <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 48 48">
                             <g fill="none">
-                                <path stroke="#22CC52" stroke-linejoin="round" stroke-width="4" d="M24 44a19.94 19.94 0 0 0 14.142-5.858A19.94 19.94 0 0 0 44 24a19.94 19.94 0 0 0-5.858-14.142A19.94 19.94 0 0 0 24 4A19.94 19.94 0 0 0 9.858 9.858A19.94 19.94 0 0 0 4 24a19.94 19.94 0 0 0 5.858 14.142A19.94 19.94 0 0 0 24 44Z" />
-                                <path fill="#22CC52" fill-rule="evenodd" d="M24 37a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5" clip-rule="evenodd" />
-                                <path stroke="#22CC52" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M24 12v16" />
+                                <path stroke="#22CC52" strokeLinejoin="round" strokeWidth="4" d="M24 44a19.94 19.94 0 0 0 14.142-5.858A19.94 19.94 0 0 0 44 24a19.94 19.94 0 0 0-5.858-14.142A19.94 19.94 0 0 0 24 4A19.94 19.94 0 0 0 9.858 9.858A19.94 19.94 0 0 0 4 24a19.94 19.94 0 0 0 5.858 14.142A19.94 19.94 0 0 0 24 44Z" />
+                                <path fill="#22CC52" fillRule="evenodd" d="M24 37a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5" clipRule="evenodd" />
+                                <path stroke="#22CC52" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M24 12v16" />
                             </g>
                         </svg>}>
                         <div style={{ textAlign: "left" }}>

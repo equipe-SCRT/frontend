@@ -31,7 +31,7 @@ const DashboardCampanhas = () => {
       const response = await api.get(`produtos-unitario/${id}/produto-por-campanha`);
       setDadosFiltradosPorProduto(response.data);
     } catch (error) {
-      console.error("Erro ao buscar os dados filtrados por produto:", error);
+      console.log("Erro ao buscar os dados filtrados por produto:");
     }
   };
 
@@ -40,7 +40,7 @@ const DashboardCampanhas = () => {
       const response = await api.get(`produtos-unitario/${campanhaId}/produtos-vencidos-por-campanha`);
       setProdutosVencidosPorCampanha(response.data);
     } catch (error) {
-      console.error("Erro ao buscar os dados de produtos vencidos por campanha:", error);
+      console.log("Erro ao buscar os dados de produtos vencidos por campanha:");
     }
   };
 
@@ -55,7 +55,7 @@ const DashboardCampanhas = () => {
       }));
       setDadosComparacao(dadosTransformados);
     } catch (error) {
-      console.error("Erro ao buscar os dados de comparação:", error);
+      console.log("Erro ao buscar os dados de comparação:");
     }
   };
 
@@ -70,7 +70,7 @@ const DashboardCampanhas = () => {
       }));
       setDadosSelecionados(dadosTransformados);
     } catch (error) {
-      console.error("Erro ao buscar os dados da campanha selecionada:", error);
+      console.log("Erro ao buscar os dados da campanha selecionada:");
     }
   };
 
@@ -79,7 +79,6 @@ const DashboardCampanhas = () => {
       try {
         const response = await api.get("campanhas");
         const campanhas = response.data;
-        console.log("Dados das Campanhas:", campanhas);
         const totalQtdArrecadada = campanhas.reduce(
           (acc, campanha) => acc + campanha.qtdArrecadada,
           0
@@ -103,7 +102,7 @@ const DashboardCampanhas = () => {
           fetchDadosSelecionados(ultimaCampanha.nome);
         }
       } catch (error) {
-        console.error("Erro ao buscar os dados:", error);
+        console.log("Erro ao buscar os dados:");
       }
     };
 
@@ -116,7 +115,7 @@ const DashboardCampanhas = () => {
         }));
         setDadosAlimentosArrecadadosMes(dadosTransformados);
       } catch (error) {
-        console.error("Erro ao buscar os dados:", error);
+        console.log("Erro ao buscar os dados:");
       }
     };
 
@@ -130,7 +129,7 @@ const DashboardCampanhas = () => {
         }));
         setProdutosConformeNaoConforme(dadosTransformados);
       } catch (error) {
-        console.error("Erro ao buscar os dados:", error);
+        console.log("Erro ao buscar os dados:");
       }
     }
 
@@ -139,7 +138,7 @@ const DashboardCampanhas = () => {
         const response = await api.get("produtos");
         setProdutos(response.data);
       } catch (error) {
-        console.error("Erro ao buscar os produtos:", error);
+        console.log("Erro ao buscar os produtos:");
       }
     };
 
@@ -156,7 +155,6 @@ const DashboardCampanhas = () => {
   }, [produtos]);
 
   useEffect(() => {
-    console.log("Estado dadosCampanhas:", dadosCampanhas);
   }, [dadosCampanhas, selectedDate]);
 
   const handleCampanhaChange = (event) => {
@@ -167,7 +165,6 @@ const DashboardCampanhas = () => {
     fetchDadosSelecionados(campanha.nome);
     setNomeCampanhaSelecionada(campanha.nome);
     setSelectedDate(parseISO(campanha.dataCampanha));
-    console.log("Selecione a Campanha:", campanha);
   };
 
   const formatDate = (dateString) => {
@@ -225,6 +222,7 @@ const DashboardCampanhas = () => {
             <Col md lg={6}>
               
                 <GraficoLinha
+                
                   data={dadosAlimentosArrecadadosMes}
                   cores={["#22CC52"]}
                   titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
@@ -247,13 +245,15 @@ const DashboardCampanhas = () => {
           </Row>
           <Row>
             <Col md lg={6}>
-            
+
                 <GraficoLinha
                   data={[dadosSelecionados, dadosComparacao]}
                   cores={["#22CC52", "#4444FF"]}
                   titulo={"Quantidade de Doações Variadas por Campanhas"}
                   selectObj={dadosCampanhas}
                   selectFunc={(e) => {setNomeCampanhaComparada(e.target.options[e.target.selectedIndex].text); fetchDadosComparacao(e.target.options[e.target.selectedIndex].text)}}
+                  xValue={"mes"}
+                  yValue={"count"}
                   label={[nomeCampanhaSelecionada, nomeCampanhaComparada]}
                   />
               

@@ -1,6 +1,7 @@
 import SelectScrt from "../../components/select/SelectScrt";
 import React from "react";
 import { Line } from "react-chartjs-2";
+import { ptBR } from "date-fns/locale";
 import {
   Chart,
   registerables,
@@ -25,26 +26,30 @@ Chart.register(
   Tooltip,
   Legend
 );
+
  
 const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, selectFunc }) => {
   let datasets = [];
   let labels = [];
   let unicoDataset = !Array.isArray(data[0]);
+  xValue = xValue == undefined ? 'mes' : xValue; 
+  yValue = yValue == undefined ? 'count' : yValue; 
   if (unicoDataset) {
     data = [data]
     label = [label]
   }
+
   data.forEach((element, i) => {
     let dataValues = [];
-    let labels2 = []
     for (let j = 0; j < element.length; j++) {
-      labels2.push(element[j].mes);
+      if(element[j][xValue].length==7){
+        element[j][xValue] = element[j][xValue]+"-01"
+      }
     }
     for (let j = 0; j < element.length; j++) {
-      dataValues.push(element[j].count);
+      dataValues.push(element[j][yValue]);
     }
-    labels.push(labels2);
-
+    element.sort((a, b) => new Date(a[xValue]) - new Date(b[xValue]));
 
     datasets.push({
       label: label[i],
@@ -53,14 +58,18 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
       borderWidth: 1,
       hoverBackgroundColor: cores[i],
       hoverBorderColor: cores[i],
-      data: dataValues,
+      data: element,
+      parsing: {
+        xAxisKey: xValue,  // Chave personalizada para o eixo x
+        yAxisKey: yValue   // Chave personalizada para o eixo y
+      }
     });
   });
 
   const dados = {
-    labels: labels[0],
     datasets: datasets,
   };
+
 
   const options = {
     interaction: { intersect: false, mode: "index" },
@@ -68,7 +77,7 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
       x: {
         type: "time",
         time: {
-          parser: "yyyy-MM",
+          parser: "yyyy-MM-dd",
           tooltipFormat: "MMM yyyy",
           unit: "month",
           displayFormats: {
@@ -94,7 +103,6 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
       }
     },
   };
-
   return (
     <div
       style={{ marginTop: "10px", padding: "10px" }}

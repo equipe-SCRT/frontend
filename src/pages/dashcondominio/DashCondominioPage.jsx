@@ -223,6 +223,9 @@ const DashCondominioPage = () => {
             <Col md lg={6}>
               <div>
                 <GraficoLinha 
+                // data, cores, titulo, label, xValue, yValue, selectObj, selectFunc
+                xValue={"mes"}
+                yValue={"count"}
                 data={produtosCondominios} 
                 cores={['#22CC52']} 
                 titulo={'Quantidade total de alimentos arrecadados nos condomínios'} 
