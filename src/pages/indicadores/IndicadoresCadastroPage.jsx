@@ -263,7 +263,7 @@ const IndicadoresCadastro = () => {
                   </div>
                 </div>
                 <div className='row d-flex justify-content-lg-end'>
-                  <button style={{ width: "120px", height: "auto" }} onClick={concluirTipoProduto} className="submit-btn">Concluir</button>
+                  <button style={{ width: "120px", height: "auto" }} onClick={concluirTipoProduto} className="btn btn-scrt">Concluir</button>
                 </div>
               </div>
             </div>
@@ -298,7 +298,7 @@ const IndicadoresCadastro = () => {
                   </div>
                 </div>
                 <div className='row d-flex justify-content-lg-end'>
-                  <button style={{ width: "120px", height: "auto" }} onClick={salvarQtdCasas} className="submit-btn">Concluir</button>
+                  <button style={{ width: "120px", height: "auto" }} onClick={salvarQtdCasas} className="btn btn-scrt">Concluir</button>
                 </div>
               </div>
             </div>
@@ -321,7 +321,7 @@ const IndicadoresCadastro = () => {
                   </div>
                 </div>
                 <div className='row d-flex justify-content-lg-end'>
-                  <button style={{ width: "120px", height: "auto" }} onClick={salvarDiasVencimento} className="submit-btn">Concluir</button>
+                  <button style={{ width: "120px", height: "auto" }} onClick={salvarDiasVencimento} className="btn btn-scrt">Concluir</button>
                 </div>
               </div>
             </div>
@@ -359,7 +359,7 @@ const IndicadoresCadastro = () => {
                   </div>
                 </div>
                 <div className='row d-flex justify-content-lg-end'>
-                  <button style={{ width: "120px", height: "auto" }} onClick={concluirTipoCampanha} className="submit-btn">Concluir</button>
+                  <button style={{ width: "120px", height: "auto" }} onClick={concluirTipoCampanha} className="btn btn-scrt">Concluir</button>
                 </div>
               </div>
             </div>

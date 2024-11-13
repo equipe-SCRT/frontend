@@ -130,7 +130,7 @@ const PerfilPage = () => {
                 </div>
               </div>
               {isEditing && (
-                <button type="submit" className="submit-btn" onClick={fetchAtualizarUsuario}>
+                <button type="submit" className="btn btn-scrt" onClick={fetchAtualizarUsuario}>
                   Salvar
                 </button>
               )}
