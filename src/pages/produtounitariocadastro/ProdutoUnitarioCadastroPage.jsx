@@ -178,9 +178,19 @@ const ProdutoUnitarioCadastro = () => {
       var listaOrigens = [];
       listaOrigens.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
+        let nome = "";
+        if(encontrados.data[i].itapora != 0){
+          nome = "Itaporã";
+        } else if (encontrados.data[i].autaDeSouzaRua != 0){
+          nome = "Auta de Souza";
+        } else if (encontrados.data[i].campanha != null){
+          nome = encontrados.data[i].campanha.localCampanha;
+        } else {
+          nome = encontrados.data[i].condominio.nome;
+        }
         listaOrigens.push(
-          <option value={encontrados.data[i].itapora}>
-            {encontrados.data[i].itapora == 1 ? "Itaporã" : "Auta de souza"}</option>
+          <option value={encontrados.data[i].id}>
+            {nome}</option>
         )
       }
       setOrigemNome(listaOrigens);
