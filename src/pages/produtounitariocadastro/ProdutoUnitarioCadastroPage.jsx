@@ -113,9 +113,9 @@ const ProdutoUnitarioCadastro = () => {
                   clearInterval(timerInterval);
                 }
               }).then((result) => {
-                 if (result.isConfirmed) {
+                if (result.isConfirmed) {
                   pop();
-                } 
+                }
               });
             }
           }
@@ -179,11 +179,11 @@ const ProdutoUnitarioCadastro = () => {
       listaOrigens.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
         let nome = "";
-        if(encontrados.data[i].itapora != 0){
+        if (encontrados.data[i].itapora != 0) {
           nome = "Itaporã";
-        } else if (encontrados.data[i].autaDeSouzaRua != 0){
+        } else if (encontrados.data[i].autaDeSouzaRua != 0) {
           nome = "Auta de Souza";
-        } else if (encontrados.data[i].campanha != null){
+        } else if (encontrados.data[i].campanha != null) {
           nome = encontrados.data[i].campanha.localCampanha;
         } else {
           nome = encontrados.data[i].condominio.nome;
@@ -291,12 +291,12 @@ const ProdutoUnitarioCadastro = () => {
     })
   }
 
-  function compareDates (date) {
-    let today = new Date()     
-    
-    let dateRecebida = new Date(date) 
-    
-  
+  function compareDates(date) {
+    let today = new Date()
+
+    let dateRecebida = new Date(date)
+
+
     return dateRecebida >= today;
   }
 
@@ -305,7 +305,7 @@ const ProdutoUnitarioCadastro = () => {
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "nome") {
         return <>
-          <select name="nomeSel" id="nomeSel" onChange={(e) =>{setEditedRowData({ ...editedRowData, [field]: e.target.value })}}>
+          <select name="nomeSel" id="nomeSel" onChange={(e) => { setEditedRowData({ ...editedRowData, [field]: e.target.value }) }}>
             {getNomeProdutos}
           </select>
         </>;
@@ -332,11 +332,11 @@ const ProdutoUnitarioCadastro = () => {
     } else {
       if (field === "nome")
         return rowData.nome;
-      else if (field === "dataValidade"){
+      else if (field === "dataValidade") {
         let resultado = compareDates(rowData.dataValidade);
-        let estilo = {color:"black"}
-        if(!resultado){
-          estilo = {color: "red"}
+        let estilo = { color: "black" }
+        if (!resultado) {
+          estilo = { color: "red" }
         }
         return <>
           <span style={estilo}>
@@ -344,8 +344,20 @@ const ProdutoUnitarioCadastro = () => {
           </span>
         </>;
       }
-      else if (field == "origem")
-        return rowData.origem.id == 1 ? "Auta de Souza" : "Itaporã"
+      else if (field == "origem") {
+        let nome = "";
+        // alert(JSON.stringify(rowData.origem))
+        if (rowData.origem.itapora != 0) {
+          nome = "Itaporã";
+        } else if (rowData.origem.autaDeSouzaRua != 0) {
+          nome = "Auta de Souza";
+        } else if (rowData.origem.campanha != null) {
+          nome = rowData.origem.campanha.localCampanha;
+        } else if (rowData.origem.condominio != null) {
+          nome = rowData.origem.condominio.nome;
+        }
+        return nome;
+      }
       else
         return rowData.id;
     }
@@ -461,7 +473,7 @@ const ProdutoUnitarioCadastro = () => {
             <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9', width: "100%" }}>
               <p className="card-description">Listagem</p>
               <div className="table-responsive">
-                <DataTable value={getProdutos} size='10' tableStyle={{minWidth: '90%'}}>
+                <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%' }}>
                   <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
 
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
