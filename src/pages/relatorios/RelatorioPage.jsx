@@ -15,7 +15,7 @@ const Relatorio = ({ ano }) => {
     }
 
     const [periodo, setPeriodo] = useState(['teste']);
-    const [tipo, setTipo] = useState('');
+    const [tipo, setTipo] = useState('csv');
     // [ano, setAno] = useState('');
     ano = 2024
 
@@ -48,41 +48,54 @@ const Relatorio = ({ ano }) => {
 
     const exportarRelatorioCompleto = (dateString) => {
 
+        //console.log("dateString: " +dateString)
+
         const dateStrings = dateString.toString().split(",").map(date => date.trim());
         const dates = dateStrings.map(dateStr => {
             const date = new Date(dateStr);
             return formatDate(date);
         });
 
-        const caminho = `/${dates[0]}/${dates[1]}/${tipo}`;
+        const caminho = `${dates[0]}/${dates[1]}/${tipo}`;
         const periodo = `${dates[0]}-${dates[1]}`;
 
-        console.log(dates); // Log formatted dates
-        console.log(caminho); // Log caminho
-        console.log(periodo); // Log periodo
+        //console.log(dates); // Log formatted dates
+        //console.log("caminho: " + caminho); // Log caminho
+        //console.log(periodo); // Log periodo
 
-        let item = { 'periodo': periodo, 'path': caminho }
+        let item = { 'periodo': periodo, 'path': caminho}
+        console.log("Aqui: " + JSON.stringify(item) )
+        console.log(item.periodo)
         exportarRelatorio(item)
     }
 
     const exportarRelatorio = async (item) => {
 
+
         try {
-            const response = await fetch('http://localhost:8080/relatorio/exportar' + item.path, {
+            console.log("item: " + JSON.stringify(item))
+
+            const response = await fetch('http://localhost:8080/relatorio/exportar/' + item.path, {
                 method: 'GET',
                 'Content-Type': 'text/csv'
             });
 
-            console.log(item.path)
+            if (response.ok) {
+                console.log(item.path)
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'relatorio ' + item.periodo ;
+            a.download = 'relatorio ' + item.periodo;
             document.body.appendChild(a);
             a.click();
             a.remove();
             window.URL.revokeObjectURL(url);
+            } else {
+                alert("Período inválido!")
+            }
+
+            
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -102,7 +115,7 @@ const Relatorio = ({ ano }) => {
 
         try {
 
-            const response = await fetch(`http://localhost:8080/relatorio/importar`, {
+            const response = await fetch(`http://localhost:8080/relatorio/importar/` + selectedFile.name, {
                 method: 'POST',
                 headers: {
                     'fileName': selectedFile.name,
@@ -111,16 +124,17 @@ const Relatorio = ({ ano }) => {
                 body: await selectedFile.arrayBuffer(),
             });
 
-
-            // if (!response.ok) {
-            //     const errorMessage = await response.text();
-            //     throw new Error(`Upload failed: ${response.status} ${response.statusText}. ${errorMessage}`);
-            // }
-
-            const result = await response.text();
-            console.log("Upload successful:", result);
+                if (response.ok) {
+                    const result = await response.text();
+                    console.log("Upload successful:", result.ok);
+                    alert("Arquivo cadastrado com sucesso!")
+                } else {
+                    alert("Arquivo inválido!")
+                }
+               
 
         } catch (error) {
+            alert("Arquivo inválido!")
             console.error("Error uploading file:", error);
         }
     }
@@ -174,12 +188,12 @@ const Relatorio = ({ ano }) => {
                     </div>
                 </div>
             </div>
-            <div className="row">
+            {/* <div className="row">
                 <div className="col-12 d-flex justify-content-end p-3">
                     <label className={style.Botao} for="actual-btn">Importar Arquivo</label>
                     <input onChange={importarRelatorio} type="file" id="actual-btn" hidden />
                 </div>
-            </div>
+            </div> */}
             <div className={style.TituloPrincipal}>
                 <h1>Gerar Arquivo</h1>
             </div>
@@ -188,7 +202,7 @@ const Relatorio = ({ ano }) => {
                     Selecione o período que deseja gerar as informações e em qual formato será exportado
                 </p>
             </div>
-            <div className="border p-3" style={{ marginBottom: 400 }}>
+            <div className="border p-3" style={{ marginBottom: 50 }}>
                 <div className="row">
                     <div className="col-4 d-flex">
                         <p >
@@ -216,6 +230,53 @@ const Relatorio = ({ ano }) => {
                     </div>
                     <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 0 }} >
                         <label htmlFor="" onClick={() => exportarRelatorioCompleto(periodo)} className={style.Botao}>Exportar Arquivo</label>
+                    </div>
+                </div>
+            </div>
+
+            <div className={style.TituloPrincipal}>
+                <h1>Importar Arquivo</h1>
+            </div>
+            <div>
+                <p className={style.SubTitulo}>
+                    Selecione o período que deseja gerar as informações e em qual formato será exportado
+                </p>
+            </div>
+            <div className="border p-3" style={{ marginBottom: 100 }}>
+                <div className="row">
+                    <div className="col-4 d-flex">
+                        <p >
+                            Tipo do Anexo
+                        </p>
+                        <div className={style.popUp}>
+                            <PopOver id="question_icon" mensagem={"Escolha em qual tabela você deseja inserir os dados"} />
+                        </div>
+                    </div>
+                    <div className="col-4 d-flex">
+                        <p className={style.SubTexto}>
+                            Tipo do Arquivo
+                        </p>
+                        <div className={style.popUp}>
+                            <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar o formato que será importado o arquivo"} />
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-4 d-flex align-items-center">
+                        {/* <DataRange onChange={periodoChange} /> */}
+                        <Select onChange={tipoChange} option={['Produto Unítário']} />
+                        <PopOver mensagem={"formato: 'alimento','produto'"} />
+                    </div>
+                    <div className="col-4 d-flex align-items-center">
+                        <Select onChange={tipoChange} option={['CSV', 'TXT']} />
+                    </div>
+                    <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 0 }} >
+                        <div className="row">
+                            <div className="col-12 d-flex justify-content-end p-3">
+                                <label className={style.Botao} for="actual-btn">Importar Arquivo</label>
+                                <input onChange={importarRelatorio} type="file" id="actual-btn" hidden />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
