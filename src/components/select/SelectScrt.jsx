@@ -6,8 +6,9 @@ const SelectScrt = ({ dados, onChange }) => {
     <div style={{ width: '100%' }}>
       <select onChange={onChange} className={styles.SelectScrt} defaultValue={dados.length > 0 ? dados[0].id : ''}>
         {dados.map((obj, index) => (
+          
           <option key={index} value={obj.id}>
-            {obj.nome}
+            {obj.nome === undefined ? obj.localCampanha : obj.nome}
           </option>
         ))}
       </select>
