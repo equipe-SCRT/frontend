@@ -22,7 +22,7 @@ const HeaderScrt = ({ children }) => {
 
     const fetchDadosVencidosPorMes = async () => {
         try {
-            const response = await api.get('produtos-unitario/quantidade-produtos/mes/vencidos');
+            const response = await api.get('produtos-unitario/1/quantidade-produtos/mes/vencidos?inicio=2024-10-10&fim=2024-12-10');
             setDadosVencidosPorMes(response.data);
         } catch (error) {
             // console.error('Erro ao buscar os dados:', error);

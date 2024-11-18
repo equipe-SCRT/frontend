@@ -207,7 +207,7 @@ const DashboardCampanhas = () => {
               info={
                 selectedCampanha
                   ? `${selectedCampanha.qtdArrecadada} / ${selectedCampanha.meta}`
-                  : "N/A"
+                  : "0"
               }
               bgColor="#FDEA3C"
             />
@@ -216,7 +216,7 @@ const DashboardCampanhas = () => {
               info={
                 produtosVencidosPorCampanha.length > 0
                   ? `${produtosVencidosPorCampanha[0].qtdProdutosVencidos} Unidade(s)`
-                  : "N/A"
+                  : "0"
               }
               bgColor="#ED8686"
             />
