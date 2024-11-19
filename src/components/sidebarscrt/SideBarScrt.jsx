@@ -39,6 +39,7 @@ function SideBarScrt() {
         <Sidebar
           // className={`app ${toggled ? "toggled" : ""}`}
           style={{ height: "100%", position: "fixed"}}
+
           collapsed={collapsed}
           toggled={toggled}
           handleToggleSidebar={handleToggleSidebar}
