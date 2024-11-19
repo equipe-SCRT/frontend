@@ -1,5 +1,4 @@
 import React, { useEffect, useState, forwardRef } from "react";
-import axios from "axios";
 import api from "../../api/api"
 import { useNavigate } from "react-router-dom";
 import styles from "./CondominioCadastroPage.module.css"

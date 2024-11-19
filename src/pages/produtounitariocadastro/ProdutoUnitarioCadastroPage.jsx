@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from "../../api/api"
 import { useNavigate } from 'react-router-dom';
 import "./ProdutoUnitarioCadastroPage.module.css"
 import styles from "./ProdutoUnitarioCadastroPage.module.css"
@@ -27,23 +27,6 @@ const ProdutoUnitarioCadastro = () => {
   const [editedRowData, setEditedRowData] = useState(null);
   let navigate = useNavigate();
 
-  const apiProdutos = axios.create({
-    baseURL: "http://localhost:8080/",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
-
-  const api = axios.create({
-    baseURL: "http://localhost:8080/produtos-unitario",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
 
   const renderActionCell = (rowData) => {
     return (
@@ -86,7 +69,7 @@ const ProdutoUnitarioCadastro = () => {
       if (pilha[contadorPilha].operacao == "salvar") {
         console.log("aqui: ")
         console.log(pilha[contadorPilha].id)
-        apiProdutos.post("/produtos-unitario/lotes-delete", pilha[contadorPilha].id).then((res) => {
+        api.post("/produtos-unitario/lotes-delete", pilha[contadorPilha].id).then((res) => {
           console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
@@ -156,7 +139,7 @@ const ProdutoUnitarioCadastro = () => {
 
   async function handleNomeProdutos() {
     try {
-      var encontrados = await apiProdutos.get("produtos");
+      var encontrados = await api.get("produtos");
       var listaNomes = [];
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
@@ -174,7 +157,7 @@ const ProdutoUnitarioCadastro = () => {
 
   async function handleOrigem() {
     try {
-      var encontrados = await apiProdutos.get("/origens");
+      var encontrados = await api.get("/origens");
       var listaOrigens = [];
       listaOrigens.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
@@ -218,7 +201,7 @@ const ProdutoUnitarioCadastro = () => {
   async function salvar() {
     try {
       let bodyR = criarBodyLotes(getQuantidade);
-      api.post("/lotes", bodyR).then(async (response) => {
+      api.post("/produtos-unitario/lotes", bodyR).then(async (response) => {
         handleProdutos();
         let alteracao = {
           operacao: "salvar",
@@ -283,7 +266,7 @@ const ProdutoUnitarioCadastro = () => {
   };
 
   const handleDelete = async (id) => {
-    api.delete("/" + id).then((res) => {
+    api.delete("/produtos-unitario/" + id).then((res) => {
       _alertaSucesso("Excluido", "Produto unitário deletado com sucesso")
       handleProdutos()
     }).catch((err) => {
@@ -366,7 +349,7 @@ const ProdutoUnitarioCadastro = () => {
   const handleSaveClick = () => {
     setEditMode(false);
     console.log(editedRowData)
-    api.put(`/${editedRowData.id}`,
+    api.put(`/produtos-unitario/${editedRowData.id}`,
       {
         "id": editedRowData.id,
         "produtoId": editedRowData.produto.id,

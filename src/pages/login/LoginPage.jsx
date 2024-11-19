@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from "../../api/api"
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './Login.module.css';
 import loginImage from '../../assets/images/login-image.jpeg';
@@ -11,20 +12,12 @@ const Login = () => {
   let button;
   let idUsuario;
 
-  const api = axios.create({
-    baseURL: "http://localhost:8080/usuarios",
-    withCredentials: false,
-        headers: {
-          'Access-Control-Allow-Origin' : '*',
-          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-      }
-    });
   async function handleLogin(){
     console.log(emailV);
     console.log(senhaV);
 
     try{
-      api.post("/login", {
+      api.post("/usuarios/login", {
         email: emailV,
         senha: senhaV
       }).then((response) => {

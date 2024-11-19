@@ -2,24 +2,16 @@ import React, { useState } from 'react';
 import '../../pages/login/Login.module.css';
 import loginImage from '../../assets/images/login-image.jpeg';
 import Swal from 'sweetalert2';
-import axios from 'axios';
+import api from "../../api/api"
 
 const Register = () => {
   const [getEmail, setEmail] = useState("");
   
-  const api = axios.create({
-    baseURL: "http://localhost:8080/usuarios",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
   const enviarEmail = () =>{
     if(getEmail === ""){
       _alertaError("Erro ao recuperar senha", "Insira seu e-mail.")
     } else{
-      api.post("/recuperar-senha/"+getEmail).then((res) => {
+      api.post("/usuarios/recuperar-senha/"+getEmail).then((res) => {
         _alertaSucesso("Email enviado com sucesso", "Por favor, verifique seu span e lixo eletrônico");
       }).catch((err) => _alertaError("Erro ao enviar o e-mail", err));
     }

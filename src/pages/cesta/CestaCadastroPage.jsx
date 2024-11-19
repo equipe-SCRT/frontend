@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+import api from "../../api/api"
 import "./CestaCadastroPage.css";
 import engrenagem from "../../assets/images/engrenagem.svg";
 import informacao from "../../assets/images/informacao.svg";
@@ -21,14 +21,6 @@ const CestasCadastro = () => {
   const [editedRowData, setEditedRowData] = useState(null);
   const navigate = useNavigate();
 
-  const api = axios.create({
-    baseURL: "http://localhost:8080",
-    withCredentials: false,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    },
-  });
 
   function _alertaSucesso(titulo, texto) {
     Swal.fire({
