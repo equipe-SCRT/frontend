@@ -51,7 +51,7 @@ const ProdutoUnitarioCadastro = () => {
         {editMode && rowData.id === editedRowData?.id ? (
           <>
             <Button icon={
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" /><path fill="#000" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6.414A2 2 0 0 0 19.414 5L17 2.586A2 2 0 0 0 15.586 2zm0 2h9.586L18 6.414V20H6zm10.238 6.793a1 1 0 1 0-1.414-1.414l-4.242 4.243l-1.415-1.415a1 1 0 0 0-1.414 1.414l2.05 2.051a1.1 1.1 0 0 0 1.556 0l4.88-4.879Z" /></g></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><g fill="none" fillRule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" /><path fill="#000" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6.414A2 2 0 0 0 19.414 5L17 2.586A2 2 0 0 0 15.586 2zm0 2h9.586L18 6.414V20H6zm10.238 6.793a1 1 0 1 0-1.414-1.414l-4.242 4.243l-1.415-1.415a1 1 0 0 0-1.414 1.414l2.05 2.051a1.1 1.1 0 0 0 1.556 0l4.88-4.879Z" /></g></svg>
             } onClick={handleSaveClick} className="btn" />
             <Button icon={
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="#FF4444" d="m8.4 17l3.6-3.6l3.6 3.6l1.4-1.4l-3.6-3.6L17 8.4L15.6 7L12 10.6L8.4 7L7 8.4l3.6 3.6L7 15.6zm3.6 5q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" /></svg>
@@ -63,7 +63,7 @@ const ProdutoUnitarioCadastro = () => {
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 36 36"><path fill="#000" d="M33.87 8.32L28 2.42a2.07 2.07 0 0 0-2.92 0L4.27 23.2l-1.9 8.2a2.06 2.06 0 0 0 2 2.5a2 2 0 0 0 .43 0l8.29-1.9l20.78-20.76a2.07 2.07 0 0 0 0-2.92M12.09 30.2l-7.77 1.63l1.77-7.62L21.66 8.7l6 6ZM29 13.25l-6-6l3.48-3.46l5.9 6Z" /><path fill="none" d="M0 0h36v36H0z" /></svg>
             } onClick={() => handleEditClick(rowData)} className="btn" />
             <Button icon={
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#FF4444" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m-5 5l4 4m0-4l-4 4" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#FF4444" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7h16M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m-5 5l4 4m0-4l-4 4" /></svg>
             }
               onClick={() => handleDelete(rowData.id)}
               className="btn" />
@@ -113,9 +113,9 @@ const ProdutoUnitarioCadastro = () => {
                   clearInterval(timerInterval);
                 }
               }).then((result) => {
-                 if (result.isConfirmed) {
+                if (result.isConfirmed) {
                   pop();
-                } 
+                }
               });
             }
           }
@@ -178,9 +178,19 @@ const ProdutoUnitarioCadastro = () => {
       var listaOrigens = [];
       listaOrigens.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
+        let nome = "";
+        if (encontrados.data[i].itapora != 0) {
+          nome = "Itaporã";
+        } else if (encontrados.data[i].autaDeSouzaRua != 0) {
+          nome = "Auta de Souza";
+        } else if (encontrados.data[i].campanha != null) {
+          nome = encontrados.data[i].campanha.localCampanha;
+        } else {
+          nome = encontrados.data[i].condominio.nome;
+        }
         listaOrigens.push(
-          <option value={encontrados.data[i].itapora}>
-            {encontrados.data[i].itapora == 1 ? "Itaporã" : "Auta de souza"}</option>
+          <option value={encontrados.data[i].id}>
+            {nome}</option>
         )
       }
       setOrigemNome(listaOrigens);
@@ -198,7 +208,7 @@ const ProdutoUnitarioCadastro = () => {
         dataValidade: getValidade,
         quantidade: getQuantidade,
         origemId: getOrigem,
-        ativo: getAtivo,
+        ativo: getAtivo === 1,
         produtoId: getNome,
       })
     }
@@ -281,12 +291,12 @@ const ProdutoUnitarioCadastro = () => {
     })
   }
 
-  function compareDates (date) {
-    let today = new Date()     
-    
-    let dateRecebida = new Date(date) 
-    
-  
+  function compareDates(date) {
+    let today = new Date()
+
+    let dateRecebida = new Date(date)
+
+
     return dateRecebida >= today;
   }
 
@@ -295,7 +305,7 @@ const ProdutoUnitarioCadastro = () => {
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "nome") {
         return <>
-          <select name="nomeSel" id="nomeSel" onChange={(e) => setEditedRowData({ ...editedRowData, [field]: e.target.value })}>
+          <select name="nomeSel" id="nomeSel" onChange={(e) => { setEditedRowData({ ...editedRowData, [field]: e.target.value }) }}>
             {getNomeProdutos}
           </select>
         </>;
@@ -322,11 +332,11 @@ const ProdutoUnitarioCadastro = () => {
     } else {
       if (field === "nome")
         return rowData.nome;
-      else if (field === "dataValidade"){
+      else if (field === "dataValidade") {
         let resultado = compareDates(rowData.dataValidade);
-        let estilo = {color:"black"}
-        if(!resultado){
-          estilo = {color: "red"}
+        let estilo = { color: "black" }
+        if (!resultado) {
+          estilo = { color: "red" }
         }
         return <>
           <span style={estilo}>
@@ -334,8 +344,20 @@ const ProdutoUnitarioCadastro = () => {
           </span>
         </>;
       }
-      else if (field == "origem")
-        return rowData.origem.id == 1 ? "Auta de Souza" : "Itaporã"
+      else if (field == "origem") {
+        let nome = "";
+        // alert(JSON.stringify(rowData.origem))
+        if (rowData.origem.itapora != 0) {
+          nome = "Itaporã";
+        } else if (rowData.origem.autaDeSouzaRua != 0) {
+          nome = "Auta de Souza";
+        } else if (rowData.origem.campanha != null) {
+          nome = rowData.origem.campanha.localCampanha;
+        } else if (rowData.origem.condominio != null) {
+          nome = rowData.origem.condominio.nome;
+        }
+        return nome;
+      }
       else
         return rowData.id;
     }
@@ -347,7 +369,7 @@ const ProdutoUnitarioCadastro = () => {
     api.put(`/${editedRowData.id}`,
       {
         "id": editedRowData.id,
-        "produtoId": editedRowData.nome,
+        "produtoId": editedRowData.produto.id,
         "dataValidade": editedRowData.dataValidade,
         "origemId": editedRowData.origem
       }
@@ -375,7 +397,7 @@ const ProdutoUnitarioCadastro = () => {
             <h1 className="section-title" style={{ margin: "0px" }}>Lotes de Produtos</h1>
           </div>
           <div className="col-6 d-flex justify-content-lg-end">
-            <button className="submit-btn" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "80%", margin: "0" }}>Cadastrar um produto novo</button>
+            <button className="btn btn-scrt" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "80%", margin: "0" }}>Cadastrar um produto novo</button>
           </div>
         </div>
 
@@ -439,7 +461,7 @@ const ProdutoUnitarioCadastro = () => {
                     </div>
                   </div>
                   <div className="col-5 d-flex justify-content-lg-end" style={{ marginLeft: "2%" }}>
-                    <button onClick={salvar} className="submit-btn" style={{ width: "120px", height: "60%" }}>Cadastrar</button>
+                    <button onClick={salvar} className="btn btn-scrt" style={{ width: "120px", height: "60%" }}>Cadastrar</button>
                   </div>
                 </div>
               </div>
@@ -451,8 +473,9 @@ const ProdutoUnitarioCadastro = () => {
             <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9', width: "100%" }}>
               <p className="card-description">Listagem</p>
               <div className="table-responsive">
-                <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%', minHeight: "500px" }}>
+                <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%' }}>
                   <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
+
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
 
                   </Column>

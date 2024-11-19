@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Calendar as CalendarIcon } from 'lucide-react'; // Certifique-se de que o pacote 'lucide-react' está instalado
@@ -29,6 +29,10 @@ const CustomInput = forwardRef(({ value, onClick }, ref) => {
 
 const SelectData = ({ onChange, initialValue }) => {
   const [selectedDate, setSelectedDate] = useState(initialValue || null);
+
+  useEffect(() => {
+    setSelectedDate(initialValue);
+  }, [initialValue]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
