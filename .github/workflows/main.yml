@@ -1,0 +1,33 @@
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Roda um comando simples
+        run: echo Hello, world!
+
+      - name: Exemplo de varias linhas
+        run: | 
+              echo Olá Breno
+              echo feito
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Roda um comando simples
+        run: echo Hello, world!
+
+      - name: Exemplo de varias linhas
+        run: | 
+              echo Olá Breno
+              echo feito
+    
