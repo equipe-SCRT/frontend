@@ -1,6 +1,10 @@
 #!/bin/bash
 set -xe
 
+sudo apt-get update
+
+sudo apt-get install -y nodejs npm
+
 npm start
 
 # Salvando o PID num arquivo
