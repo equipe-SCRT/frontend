@@ -9,9 +9,7 @@ const ListaDeItens = ({ itens, titulo }) => {
         <h5>
           <strong>{titulo}</strong>
         </h5>
-        <div className='legenda' style={{
-          marginBottom: '10px'
-        }}>
+        <div className='legenda'>
           <svg
             xmlns="https://www.w3.org/2000/svg" >
             <circle cx="16" cy="16" r="7" fill='#22CC52'/>

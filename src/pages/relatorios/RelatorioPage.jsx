@@ -171,7 +171,7 @@ const Relatorio = ({ ano }) => {
     return (
         <div className="container-fluid mb-5" >
             <div className={style.TituloPrincipal}>
-                <h1>Relatorio</h1>
+                <h1>Relatórios</h1>
             </div>
             <div className="row">
                 <div className="col-12 d-flex justify-content-between p-3">
