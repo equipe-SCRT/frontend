@@ -113,8 +113,7 @@ const TipoCestaCadastro = () => {
     const produtos = {
       idProduto: getProdutoId,
       qtdProduto: getQuantidade,
-      // nome: getNomeProdutoLista
-      nome: "teste"
+      nome: getNomeProdutoLista
     }
     setProdutos(prevLista => [...prevLista, produtos]);
   }
