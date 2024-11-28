@@ -2,18 +2,9 @@ import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import "./PerfilPage.css";
 import perfilEditIcon from "../../assets/images/perfil-edit.svg";
-import axios from 'axios'
-
+import api from "../../api/api"
 const PerfilPage = () => {
 
-  const api = axios.create({
-    baseURL: "http://localhost:8080",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
 
   async function fetchAtualizarUsuario(){
     var possuiNumeros = false;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from "../../api/api"
 import './ProdutoCadastroPage.css';
 import engrenagem from '../../assets/images/engrenagem.svg';
 import informacao from '../../assets/images/informacao.svg';
@@ -41,14 +41,6 @@ const ProdutosCadastro = () => {
     });
   }
 
-  const api = axios.create({
-    baseURL: "http://localhost:8080",
-    withCredentials: false,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-    },
-  });
 
   async function handleProdutos() {
     try {
