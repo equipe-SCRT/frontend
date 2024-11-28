@@ -90,6 +90,7 @@ const ProdutosCadastro = () => {
       handleProdutos();
     } catch (err) {
       console.log(err);
+      _alertaError("Error: ", err);
     }
   }
   const handleCancelClick = () => {
@@ -334,7 +335,7 @@ const ProdutosCadastro = () => {
             <p className="card-description">Listagem</p>
             <div className="table-responsive">
               <DataTable value={produtos} size='10' tableStyle={{ minWidth: '90%' }}>
-                <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
+                <Column style={{ color: "black", padding: '10px' }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable />
 
                 <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
 

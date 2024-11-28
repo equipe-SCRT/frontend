@@ -57,6 +57,7 @@ const Relatorio = ({ ano }) => {
         });
 
         const caminho = `${dates[0]}/${dates[1]}/${tipo}`;
+
         const periodo = `${dates[0]}-${dates[1]}`;
 
         //console.log(dates); // Log formatted dates
@@ -86,7 +87,9 @@ const Relatorio = ({ ano }) => {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
+
             a.download = 'relatorio ' + item.periodo;
+
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -168,7 +171,7 @@ const Relatorio = ({ ano }) => {
     return (
         <div className="container-fluid mb-5" >
             <div className={style.TituloPrincipal}>
-                <h1>Relatorio</h1>
+                <h1>Relatórios</h1>
             </div>
             <div className="row">
                 <div className="col-12 d-flex justify-content-between p-3">

@@ -380,7 +380,7 @@ const ProdutoUnitarioCadastro = () => {
             <h1 className="section-title" style={{ margin: "0px" }}>Lotes de Produtos</h1>
           </div>
           <div className="col-6 d-flex justify-content-lg-end">
-            <button className="btn btn-scrt" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "80%", margin: "0" }}>Cadastrar um produto novo</button>
+            <button className="btn btn-scrt" onClick={() => { navigate("/produtos/cadastro") }} style={{ width: "240px", height: "80%", margin: "0", padding: "0" }}>Cadastrar um produto novo</button>
           </div>
         </div>
 

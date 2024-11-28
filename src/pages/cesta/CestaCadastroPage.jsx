@@ -88,8 +88,10 @@ const CestasCadastro = () => {
       setTipoCestaId("");
       setDataMontagem("");
       handleCestas();
+      _alertaSucesso("Cadastrado com sucesso!", "Cesta cadastrada com sucesso!")
     } catch (err) {
       console.log(err);
+      _alertaError("Error :", err)
     }
   }
 
