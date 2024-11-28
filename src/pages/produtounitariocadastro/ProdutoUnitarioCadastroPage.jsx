@@ -129,7 +129,7 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   async function handleProdutos() {
-    api.get("").then((res) => {
+    api.get("produtos-unitario").then((res) => {
       let encontrados = res.data;
       setProdutos(encontrados);
       console.log(getProdutos)
