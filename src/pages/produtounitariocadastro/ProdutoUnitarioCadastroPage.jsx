@@ -9,7 +9,7 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Row } from 'react-bootstrap'
 import { CornerTopLeftIcon } from '@radix-ui/react-icons';
-
+import ReactPaginate from "react-paginate";
 
 var pilha = [];
 let contadorPilha = -1;
@@ -23,7 +23,10 @@ const ProdutoUnitarioCadastro = () => {
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
   let [getAtivo, setAtivo] = useState();
+  let [currentPage, setCurrentPage] = useState(1);
   const [editMode, setEditMode] = useState(false);
+  const [first, setFirst] = useState(0);
+  const [rows, setRows] = useState(10);
   const [editedRowData, setEditedRowData] = useState(null);
   let navigate = useNavigate();
 
@@ -366,6 +369,47 @@ const ProdutoUnitarioCadastro = () => {
     setEditedRowData(null);
   };
 
+  const handlePagination = (e) => {
+    const paginacaoPage = e;
+    const paginacaoQtd = 10;
+    
+    api.get(`/paginado?paginaAtual=${paginacaoPage}&tamanho=${paginacaoQtd}`).then((res) => {
+      setProdutos(res.data.content);
+    }).catch(h => {
+      _alertaError("Erro ao atualizar", "Preencha todos os campos corretamente")
+    })
+  }
+
+  const CustomPagination = (e) => {
+    const count = Number((getProdutos.length / 10))
+    return (
+      <Row className='mx-0'>
+        <div className='col-6 d-flex justify-content-end'>
+          <ReactPaginate
+            previousLabel={''}
+            nextLabel={''}
+            forcePage={currentPage !== 0 ? currentPage - 1 : 0}
+            onPageChange={page => handlePagination(page)}
+            pageCount={count || 1}
+            breakLabel={'...'}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={2}
+            activeClassName={'active'}
+            pageClassName={'page-item'}
+            nextLinkClassName={'page-link'}
+            nextClassName={'page-item next'}
+            previousClassName={'page-item prev'}
+            previousLinkClassName={'page-link'}
+            pageLinkClassName={'page-link'}
+            breakClassName='page-item'
+            breakLinkClassName='page-link'
+            containerClassName={'pagination react-paginate pagination-sm justify-content-end pr-1 mt-1'}
+          />
+        </div>
+      </Row>
+    )
+  }
+
   useEffect(() => {
     handleNomeProdutos()
     handleOrigem()
@@ -456,7 +500,13 @@ const ProdutoUnitarioCadastro = () => {
             <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9', width: "100%" }}>
               <p className="card-description">Listagem</p>
               <div className="table-responsive">
-                <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%' }}>
+                <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%' }}
+                first={first} // A página inicial
+                rows={rows}   // O número de itens por página
+                onPage={(e) => setFirst(e.first)} // Atualiza a página quando ocorre a navegação
+                paginator // Ativa a paginação
+                paginatorPosition="bottom" // Coloca o paginador na parte inferior da tabela
+                rowsPerPageOptions={[5, 10, 20]}>
                   <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
 
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
