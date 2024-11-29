@@ -75,13 +75,15 @@ jobs:
       run: |
         ssh -T -o StrictHostKeyChecking=no -i $HOME/deploy-key.pem ubuntu@${{secrets.IP_SERVER_1}} << 'EOF'
           cd ./website
-          sh /home/ubuntu/website/api-restart.sh
+          sudo docker-compose down
+          sudo docker-compose -f docker-compose.yml up -d --build
         EOF
     
     - name: Conectar webserver 2
       run: |
         ssh -T -o StrictHostKeyChecking=no -i $HOME/deploy-key.pem ubuntu@${{secrets.IP_SERVER_2}} << 'EOF'
           cd ./website
-          sh /home/ubuntu/website/api-restart.sh
+          sudo docker-compose down
+          sudo docker-compose -f docker-compose.yml up -d --build
         EOF
   
