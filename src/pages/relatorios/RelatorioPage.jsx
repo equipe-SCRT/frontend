@@ -76,7 +76,7 @@ const Relatorio = ({ ano }) => {
         try {
             console.log("item: " + JSON.stringify(item))
 
-            const response = await fetch('http://localhost:8080/relatorio/exportar/' + item.path, {
+            const response = await fetch('http://java-api/relatorio/exportar/' + item.path, {
                 method: 'GET',
                 'Content-Type': 'text/csv'
             });
@@ -118,7 +118,7 @@ const Relatorio = ({ ano }) => {
 
         try {
 
-            const response = await fetch(`http://localhost:8080/relatorio/importar/` + selectedFile.name, {
+            const response = await fetch(`http://java-api/relatorio/importar/` + selectedFile.name, {
                 method: 'POST',
                 headers: {
                     'fileName': selectedFile.name,
