@@ -1,4 +1,5 @@
 import SelectScrt from "../../components/select/SelectScrt";
+import styles from './GraficoLinha.module.css'
 import React from "react";
 import { Line } from "react-chartjs-2";
 import { ptBR } from "date-fns/locale";
@@ -27,13 +28,12 @@ Chart.register(
   Legend
 );
 
- 
-const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, selectFunc }) => {
+
+const GraficoLinha = ({ children, data, cores, titulo, label, xValue, yValue }) => {
   let datasets = [];
-  let labels = [];
   let unicoDataset = !Array.isArray(data[0]);
-  xValue = xValue == undefined ? 'mes' : xValue; 
-  yValue = yValue == undefined ? 'count' : yValue; 
+  xValue = xValue == undefined ? 'mes' : xValue;
+  yValue = yValue == undefined ? 'count' : yValue;
   if (unicoDataset) {
     data = [data]
     label = [label]
@@ -41,11 +41,7 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
 
   data.forEach((element, i) => {
     let dataValues = [];
-    for (let j = 0; j < element.length; j++) {
-      if(element[j][xValue].length==7){
-        element[j][xValue] = element[j][xValue]+"-01"
-      }
-    }
+
     for (let j = 0; j < element.length; j++) {
       dataValues.push(element[j][yValue]);
     }
@@ -78,8 +74,8 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
         type: "time",
         time: {
           parser: "yyyy-MM-dd",
-          tooltipFormat: "MMM yyyy",
-          unit: "month",
+          tooltipFormat: "dd MMM  yyyy",
+          unit: "day",
           displayFormats: {
             month: "MMM yyyy",
           },
@@ -90,7 +86,7 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
         },
       },
       y: {
-        beginAtZero: true,
+        beginAtZero: false,
         title: {
           display: true,
           text: "Valor",
@@ -104,18 +100,18 @@ const GraficoLinha = ({ data, cores, titulo, label, xValue, yValue, selectObj, s
     },
   };
   return (
-    <div
-      style={{ marginTop: "10px", padding: "10px" }}
-    >
+    <div style={{ marginTop: "10px", padding: "10px" }}>
       <h5 style={{ color: "#21272A", marginBottom: "10px" }}>
         <strong>{titulo}</strong>
       </h5>
-      {selectObj != undefined && <>
 
-        <SelectScrt
-          dados={selectObj}
-          onChange={selectFunc}
-        /></>}
+      <>
+        {children}
+
+      </>
+
+      {/* <DatePicker className={styles.datepicker} label="Inicio" format="dd/MM/yyyy" size="xs"/> */}
+      {/* <DatePicker className={styles.datepicker} label="Fim" format="dd/MM/yyyy" size="xs"/> */}
       <Line data={dados} options={options} />
     </div>
   );
