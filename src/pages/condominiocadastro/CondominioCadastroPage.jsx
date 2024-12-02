@@ -1,6 +1,6 @@
 import React, { useEffect, useState, forwardRef } from "react";
-import axios from "axios";
 import api from "../../api/api"
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./CondominioCadastroPage.module.css"
 import Swal from "sweetalert2";
@@ -164,6 +164,13 @@ const CondominioCadastroPage = () => {
                 nome: nome,
                 enderecoId: enderecoResponse.data.id
             }).then(async (res) => {
+                const idCondominio = res.data.id;
+                api.post("origens", {
+                    "autaDeSouzaRua": 0,
+                    "itapora": 0,
+                    "condominioId": idCondominio,
+                    "campanhaId": 0
+                })
                 handleCondominios()
 
             }).catch(e => {

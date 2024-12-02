@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from "../../api/api"
 import style from "./CampanhaCadastroPage.module.css"
 import Swal from 'sweetalert2';
 import Botao from "../components/button/Button"
@@ -20,17 +20,9 @@ const CampanhaCadastroPage = () => {
   const [editMode, setEditMode] = useState(false);
   const [editedRowData, setEditedRowData] = useState(null);
 
-  const apiProdutos = axios.create({
-    baseURL: "http://localhost:8080",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
 
   async function excluir(id) {
-    apiProdutos.delete("/produtos-unitario/" + id).then((response) => {
+    api.delete("/produtos-unitario/" + id).then((response) => {
       //console.log(response);
       // window.location.reload()
     }).catch((err) => {
@@ -89,7 +81,7 @@ const CampanhaCadastroPage = () => {
         title: "Atenção! Você não pode deletar a si mesmo!"
       });
     } else {
-      apiProdutos.delete("/campanhas/" + id)
+      api.delete("/campanhas/" + id)
         .then((response) => {
           if (response.status === 204) {
 
@@ -161,7 +153,7 @@ const CampanhaCadastroPage = () => {
       meta: rowData.meta
     }
 
-    apiProdutos.put(`/campanhas/${id}`, campanhaAlterada)
+    api.put(`/campanhas/${id}`, campanhaAlterada)
       .then((response) => {
         if (response.status === 200) {
 
@@ -269,7 +261,7 @@ const CampanhaCadastroPage = () => {
   useEffect(() => {
     async function handleCampanhas() {
       try {
-        const encontrados = await apiProdutos.get("/campanhas");
+        const encontrados = await api.get("/campanhas");
         setCampanhas(encontrados.data); 
       } catch (error) {
         console.error(error);
@@ -282,7 +274,7 @@ const CampanhaCadastroPage = () => {
   useEffect(() => {
     async function handleTipoCampanhas() {
       try {
-        var encontrados = await apiProdutos.get("/tipo-campanhas");
+        var encontrados = await api.get("/tipo-campanhas");
         var nomeCampanhas = [];
 
 
@@ -320,10 +312,20 @@ const CampanhaCadastroPage = () => {
 
     console.log("campanhaNova", campanhaNova)
 
-    apiProdutos.post("/campanhas", campanhaNova)
+    api.post("/campanhas", campanhaNova)
     .then((response) => {
       console.log(response)
-      window.location.reload();
+      const id = response.data.id;
+      api.post("/origens", 
+        {
+          "autaDeSouzaRua": 0,
+          "itapora": 0,
+          "condominioId": 0,
+          "campanhaId": id
+        }
+      ).then((res) => {
+        window.location.reload();
+      })
     })
     .catch((error) => {
       console.log(error)
@@ -333,7 +335,7 @@ const CampanhaCadastroPage = () => {
   useEffect(() => {
     async function handleNomeProdutos() {
       try {
-        var encontrados = await apiProdutos.get("/produtos");
+        var encontrados = await api.get("/produtos");
         var listaNomes = [];
         listaNomes.push(<option value="null">-</option>)
         for (var i = 0; i < encontrados.data.length; i++) {

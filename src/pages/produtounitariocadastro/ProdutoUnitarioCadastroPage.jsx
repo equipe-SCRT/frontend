@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from "../../api/api"
 import { useNavigate } from 'react-router-dom';
 import "./ProdutoUnitarioCadastroPage.module.css"
 import styles from "./ProdutoUnitarioCadastroPage.module.css"
@@ -9,7 +9,7 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Row } from 'react-bootstrap'
 import { CornerTopLeftIcon } from '@radix-ui/react-icons';
-
+import ReactPaginate from "react-paginate";
 
 var pilha = [];
 let contadorPilha = -1;
@@ -22,28 +22,14 @@ const ProdutoUnitarioCadastro = () => {
   let [getValidade, setValidade] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
-  let [getAtivo, setAtivo] = useState();
+  let [getAtivo, setAtivo] = useState(1);
+  let [currentPage, setCurrentPage] = useState(1);
   const [editMode, setEditMode] = useState(false);
+  const [first, setFirst] = useState(0);
+  const [rows, setRows] = useState(10);
   const [editedRowData, setEditedRowData] = useState(null);
   let navigate = useNavigate();
 
-  const apiProdutos = axios.create({
-    baseURL: "http://localhost:8080/",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
-
-  const api = axios.create({
-    baseURL: "http://localhost:8080/produtos-unitario",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
 
   const renderActionCell = (rowData) => {
     return (
@@ -86,7 +72,7 @@ const ProdutoUnitarioCadastro = () => {
       if (pilha[contadorPilha].operacao == "salvar") {
         console.log("aqui: ")
         console.log(pilha[contadorPilha].id)
-        apiProdutos.post("/produtos-unitario/lotes-delete", pilha[contadorPilha].id).then((res) => {
+        api.post("/produtos-unitario/lotes-delete", pilha[contadorPilha].id).then((res) => {
           console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
@@ -143,7 +129,7 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   async function handleProdutos() {
-    api.get("").then((res) => {
+    api.get("produtos-unitario").then((res) => {
       let encontrados = res.data;
       setProdutos(encontrados);
       console.log(getProdutos)
@@ -156,7 +142,7 @@ const ProdutoUnitarioCadastro = () => {
 
   async function handleNomeProdutos() {
     try {
-      var encontrados = await apiProdutos.get("produtos");
+      var encontrados = await api.get("produtos");
       var listaNomes = [];
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
@@ -174,7 +160,7 @@ const ProdutoUnitarioCadastro = () => {
 
   async function handleOrigem() {
     try {
-      var encontrados = await apiProdutos.get("/origens");
+      var encontrados = await api.get("/origens");
       var listaOrigens = [];
       listaOrigens.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
@@ -218,7 +204,7 @@ const ProdutoUnitarioCadastro = () => {
   async function salvar() {
     try {
       let bodyR = criarBodyLotes(getQuantidade);
-      api.post("/lotes", bodyR).then(async (response) => {
+      api.post("/produtos-unitario/lotes", bodyR).then(async (response) => {
         handleProdutos();
         let alteracao = {
           operacao: "salvar",
@@ -283,7 +269,7 @@ const ProdutoUnitarioCadastro = () => {
   };
 
   const handleDelete = async (id) => {
-    api.delete("/" + id).then((res) => {
+    api.delete("/produtos-unitario/" + id).then((res) => {
       _alertaSucesso("Excluido", "Produto unitário deletado com sucesso")
       handleProdutos()
     }).catch((err) => {
@@ -335,7 +321,7 @@ const ProdutoUnitarioCadastro = () => {
       else if (field === "dataValidade") {
         let resultado = compareDates(rowData.dataValidade);
         let estilo = { color: "black" }
-        if (!resultado) {
+        if (!resultado || !rowData.ativo) {
           estilo = { color: "red" }
         }
         return <>
@@ -366,7 +352,7 @@ const ProdutoUnitarioCadastro = () => {
   const handleSaveClick = () => {
     setEditMode(false);
     console.log(editedRowData)
-    api.put(`/${editedRowData.id}`,
+    api.put(`/produtos-unitario/${editedRowData.id}`,
       {
         "id": editedRowData.id,
         "produtoId": editedRowData.produto.id,
@@ -382,6 +368,47 @@ const ProdutoUnitarioCadastro = () => {
 
     setEditedRowData(null);
   };
+
+  const handlePagination = (e) => {
+    const paginacaoPage = e;
+    const paginacaoQtd = 10;
+    
+    api.get(`/paginado?paginaAtual=${paginacaoPage}&tamanho=${paginacaoQtd}`).then((res) => {
+      setProdutos(res.data.content);
+    }).catch(h => {
+      _alertaError("Erro ao atualizar", "Preencha todos os campos corretamente")
+    })
+  }
+
+  const CustomPagination = (e) => {
+    const count = Number((getProdutos.length / 10))
+    return (
+      <Row className='mx-0'>
+        <div className='col-6 d-flex justify-content-end'>
+          <ReactPaginate
+            previousLabel={''}
+            nextLabel={''}
+            forcePage={currentPage !== 0 ? currentPage - 1 : 0}
+            onPageChange={page => handlePagination(page)}
+            pageCount={count || 1}
+            breakLabel={'...'}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={2}
+            activeClassName={'active'}
+            pageClassName={'page-item'}
+            nextLinkClassName={'page-link'}
+            nextClassName={'page-item next'}
+            previousClassName={'page-item prev'}
+            previousLinkClassName={'page-link'}
+            pageLinkClassName={'page-link'}
+            breakClassName='page-item'
+            breakLinkClassName='page-link'
+            containerClassName={'pagination react-paginate pagination-sm justify-content-end pr-1 mt-1'}
+          />
+        </div>
+      </Row>
+    )
+  }
 
   useEffect(() => {
     handleNomeProdutos()
@@ -473,7 +500,13 @@ const ProdutoUnitarioCadastro = () => {
             <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9', width: "100%" }}>
               <p className="card-description">Listagem</p>
               <div className="table-responsive">
-                <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%' }}>
+                <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%' }}
+                first={first} // A página inicial
+                rows={rows}   // O número de itens por página
+                onPage={(e) => setFirst(e.first)} // Atualiza a página quando ocorre a navegação
+                paginator // Ativa a paginação
+                paginatorPosition="bottom" // Coloca o paginador na parte inferior da tabela
+                rowsPerPageOptions={[5, 10, 20]}>
                   <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
 
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>

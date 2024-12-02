@@ -8,7 +8,7 @@ import ListaBarraProgresso from "../../components/listabarraprogresso/ListaBarra
 import GraficoBarrasHorizontais from "../../components/graficobarrashorizontais/GraficoBarrasHorizontais";
 import SelectData from "../../components/selectdata/SelectData";
 import SelectScrt from "../../components/select/SelectScrt";
-import { parseISO, format } from 'date-fns';
+import { parseISO, format, addDays } from 'date-fns';
 
 const DashboardCampanhas = () => {
   const [dadosCampanhas, setDadosCampanhas] = useState([]);
@@ -25,6 +25,10 @@ const DashboardCampanhas = () => {
   const [dadosComparacao, setDadosComparacao] = useState([]);
   const [nomeCampanhaSelecionada, setNomeCampanhaSelecionada] = useState("");
   const [nomeCampanhaComparada, setNomeCampanhaComparada] = useState("");
+
+
+  const dataInicioUltimoAno = addDays(new Date(), -365);
+  const dataFimUltimoAno = new Date();
 
   const fetchDadosFiltradosPorProduto = async (id) => {
     try {
@@ -47,13 +51,13 @@ const DashboardCampanhas = () => {
   const fetchDadosComparacao = async (nomeCampanha) => {
     try {
       const response = await api.get(`campanhas/doacoes-por-campanhas`, {
-        params: { nome: nomeCampanha }
+        params: { nome: nomeCampanha,
+          "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
+          "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
+        }
       });
-      const dadosTransformados = response.data.map(item => ({
-        mes: `${item.ano}-${String(item.mes).padStart(2, '0')}`,
-        count: item.qtdArrecadada
-      }));
-      setDadosComparacao(dadosTransformados);
+
+      setDadosComparacao(response.data);
     } catch (error) {
       console.error("Erro ao buscar os dados de comparação:", error);
     }
@@ -62,7 +66,10 @@ const DashboardCampanhas = () => {
   const fetchDadosSelecionados = async (nomeCampanha) => {
     try {
       const response = await api.get(`campanhas/doacoes-por-campanhas`, {
-        params: { nome: nomeCampanha }
+        params: { nome: nomeCampanha,
+          "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
+          "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
+        }
       });
       const dadosTransformados = response.data.map(item => ({
         mes: `${item.ano}-${String(item.mes).padStart(2, '0')}`,
@@ -109,12 +116,14 @@ const DashboardCampanhas = () => {
 
     const fetchDadosAlimentosArrecadadosMes = async () => {
       try {
-        const response = await api.get("produtos/alimentos-arrecadados-por-mes");
-        const dadosTransformados = response.data.map(item => ({
-          mes: `${item.ano}-${String(item.mes).padStart(2, '0')}`,
-          count: item.qtdArrecadada
-        }));
-        setDadosAlimentosArrecadadosMes(dadosTransformados);
+        const response = await api.get("produtos/alimentos-arrecadados-por-mes", {
+          params:{
+            "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
+            "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
+          }
+        });
+
+        setDadosAlimentosArrecadadosMes(response.data);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
       }
@@ -227,9 +236,12 @@ const DashboardCampanhas = () => {
                 <GraficoLinha
                   data={dadosAlimentosArrecadadosMes}
                   cores={["#22CC52"]}
+                                xValue={'dataCampanha'}
+              yValue={'qtdArrecadada'}
                   titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
                   label={"Quantidade"}
-                />
+                >
+            </GraficoLinha>
                 
             </Col>
             <Col md lg={6}>
@@ -250,16 +262,24 @@ const DashboardCampanhas = () => {
             
                 <GraficoLinha
                   data={[dadosSelecionados, dadosComparacao]}
+                                xValue={'dataCampanha'}
+              yValue={'qtdArrecadada'}
                   cores={["#22CC52", "#4444FF"]}
                   titulo={"Quantidade de Doações Variadas por Campanhas"}
-                  selectObj={dadosCampanhas}
-                  selectFunc={(e) => {
-                    const localCampanha = e.target.options[e.target.selectedIndex].text;
-                    setNomeCampanhaComparada(localCampanha); 
-                    fetchDadosComparacao(localCampanha)
-                  }}
+
                   label={[nomeCampanhaSelecionada, nomeCampanhaComparada]}
-                  />
+                              >
+              <SelectScrt
+                dados={dadosCampanhas}
+                onChange={(e) => {
+                  const localCampanha = e.target.options[e.target.selectedIndex].text;
+                  setNomeCampanhaComparada(localCampanha); 
+                  fetchDadosComparacao(localCampanha)
+                }}
+                grafico={true}
+              />
+
+            </GraficoLinha>
               
             </Col>
             <Col md lg={6}>
