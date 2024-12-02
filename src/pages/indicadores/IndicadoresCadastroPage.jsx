@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from "../../api/api"
 import { useNavigate } from 'react-router-dom';
 import "./IndicadoresCadastroPage.module.css"
 import Swal from 'sweetalert2';
@@ -35,14 +35,6 @@ const IndicadoresCadastro = () => {
   let [getQtdDiasVencimento, setQtdDiasVencimento] = useState(0);
 
 
-  const api = axios.create({
-    baseURL: "http://localhost:8080/",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
   useEffect(() => {
     handleTipoProduto();
     handleTipoCampanha();

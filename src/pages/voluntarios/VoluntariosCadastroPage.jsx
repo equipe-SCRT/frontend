@@ -17,10 +17,6 @@ const VoluntariosCadastro = () => {
   let [nome, setNome] = useState("");
   let [senha] = useState("itapora")
   let [tipoUsuario, setTipoUsuario] = useState(0);
-  let [getNomeAlt, setNomeAlt] = useState("");
-  let [getEmailAlt, setEmailAlt] = useState("");
-  let [getIdAlt, setIdAlt] = useState(0);
-  let [getTipoUsuarioAlt, setTipoUsuarioAlt] = useState(0);
 
   useEffect(() => {
     handleVoluntarios()
@@ -30,12 +26,10 @@ const VoluntariosCadastro = () => {
   function push(info) {
     contadorPilha++;
     pilha.push(info);
-    //console.log("pilha adicionada: ")
     console.log(pilha)
   }
   function pop() {
     if (contadorPilha == -1) {
-      //console.log("pilha vazia")
     } else {
       if (pilha[contadorPilha].operacao == "insert") {
         console.log("aqui: ")
@@ -66,17 +60,14 @@ const VoluntariosCadastro = () => {
                 }
               }).then((result) => {
                 if (result.dismiss === Swal.DismissReason.timer) {
-                  //console.log("I was closed by the timer");
                 } else if (result.isConfirmed) {
                   pop();
                 } else {
-                  //console.log("I was closed by the user"); 
                 }
               });
             }
           }
         }).catch((err) => {
-          //console.log(err)
         })
       }
     }
@@ -122,7 +113,6 @@ const VoluntariosCadastro = () => {
       }))
       lista = []
     } catch (err) {
-      //console.log(err);
     }
 
   }
@@ -405,16 +395,12 @@ const VoluntariosCadastro = () => {
       api.post(`usuarios`, usuario).then(async (response) => {
 
         handleVoluntarios();
-        //console.log("1020121218902901890----------s")
-        //console.log(response)
         let alteracao = {
           operacao: "insert",
 
           id: response.data.id
         }
         push(alteracao);
-        //console.log(" pilha> ")
-        //console.log(pilha)
         let timerInterval;
         clearInterval(timerInterval);
         await Swal.fire({
@@ -435,14 +421,11 @@ const VoluntariosCadastro = () => {
             pilha.splice(response.data.id, response.data.id);
           }
         }).then((result) => {
-          /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            //console.log("I was closed by the timer");
 
           } else if (result.isConfirmed) {
             pop();
           } else {
-            //console.log("I was closed by the user"); 
           }
         });
       }).catch((err) => {
@@ -461,10 +444,8 @@ const VoluntariosCadastro = () => {
           icon: "error",
           title: "E-mail incorreto"
         });
-        //console.log(err)
       })
     } catch (err) {
-      //console.log(err);
     }
   }
 

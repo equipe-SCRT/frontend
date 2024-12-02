@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from "../../api/api"
 import { useNavigate } from 'react-router-dom';
 import "./TipoCestaPage.module.css"
 import Swal from 'sweetalert2';
@@ -23,15 +23,6 @@ const TipoCestaCadastro = () => {
   const [editedModalData, setEditedModalData] = useState(null);
   const [modalData, setModalData] = useState([]);
   const [getNomeCestaAtual, setNomeCestaAtual] = useState("");
-
-  const api = axios.create({
-    baseURL: "http://localhost:8080",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
 
   useEffect(() => {
     async function handleTipoCestas() {
@@ -113,8 +104,7 @@ const TipoCestaCadastro = () => {
     const produtos = {
       idProduto: getProdutoId,
       qtdProduto: getQuantidade,
-      // nome: getNomeProdutoLista
-      nome: "teste"
+      nome: getNomeProdutoLista
     }
     setProdutos(prevLista => [...prevLista, produtos]);
   }
