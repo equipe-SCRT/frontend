@@ -315,7 +315,17 @@ const CampanhaCadastroPage = () => {
     api.post("/campanhas", campanhaNova)
     .then((response) => {
       console.log(response)
-      window.location.reload();
+      const id = response.data.id;
+      api.post("/origens", 
+        {
+          "autaDeSouzaRua": 0,
+          "itapora": 0,
+          "condominioId": 0,
+          "campanhaId": id
+        }
+      ).then((res) => {
+        window.location.reload();
+      })
     })
     .catch((error) => {
       console.log(error)

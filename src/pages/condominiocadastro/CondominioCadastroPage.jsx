@@ -164,6 +164,13 @@ const CondominioCadastroPage = () => {
                 nome: nome,
                 enderecoId: enderecoResponse.data.id
             }).then(async (res) => {
+                const idCondominio = res.data.id;
+                api.post("origens", {
+                    "autaDeSouzaRua": 0,
+                    "itapora": 0,
+                    "condominioId": idCondominio,
+                    "campanhaId": 0
+                })
                 handleCondominios()
 
             }).catch(e => {
