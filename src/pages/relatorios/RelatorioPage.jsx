@@ -6,6 +6,7 @@ import PopOver from "../components/PopOver";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import Swal from 'sweetalert2';
+// import Cookies from "js-cookie";
 
 
 const Relatorio = () => {
@@ -173,7 +174,7 @@ const Relatorio = () => {
 
     return (
         <div className="container-fluid mb-5" >
-            <div style={{padding : 60}} >
+            <div style={{ padding: 60 }} >
 
 
                 {/* <div className={style.TituloPrincipal}>
@@ -232,7 +233,7 @@ const Relatorio = () => {
                         <div className="col-4 d-flex align-items-center">
                             <Select onChange={tipoChange} option={['CSV', 'TXT']} />
                         </div>
-                        <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 20}} >
+                        <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 20 }} >
                             <label htmlFor="" onClick={() => exportarRelatorioCompleto(periodo)} className={style.Botao}>Exportar Arquivo</label>
                         </div>
                     </div>
