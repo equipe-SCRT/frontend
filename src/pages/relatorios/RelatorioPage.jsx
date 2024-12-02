@@ -5,19 +5,35 @@ import DataRange from "../components/dataRange/DateRange";
 import PopOver from "../components/PopOver";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import Swal from 'sweetalert2';
 
 
-const Relatorio = ({ ano }) => {
+const Relatorio = () => {
 
     const importarRelatorio = (event) => {
         const selectedFile = event.target.files[0];
         fetchImportarRelatorio(selectedFile);
     }
 
+    function _alertaSucesso(titulo, texto) {
+        Swal.fire({
+            icon: "success",
+            title: `${titulo}`,
+            text: `${texto}`,
+        });
+    }
+
+    function _alertaError(titulo, texto) {
+        Swal.fire({
+            icon: "error",
+            title: `${titulo}`,
+            text: `${texto}`,
+        });
+    }
+
     const [periodo, setPeriodo] = useState(['teste']);
     const [tipo, setTipo] = useState('csv');
-    // [ano, setAno] = useState('');
-    ano = 2024
+    const [ano, setAno] = useState('2024');
 
     const periodoChange = (value) => {
         setPeriodo(value);
@@ -33,11 +49,11 @@ const Relatorio = ({ ano }) => {
     }
 
 
-    // const anoChange = (value) => {
-    //     setAno(value);
-    //     console.log(value);
-    //     console.log(ano);
-    // }
+    const anoChange = (value) => {
+        setAno(value);
+        console.log(value);
+        console.log(ano);
+    }
 
     const formatDate = (date) => {
         const year = date.getFullYear();
@@ -47,8 +63,6 @@ const Relatorio = ({ ano }) => {
     };
 
     const exportarRelatorioCompleto = (dateString) => {
-
-        //console.log("dateString: " +dateString)
 
         const dateStrings = dateString.toString().split(",").map(date => date.trim());
         const dates = dateStrings.map(dateStr => {
@@ -60,13 +74,7 @@ const Relatorio = ({ ano }) => {
 
         const periodo = `${dates[0]}-${dates[1]}`;
 
-        //console.log(dates); // Log formatted dates
-        //console.log("caminho: " + caminho); // Log caminho
-        //console.log(periodo); // Log periodo
-
-        let item = { 'periodo': periodo, 'path': caminho}
-        console.log("Aqui: " + JSON.stringify(item) )
-        console.log(item.periodo)
+        let item = { 'periodo': periodo, 'path': caminho }
         exportarRelatorio(item)
     }
 
@@ -74,7 +82,6 @@ const Relatorio = ({ ano }) => {
 
 
         try {
-            console.log("item: " + JSON.stringify(item))
 
             const response = await fetch('http://java-api/relatorio/exportar/' + item.path, {
                 method: 'GET',
@@ -83,24 +90,25 @@ const Relatorio = ({ ano }) => {
 
             if (response.ok) {
                 console.log(item.path)
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
 
-            a.download = 'relatorio ' + item.periodo;
+                a.download = 'relatorio ' + item.periodo;
 
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+                _alertaSucesso("Operação com sucesso!", "Arquivo foi baixado na máquina local")
             } else {
-                alert("Período inválido!")
+                _alertaError("Período inválido!", "Verifique o período selecionado.")
             }
 
-            
+
         } catch (error) {
-            console.error('Erro:', error);
+            _alertaError('Erro:', error);
         }
 
     }
@@ -109,12 +117,9 @@ const Relatorio = ({ ano }) => {
     const fetchImportarRelatorio = async (selectedFile) => {
 
         if (!selectedFile) {
-            console.warn("Nenhum arquivo selecionado.");
+            _alertaError("Formato de arquivo incorreto!", "");
             return;
         }
-
-
-        console.log("Arquivo selecionado:", selectedFile.name);
 
         try {
 
@@ -127,18 +132,16 @@ const Relatorio = ({ ano }) => {
                 body: await selectedFile.arrayBuffer(),
             });
 
-                if (response.ok) {
-                    const result = await response.text();
-                    console.log("Upload successful:", result.ok);
-                    alert("Arquivo cadastrado com sucesso!")
-                } else {
-                    alert("Arquivo inválido!")
-                }
-               
+            if (response.ok) {
+                const result = await response.text();
+                _alertaSucesso("Arquivo cadastrado com sucesso!", "")
+            } else {
+                _alertaError("Arquivo inválido!", "")
+            }
+
 
         } catch (error) {
-            alert("Arquivo inválido!")
-            console.error("Error uploading file:", error);
+            _alertaError("Arquivo inválido!", error)
         }
     }
 
@@ -170,7 +173,10 @@ const Relatorio = ({ ano }) => {
 
     return (
         <div className="container-fluid mb-5" >
-            <div className={style.TituloPrincipal}>
+            <div style={{padding : 60}} >
+
+
+                {/* <div className={style.TituloPrincipal}>
                 <h1>Relatórios</h1>
             </div>
             <div className="row">
@@ -190,94 +196,90 @@ const Relatorio = ({ ano }) => {
                         </DataTable>
                     </div>
                 </div>
-            </div>
-            {/* <div className="row">
-                <div className="col-12 d-flex justify-content-end p-3">
-                    <label className={style.Botao} for="actual-btn">Importar Arquivo</label>
-                    <input onChange={importarRelatorio} type="file" id="actual-btn" hidden />
-                </div>
             </div> */}
-            <div className={style.TituloPrincipal}>
-                <h1>Gerar Arquivo</h1>
-            </div>
-            <div>
-                <p className={style.SubTitulo}>
-                    Selecione o período que deseja gerar as informações e em qual formato será exportado
-                </p>
-            </div>
-            <div className="border p-3" style={{ marginBottom: 50 }}>
-                <div className="row">
-                    <div className="col-4 d-flex">
-                        <p >
-                            Período
-                        </p>
-                        <div className={style.popUp}>
-                            <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar a data de inicio e de fim do filtro de tempo"} />
-                        </div>
-                    </div>
-                    <div className="col-4 d-flex">
-                        <p className={style.SubTexto}>
-                            Tipo do Arquivo
-                        </p>
-                        <div className={style.popUp}>
-                            <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar o formato que será exportado a planilha"} />
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-4 d-flex align-items-center">
-                        <DataRange onChange={periodoChange} />
-                    </div>
-                    <div className="col-4 d-flex align-items-center">
-                        <Select onChange={tipoChange} option={['CSV', 'TXT']} />
-                    </div>
-                    <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 0 }} >
-                        <label htmlFor="" onClick={() => exportarRelatorioCompleto(periodo)} className={style.Botao}>Exportar Arquivo</label>
-                    </div>
-                </div>
-            </div>
 
-            <div className={style.TituloPrincipal}>
-                <h1>Importar Arquivo</h1>
-            </div>
-            <div>
-                <p className={style.SubTitulo}>
-                    Selecione o período que deseja gerar as informações e em qual formato será exportado
-                </p>
-            </div>
-            <div className="border p-3" style={{ marginBottom: 100 }}>
-                <div className="row">
-                    <div className="col-4 d-flex">
-                        <p >
-                            Tipo do Anexo
-                        </p>
-                        <div className={style.popUp}>
-                            <PopOver id="question_icon" mensagem={"Escolha em qual tabela você deseja inserir os dados"} />
+                <div className={style.TituloPrincipal}>
+                    <h1>Gerar Arquivo</h1>
+                </div>
+                <div>
+                    <p className={style.SubTitulo}>
+                        Selecione o período que deseja gerar as informações e em qual formato será exportado
+                    </p>
+                </div>
+                <div className="border p-3" style={{ marginBottom: 50 }}>
+                    <div className="row">
+                        <div className="col-4 d-flex">
+                            <p className={style.frases}  >
+                                Período
+                            </p>
+                            <div className={style.popUp}>
+                                <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar a data de inicio e de fim do filtro de tempo"} />
+                            </div>
+                        </div>
+                        <div className="col-4 d-flex">
+                            <p className={style.frases} >
+                                Tipo do Arquivo
+                            </p>
+                            <div className={style.popUp}>
+                                <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar o formato que será exportado a planilha"} />
+                            </div>
                         </div>
                     </div>
-                    <div className="col-4 d-flex">
-                        <p className={style.SubTexto}>
-                            Tipo do Arquivo
-                        </p>
-                        <div className={style.popUp}>
-                            <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar o formato que será importado o arquivo"} />
+                    <div className="row">
+                        <div className="col-4 d-flex align-items-center t-3">
+                            <DataRange onChange={periodoChange} />
+                        </div>
+                        <div className="col-4 d-flex align-items-center">
+                            <Select onChange={tipoChange} option={['CSV', 'TXT']} />
+                        </div>
+                        <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 20}} >
+                            <label htmlFor="" onClick={() => exportarRelatorioCompleto(periodo)} className={style.Botao}>Exportar Arquivo</label>
                         </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-4 d-flex align-items-center">
-                        {/* <DataRange onChange={periodoChange} /> */}
-                        <Select onChange={tipoChange} option={['Produto Unítário']} />
-                        <PopOver mensagem={"formato: 'alimento','produto'"} />
+
+                <div className={style.TituloPrincipal}>
+                    <h1>Importar Arquivo</h1>
+                </div>
+                <div>
+                    <p className={style.SubTitulo}>
+                        Selecione o período que deseja gerar as informações e em qual formato será exportado
+                    </p>
+                </div>
+                <div className="border p-3" style={{ marginBottom: 100 }}>
+                    <div className="row">
+                        <div className="col-4 d-flex">
+                            <p className={style.frases} >
+                                Tipo do Anexo
+                            </p>
+                            <div className={style.popUp}>
+                                <PopOver id="question_icon" mensagem={"Escolha em qual tabela você deseja inserir os dados"} />
+                            </div>
+                        </div>
+                        <div className="col-4 d-flex">
+                            <p className={style.frases}>
+                                Tipo do Arquivo
+                            </p>
+                            <div className={style.popUp}>
+                                <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar o formato que será importado o arquivo"} />
+                            </div>
+                        </div>
                     </div>
-                    <div className="col-4 d-flex align-items-center">
-                        <Select onChange={tipoChange} option={['CSV', 'TXT']} />
-                    </div>
-                    <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 0 }} >
-                        <div className="row">
-                            <div className="col-12 d-flex justify-content-end p-3">
-                                <label className={style.Botao} for="actual-btn">Importar Arquivo</label>
-                                <input onChange={importarRelatorio} type="file" id="actual-btn" hidden />
+                    <div className="row">
+                        <div className="col-4 d-flex align-items-center">
+                            {/* <DataRange onChange={periodoChange} /> */}
+                            <Select onChange={tipoChange} option={['Produto Unítário']} />
+                            <PopOver mensagem={"formato: 'alimento','produto'"} />
+                        </div>
+                        <div className="col-4 d-flex align-items-center">
+                            <Select onChange={tipoChange} option={['CSV', 'TXT']} />
+                        </div>
+                        <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 20 }} >
+                            <div className="row">
+                                <div className="col-12 d-flex justify-content-end p-3">
+                                    <label className={style.Botao} for="actual-btn">Importar Arquivo</label>
+                                    <input onChange={importarRelatorio} type="file" id="actual-btn" hidden />
+                                </div>
                             </div>
                         </div>
                     </div>

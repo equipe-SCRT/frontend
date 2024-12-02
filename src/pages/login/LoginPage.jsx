@@ -1,9 +1,30 @@
-  import React, { useState } from 'react';
-  import api from "../../api/api"
-  import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-  import './Login.module.css';
-  import loginImage from '../../assets/images/login-image.jpeg';
-  import axios from 'axios';
+
+import React, { useState } from 'react';
+import { Container, Row, Col, Form, Button, Toast } from 'react-bootstrap';
+import style from './Login.module.css';
+import loginImage from '../../assets/images/login-image.jpeg';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
+const toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  }
+});
+
+
+function _alerta(titulo, texto) {
+  toast.fire({
+    icon: titulo,
+    title: texto
+  });
+}
 
   const Login = () => {
     const [emailV, setEmail] = useState("");
@@ -12,36 +33,50 @@
     let button;
     let idUsuario;
 
-    async function handleLogin(){
-      console.log(emailV);
-      console.log(senhaV);
-
-      try{
-        api.post("/usuarios/login", {
-          email: emailV,
-          senha: senhaV
-        }).then((response) => {
-          if(response.status == 200){
-
-            localStorage.setItem('token', response.data.token);
-            sessionStorage.setItem('userId', response.data.userId)
-            sessionStorage.setItem('nome', response.data.nome)
-            sessionStorage.setItem('email', response.data.email)
-            sessionStorage.setItem('tipoUsuario', response.data.tipoUsuario)
-            
-            window.location.href = '/home';
-
-            idUsuario = response.data.idUsuario;
-            logado = true;
-            console.log(response.data)
-          } else{
-            alert("Algo deu errado")
-          }
-        })
-      } catch(err){
-        alert(err);
-      }
+  const api = axios.create({
+    baseURL: "http://localhost:8080/usuarios",
+    withCredentials: false,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     }
+  });
+  async function handleLogin() {
+
+    try {
+      api.post("/login", {
+        email: emailV,
+        senha: senhaV
+      }).then((response) => {
+        if (response.status == 200) {
+
+
+
+          localStorage.setItem('token', response.data.token);
+          sessionStorage.setItem('userId', response.data.userId)
+          sessionStorage.setItem('nome', response.data.nome)
+          sessionStorage.setItem('email', response.data.email)
+          sessionStorage.setItem('tipoUsuario', response.data.tipoUsuario)
+
+          window.location.href = '/home';
+
+          idUsuario = response.data.idUsuario;
+          logado = true;
+
+
+          alert("oi")
+          _alerta("success", "Signed in successfully")
+          console.log(response.data)
+
+        } else {
+          alert("nope")
+          _alerta("error", "Signed in not successfully")
+        }
+      })
+    } catch (err) {
+      alert("error")
+      _alerta("error", err)
+
 
 
     return (
@@ -76,13 +111,14 @@
                   />
                 </Form.Group>
 
-                <Form.Group className="form-check mb-4" controlId="esqueceuSenha">
+                <Form.Group className="form-check mb-4 dis d-flex justify-content-between" controlId="esqueceuSenha">
                   <Form.Check type="checkbox" label="Lembrar de mim" />
-                </Form.Group>
 
-                <p className="small mb-5 pb-lg-2">
-                  <a className="text-primary" href="/redefinir-senha">Esqueceu a senha?</a>
-                </p>
+                  <p className="small mb-5 pb-lg-2">
+                    <a className={style.redefinirSenha} href="/redefinir-senha">Esqueceu a senha?</a>
+                  </p>
+
+                </Form.Group>
 
                 <div className="pt-1 mb-4 row">
                   <Button
@@ -102,6 +138,7 @@
         </Row>
       </Container>
     </section>
+
     );
   }
 

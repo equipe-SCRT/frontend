@@ -19,3 +19,9 @@
 #login-form {
     margin: 0 40px;
 }
+
+.redefinirSenha {
+    all: unset !important;
+    cursor: pointer !important;
+    text-decoration: underline !important;
+}
