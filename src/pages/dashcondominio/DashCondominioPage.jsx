@@ -7,6 +7,7 @@ import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarra
 import GraficoBarrasHorizontais from "../../components/graficobarrashorizontais/GraficoBarrasHorizontais";
 import GraficoLinha from '../../components/graficolinha/GraficoLinha';
 import SelectScrt from "../../components/select/SelectScrt";
+import { parseISO, format, addDays } from 'date-fns';
 
 const DashCondominioPage = () => {
 
@@ -26,6 +27,9 @@ const DashCondominioPage = () => {
   const [nomeCondominioComparado, setNomeCondominioComparado] = useState("");
   const [dadosSelecionados, setDadosSelecionados] = useState([]);
 
+  const dataInicioUltimoAno = addDays(new Date(), -365);
+  const dataFimUltimoAno = new Date();
+
   const fetchDadosFiltradosPorProduto = async (id) => {
     try {
       const response = await api.get(`condominios/qtd-total-arrecadada/${id}`);
@@ -41,12 +45,14 @@ const DashCondominioPage = () => {
 
   const fetchDadosSelecionados = async (nomeCondominio) => {
     try {
-      const response = await api.get(`condominios/produtos-por-nome-condominio/${nomeCondominio}`);
-      const dadosTransformados = response.data.map(item => ({
-        mes: item.mes,
-        count: item.count
-      }));
-      setDadosSelecionados(dadosTransformados);
+      const response = await api.get(`condominios/produtos-por-nome-condominio/${nomeCondominio}`, {
+        params: {
+          "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
+          "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
+        }
+      })
+
+      setDadosSelecionados(response.data);
     } catch (error) {
       console.error("Erro ao buscar os dados do condominio selecionado:", error);
     }
@@ -54,12 +60,13 @@ const DashCondominioPage = () => {
 
   const fetchDadosComparacao = async (nomeCondominio) => {
     try {
-      const response = await api.get(`condominios/produtos-por-nome-condominio/${nomeCondominio}`);
-      const dadosTransformados = response.data.map(item => ({
-        mes: item.mes,
-        count: item.count
-      }));
-      setDadosComparacao(dadosTransformados);
+      const response = await api.get(`condominios/produtos-por-nome-condominio/${nomeCondominio}`, {
+        params: {
+          "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
+          "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
+        }
+      })
+      setDadosComparacao(response.data);
     } catch (error) {
       console.error("Erro ao buscar os dados de comparação de condominio:", error);
     }
@@ -121,12 +128,14 @@ const DashCondominioPage = () => {
 
     const fetchProdutosCondominios = async () => {
       try {
-        const response = await api.get("condominios/produtos-arrecadados-por-mes");
-        const dadosTransformados = response.data.map(item => ({
-          mes: item.mes,
-          count: item.count
-        }));
-        setProdutosCondominios(dadosTransformados);
+        const response = await api.get("condominios/produtos-arrecadados-por-mes", {
+          params: {
+            "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
+            "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
+          }
+        })
+
+        setProdutosCondominios(response.data);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
       }
@@ -223,8 +232,7 @@ const DashCondominioPage = () => {
             <Col md lg={6}>
               <div>
                 <GraficoLinha 
-                // data, cores, titulo, label, xValue, yValue, selectObj, selectFunc
-                xValue={"mes"}
+                xValue={"criadoEm"}
                 yValue={"count"}
                 data={produtosCondominios} 
                 cores={['#22CC52']} 
@@ -236,12 +244,19 @@ const DashCondominioPage = () => {
               <div>
                 <GraficoLinha
                   data={[dadosSelecionados, dadosComparacao]}
+                  xValue={"nomeCondominio"}
+                  yValue={"criadoEm"}
                   cores={["#22CC52", "#4444FF"]}
                   titulo={"Quantidade de Doações Variadas por Condomínios"}
-                  selectObj={dadosCondominios}
-                  selectFunc={(e) => { setNomeCondominioComparado(e.target.options[e.target.selectedIndex].text); fetchDadosComparacao(e.target.options[e.target.selectedIndex].text) }}
                   label={[nomeCondominioSelecionado, nomeCondominioComparado]}
-                />              
+                >
+              <SelectScrt
+                dados={dadosCondominios}
+                onChange={(e) => {setNomeCondominioComparado(e.target.options[e.target.selectedIndex].text); fetchDadosComparacao(e.target.options[e.target.selectedIndex].text) }}
+                grafico={true}
+              />
+
+            </GraficoLinha>              
               </div>
             </Col>
           </Row>

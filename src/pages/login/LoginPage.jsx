@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Toast } from 'react-bootstrap';
 import style from './Login.module.css';
@@ -25,13 +26,12 @@ function _alerta(titulo, texto) {
   });
 }
 
-
-const Login = () => {
-  const [emailV, setEmail] = useState("");
-  const [senhaV, setSenha] = useState("");
-  let logado = false;
-  let button;
-  let idUsuario;
+  const Login = () => {
+    const [emailV, setEmail] = useState("");
+    const [senhaV, setSenha] = useState("");
+    let logado = false;
+    let button;
+    let idUsuario;
 
   const api = axios.create({
     baseURL: "http://localhost:8080/usuarios",
@@ -76,12 +76,11 @@ const Login = () => {
     } catch (err) {
       alert("error")
       _alerta("error", err)
-    }
-  }
 
 
-  return (
-    <section className="vh-100">
+
+    return (
+      <section className="vh-100">
       <Container fluid>
         <Row>
           <Col sm={6} className="px-0 d-none d-sm-block">
@@ -121,7 +120,6 @@ const Login = () => {
 
                 </Form.Group>
 
-
                 <div className="pt-1 mb-4 row">
                   <Button
                     className="btn btn-warning btn-lg btn-block text-light fw-bold"
@@ -140,7 +138,8 @@ const Login = () => {
         </Row>
       </Container>
     </section>
-  );
-}
 
-export default Login;
+    );
+  }
+
+  export default Login;
