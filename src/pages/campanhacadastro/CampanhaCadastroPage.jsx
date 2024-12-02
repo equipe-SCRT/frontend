@@ -402,7 +402,7 @@ const CampanhaCadastroPage = () => {
                   <button onClick={handleCadastroCampanhas} className="btn btn-scrt" style={{height:"6vh"}}>Cadastrar Campanha</button>
                   {/* <Botao mensagem={"Cadastrar Campanha"} /> */}
                 </div>
-              </div>/
+              </div>
             </div>
 
             <div className="row border">
