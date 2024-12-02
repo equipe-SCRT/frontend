@@ -96,9 +96,9 @@ const IndicadoresCadastro = () => {
     api.post("/metricas", {
       "qtdCasas": getQtdDiasVencimento
     }).then((res) => {
-      _alertaSucesso("Sucesso ao cadastrar", "Sucesso ao cadastrar quantidade casas")
+      _alertaSucesso("Sucesso ao cadastrar", "Sucesso ao cadastrar quantidade de dias até o vencimento")
       handleTipoProduto();
-    }).catch((err) => _alertaError("Erro ao cadastrar quantidade casas", err));
+    }).catch((err) => _alertaError("Erro ao cadastrar quantidade de dias até o vencimento", err));
   }
 
   async function handleTipoProdutoExistentes() {
