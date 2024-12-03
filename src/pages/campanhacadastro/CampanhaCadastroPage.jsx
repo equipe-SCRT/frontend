@@ -332,8 +332,18 @@ const CampanhaCadastroPage = () => {
     api.post("/campanhas", campanhaNova)
     .then((response) => {
       console.log(response)
-      _alertaSucesso("Cadastrado com sucesso!", "Nova campanha adicionada!")
+      const id = response.data.id;
+      api.post("/origens", 
+        {
+          "autaDeSouzaRua": 0,
+          "itapora": 0,
+          "condominioId": 0,
+          "campanhaId": id
+        }
+      ).then((res) => {
+        _alertaSucesso("Cadastrado com sucesso!", "Nova campanha adicionada!")
       window.location.reload();
+      })
     })
     .catch((error) => {
       _alertaError("Cadastro inválido!", "Verifique as informações preenchidas!")

@@ -22,7 +22,7 @@ const ProdutoUnitarioCadastro = () => {
   let [getValidade, setValidade] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
-  let [getAtivo, setAtivo] = useState();
+  let [getAtivo, setAtivo] = useState(1);
   let [currentPage, setCurrentPage] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [first, setFirst] = useState(0);
@@ -321,7 +321,7 @@ const ProdutoUnitarioCadastro = () => {
       else if (field === "dataValidade") {
         let resultado = compareDates(rowData.dataValidade);
         let estilo = { color: "black" }
-        if (!resultado) {
+        if (!resultado || !rowData.ativo) {
           estilo = { color: "red" }
         }
         return <>
