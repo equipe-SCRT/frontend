@@ -3,9 +3,8 @@ import api from "../../api/api"
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import style from './Login.module.css';
 import loginImage from '../../assets/images/login-image.jpeg';
-import axios from 'axios';
 import Swal from 'sweetalert2';
-
+import Cookies from "js-cookie";
 
 const toast = Swal.mixin({
   toast: true,
@@ -30,20 +29,32 @@ function _alerta(titulo, texto) {
 const Login = () => {
   const [emailV, setEmail] = useState("");
   const [senhaV, setSenha] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   let logado = false;
   let button;
   let idUsuario;
 
-  // const api = axios.create({
-  //   baseURL: "http://localhost:8080/usuarios",
-  //   withCredentials: false,
-  //   headers: {
-  //     'Access-Control-Allow-Origin': '*',
-  //     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-  //   }
-  // });
 
   async function handleLogin() {
+
+    const savedUsername = Cookies.get("emailV");
+    const savedPassword = Cookies.get("senhaV");
+
+    if (savedUsername && savedPassword) {
+      setEmail(savedUsername);
+      setSenha(savedPassword);
+      setRememberMe(true);
+    }
+
+    if (rememberMe) {
+      Cookies.set("emailV", emailV, {expires : 7, sameSite : "None", secure: true})
+      Cookies.set("senhaV", senhaV, {expires : 7, sameSite : "None", secure: true})
+    } else {
+      Cookies.remove("emailV")
+      Cookies.remove("senhaV")
+    }
+
+
 
     try {
       api.post("/usuarios/login", {
@@ -53,20 +64,21 @@ const Login = () => {
         if (response.status == 200) {
 
           localStorage.setItem('token', response.data.token);
-          sessionStorage.setItem('userId', response.data.userId)
-          sessionStorage.setItem('nome', response.data.nome)
-          sessionStorage.setItem('email', response.data.email)
-          sessionStorage.setItem('tipoUsuario', response.data.tipoUsuario)
+          sessionStorage.setItem('userId', response.data.userId);
+          sessionStorage.setItem('nome', response.data.nome);
+          sessionStorage.setItem('email', response.data.email);
+          sessionStorage.setItem('tipoUsuario', response.data.tipoUsuario);
 
+      
           window.location.href = '/home';
 
           idUsuario = response.data.idUsuario;
           logado = true;
-          console.log(response.data)
-          _alerta("success", "Signed in successfully")
-          alert("asdasdsa")
+
+          _alerta("success", "Signed in successfully");
+          alert("asdasdsa");
+
         } else {
-          alert("asdsadsa")
           _alerta("error", "Signed in not successfully")
         }
       }).catch((err) => {
@@ -112,7 +124,7 @@ const Login = () => {
                 </Form.Group>
 
                 <Form.Group className="form-check mb-4 dis d-flex justify-content-between" controlId="esqueceuSenha">
-                  <Form.Check type="checkbox" label="Lembrar de mim" />
+                  <Form.Check type="checkbox" onChange={(e) => setRememberMe(e.target.value)} label="Lembrar de mim" />
 
                   <p className="small mb-5 pb-lg-2">
                     <a className={style.redefinirSenha} href="/redefinir-senha">Esqueceu a senha?</a>
