@@ -103,7 +103,7 @@ const CampanhaCadastroPage = () => {
             });
             Toast.fire({
               icon: "success",
-              title: "Usuário excluido com sucesso!"
+              title: "Campanha excluida com sucesso!"
             });
           } else {
             const Toast = Swal.mixin({
