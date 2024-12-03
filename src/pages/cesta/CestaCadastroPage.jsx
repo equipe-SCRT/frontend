@@ -190,7 +190,7 @@ const CestasCadastro = () => {
 
   const handleDelete = async (id) => {
     api.delete("/cestas/" + id).then((res) => {
-      _alertaSucesso("Excluido", "Produto unitário deletado com sucesso")
+      _alertaSucesso("Excluido", "Cesta excluida com sucesso")
       handleCestas()
     }).catch((err) => {
       _alertaError("Erro ao deletar", err);
