@@ -76,7 +76,6 @@ const Login = () => {
           logado = true;
 
           _alerta("success", "Signed in successfully");
-          alert("asdasdsa");
 
         } else {
           _alerta("error", "Signed in not successfully")

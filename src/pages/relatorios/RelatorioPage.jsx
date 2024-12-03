@@ -270,7 +270,7 @@ const Relatorio = () => {
                         <div className="col-4 d-flex align-items-center">
                             {/* <DataRange onChange={periodoChange} /> */}
                             <Select onChange={tipoChange} option={['Produto Unítário']} />
-                            <PopOver mensagem={"formato: 'alimento','produto'"} />
+                           {/*<PopOver mensagem={"formato: 'alimento','produto'"} /> */ } 
                         </div>
                         <div className="col-4 d-flex align-items-center">
                             <Select onChange={tipoChange} option={['CSV', 'TXT']} />
