@@ -23,7 +23,7 @@ const TipoCestaCadastro = () => {
   const [editedModalData, setEditedModalData] = useState(null);
   const [modalData, setModalData] = useState([]);
   const [getNomeCestaAtual, setNomeCestaAtual] = useState("");
-
+ 
   function _alertaSucesso(titulo, texto) {
     Swal.fire({
       icon: "success",
@@ -38,6 +38,12 @@ const TipoCestaCadastro = () => {
       title: `${titulo}`,
       text: `${texto}`,
     });
+  }
+
+  const nameProdutoChange = (event) => {
+    const selectedText = event.target.options[event.target.selectedIndex].text; // Obtém o texto da opção selecionada
+    setNomeProdutoLista(selectedText);
+    setProdutoId(event.target.value);
   }
 
   useEffect(() => {
@@ -57,7 +63,7 @@ const TipoCestaCadastro = () => {
       try {
         var encontrados = await api.get("/produtos");
         var listaNomes = [];
-        listaNomes.push(<option value="null" disabled>-</option>)
+        listaNomes.push(<option value="null">---</option>)
         for (var i = 0; i < encontrados.data.length; i++) {
           listaNomes.push(
             <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
@@ -119,12 +125,18 @@ const TipoCestaCadastro = () => {
 
 
   function handleAdicionarProduto() {
+
+    if (getNome == "") {
+      return _alertaError("Cadastro Incorreto!", "Verifique se os campos estão preenchidos!")
+    }
+
     const produtos = {
       idProduto: getProdutoId,
       qtdProduto: getQuantidade,
       nome: getNomeProdutoLista
     }
     setProdutos(prevLista => [...prevLista, produtos]);
+    _alertaSucesso("Cadastro completo!", "Adicionado (x" + getQuantidade + ") " + getNome + " - " + getNomeProdutoLista + " na cesta!")
   }
 
   const renderEditableCell = (rowData, field) => {
@@ -476,7 +488,7 @@ const TipoCestaCadastro = () => {
             icon: "success",
             title: "Produto Cesta atualizado com sucesso!"
           });
-          window.location.reload()
+          window.location.reload();
         } else {
           const Toast = Swal.mixin({
             toast: true,
@@ -630,8 +642,7 @@ const TipoCestaCadastro = () => {
                 </div>
                 <div className="form-group" id='name'>
                   <label htmlFor="productName">Produto <span className="required">*</span></label>
-                  <select name="produto" id="produto" onBlur={(e) => setNomeProdutoLista(e.target.innerHTML)} onChange={(e) => setProdutoId(e.target.value)} style={{ width: '23vw' }} >
-                    <option value="">--</option>
+                  <select name="produto" id="produto" onChange={(e) => nameProdutoChange(e)} style={{ width: '23vw' }} >
                     {getNomeProdutos}
                   </select>
                 </div>
@@ -643,16 +654,19 @@ const TipoCestaCadastro = () => {
                   <input type="text" name="quantidade" id="quantidade" onChange={(e) => setQuantidade(e.target.value)} style={{ width: '23vw' }} />
                 </div>
               </div>
-              <h2>{getNome}</h2>
+              {/* <h2>{getNome}</h2> */}
               <button onClick={() => handleAdicionarProduto()} className="btn btn-scrt">Adicionar produto</button>
+
               {getProdutos.map((item, itemIndex) => (
-                <div key={itemIndex} style={{ margin: '0 10px' }}>
+                <div key={itemIndex} style={{ margin: '10px' }}>
                   <p>{item.nome}/{item.qtdProduto}</p>
                 </div>
               ))}
+
+
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-              <button onClick={() => handleCadastroTipoCestaProduto()} className="btn btn-scrt">Cadastrar</button>
+              <button onClick={() => handleCadastroTipoCestaProduto()} className="btn btn-scrt">Cadastrar Cesta</button>
             </div>
           </div>
         </div>
