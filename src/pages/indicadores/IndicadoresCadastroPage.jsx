@@ -66,7 +66,7 @@ const IndicadoresCadastro = () => {
   }
 
   async function handleTipoProduto() {
-    api.get("/tipos-produtos").then((res) => {
+    api.get("java-api/tipos-produtos").then((res) => {
       setReqTipoProduto(res.data);
     }).catch((err) => {
       _alertaError("Tipo produtos não encontrados", err)
@@ -85,7 +85,7 @@ const IndicadoresCadastro = () => {
   }
 
   async function salvarQtdCasas(){
-    api.post("/metricas", {
+    api.post("java-api/metricas", {
       "qtdCasas": getQuantidadeCasas
     }).then((res) => {
       _alertaSucesso("Sucesso ao cadastrar", "Sucesso ao cadastrar quantidade casas")
@@ -94,7 +94,7 @@ const IndicadoresCadastro = () => {
   }
 
   async function salvarDiasVencimento(){
-    api.post("/metricas", {
+    api.post("java-api/metricas", {
       "qtdCasas": getQtdDiasVencimento
     }).then((res) => {
       _alertaSucesso("Sucesso ao cadastrar", "Sucesso ao cadastrar dia de vencimento")
@@ -114,14 +114,14 @@ const IndicadoresCadastro = () => {
 
   async function concluirTipoProduto() {
     if (getTipoProdutoFunc == 1) {
-      api.post("/tipos-produtos", {
+      api.post("java-api/tipos-produtos", {
         "nome": getNomeCampoTipoProdutoBody
       }).then((res) => {
         _alertaSucesso("Sucesso ao cadastrar tipo produto", "Tipo produto cadastrado")
         handleTipoProduto();
       }).catch((err) => _alertaError("Erro ao cadastrar tipo produto", err));
     } else {
-      api.delete(`/tipos-produtos/${getTipoProdutoDelete}`).then((res) => {
+      api.delete(`java-api/tipos-produtos/${getTipoProdutoDelete}`).then((res) => {
         handleTipoProdutoSelect();
         handleTipoProduto();
         _alertaSucesso("Tipo produto excluído", "Tipo produto excluído com sucesso");
@@ -164,14 +164,14 @@ const IndicadoresCadastro = () => {
 
   async function concluirTipoCampanha() {
     if (getTipoCampanhaFunc == 1) {
-      api.post("/tipo-campanhas", {
+      api.post("java-api/tipo-campanhas", {
         "nome": getNomeCampoTipoCampanhaBody
       }).then((res) => {
         _alertaSucesso("Sucesso ao cadastrar tipo campanha", "Tipo campanha cadastrado")
         handleTipoCampanha();
       }).catch((err) => _alertaError("Erro ao cadastrar tipo campanha", err));
     } else {
-      api.delete(`/tipo-campanhas/${getTipoCampanhaDelete}`).then((res) => {
+      api.delete(`java-api/tipo-campanhas/${getTipoCampanhaDelete}`).then((res) => {
         handleTipoCampanhaSelect();
         handleTipoCampanha();
         _alertaSucesso("Tipo campanha excluído", "Tipo campanha excluído com sucesso");
@@ -212,7 +212,7 @@ const IndicadoresCadastro = () => {
 
   
   async function handleTipoCampanha() {
-    api.get("/tipo-campanhas").then((res) => {
+    api.get("java-api/tipo-campanhas").then((res) => {
       setReqTipoCampanha(res.data);
     }).catch((err) => {
       _alertaError("Tipo campanha não encontrados", err)

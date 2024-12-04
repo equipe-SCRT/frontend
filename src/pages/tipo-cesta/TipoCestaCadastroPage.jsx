@@ -27,7 +27,7 @@ const TipoCestaCadastro = () => {
   useEffect(() => {
     async function handleTipoCestas() {
       try {
-        const response = await api.get("/tipos-cestas")
+        const response = await api.get("java-api/tipos-cestas")
         setTipoCestas(response.data)
       } catch (error) {
         console.log(error)
@@ -39,7 +39,7 @@ const TipoCestaCadastro = () => {
   useEffect(() => {
     async function handleNomeProdutos() {
       try {
-        var encontrados = await api.get("/produtos");
+        var encontrados = await api.get("java-api/produtos");
         var listaNomes = [];
         listaNomes.push(<option value="null" disabled>-</option>)
         for (var i = 0; i < encontrados.data.length; i++) {
@@ -59,7 +59,7 @@ const TipoCestaCadastro = () => {
 
   async function HandleListagemProdutoCesta(rowData) {
     try {
-      const response = await api.get(`/produto-cestas`, rowData.id)
+      const response = await api.get(`java-api/produto-cestas`, rowData.id)
       setProdutoCestas(response.data)
     } catch (error) {
       console.log(error)
@@ -72,7 +72,7 @@ const TipoCestaCadastro = () => {
       nome: getNome
     }
     try {
-      var response = await api.post("/tipos-cestas", tipoCesta);
+      var response = await api.post("java-api/tipos-cestas", tipoCesta);
       if (response.status == 201) {
         setTipoCestaId(response.data.id)
         handleProdutoCesta();
@@ -91,7 +91,7 @@ const TipoCestaCadastro = () => {
       }
 
       try {
-        await api.post("produto-cestas", produtoCesta)
+        await api.post("java-api/produto-cestas", produtoCesta)
         window.location.reload()
       } catch (error) {
 
@@ -207,7 +207,7 @@ const TipoCestaCadastro = () => {
         title: "Atenção! Você não pode deletar a si mesmo!"
       });
     } else {
-      api.delete("/tipos-cestas/" + id)
+      api.delete("java-api/tipos-cestas/" + id)
         .then((response) => {
           if (response.status === 204) {
 
@@ -367,7 +367,7 @@ const TipoCestaCadastro = () => {
         title: "Atenção! Você não pode deletar a si mesmo!"
       });
     } else {
-      api.delete("/produto-cestas/" + id)
+      api.delete("java-api/produto-cestas/" + id)
         .then((response) => {
           if (response.status === 204) {
 
@@ -437,7 +437,7 @@ const TipoCestaCadastro = () => {
       qtdProduto: rowData.quantidade
     }
 
-    api.put(`/produto-cestas/${id}`, produtoCestaAlterada)
+    api.put(`java-api/produto-cestas/${id}`, produtoCestaAlterada)
       .then((response) => {
         if (response.status === 200) {
 
@@ -500,7 +500,7 @@ const TipoCestaCadastro = () => {
     let id = rowData.id;
     setNomeCestaAtual(rowData.nome);
     setModalData([]);
-    await api.get(`/produto-cestas/${id}`).then((response) => {
+    await api.get(`java-api/produto-cestas/${id}`).then((response) => {
       
       // Corrigindo para acessar os dados
       const produtos = response.data;
@@ -534,7 +534,7 @@ const TipoCestaCadastro = () => {
       nome: rowData.nome
     }
 
-    api.put(`/tipos-cestas/${id}`, tipoCestaAlterada)
+    api.put(`java-api/tipos-cestas/${id}`, tipoCestaAlterada)
       .then((response) => {
         if (response.status === 200) {
 

@@ -33,7 +33,7 @@ const VoluntariosCadastro = () => {
     } else {
       if (pilha[contadorPilha].operacao == "insert") {
         console.log("aqui: ")
-        api.delete("/usuarios/" + pilha[contadorPilha].id).then((res) => {
+        api.delete("java-api/usuarios/" + pilha[contadorPilha].id).then((res) => {
           console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
@@ -77,7 +77,7 @@ const VoluntariosCadastro = () => {
 
   async function handleVoluntarios() {
     try {
-      let encontrados = await api.get("usuarios");
+      let encontrados = await api.get("java-api/usuarios");
 
       for (var i = 0; i < encontrados.data.length; i++) {
 
@@ -135,7 +135,7 @@ const VoluntariosCadastro = () => {
         title: "Atenção! Você não pode deletar a si mesmo!"
       });
     }else{
-      api.delete("usuarios/" + id)
+      api.delete("java-api/usuarios/" + id)
       .then((response) => {
         if (response.status === 204) {
   
@@ -213,7 +213,7 @@ const VoluntariosCadastro = () => {
       tipoUsuario: rowData.tipoUsuario === "Administrador" ? 1 : 0
     }
     
-    api.patch("/usuarios/atualizar-usuario", usuarioNovo)
+    api.patch("java-api/usuarios/atualizar-usuario", usuarioNovo)
       .then((response) => {
         if (response.status === 200) {
 
@@ -408,9 +408,9 @@ const VoluntariosCadastro = () => {
       return
     }
     try {
-      api.post(`usuarios`, usuario).then(async (response) => {
+      api.post(`java-api/usuarios`, usuario).then(async (response) => {
         handleVoluntarios();
-        api.post("/usuarios/recuperar-senha/"+email).then((res) => {
+        api.post("java-api/usuarios/recuperar-senha/"+email).then((res) => {
           _alertaSucesso("Cadastro efetuado e e-mail enviado com sucesso", "Por favor, peça ao usuário para verificar o e-mail e span");
         }).catch((err) => _alertaError("Erro ao enviar o e-mail", err));
       }).catch((err) => {

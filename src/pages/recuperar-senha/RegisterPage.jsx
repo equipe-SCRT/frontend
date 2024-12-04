@@ -11,7 +11,7 @@ const Register = () => {
     if(getEmail === ""){
       _alertaError("Erro ao recuperar senha", "Insira seu e-mail.")
     } else{
-      api.post("/usuarios/recuperar-senha/"+getEmail).then((res) => {
+      api.post("java-api/usuarios/recuperar-senha/"+getEmail).then((res) => {
         _alertaSucesso("Email enviado com sucesso", "Por favor, verifique seu span e lixo eletrônico");
       }).catch((err) => _alertaError("Erro ao enviar o e-mail", err));
     }

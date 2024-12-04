@@ -14,7 +14,7 @@ const PerfilPage = () => {
       }
     })
     
-    possuiNumeros ? alert("Não pode ter número") :   api.patch("/usuarios/atualizar-usuario", userInfo);
+    possuiNumeros ? alert("Não pode ter número") :   api.patch("java-api/usuarios/atualizar-usuario", userInfo);
   }
 
   const [userInfo, setUserInfo] = useState({
