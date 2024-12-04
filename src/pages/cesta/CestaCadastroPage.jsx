@@ -80,6 +80,11 @@ const CestasCadastro = () => {
       dataMontagem: dataMontagem,
     };
 
+   
+    if (dataMontagem == null || dataMontagem == undefined || dataMontagem == "" || lote == "") {
+      return _alertaError("Cadastro Incorreto!", "Verifique se todos os campos estão corretos!")
+    }
+
     try {
       console.log(novaCesta);
       await api.post("/cestas", novaCesta);
@@ -91,7 +96,7 @@ const CestasCadastro = () => {
       _alertaSucesso("Cadastrado com sucesso!", "Cesta cadastrada com sucesso!")
     } catch (err) {
       console.log(err);
-      _alertaError("Error :", err)
+      _alertaError("Cadastro Incorreto!", "Verifique se todos os campos estão corretos!")
     }
   }
 
@@ -128,13 +133,13 @@ const CestasCadastro = () => {
           <select
             id="productName"
             name="productName"
-            onClick={(e) => { setEditedRowData({ ...editedRowData, [field]: e.target.value })}}
-            onChange={(e) => { setEditedRowData({ ...editedRowData, [field]: e.target.value })}}
+            onClick={(e) => { setEditedRowData({ ...editedRowData, [field]: e.target.value }) }}
+            onChange={(e) => { setEditedRowData({ ...editedRowData, [field]: e.target.value }) }}
             className="form-control"
           >
-                <option value={'null'}>
-                  ----
-                </option>
+            <option value={'null'}>
+              ----
+            </option>
             {(
               tiposCestas.map((tipo) => (
                 <option key={tipo.id} value={tipo.id}>
@@ -155,7 +160,7 @@ const CestasCadastro = () => {
             className="form-control"
           />
         </>
-      } else if (field == "id"){
+      } else if (field == "id") {
         return rowData.id;
       }
       return (

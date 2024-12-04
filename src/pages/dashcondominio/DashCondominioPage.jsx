@@ -47,8 +47,8 @@ const DashCondominioPage = () => {
     try {
       const response = await api.get(`condominios/produtos-por-nome-condominio/${nomeCondominio}`, {
         params: {
-          "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
-          "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
+          "inicio": format(dataInicioUltimoAno, "yyyy-MM-dd"),
+          "fim": format(dataFimUltimoAno, "yyyy-MM-dd")
         }
       })
 
@@ -62,8 +62,8 @@ const DashCondominioPage = () => {
     try {
       const response = await api.get(`condominios/produtos-por-nome-condominio/${nomeCondominio}`, {
         params: {
-          "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
-          "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
+          "inicio": format(dataInicioUltimoAno, "yyyy-MM-dd"),
+          "fim": format(dataFimUltimoAno, "yyyy-MM-dd")
         }
       })
       setDadosComparacao(response.data);
@@ -104,7 +104,7 @@ const DashCondominioPage = () => {
 
   useEffect(() => {
 
-    
+
 
     const fetchDadosCondominios = async () => {
       try {
@@ -130,8 +130,8 @@ const DashCondominioPage = () => {
       try {
         const response = await api.get("condominios/produtos-arrecadados-por-mes", {
           params: {
-            "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
-            "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
+            "inicio": format(dataInicioUltimoAno, "yyyy-MM-dd"),
+            "fim": format(dataFimUltimoAno, "yyyy-MM-dd")
           }
         })
         setProdutosCondominios(response.data);
@@ -207,22 +207,22 @@ const DashCondominioPage = () => {
               legenda="Alimentos Arrecadados"
               info={
                 qtdAlimentosArrecadadosPorCondominio.length > 0
-                ? `${qtdAlimentosArrecadadosPorCondominio}`
-                : "0"
+                  ? `${qtdAlimentosArrecadadosPorCondominio}`
+                  : "0"
               }
               bgColor="#5FED6D" />
             <CardScrt legenda="Produtos não conformes"
               info={
                 dadosNaoConforme.length > 0
-                ? `${dadosNaoConforme}`
-                : "0"
+                  ? `${dadosNaoConforme}`
+                  : "0"
               }
               bgColor="#FDEA3C" />
             <CardScrt legenda="Alimentos Vencidos"
               info={
                 dadosVencidos.length > 0
-                ? `${dadosVencidos}`
-                : "0"
+                  ? `${dadosVencidos}`
+                  : "0"
               }
               bgColor="#ED8686"
             />
@@ -230,13 +230,13 @@ const DashCondominioPage = () => {
           <Row>
             <Col md lg={6}>
               <div>
-                <GraficoLinha 
-                xValue={"criadoEm"}
-                yValue={"count"}
-                data={produtosCondominios} 
-                cores={['#22CC52']} 
-                titulo={'Quantidade total de alimentos arrecadados nos condomínios'} 
-                label={'Quantidade'} />
+                <GraficoLinha
+                  xValue={"criadoEm"}
+                  yValue={"count"}
+                  data={produtosCondominios}
+                  cores={['#22CC52']}
+                  titulo={'Quantidade total de alimentos arrecadados nos condomínios'}
+                  label={'Quantidade'} />
               </div>
             </Col>
             <Col md lg={6}>
@@ -249,13 +249,13 @@ const DashCondominioPage = () => {
                   titulo={"Quantidade de Doações Variadas por Condomínios"}
                   label={[nomeCondominioSelecionado, nomeCondominioComparado]}
                 >
-              <SelectScrt
-                dados={dadosCondominios}
-                onChange={(e) => {setNomeCondominioComparado(e.target.options[e.target.selectedIndex].text); fetchDadosComparacao(e.target.options[e.target.selectedIndex].text) }}
-                grafico={true}
-              />
+                  <SelectScrt
+                    dados={dadosCondominios}
+                    onChange={(e) => { setNomeCondominioComparado(e.target.options[e.target.selectedIndex].text); fetchDadosComparacao(e.target.options[e.target.selectedIndex].text) }}
+                    grafico={true}
+                  />
 
-            </GraficoLinha>              
+                </GraficoLinha>
               </div>
             </Col>
           </Row>

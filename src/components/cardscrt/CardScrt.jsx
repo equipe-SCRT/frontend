@@ -30,28 +30,28 @@ const CardScrt = ({
       <Card.Title className={styles.titulo}>{legenda} <br />{sublegenda} </Card.Title>
 
       <Card.Text className={styles.info}>
-      {(!isDataSelected && !isCampanhaSelected && !isCondominioSelected) && elementoInfo}
-            {isDataSelected && (
-              <div className={styles.selectDataContainer}>
-                {isDataSelected}
-              </div>
-            )}
-            {isCampanhaSelected && (
-              <div className={styles.SelectScrtContainer}>
-                {isCampanhaSelected}
-              </div>
-            )}
-            {isCondominioSelected && (
-              <div className={styles.SelectScrtContainer}>
-                {isCondominioSelected}
-              </div>
-            )}
+        {(!isDataSelected && !isCampanhaSelected && !isCondominioSelected) && elementoInfo}
+        {isDataSelected && (
+          <div className={styles.selectDataContainer}>
+            {isDataSelected}
+          </div>
+        )}
+        {isCampanhaSelected && (
+          <div className={styles.SelectScrtContainer}>
+            {isCampanhaSelected}
+          </div>
+        )}
+        {isCondominioSelected && (
+          <div className={styles.SelectScrtContainer}>
+            {isCondominioSelected}
+          </div>
+        )}
       </Card.Text>
     </div >
   </> :
     <>
-        <div className={styles.card}>
-      <Link className={styles.cardLink} to={link}>
+      <div className={styles.card}>
+        <Link className={styles.cardLink} to={link}>
           <div>{children}</div>
           <Card.Title className={styles.titulo}>{legenda} <br />{sublegenda} </Card.Title>
 
@@ -68,8 +68,8 @@ const CardScrt = ({
               </div>
             )}
           </Card.Text>
-      </Link>
-        </div >
+        </Link>
+      </div >
     </>
   return (
     <Col md={3}>

@@ -10,7 +10,7 @@ const RegisterNewPassword = () => {
   const [getSenhaConf, setSenhaConf] = useState("");
   
   const api = axios.create({
-    baseURL: "http://java-api/usuarios",
+    baseURL: "http://localhost:8080/usuarios",
     withCredentials: false,
     headers: {
       'Access-Control-Allow-Origin': '*',

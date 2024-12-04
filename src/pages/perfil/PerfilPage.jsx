@@ -113,6 +113,9 @@ const PerfilPage = () => {
                   Salvar
                 </button>
               )}
+              <p className="small mb-5 pb-lg-2" style={{fontFamily: "'Montserrat', sans-serif"}}>
+                <a style={{color:"gray", fontSize: 12}} href="#">Esqueceu a senha? </a>
+              </p>
             </form>
           </div>
         </div>
