@@ -32,7 +32,7 @@ const DashCondominioPage = () => {
 
   const fetchDadosFiltradosPorProduto = async (id) => {
     try {
-      const response = await api.get(`condominios/qtd-total-arrecadada/${id}`);
+      const response = await api.get(`java-api/condominios/qtd-total-arrecadada/${id}`);
       const dadosFormatados = response.data.map(item => ({
         nome: `${item.nome}`,
         qtdProdutos: `${item.qtdProdutos}`,
@@ -45,7 +45,7 @@ const DashCondominioPage = () => {
 
   const fetchDadosSelecionados = async (nomeCondominio) => {
     try {
-      const response = await api.get(`condominios/produtos-por-nome-condominio/${nomeCondominio}`, {
+      const response = await api.get(`java-api/condominios/produtos-por-nome-condominio/${nomeCondominio}`, {
         params: {
           "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
           "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
@@ -60,7 +60,7 @@ const DashCondominioPage = () => {
 
   const fetchDadosComparacao = async (nomeCondominio) => {
     try {
-      const response = await api.get(`condominios/produtos-por-nome-condominio/${nomeCondominio}`, {
+      const response = await api.get(`java-api/condominios/produtos-por-nome-condominio/${nomeCondominio}`, {
         params: {
           "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
           "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
@@ -74,7 +74,7 @@ const DashCondominioPage = () => {
 
   const fetchQtdAlimentosArrecadadosPorCondominio = async (condominioId) => {
     try {
-      const response = await api.get(`condominios/produtos-arrecadados-por-condominio/${condominioId}`);
+      const response = await api.get(`java-api/condominios/produtos-arrecadados-por-condominio/${condominioId}`);
       const doacoesPorCondominio = response.data.map(item => item.count);
       setQtdAlimentosArrecadadosPorCondominio(doacoesPorCondominio);
     } catch (error) {
@@ -84,7 +84,7 @@ const DashCondominioPage = () => {
 
   const fetchDadosNaoConforme = async (condominioId) => {
     try {
-      const response = await api.get(`condominios/qtd-produtos-nao-conforme/${condominioId}`);
+      const response = await api.get(`java-api/condominios/qtd-produtos-nao-conforme/${condominioId}`);
       const arrayDadosNaoConforme = response.data.map(item => item.qtdProdutos);
       setDadosNaoConforme(arrayDadosNaoConforme);
     } catch (error) {
@@ -94,7 +94,7 @@ const DashCondominioPage = () => {
 
   const fetchDadosVencidos = async (condominioId) => {
     try {
-      const response = await api.get(`condominios/qtd-produtos-vencidos/${condominioId}`);
+      const response = await api.get(`java-api/condominios/qtd-produtos-vencidos/${condominioId}`);
       const arrayDadosVencidos = response.data.map(item => item.qtdVencidos);
       setDadosVencidos(arrayDadosVencidos);
     } catch (error) {
@@ -108,7 +108,7 @@ const DashCondominioPage = () => {
 
     const fetchDadosCondominios = async () => {
       try {
-        const response = await api.get("condominios");
+        const response = await api.get("java-api/condominios");
         const condominios = response.data;
 
         setDadosCondominios(condominios);
@@ -128,7 +128,7 @@ const DashCondominioPage = () => {
 
     const fetchProdutosCondominios = async () => {
       try {
-        const response = await api.get("condominios/produtos-arrecadados-por-mes", {
+        const response = await api.get("java-api/condominios/produtos-arrecadados-por-mes", {
           params: {
             "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
             "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
@@ -143,7 +143,7 @@ const DashCondominioPage = () => {
 
     const fetchDadosConformeXNaoConforme = async () => {
       try {
-        const response = await api.get("condominios/produtos-conforme-e-nao-conforme");
+        const response = await api.get("java-api/condominios/produtos-conforme-e-nao-conforme");
         const dadosFormatados = response.data.map(item => ({
           nome: `${item.nomeCondominio} - ${item.nomeProduto}`,
           arrecadado: item.qtdConforme,
@@ -158,7 +158,7 @@ const DashCondominioPage = () => {
 
     const fetchProdutos = async () => {
       try {
-        const response = await api.get("produtos");
+        const response = await api.get("java-api/produtos");
         setProdutos(response.data);
       } catch (error) {
         console.error("Erro ao buscar os produtos:", error);

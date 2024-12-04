@@ -17,7 +17,7 @@
       console.log(senhaV);
 
       try{
-        api.post("/usuarios/login", {
+        api.post("java-api/usuarios/login", {
           email: emailV,
           senha: senhaV
         }).then((response) => {
