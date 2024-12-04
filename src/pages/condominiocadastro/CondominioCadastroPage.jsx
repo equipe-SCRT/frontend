@@ -22,18 +22,6 @@ const CondominioCadastroPage = () => {
     let [numero, setNumero] = useState(0);
 
 
-    // Função para limpar os campos
-    const resetForm = () => {
-        setNome("");
-        setCep("");
-        setBairro("");
-        setLogradouro("");
-        setNumero(0);
-    };
-
-
-
-
     const handleCondominios = () => {
         api.get("condominios").then((res) => {
             res = res.data
@@ -42,7 +30,7 @@ const CondominioCadastroPage = () => {
                     "id": e["id"],
                     "nome": e["nome"],
                     "cep": e["endereco"]["cep"],
-                    "logradouro": e["endereco"]["logradouro"] + ", " + e["endereco"]["numero"],
+                    "logradouro": e["endereco"]["logradouro"],
                     "enderecoId": e["endereco"]["id"]
                 }
             }))
@@ -52,63 +40,6 @@ const CondominioCadastroPage = () => {
         handleCondominios();
         // handleBairro()
     }, [])
-
-    async function insert() {
-        if (cep.length !== 8) {
-            Swal.fire({
-                icon: "warning",
-                title: "CEP inválido",
-                text: "O CEP deve conter exatamente 8 dígitos.",
-            });
-            return; // Interrompe o fluxo caso o CEP seja inválido
-        }
-        if (!numero || (numero) == undefined || numero <= 0 || numero == '') {
-            Swal.fire({
-                icon: "warning",
-                title: "Número inválido",
-                text: "Informe um número válido.",
-            });
-            return; // Interrompe o fluxo caso o CEP seja inválido
-        }
-
-        api.post("enderecos", {
-            cep: cep,
-            logradouro: logradouro,
-            numero: numero
-        }).then(async (enderecoResponse) => {
-            api.post("condominios", {
-                nome: nome,
-                enderecoId: enderecoResponse.data.id
-            }).then(async (res) => {
-                
-                handleCondominios();
-
-                 // Mostra mensagem de sucesso
-                Swal.fire({
-                    icon: "success",
-                    title: "Sucesso",
-                    text: "Condomínio cadastrado com sucesso!",
-                });
-
-                resetForm();
-
-
-            }).catch(e => {
-                Swal.fire({
-                    icon: "error",
-                    title: "Condominio inválido",
-                    text: "Preencha todos os campos corretamente",
-                });
-            });
-        }).catch(e => {
-            Swal.fire({
-                icon: "error",
-                title: "Endereço inválido",
-                text: "Preencha todos os campos corretamente",
-            });
-        });
-
-    }
 
     const handleDelete = async (id) => {
         api.delete("condominios/" + id).then((res) => {

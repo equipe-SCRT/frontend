@@ -134,6 +134,7 @@ const DashCondominioPage = () => {
             "fim": format(dataFimUltimoAno, "yyyy-MM-dd")
           }
         })
+
         setProdutosCondominios(response.data);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
@@ -243,8 +244,8 @@ const DashCondominioPage = () => {
               <div>
                 <GraficoLinha
                   data={[dadosSelecionados, dadosComparacao]}
-                  xValue={"criadoEm"}
-                  yValue={"count"}
+                  xValue={"nomeCondominio"}
+                  yValue={"criadoEm"}
                   cores={["#22CC52", "#4444FF"]}
                   titulo={"Quantidade de Doações Variadas por Condomínios"}
                   label={[nomeCondominioSelecionado, nomeCondominioComparado]}

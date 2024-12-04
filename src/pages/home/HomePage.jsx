@@ -31,18 +31,8 @@ const HomePage = () => {
   const [selectedRangeVencidos, setSelectedRangeVencidos] = useState([]);
   const [selectedRangeArrecadados, setSelectedRangeArrecadados] = useState([]);
 
-  const [casasAtentidadas, setCasasAtentidadas] = useState(0)
-  const [qtdProdutosCestasPrincipal, setQtdProdutosCestasPrincipal] = useState(0)
 
-  const coresCards = {
-    "neutra": "#D3D3D3",
-    "bom": "#5FED6D",
-    "medio": "#FDEA3C",
-    "ruim": "#ED8686",
-  }
-  const [corQtdEstoque, setCorQtdEstoque] = useState(coresCards.neutra);
-  const [corProxVencimentos, setCorProxVencimentos] = useState(coresCards.neutra);
-  const [corVencidos, setCorVencidos] = useState(coresCards.neutra);
+
 
   const handleRangeVencidos = (value) => {
     setSelectedRangeVencidos(value);
@@ -52,14 +42,28 @@ const HomePage = () => {
   };
 
   const handleIdVencidos = (e) => {
-
+    
     setSelectedIdVencidos(e.target.value);
   };
   const handleIdArrecadados = (e) => {
     setSelectedIdArrecadados(e.target.value);
   };
 
+  useEffect(() => {
+    fetchProdutos();
+  }, []);
 
+  useEffect(() => {
+    if (selectedRangeVencidos.length === 2 && selectedIdVencidos > 0) {
+      fetchDadosVencidosPorMes();
+    }
+  }, [selectedRangeVencidos, selectedIdVencidos]);
+
+  useEffect(() => {
+    if (selectedRangeArrecadados.length === 2 && selectedIdArrecadados > 0) {
+      fetchDadosEstoquePorId();
+    }
+  }, [selectedRangeArrecadados, selectedIdArrecadados]);
 
 
   const fetchDadosEstoquePorId = async () => {
@@ -91,6 +95,7 @@ const HomePage = () => {
     } catch (error) {
     }
   };
+
   const fetchDadosCestasProduzidas = async () => {
     try {
       const response = await api.get('cestas/quantidade-cestas');
@@ -130,6 +135,7 @@ const HomePage = () => {
     } catch (error) {
     }
   }
+
   const fetchDadosVencidosMesAtual = async () => {
     try {
       const response = await api.get('produtos-unitario/total-vencidos', {
@@ -145,88 +151,17 @@ const HomePage = () => {
     } catch (error) {
     }
   }
-  const fetchCasasAtendidas = async () => {
-    try {
-      const response = await api.get("metricas/ultimo")
-      setCasasAtentidadas(response.data['qtdCasas'])
-    } catch (error) {
 
-    }
-  }
-  const fetchQtdProdutosCestasPrincipal = async() =>{
-    try {
-      const response = await api.get("cestas/quantidade/items/cesta-principal")
-      setQtdProdutosCestasPrincipal(response.data['count'])
-    } catch (error) {
 
-    }
-    
-  }
 
   useEffect(() => {
-    if (selectedRangeVencidos.length === 2 && selectedIdVencidos > 0) {
-      fetchDadosVencidosPorMes();
-    }
-  }, [selectedRangeVencidos, selectedIdVencidos]);
-
-  useEffect(() => {
-    if (selectedRangeArrecadados.length === 2 && selectedIdArrecadados > 0) {
-      fetchDadosEstoquePorId();
-    }
-  }, [selectedRangeArrecadados, selectedIdArrecadados]);
-
-  useEffect(() => {
-    const metricaAlerta = totalEmEstoque / (casasAtentidadas * qtdProdutosCestasPrincipal);
-    console.log("metricaAlerta", metricaAlerta)
-    console.log("casasAtentidadas", casasAtentidadas)
-    console.log("qtdProdutosCestasPrincipal", qtdProdutosCestasPrincipal)
-    console.log("totalEmEstoque", totalEmEstoque)
-    metricaAlerta > totalEmEstoque
-    if(metricaAlerta > 1){
-      setCorQtdEstoque(coresCards.bom)
-
-    }else if(metricaAlerta >= 0.75){
-      setCorQtdEstoque(coresCards.medio)
-
-    }else if(metricaAlerta < 0.5){
-      setCorQtdEstoque(coresCards.ruim)
-    }
-
-  }, [casasAtentidadas,qtdProdutosCestasPrincipal, totalEmEstoque])
-  useEffect(() => {
-    const metricaAlerta = (dadosAlimentosVencimento15E30Dias["vencimento30"] + dadosAlimentosVencimento15E30Dias["vencimento15"]) / totalEmEstoque;
-    if(metricaAlerta < 0.5){
-      setCorProxVencimentos(coresCards.bom)
-    }else if(metricaAlerta > 0.5 && metricaAlerta < 0.75){
-      setCorProxVencimentos(coresCards.medio)
-    }else if(metricaAlerta > 0.75){
-      setCorProxVencimentos(coresCards.ruim)
-    }
-  }, [totalEmEstoque, dadosAlimentosVencimento15E30Dias])
-  useEffect(() => {
-    const metricaAlerta = dadosVencidosMesAtual / totalEmEstoque;
-    if(metricaAlerta < 0.5){
-      setCorVencidos(coresCards.bom)
-        
-    } else if(metricaAlerta > 0.5 && metricaAlerta < 0.75){
-      setCorVencidos(coresCards.medio)
-    } else if(metricaAlerta > 0.5){
-      setCorVencidos(coresCards.ruim)
-    }
-  }, [totalEmEstoque, dadosVencidosMesAtual])
-  //   totalEmEstoque
-  //    dadosAlimentosVencimento15E30Dias
-  //    dadosVencidosMesAtual
-  useEffect(() => {
-    fetchProdutos();
     fetchDadosCestasProduzidas();
     fetchDadosAlimentosVencimento15E30Dias();
     fetchDadosArrecadadosXVencidos();
 
     fetchTotalEmEstoque();
     fetchDadosVencidosMesAtual();
-    fetchCasasAtendidas();
-    fetchQtdProdutosCestasPrincipal()
+
   }, []);
 
   return (
@@ -238,12 +173,12 @@ const HomePage = () => {
           marginBottom: '10px'
         }}>Visão Geral dos Produtos em Estoque</h3>
         <Row>
-          <CardScrt legenda="Quantidade de Cestas Produzidas" info={dadosCestasProduzidas.count} bgColor={coresCards.neutra} />
-          <CardScrt legenda="Quantidade em Estoque" info={totalEmEstoque} bgColor={corQtdEstoque} />
+          <CardScrt legenda="Quantidade de Cestas Produzidas" info={dadosCestasProduzidas.count} bgColor="#D3D3D3" />
+          <CardScrt legenda="Quantidade em Estoque" info={totalEmEstoque} bgColor="#5FED6D" />
           {/* endpoint para produtos  */}
-          <CardScrt legenda="Produtos Próximos do Vencimento" link={`/produtos-unitarios/cadastro?vencimentoInicio=${format(dataInicioUltimoMes, 'yyyy-MM-dd')}&vencimentoFim=${format(dataFimUltimoMes, 'yyyy-MM-dd')}`} info={dadosAlimentosVencimento15E30Dias['vencimento30'] + dadosAlimentosVencimento15E30Dias['vencimento15']} bgColor={corProxVencimentos} infoTotal={totalEmEstoque} />
+          <CardScrt legenda="Produtos Próximos do Vencimento" link={`/produtos-unitarios/cadastro?vencimentoInicio=${format(dataInicioUltimoMes, 'yyyy-MM-dd')}&vencimentoFim=${format(dataFimUltimoMes, 'yyyy-MM-dd')}`} info={dadosAlimentosVencimento15E30Dias['vencimento30'] + dadosAlimentosVencimento15E30Dias['vencimento15']} bgColor="#FDEA3C" infoTotal={totalEmEstoque} />
           {/* endpoint para produtos vencidos ultimos 30 dias */}
-          <CardScrt legenda="Alimentos Vencidos" link={`/produtos-unitarios/cadastro?data=${format(dataInicioUltimoMes, 'yyyy-MM-dd')}`} info={dadosVencidosMesAtual} bgColor={corVencidos} infoTotal={totalEmEstoque} />
+          <CardScrt legenda="Alimentos Vencidos" link={`/produtos-unitarios/cadastro?data=${format(dataInicioUltimoMes, 'yyyy-MM-dd')}`} info={dadosVencidosMesAtual} bgColor="#ED8686" infoTotal={totalEmEstoque} />
         </Row>
 
         <Row>
@@ -254,8 +189,8 @@ const HomePage = () => {
                 dados={produtos}
                 grafico={true}
                 onChange={handleIdArrecadados}
-
-
+                
+                
               />
               <DataRange
                 onLoad={handleRangeArrecadados}
@@ -280,7 +215,7 @@ const HomePage = () => {
                 grafico={true}
                 onChange={handleIdVencidos}
 
-
+                
               />
               <DataRange
                 onLoad={handleRangeVencidos}
