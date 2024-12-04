@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const produtoLista = () => {
         const api = axios.create({
-            baseURL: "http://java-api/produtos",
+            baseURL: "http://localhost:8080/produtos",
             withCredentials: false,
             headers: {
               'Access-Control-Allow-Origin': '*',

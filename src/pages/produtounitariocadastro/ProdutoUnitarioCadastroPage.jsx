@@ -62,7 +62,7 @@ const ProdutoUnitarioCadastro = () => {
   function push(info) {
     contadorPilha++;
     pilha.push(info);
-    console.log(pilha)
+    // console.log(pilha)
   }
 
   function pop() {
@@ -70,10 +70,10 @@ const ProdutoUnitarioCadastro = () => {
       //console.log("pilha vazia")
     } else {
       if (pilha[contadorPilha].operacao == "salvar") {
-        console.log("aqui: ")
-        console.log(pilha[contadorPilha].id)
+        // console.log("aqui: ")
+        // console.log(pilha[contadorPilha].id)
         api.post("/produtos-unitario/lotes-delete", pilha[contadorPilha].id).then((res) => {
-          console.log(pilha);
+          // console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
             _alertaSucesso("Sucesso", "Sucesso ao desfazer")
@@ -132,9 +132,9 @@ const ProdutoUnitarioCadastro = () => {
     api.get("produtos-unitario").then((res) => {
       let encontrados = res.data;
       setProdutos(encontrados);
-      console.log(getProdutos)
+      // console.log(getProdutos)
     }).catch((err) => {
-      _alertaError("Erro ao consultar os produtos", err)
+      // console.log("Erro ao consultar os produtos", err)
     });
   }
 
@@ -159,17 +159,18 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   async function handleOrigem() {
+
     try {
       var encontrados = await api.get("/origens");
       var listaOrigens = [];
       listaOrigens.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
         let nome = "";
-        if (encontrados.data[i].itapora != 0) {
+        if (encontrados.data[i].itapora != 0 && encontrados.data[i].itapora != null) {
           nome = "Itaporã";
-        } else if (encontrados.data[i].autaDeSouzaRua != 0) {
+        } else if (encontrados.data[i].autaDeSouzaRua != 0 && encontrados.data[i].autaDeSouzaRua != null) {
           nome = "Auta de Souza";
-        } else if (encontrados.data[i].campanha != null) {
+        } else if (encontrados.data[i].campanha != null && encontrados.data[i].campanha != 0) {
           nome = encontrados.data[i].campanha.localCampanha;
         } else {
           nome = encontrados.data[i].condominio.nome;
@@ -203,55 +204,22 @@ const ProdutoUnitarioCadastro = () => {
 
   async function salvar() {
     try {
+
+      if (getQuantidade == "" || getOrigem == "") {
+        _alertaError("Cadasto Incorreto!", "Preencha todos os campos!")
+        return
+      }
+
       let bodyR = criarBodyLotes(getQuantidade);
       api.post("/produtos-unitario/lotes", bodyR).then(async (response) => {
         handleProdutos();
+        _alertaSucesso("Sucesso", "Lote de produto cadastrado com sucesso")
         let alteracao = {
           operacao: "salvar",
           id: response.data
         }
         push(alteracao);
-        let timerInterval;
-        clearInterval(timerInterval);
-        await Swal.fire({
-          title: "Produtos adicionados",
-          html: "desfazer?",
-          position: 'bottom-end',
-          timer: 30000,
-          width: 300,
-          toast: true,
-          backdrop: false,
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Desfazer",
-          cancelButtonText: "Cancelar",
-          willClose: () => {
-            clearInterval(timerInterval);
-            pilha.splice(response.data.id, response.data.id);
-          }
-        }).then((result) => {
-          if (result.isConfirmed) {
-            pop();
-          }
-        });
       }).catch((err) => {
-        let timerInterval
-        clearInterval(timerInterval)
-        Swal.fire({
-          title: "Por favor, valide os campos",
-          html: `${err}`,
-          position: 'bottom-end',
-          width: "190px",
-          height: "100px",
-          timer: 30000,
-          toast: true,
-          backdrop: false,
-          showCancelButton: true,
-          willClose: () => {
-            clearInterval(timerInterval);
-          }
-        })
       })
     } catch (err) {
       console.log(err);
@@ -372,7 +340,7 @@ const ProdutoUnitarioCadastro = () => {
   const handlePagination = (e) => {
     const paginacaoPage = e;
     const paginacaoQtd = 10;
-    
+
     api.get(`/paginado?paginaAtual=${paginacaoPage}&tamanho=${paginacaoQtd}`).then((res) => {
       setProdutos(res.data.content);
     }).catch(h => {
@@ -501,12 +469,12 @@ const ProdutoUnitarioCadastro = () => {
               <p className="card-description">Listagem</p>
               <div className="table-responsive">
                 <DataTable value={getProdutos} size='10' tableStyle={{ minWidth: '90%' }}
-                first={first} // A página inicial
-                rows={rows}   // O número de itens por página
-                onPage={(e) => setFirst(e.first)} // Atualiza a página quando ocorre a navegação
-                paginator // Ativa a paginação
-                paginatorPosition="bottom" // Coloca o paginador na parte inferior da tabela
-                rowsPerPageOptions={[5, 10, 20]}>
+                  first={first} // A página inicial
+                  rows={rows}   // O número de itens por página
+                  onPage={(e) => setFirst(e.first)} // Atualiza a página quando ocorre a navegação
+                  paginator // Ativa a paginação
+                  paginatorPosition="bottom" // Coloca o paginador na parte inferior da tabela
+                  rowsPerPageOptions={[5, 10, 20]}>
                   <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
 
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
