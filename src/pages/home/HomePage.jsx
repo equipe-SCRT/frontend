@@ -70,7 +70,7 @@ const HomePage = () => {
     let datas = selectedRangeArrecadados.map((e) => { return format(e, 'yyyy-MM-dd') });
 
     try {
-      const response = await api.get(`java-api/produtos-unitario/${selectedIdArrecadados}/quantidade-produtos/mes`, {
+      const response = await api.get(`/java-api/produtos-unitario/${selectedIdArrecadados}/quantidade-produtos/mes`, {
         params: {
           "inicio": datas[0],
           "fim": datas[1]
@@ -85,7 +85,7 @@ const HomePage = () => {
   const fetchDadosVencidosPorMes = async () => {
     let datasQtdEstragados = selectedRangeVencidos.map((e) => { return format(e, 'yyyy-MM-dd') });
     try {
-      const response = await api.get(`java-api/produtos-unitario/${selectedIdVencidos}/quantidade-produtos/mes/vencidos`, {
+      const response = await api.get(`/java-api/produtos-unitario/${selectedIdVencidos}/quantidade-produtos/mes/vencidos`, {
         params: {
           "inicio": datasQtdEstragados[0],
           "fim": datasQtdEstragados[1]
@@ -98,28 +98,28 @@ const HomePage = () => {
 
   const fetchDadosCestasProduzidas = async () => {
     try {
-      const response = await api.get('java-api/cestas/quantidade-cestas');
+      const response = await api.get('/java-api/cestas/quantidade-cestas');
       setDadosCestasProduzidas(response.data);
     } catch (error) {
     }
   };
   const fetchDadosAlimentosVencimento15E30Dias = async () => {
     try {
-      const response = await api.get('java-api/produtos-unitario/vencimento-em-15-e-30-dias');
+      const response = await api.get('/java-api/produtos-unitario/vencimento-em-15-e-30-dias');
       setDadosAlimentosVencimento15E30Dias(response.data);
     } catch (error) {
     }
   };
   const fetchDadosArrecadadosXVencidos = async () => {
     try {
-      const response = await api.get('java-api/produtos-unitario/arrecadados-vencidos');
+      const response = await api.get('/java-api/produtos-unitario/arrecadados-vencidos');
       setDadosArrecadadosXVencidos(response.data);
     } catch (error) {
     }
   };
   const fetchProdutos = async () => {
     try {
-      const response = await api.get('java-api/produtos');
+      const response = await api.get('/java-api/produtos');
       setProdutos(response.data);
 
     } catch (error) {
@@ -127,7 +127,7 @@ const HomePage = () => {
   }
   const fetchTotalEmEstoque = async () => {
     try {
-      const response = await api.get('java-api/produtos-unitario/total-estoque');
+      const response = await api.get('/java-api/produtos-unitario/total-estoque');
       if (response.headers['content-length'] != 0) {
 
         setTotalEmEstoque(response.data);
@@ -138,7 +138,7 @@ const HomePage = () => {
 
   const fetchDadosVencidosMesAtual = async () => {
     try {
-      const response = await api.get('java-api/produtos-unitario/total-vencidos', {
+      const response = await api.get('/java-api/produtos-unitario/total-vencidos', {
         params: {
           inicio: format(dataInicioUltimoMes, 'yyyy-MM-dd'),
           fim: format(dataFimUltimoMes, 'yyyy-MM-dd')

@@ -45,7 +45,7 @@ const CestasCadastro = () => {
 
   async function handleCestas() {
     try {
-      const response = await api.get("java-api/cestas");
+      const response = await api.get("/java-api/cestas");
       setCestas(response.data);
     } catch (err) {
       console.log(err);
@@ -54,7 +54,7 @@ const CestasCadastro = () => {
 
   async function handleTiposCestas() {
     try {
-      const response = await api.get("java-api/tipos-cestas");
+      const response = await api.get("/java-api/tipos-cestas");
       setTiposCestas(response.data);
     } catch (err) {
       console.log(err);
@@ -82,7 +82,7 @@ const CestasCadastro = () => {
 
     try {
       console.log(novaCesta);
-      await api.post("java-api/cestas", novaCesta);
+      await api.post("/java-api/cestas", novaCesta);
       setLote("");
       setQtdCestasMontadas("");
       setTipoCestaId("");
@@ -189,7 +189,7 @@ const CestasCadastro = () => {
   };
 
   const handleDelete = async (id) => {
-    api.delete("java-api/cestas/" + id).then((res) => {
+    api.delete("/java-api/cestas/" + id).then((res) => {
       _alertaSucesso("Excluido", "Produto unitário deletado com sucesso")
       handleCestas()
     }).catch((err) => {
@@ -201,7 +201,7 @@ const CestasCadastro = () => {
     setEditMode(false);
     console.log(editedRowData)
 
-    api.put(`java-api/cestas/${editedRowData.id}`,
+    api.put(`/java-api/cestas/${editedRowData.id}`,
       {
         "tipoCestaId": editedRowData.tipoCesta,
         "dataMontagem": editedRowData.dataMontagem,

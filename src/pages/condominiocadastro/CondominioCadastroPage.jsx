@@ -23,7 +23,7 @@ const CondominioCadastroPage = () => {
 
 
     const handleCondominios = () => {
-        api.get("java-api/condominios").then((res) => {
+        api.get("/java-api/condominios").then((res) => {
             res = res.data
             setCondominios(res.map((e) => {
                 return {
@@ -42,7 +42,7 @@ const CondominioCadastroPage = () => {
     }, [])
 
     const handleDelete = async (id) => {
-        api.delete("java-api/condominios/" + id).then((res) => {
+        api.delete("/java-api/condominios/" + id).then((res) => {
             Swal.fire({
                 icon: "success",
                 title: "Excluido",
@@ -64,14 +64,14 @@ const CondominioCadastroPage = () => {
     const handleSaveClick = () => {
         setEditMode(false);
         console.log(editedRowData)
-        api.put(`java-api/enderecos/${editedRowData.enderecoId}`,
+        api.put(`/java-api/enderecos/${editedRowData.enderecoId}`,
             {
                 "logradouro": editedRowData.logradouro,
                 "numero": editedRowData.numero,
                 "cep": editedRowData.cep
             }
         ).then((res) => {
-            api.put(`java-api/condominios/${editedRowData.id}`,
+            api.put(`/java-api/condominios/${editedRowData.id}`,
                 {
                     "nome": editedRowData.nome,
                     "enderecoId": editedRowData.enderecoId
@@ -155,17 +155,17 @@ const CondominioCadastroPage = () => {
     };
 
     async function insert() {
-        api.post("java-api/enderecos", {
+        api.post("/java-api/enderecos", {
             cep: cep,
             logradouro: logradouro,
             numero: numero
         }).then(async (enderecoResponse) => {
-            api.post("java-api/condominios", {
+            api.post("/java-api/condominios", {
                 nome: nome,
                 enderecoId: enderecoResponse.data.id
             }).then(async (res) => {
                 const idCondominio = res.data.id;
-                api.post("java-api/origens", {
+                api.post("/java-api/origens", {
                     "autaDeSouzaRua": 0,
                     "itapora": 0,
                     "condominioId": idCondominio,

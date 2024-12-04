@@ -44,7 +44,7 @@ const ProdutosCadastro = () => {
 
   async function handleProdutos() {
     try {
-      const response = await api.get("java-api/produtos");
+      const response = await api.get("/java-api/produtos");
       setProdutos(response.data);
     } catch (err) {
       console.log(err);
@@ -53,7 +53,7 @@ const ProdutosCadastro = () => {
 
   async function handleTiposProduto() {
     try {
-      const response = await api.get("java-api/tipos-produtos");
+      const response = await api.get("/java-api/tipos-produtos");
       setTiposProduto(response.data);
     } catch (err) {
       console.log(err);
@@ -62,7 +62,7 @@ const ProdutosCadastro = () => {
 
   async function handleUnidadesMedida() {
     try {
-      const response = await api.get("java-api/unidades-medidas");
+      const response = await api.get("/java-api/unidades-medidas");
       setUnidadesMedida(response.data);
     } catch (err) {
       console.log(err);
@@ -81,7 +81,7 @@ const ProdutosCadastro = () => {
 
     try {
       console.log(novoProduto);
-      await api.post("java-api/produtos", novoProduto);
+      await api.post("/java-api/produtos", novoProduto);
       setNome("");
       setQtdUnidadeMedida("");
       setTipoProdutoId("");
@@ -104,7 +104,7 @@ const ProdutosCadastro = () => {
   };
 
   const handleDelete = async (id) => {
-    api.delete("java-api/produtos/" + id).then((res) => {
+    api.delete("/java-api/produtos/" + id).then((res) => {
       _alertaSucesso("Excluido", "Produto deletado com sucesso")
       handleProdutos()
     }).catch((err) => {
@@ -204,7 +204,7 @@ const ProdutosCadastro = () => {
   const handleSaveClick = () => {
     setEditMode(false);
     console.log(editedRowData)
-    api.put(`java-api/produtos/${editedRowData.id}`,
+    api.put(`/java-api/produtos/${editedRowData.id}`,
       {
         "id": editedRowData.id,
         "nome": editedRowData.nome,

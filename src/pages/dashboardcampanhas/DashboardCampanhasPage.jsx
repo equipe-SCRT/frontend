@@ -32,7 +32,7 @@ const DashboardCampanhas = () => {
 
   const fetchDadosFiltradosPorProduto = async (id) => {
     try {
-      const response = await api.get(`java-api/produtos-unitario/${id}/produto-por-campanha`);
+      const response = await api.get(`/java-api/produtos-unitario/${id}/produto-por-campanha`);
       setDadosFiltradosPorProduto(response.data);
     } catch (error) {
       console.error("Erro ao buscar os dados filtrados por produto:", error);
@@ -41,7 +41,7 @@ const DashboardCampanhas = () => {
 
   const fetchProdutosVencidosPorCampanha = async (campanhaId) => {
     try {
-      const response = await api.get(`java-api/produtos-unitario/${campanhaId}/produtos-vencidos-por-campanha`);
+      const response = await api.get(`/java-api/produtos-unitario/${campanhaId}/produtos-vencidos-por-campanha`);
       setProdutosVencidosPorCampanha(response.data);
     } catch (error) {
       console.error("Erro ao buscar os dados de produtos vencidos por campanha:", error);
@@ -50,7 +50,7 @@ const DashboardCampanhas = () => {
 
   const fetchDadosComparacao = async (nomeCampanha) => {
     try {
-      const response = await api.get(`java-api/campanhas/doacoes-por-campanhas`, {
+      const response = await api.get(`/java-api/campanhas/doacoes-por-campanhas`, {
         params: { nome: nomeCampanha,
           "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
           "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
@@ -65,7 +65,7 @@ const DashboardCampanhas = () => {
   
   const fetchDadosSelecionados = async (nomeCampanha) => {
     try {
-      const response = await api.get(`java-api/campanhas/doacoes-por-campanhas`, {
+      const response = await api.get(`/java-api/campanhas/doacoes-por-campanhas`, {
         params: { nome: nomeCampanha,
           "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
           "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
@@ -84,7 +84,7 @@ const DashboardCampanhas = () => {
   useEffect(() => {
     const fetchDadosCampanhas = async () => {
       try {
-        const response = await api.get("java-api/campanhas");
+        const response = await api.get("/java-api/campanhas");
         const campanhas = response.data;
         console.log("Dados das Campanhas:", campanhas);
         const totalQtdArrecadada = campanhas.reduce(
@@ -116,7 +116,7 @@ const DashboardCampanhas = () => {
 
     const fetchDadosAlimentosArrecadadosMes = async () => {
       try {
-        const response = await api.get("java-api/produtos/alimentos-arrecadados-por-mes", {
+        const response = await api.get("/java-api/produtos/alimentos-arrecadados-por-mes", {
           params:{
             "inicio":format(dataInicioUltimoAno, "yyyy-MM-dd"),
             "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
@@ -131,7 +131,7 @@ const DashboardCampanhas = () => {
 
     const fetchDadosConformeNaoConforme = async () => {
       try {
-        const response = await api.get("java-api/produtos-unitario/produtos-conforme-nao-conforme-campanhas");
+        const response = await api.get("/java-api/produtos-unitario/produtos-conforme-nao-conforme-campanhas");
         const dadosTransformados = response.data.map(item => ({
           nome: item.nome,
           arrecadado: item.conforme,
@@ -145,7 +145,7 @@ const DashboardCampanhas = () => {
 
     const fetchProdutos = async () => {
       try {
-        const response = await api.get("java-api/produtos");
+        const response = await api.get("/java-api/produtos");
         setProdutos(response.data);
       } catch (error) {
         console.error("Erro ao buscar os produtos:", error);
