@@ -81,19 +81,7 @@ const PerfilPage = () => {
                     id="nome"
                     name="nome"
                     value={userInfo.nome}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="sobrenome">Sobrenome</label>
-                  <input style={{width: "25vw"}}
-                    type="text"
-                    id="sobrenome"
-                    name="sobrenome"
-                    value={userInfo.sobrenome}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
+                    disabled
                   />
                 </div>
               </div>
@@ -125,9 +113,6 @@ const PerfilPage = () => {
                   Salvar
                 </button>
               )}
-              <p className="small mb-5 pb-lg-2" style={{fontFamily: "'Montserrat', sans-serif"}}>
-                <a style={{color:"gray", fontSize: 12}} href="#">Esqueceu a senha?</a>
-              </p>
             </form>
           </div>
         </div>
