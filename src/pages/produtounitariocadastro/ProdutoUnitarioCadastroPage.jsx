@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from "../../api/api"
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import "./ProdutoUnitarioCadastroPage.module.css"
 import styles from "./ProdutoUnitarioCadastroPage.module.css"
 import Swal from 'sweetalert2';
@@ -15,6 +15,7 @@ var pilha = [];
 let contadorPilha = -1;
 
 const ProdutoUnitarioCadastro = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   let [getProdutos, setProdutos] = useState([]);
   let [getNomeProdutos, setNomeProdutos] = useState([]);
   let [getOrigemNome, setOrigemNome] = useState([]);
@@ -22,7 +23,7 @@ const ProdutoUnitarioCadastro = () => {
   let [getValidade, setValidade] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
-  let [getAtivo, setAtivo] = useState(1);
+  let [getAtivo, setAtivo] = useState();
   let [currentPage, setCurrentPage] = useState(1);
   const [editMode, setEditMode] = useState(false);
   const [first, setFirst] = useState(0);
@@ -129,6 +130,7 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   async function handleProdutos() {
+
     api.get("produtos-unitario").then((res) => {
       let encontrados = res.data;
       setProdutos(encontrados);
@@ -136,6 +138,44 @@ const ProdutoUnitarioCadastro = () => {
     }).catch((err) => {
       // console.log("Erro ao consultar os produtos", err)
     });
+
+    const inicio = searchParams.get('vencimentoInicio');
+    const fim = searchParams.get('vencimentoFim');
+    const data = searchParams.get('data');
+
+    if(inicio && fim){
+      api.get("/produtos-unitario/data-vencimento",{
+        params:{
+          "inicio":inicio,
+          "fim":fim
+        }
+      }).then((res) => {
+        let encontrados = res.data;
+        setProdutos(encontrados);
+        
+      }).catch((err) => {
+        _alertaError("Erro ao consultar os produtos", err)
+      });
+    }else if(data){
+      api.get("/produtos-unitario/data-vencimento/menor-que",{
+        params:{
+          "data":data,
+        }
+      }).then((res) => {
+        let encontrados = res.data;
+        setProdutos(encontrados);
+  
+      }).catch((err) => {
+        _alertaError("Erro ao consultar os produtos", err)
+      });
+    }else{
+      api.get("produtos-unitario").then((res) => {
+        let encontrados = res.data;
+        setProdutos(encontrados);
+      }).catch((err) => {
+        _alertaError("Erro ao consultar os produtos", err)
+      });
+    }
   }
 
 
@@ -289,7 +329,7 @@ const ProdutoUnitarioCadastro = () => {
       else if (field === "dataValidade") {
         let resultado = compareDates(rowData.dataValidade);
         let estilo = { color: "black" }
-        if (!resultado || !rowData.ativo) {
+        if (!resultado) {
           estilo = { color: "red" }
         }
         return <>

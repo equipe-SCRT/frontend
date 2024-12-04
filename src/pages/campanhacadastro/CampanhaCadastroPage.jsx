@@ -120,7 +120,7 @@ const CampanhaCadastroPage = () => {
             });
             Toast.fire({
               icon: "success",
-              title: "Usuário excluido com sucesso!"
+              title: "Campanha excluida com sucesso!"
             });
           } else {
             const Toast = Swal.mixin({
@@ -431,7 +431,7 @@ const CampanhaCadastroPage = () => {
                   <button onClick={handleCadastroCampanhas} className="btn btn-scrt" style={{height:"6vh"}}>Cadastrar Campanha</button>
                   {/* <Botao mensagem={"Cadastrar Campanha"} /> */}
                 </div>
-              </div>/
+              </div>
             </div>
 
             <div className="row border">

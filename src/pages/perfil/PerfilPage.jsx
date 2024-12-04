@@ -81,19 +81,7 @@ const PerfilPage = () => {
                     id="nome"
                     name="nome"
                     value={userInfo.nome}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="sobrenome">Sobrenome</label>
-                  <input style={{width: "25vw"}}
-                    type="text"
-                    id="sobrenome"
-                    name="sobrenome"
-                    value={userInfo.sobrenome}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
+                    disabled
                   />
                 </div>
               </div>

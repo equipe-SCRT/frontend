@@ -195,7 +195,7 @@ const CestasCadastro = () => {
 
   const handleDelete = async (id) => {
     api.delete("/cestas/" + id).then((res) => {
-      _alertaSucesso("Excluido", "Produto unitário deletado com sucesso")
+      _alertaSucesso("Excluido", "Cesta excluida com sucesso")
       handleCestas()
     }).catch((err) => {
       _alertaError("Erro ao deletar", err);
@@ -321,24 +321,15 @@ const CestasCadastro = () => {
             <p className="card-description">Listagem</p>
             <div className="table-responsive">
 
-              <DataTable value={cestas} tableStyle={{ minWidth: '90x' }}>
-                <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable></Column>
-                <Column field="tipoCesta" header="Tipo de Cesta" body={(rowData) => renderEditableCell(rowData, 'tipoCesta')} sortable style={{ padding: '10px' }}>
+            <DataTable value={cestas} tableStyle={{ minWidth: '90x' }}>
+              <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable></Column>
+              <Column field="tipoCesta" header="Tipo de Cesta" body={(rowData) => renderEditableCell(rowData, 'tipoCesta')} sortable style={{ padding: '10px' }}></Column>
+              <Column field="dataMontagem" header="Data de montagem" body={(rowData) => renderEditableCell(rowData, 'dataMontagem')} sortable style={{ padding: '10px' }}></Column>
+              <Column field="qtdCestasMontadas" header="Quantidade de Cestas Montadas" body={(rowData) => renderEditableCell(rowData, 'qtdCestasMontadas')} sortable style={{ padding: '10px' }}></Column> {}
+              <Column field="lote" header="Lote" body={(rowData) => renderEditableCell(rowData, 'lote')} sortable style={{ padding: '10px' }}></Column>
+              <Column header="" body={(rowData) => renderActionCell(rowData)}></Column>
+            </DataTable>
 
-                </Column>
-                <Column field="dataMontagem" header="Data de montagem" body={(rowData) => renderEditableCell(rowData, 'dataMontagem')} sortable style={{ padding: '10px' }}>
-
-                </Column>
-                <Column field="lote" header="Lote" body={(rowData) => renderEditableCell(rowData, 'lote')} sortable style={{ padding: '10px' }}>
-
-                </Column>
-                <Column header="" body={(rowData) => {
-                  return renderActionCell(rowData)
-                }}>
-
-                </Column>
-
-              </DataTable>
             </div>
           </div>
         </div>
