@@ -76,6 +76,7 @@ const IndicadoresCadastro = () => {
   async function handleTipoProdutoSelect() {
     let returnSelectTipoProd = [<option value={null}>------</option>];
     for (let i = 0; i < getReqTipoProduto.length; i++) {
+      console.group(getReqTipoProduto[i])
       returnSelectTipoProd.push(
         <option value={"" + getReqTipoProduto[i].id}>{"" + getReqTipoProduto[i].nome}</option>
       )
@@ -120,8 +121,9 @@ const IndicadoresCadastro = () => {
         handleTipoProduto();
       }).catch((err) => _alertaError("Erro ao cadastrar tipo produto", err));
     } else {
-      api.delete(/tipos-produtos/`${getTipoProdutoDelete}`).then((res) => {
+      api.delete(`/tipos-produtos/${getTipoProdutoDelete}`).then((res) => {
         handleTipoProdutoSelect();
+        handleTipoProduto();
         _alertaSucesso("Tipo produto excluído", "Tipo produto excluído com sucesso");
       }).catch((err) => _alertaError("Erro ao excluir Tipo produto", err));
     }
@@ -171,6 +173,7 @@ const IndicadoresCadastro = () => {
     } else {
       api.delete(`/tipo-campanhas/${getTipoCampanhaDelete}`).then((res) => {
         handleTipoCampanhaSelect();
+        handleTipoCampanha();
         _alertaSucesso("Tipo campanha excluído", "Tipo campanha excluído com sucesso");
       }).catch((err) => _alertaError("Erro ao excluir Tipo campanha", err));
     }
@@ -189,11 +192,12 @@ const IndicadoresCadastro = () => {
   async function handleTipoCampanhaSelect() {
     let returnSelectTipoCampanha = [<option value={null}>------</option>];
     for (let i = 0; i < getReqTipoCampanha.length; i++) {
+      console.log(JSON.stringify(getReqTipoCampanha[i]))
       returnSelectTipoCampanha.push(
-        <option value={"" + getReqTipoCampanha[i].id}>{"" + getReqTipoCampanha[i].nome}</option>
+        <option value={"" + getReqTipoCampanha[i].idTipoCampanha}>{"" + getReqTipoCampanha[i].nome}</option>
       )
     }
-    setTipoProdutosSelectTxt(returnSelectTipoCampanha)
+    setTipoCampanhasSelectTxt(returnSelectTipoCampanha)
   }
   
   async function handleTipoCampanhaExistentes() {
@@ -342,7 +346,7 @@ const IndicadoresCadastro = () => {
                     <div className='row' style={estiloSelectTipoCampanha}>
                       <div className="form-group" id='name'>
                         <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo da campanha a ser <span className="textoMudanca"><b style={{ textDecoration: "underline", fontSize: "18px" }}>{getNomeCampoTipoProduto != "" ? getNomeCampoTipoProduto : "cadastrado"}</b></span></label>
-                        <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoProdutoDelete(e.target.value)} style={{ width: '10vw' }} >
+                        <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoCampanhaDelete(e.target.value)} style={{ width: '10vw' }} >
                           {getTipoCampanhasSelectTxt}
                         </select>
                       </div>

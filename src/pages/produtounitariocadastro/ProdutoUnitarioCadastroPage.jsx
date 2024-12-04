@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from "../../api/api"
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import "./ProdutoUnitarioCadastroPage.module.css"
 import styles from "./ProdutoUnitarioCadastroPage.module.css"
 import Swal from 'sweetalert2';
@@ -15,6 +15,7 @@ var pilha = [];
 let contadorPilha = -1;
 
 const ProdutoUnitarioCadastro = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   let [getProdutos, setProdutos] = useState([]);
   let [getNomeProdutos, setNomeProdutos] = useState([]);
   let [getOrigemNome, setOrigemNome] = useState([]);
@@ -129,13 +130,45 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   async function handleProdutos() {
-    api.get("produtos-unitario").then((res) => {
-      let encontrados = res.data;
-      setProdutos(encontrados);
-      console.log(getProdutos)
-    }).catch((err) => {
-      _alertaError("Erro ao consultar os produtos", err)
-    });
+    const inicio = searchParams.get('vencimentoInicio');
+    const fim = searchParams.get('vencimentoFim');
+    const data = searchParams.get('data');
+
+    if(inicio && fim){
+      api.get("/produtos-unitario/data-vencimento",{
+        params:{
+          "inicio":inicio,
+          "fim":fim
+        }
+      }).then((res) => {
+        let encontrados = res.data;
+        setProdutos(encontrados);
+        
+      }).catch((err) => {
+        _alertaError("Erro ao consultar os produtos", err)
+      });
+    }else if(data){
+      api.get("/produtos-unitario/data-vencimento/menor-que",{
+        params:{
+          "data":data,
+        }
+      }).then((res) => {
+        let encontrados = res.data;
+        setProdutos(encontrados);
+  
+      }).catch((err) => {
+        _alertaError("Erro ao consultar os produtos", err)
+      });
+    }else{
+      api.get("produtos-unitario").then((res) => {
+        let encontrados = res.data;
+        setProdutos(encontrados);
+      }).catch((err) => {
+        _alertaError("Erro ao consultar os produtos", err)
+      });
+    }
+
+
   }
 
 
@@ -507,7 +540,7 @@ const ProdutoUnitarioCadastro = () => {
                 paginator // Ativa a paginação
                 paginatorPosition="bottom" // Coloca o paginador na parte inferior da tabela
                 rowsPerPageOptions={[5, 10, 20]}>
-                  <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
+                  <Column style={{ color: "black", padding: '10px' }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable />
 
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
 
