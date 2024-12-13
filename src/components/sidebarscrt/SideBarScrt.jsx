@@ -40,10 +40,6 @@ function SideBarScrt() {
           // className={`app ${toggled ? "toggled" : ""}`}
           style={{ height: "100%", position: "fixed"}}
 
-          collapsed={collapsed}
-          toggled={toggled}
-          handleToggleSidebar={handleToggleSidebar}
-          handleCollapsedChange={handleCollapsedChange}
           className={`${styles.sidebar}`}
         >
           <main
@@ -63,7 +59,6 @@ function SideBarScrt() {
                 <MenuItem
                   className={`${styles.sidebarChild}`}
 
-                  onClick={handleCollapsedChange}
                   component={<Link to="/home" />}
                 >
 

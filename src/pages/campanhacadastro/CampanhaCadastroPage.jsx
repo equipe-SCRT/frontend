@@ -21,6 +21,23 @@ const CampanhaCadastroPage = () => {
   const [editedRowData, setEditedRowData] = useState(null);
 
 
+  function _alertaSucesso(titulo, texto) {
+    Swal.fire({
+      icon: "success",
+      title: `${titulo}`,
+      text: `${texto}`,
+    });
+  }
+
+  function _alertaError(titulo, texto) {
+    Swal.fire({
+      icon: "error",
+      title: `${titulo}`,
+      text: `${texto}`,
+    });
+  }
+
+
   async function excluir(id) {
     api.delete("/produtos-unitario/" + id).then((response) => {
       //console.log(response);
@@ -103,7 +120,7 @@ const CampanhaCadastroPage = () => {
             });
             Toast.fire({
               icon: "success",
-              title: "Usuário excluido com sucesso!"
+              title: "Campanha excluida com sucesso!"
             });
           } else {
             const Toast = Swal.mixin({
@@ -294,12 +311,12 @@ const CampanhaCadastroPage = () => {
 
 
   function handleCadastroCampanhas() {
-    console.log("Tipo de campanha", getNomeCampanhas[0].props.value)
-    console.log("QtdArrecada", getQtdArrecadadaCampanha)
-    console.log("Local ", getLocalCampanha)
-    console.log("Data da campanha", getDataCampanha)
-    console.log("Meta", getMetaCampanha)
-    console.log("Produto", getProdutoCampanha)
+    // console.log("Tipo de campanha", getNomeCampanhas[0].props.value)
+    // console.log("QtdArrecada", getQtdArrecadadaCampanha)
+    // console.log("Local ", getLocalCampanha)
+    // console.log("Data da campanha", getDataCampanha)
+    // console.log("Meta", getMetaCampanha)
+    // console.log("Produto", getProdutoCampanha)
 
     const campanhaNova = {
       fkTipoCampanha: getTipoCampanha,
@@ -310,14 +327,26 @@ const CampanhaCadastroPage = () => {
       qtdArrecadada: getQtdArrecadadaCampanha
     }
 
-    console.log("campanhaNova", campanhaNova)
+    // console.log("campanhaNova", campanhaNova)
 
     api.post("/campanhas", campanhaNova)
     .then((response) => {
       console.log(response)
+      const id = response.data.id;
+      api.post("/origens", 
+        {
+          "autaDeSouzaRua": 0,
+          "itapora": 0,
+          "condominioId": 0,
+          "campanhaId": id
+        }
+      ).then((res) => {
+        _alertaSucesso("Cadastrado com sucesso!", "Nova campanha adicionada!")
       window.location.reload();
+      })
     })
     .catch((error) => {
+      _alertaError("Cadastro inválido!", "Verifique as informações preenchidas!")
       console.log(error)
     })
   }

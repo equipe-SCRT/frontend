@@ -223,7 +223,45 @@ const CondominioCadastroPage = () => {
         );
     };
 
+<<<<<<< HEAD
     
+=======
+    async function insert() {
+        api.post("enderecos", {
+            cep: cep,
+            logradouro: logradouro,
+            numero: numero
+        }).then(async (enderecoResponse) => {
+            api.post("condominios", {
+                nome: nome,
+                enderecoId: enderecoResponse.data.id
+            }).then(async (res) => {
+                const idCondominio = res.data.id;
+                api.post("origens", {
+                    "autaDeSouzaRua": 0,
+                    "itapora": 0,
+                    "condominioId": idCondominio,
+                    "campanhaId": 0
+                })
+                handleCondominios()
+
+            }).catch(e => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Condominio inválido",
+                    text: "Preencha todos os campos corretamente",
+                });
+            });
+        }).catch(e => {
+            Swal.fire({
+                icon: "error",
+                title: "Endereço inválido",
+                text: "Preencha todos os campos corretamente",
+            });
+        });
+
+    }
+>>>>>>> 089fc6ea2ce910f705b181caf2c0cdd98fcd82bf
     const handleCepChange = (value) => {
         if (!isNaN(value)) {
             setCep(value);
