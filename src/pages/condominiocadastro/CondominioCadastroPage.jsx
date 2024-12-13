@@ -223,9 +223,6 @@ const CondominioCadastroPage = () => {
         );
     };
 
-<<<<<<< HEAD
-    
-=======
     async function insert() {
         api.post("enderecos", {
             cep: cep,
@@ -261,7 +258,6 @@ const CondominioCadastroPage = () => {
         });
 
     }
->>>>>>> 089fc6ea2ce910f705b181caf2c0cdd98fcd82bf
     const handleCepChange = (value) => {
         if (!isNaN(value)) {
             setCep(value);
