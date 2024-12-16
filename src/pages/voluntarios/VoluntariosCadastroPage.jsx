@@ -8,9 +8,6 @@ import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { set } from 'date-fns';
 
-var pilha = [];
-let contadorPilha = -1;
-
 const VoluntariosCadastro = () => {
   let [voluntarios, setVoluntarios] = useState([]);
   let [email, setEmail] = useState("");
@@ -21,57 +18,6 @@ const VoluntariosCadastro = () => {
   useEffect(() => {
     handleVoluntarios()
   }, [])
-
-
-  function push(info) {
-    contadorPilha++;
-    pilha.push(info);
-    console.log(pilha)
-  }
-  function pop() {
-    if (contadorPilha == -1) {
-    } else {
-      if (pilha[contadorPilha].operacao == "insert") {
-        console.log("aqui: ")
-        api.delete("/usuarios/" + pilha[contadorPilha].id).then((res) => {
-          console.log(pilha);
-          if (res.status == 204) {
-            pilha.pop();
-            contadorPilha--;
-            handleVoluntarios()
-            if (pilha.length > 0) {
-              let timerInterval;
-              Swal.fire({
-                title: "Voluntário adicionado",
-                html: "Desfazer?",
-                position: 'bottom-end',
-                width: "190px",
-                height: "100px",
-                timer: 30000,
-                toast: true,
-                backdrop: false,
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Desfazer",
-                cancelButtonText: "Cancelar",
-                willClose: () => {
-                  clearInterval(timerInterval);
-                }
-              }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                } else if (result.isConfirmed) {
-                  pop();
-                } else {
-                }
-              });
-            }
-          }
-        }).catch((err) => {
-        })
-      }
-    }
-  }
 
   var lista = [];
 

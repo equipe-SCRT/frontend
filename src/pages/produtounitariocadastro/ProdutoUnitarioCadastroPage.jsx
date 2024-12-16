@@ -11,9 +11,6 @@ import { Row } from 'react-bootstrap'
 import { CornerTopLeftIcon } from '@radix-ui/react-icons';
 import ReactPaginate from "react-paginate";
 
-var pilha = [];
-let contadorPilha = -1;
-
 const ProdutoUnitarioCadastro = () => {
   let [getProdutos, setProdutos] = useState([]);
   let [getNomeProdutos, setNomeProdutos] = useState([]);
@@ -58,55 +55,6 @@ const ProdutoUnitarioCadastro = () => {
       </>
     );
   };
-
-  function push(info) {
-    contadorPilha++;
-    pilha.push(info);
-  }
-
-  function pop() {
-    if (contadorPilha == -1) {
-    } else {
-      if (pilha[contadorPilha].operacao == "salvar") {
-        api.post("/produtos-unitario/lotes-delete", pilha[contadorPilha].id).then((res) => {
-          if (res.status == 204) {
-            pilha.pop();
-            _alertaSucesso("Sucesso", "Sucesso ao desfazer")
-            contadorPilha--;
-            handleProdutos()
-            if (pilha.length > 0) {
-              let timerInterval;
-              Swal.fire({
-                title: "Produtos adicionados",
-                html: "Desfazer?",
-                position: 'bottom-end',
-                width: "190px",
-                height: "100px",
-                timer: 30000,
-                toast: true,
-                backdrop: false,
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Desfazer",
-                cancelButtonText: "Cancelar",
-                willClose: () => {
-                  clearInterval(timerInterval);
-                }
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  pop();
-                }
-              });
-            }
-          }
-        }).catch((err) => {
-          _alertaError("Erro ao desfazer", err)
-        })
-      }
-    }
-  }
-
   function _alertaSucesso(titulo, texto) {
     Swal.fire({
       icon: "success",
@@ -211,7 +159,6 @@ const ProdutoUnitarioCadastro = () => {
           operacao: "salvar",
           id: response.data
         }
-        push(alteracao);
       }).catch((err) => {
       })
     } catch (err) {

@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import "./IndicadoresCadastroPage.module.css"
 import Swal from 'sweetalert2';
 
-var pilha = [];
-let contadorPilha = -1;
-
 const IndicadoresCadastro = () => {
   let [getNomeCampoTipoProdutoBody, setNomeTipoProduto] = useState("");
   let [getNomeCampoTipoCampanhaBody, setNomeTipoCampanha] = useState("");
