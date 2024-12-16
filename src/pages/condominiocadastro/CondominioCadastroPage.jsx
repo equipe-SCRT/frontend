@@ -63,7 +63,6 @@ const CondominioCadastroPage = () => {
 
     const handleSaveClick = () => {
         setEditMode(false);
-        console.log(editedRowData)
         api.put(`/enderecos/${editedRowData.enderecoId}`,
             {
                 "logradouro": editedRowData.logradouro,
@@ -102,7 +101,6 @@ const CondominioCadastroPage = () => {
     };
 
     const renderEditableCell = (rowData, field) => {
-        console.log(`${Object.keys(rowData)}`)
         if (editMode && rowData.id === editedRowData?.id) {
             return (
                 <>

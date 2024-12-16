@@ -535,7 +535,6 @@ const TipoCestaCadastro = () => {
 
       // Verifica se produtos é realmente uma lista antes de aplicar forEach
       var listaProdutos = [];
-      console.log(response.data);
       if (Array.isArray(produtos)) {
         produtos.forEach(element => {
           listaProdutos.push({

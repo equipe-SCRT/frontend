@@ -223,7 +223,6 @@ const CampanhaCadastroPage = () => {
   };
 
   const renderEditableCell = (rowData, field) => {
-    console.log(`${Object.keys(rowData)}`)
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "id") {
         return (
@@ -310,11 +309,8 @@ const CampanhaCadastroPage = () => {
       qtdArrecadada: getQtdArrecadadaCampanha
     }
 
-    console.log("campanhaNova", campanhaNova)
-
     api.post("/campanhas", campanhaNova)
     .then((response) => {
-      console.log(response)
       const id = response.data.id;
       api.post("/origens", 
         {

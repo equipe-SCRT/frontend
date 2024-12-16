@@ -86,7 +86,6 @@ const CestasCadastro = () => {
     }
 
     try {
-      console.log(novaCesta);
       await api.post("/cestas", novaCesta);
       setLote("");
       setQtdCestasMontadas("");
@@ -126,7 +125,6 @@ const CestasCadastro = () => {
   };
 
   const renderEditableCell = (rowData, field) => {
-    console.log(`${Object.keys(rowData)}`)
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "tipoCesta") {
         return <>
@@ -204,7 +202,6 @@ const CestasCadastro = () => {
 
   const handleSaveClick = () => {
     setEditMode(false);
-    console.log(editedRowData)
 
     api.put(`/cestas/${editedRowData.id}`,
       {

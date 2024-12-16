@@ -38,7 +38,6 @@ const PerfilPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Aqui você poderia enviar os dados atualizados para a API
-    console.log("Informações atualizadas:", userInfo);
     setIsEditing(false);
   };
 

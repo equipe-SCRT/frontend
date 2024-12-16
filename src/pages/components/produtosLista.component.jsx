@@ -14,11 +14,8 @@ const produtoLista = () => {
           });
         let produtos = [];
         api.get("/produtos").then((response) => {
-          console.log(response.data)
           let encontrados = response.data;
           for (var i = 0; i < encontrados.length; i++) {
-            console.log("--------")
-            console.log(encontrados[i])
             produtos.push(
               <tr>
                 <td className="py-1">

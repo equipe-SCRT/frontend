@@ -86,7 +86,6 @@ const DashboardCampanhas = () => {
       try {
         const response = await api.get("/campanhas");
         const campanhas = response.data;
-        console.log("Dados das Campanhas:", campanhas);
         const totalQtdArrecadada = campanhas.reduce(
           (acc, campanha) => acc + campanha.qtdArrecadada,
           0
@@ -164,10 +163,6 @@ const DashboardCampanhas = () => {
     }
   }, [produtos]);
 
-  useEffect(() => {
-    console.log("Estado dadosCampanhas:", dadosCampanhas);
-  }, [dadosCampanhas, selectedDate]);
-
   const handleCampanhaChange = (event) => {
     const campanhaId = event.target.value;
     const campanha = dadosCampanhas.find((c) => c.id === parseInt(campanhaId));
@@ -176,7 +171,6 @@ const DashboardCampanhas = () => {
     fetchDadosSelecionados(campanha.localCampanha);
     setNomeCampanhaSelecionada(campanha.localCampanha);
     setSelectedDate(parseISO(campanha.dataCampanha));
-    console.log("Selecione a Campanha:", campanha);
   };
 
   const formatDate = (dateString) => {

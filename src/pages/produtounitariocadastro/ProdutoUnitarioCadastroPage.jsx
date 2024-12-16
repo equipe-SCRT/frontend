@@ -195,7 +195,6 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   const renderEditableCell = (rowData, field) => {
-    console.log(`${Object.keys(rowData)}`)
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "nome") {
         return <>
@@ -259,7 +258,6 @@ const ProdutoUnitarioCadastro = () => {
 
   const handleSaveClick = () => {
     setEditMode(false);
-    console.log(editedRowData)
     api.put(`/produtos-unitario/${editedRowData.id}`,
       {
         "id": editedRowData.id,

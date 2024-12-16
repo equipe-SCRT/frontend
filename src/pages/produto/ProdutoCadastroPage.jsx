@@ -80,7 +80,6 @@ const ProdutosCadastro = () => {
     };
 
     try {
-      console.log(novoProduto);
       await api.post("/produtos", novoProduto);
       setNome("");
       setQtdUnidadeMedida("");
@@ -141,7 +140,6 @@ const ProdutosCadastro = () => {
 
 
   const renderEditableCell = (rowData, field) => {
-    console.log(`${Object.keys(rowData)}`)
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "nome") {
         return <>
@@ -202,7 +200,6 @@ const ProdutosCadastro = () => {
 
   const handleSaveClick = () => {
     setEditMode(false);
-    console.log(editedRowData)
     api.put(`/produtos/${editedRowData.id}`,
       {
         "id": editedRowData.id,

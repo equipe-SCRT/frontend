@@ -228,7 +228,6 @@ const VoluntariosCadastro = () => {
   };
 
   const renderEditableCell = (rowData, field) => {
-    console.log(`${editMode} ${rowData.id} ${editedRowData}`)
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == 'id') {
         return (

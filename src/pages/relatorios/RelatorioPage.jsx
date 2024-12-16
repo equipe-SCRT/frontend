@@ -38,22 +38,16 @@ const Relatorio = () => {
 
     const periodoChange = (value) => {
         setPeriodo(value);
-        console.log(value);
-        console.log(periodo);
     }
 
 
     const tipoChange = (value) => {
         setTipo(value);
-        console.log(value);
-        console.log(tipo);
     }
 
 
     const anoChange = (value) => {
         setAno(value);
-        console.log(value);
-        console.log(ano);
     }
 
     const formatDate = (date) => {
@@ -90,7 +84,6 @@ const Relatorio = () => {
             });
 
             if (response.ok) {
-                console.log(item.path)
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
