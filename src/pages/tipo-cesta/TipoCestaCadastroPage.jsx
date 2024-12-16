@@ -115,7 +115,7 @@ const TipoCestaCadastro = () => {
       }
 
       try {
-        await api.post("produto-cestas", produtoCesta)
+        await api.post("/produto-cestas", produtoCesta)
         window.location.reload()
       } catch (error) {
 

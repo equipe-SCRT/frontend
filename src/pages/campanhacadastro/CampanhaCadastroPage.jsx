@@ -309,7 +309,9 @@ const CampanhaCadastroPage = () => {
       localCampanha: getLocalCampanha,
       qtdArrecadada: getQtdArrecadadaCampanha
     }
-    
+
+    console.log("campanhaNova", campanhaNova)
+
     api.post("/campanhas", campanhaNova)
     .then((response) => {
       console.log(response)

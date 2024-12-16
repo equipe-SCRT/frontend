@@ -72,7 +72,7 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   async function handleProdutos() {
-    api.get("produtos-unitario").then((res) => {
+    api.get("/produtos-unitario").then((res) => {
       let encontrados = res.data;
       setProdutos(encontrados);
     }).catch((err) => {
@@ -83,7 +83,7 @@ const ProdutoUnitarioCadastro = () => {
 
   async function handleNomeProdutos() {
     try {
-      var encontrados = await api.get("produtos");
+      var encontrados = await api.get("/produtos");
       var listaNomes = [];
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {

@@ -13,7 +13,7 @@ const produtoLista = () => {
             }
           });
         let produtos = [];
-        api.get("").then((response) => {
+        api.get("/produtos").then((response) => {
           console.log(response.data)
           let encontrados = response.data;
           for (var i = 0; i < encontrados.length; i++) {

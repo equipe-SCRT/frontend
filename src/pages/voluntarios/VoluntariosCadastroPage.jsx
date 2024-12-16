@@ -23,7 +23,7 @@ const VoluntariosCadastro = () => {
 
   async function handleVoluntarios() {
     try {
-      let encontrados = await api.get("usuarios");
+      let encontrados = await api.get("/usuarios");
 
       for (var i = 0; i < encontrados.data.length; i++) {
 

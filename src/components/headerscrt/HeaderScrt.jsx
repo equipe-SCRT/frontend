@@ -22,7 +22,7 @@ const HeaderScrt = ({ children }) => {
 
     const fetchDadosVencidosPorMes = async () => {
         try {
-            const response = await api.get('produtos-unitario/1/quantidade-produtos/mes/vencidos?inicio=2024-10-10&fim=2024-12-10');
+            const response = await api.get('/produtos-unitario/1/quantidade-produtos/mes/vencidos?inicio=2024-10-10&fim=2024-12-10');
             setDadosVencidosPorMes(response.data);
         } catch (error) {
             // console.error('Erro ao buscar os dados:', error);
@@ -31,7 +31,7 @@ const HeaderScrt = ({ children }) => {
 
     const fetchDadosAlimentosVencimento15E30Dias = async () => {
         try {
-            const response = await api.get('produtos-unitario/vencimento-em-15-e-30-dias');
+            const response = await api.get('/produtos-unitario/vencimento-em-15-e-30-dias');
             setDadosAlimentosVencimento15E30Dias(response.data);
         } catch (error) {
             // console.error('Erro ao buscar os dados:', error);

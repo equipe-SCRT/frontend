@@ -1,0 +1,89 @@
+name: Build website application for EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Atualização do código
+      uses: actions/checkout@v2
+    
+    - name: Versão do node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+    
+    - name: Gerar artefato da aplicação
+      uses: actions/upload-artifact@v4
+      with:
+        name: aplicacao
+        path: ./
+    
+    - name: Gerar artefato do Docker
+      uses: actions/upload-artifact@v4
+      with:
+        name: scripts
+        path: .github/scripts/* 
+
+  deploy: 
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Recuperar arquivos
+      uses: actions/download-artifact@v4
+      with:
+        name: aplicacao
+        path: ./
+
+    - name: Recuperar scripts
+      uses: actions/download-artifact@v4
+      with:
+        name: scripts
+        path: ./
+      
+    - name: Enviar arquivos da aplicacao - webserver 1
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{secrets.IP_SERVER_1}}
+        username: ubuntu
+        key: ${{secrets.ACCESS_WEBSERVER_KEY}}
+        source: "./*"
+        target: "/home/ubuntu/website/"
+
+    - name: Enviar arquivos da aplicacao - webserver 2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{secrets.IP_SERVER_2}}
+        username: ubuntu
+        key: ${{secrets.ACCESS_WEBSERVER_KEY}}
+        source: "./*"
+        target: "/home/ubuntu/website/"
+
+    - name: Criar arquivo .pem
+      id: geracao-arquivo-pem
+      run: |
+        echo "${{secrets.ACCESS_WEBSERVER_KEY}}" >> $HOME/deploy-key.pem
+        chmod 400 $HOME/deploy-key.pem
+
+    - name: Conectar webserver 1
+      run: |
+        ssh -T -o StrictHostKeyChecking=no -i $HOME/deploy-key.pem ubuntu@${{secrets.IP_SERVER_1}} << 'EOF'
+          cd ./website
+          sudo docker-compose down
+          sudo docker-compose -f docker-compose.yml up -d --build
+        EOF
+    
+    - name: Conectar webserver 2
+      run: |
+        ssh -T -o StrictHostKeyChecking=no -i $HOME/deploy-key.pem ubuntu@${{secrets.IP_SERVER_2}} << 'EOF'
+          cd ./website
+          sudo docker-compose down
+          sudo docker-compose -f docker-compose.yml up -d --build
+        EOF
+  
