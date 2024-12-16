@@ -72,7 +72,6 @@ const TipoCestaCadastro = () => {
         setNomeProdutos(listaNomes);
         listaNomes = []
       } catch (err) {
-        //console.log(err);
       }
 
     }
@@ -99,6 +98,7 @@ const TipoCestaCadastro = () => {
         setTipoCestaId(response.data.id)
         handleProdutoCesta();
         _alertaSucesso("Cadastrado!", "Cesta cadastrada com sucesso")
+        window.location.reload()
       }
     } catch (error) {
       _alertaError("Cadastro inválido!", "Verique as informações!")
@@ -140,7 +140,6 @@ const TipoCestaCadastro = () => {
   }
 
   const renderEditableCell = (rowData, field) => {
-    // console.log(`${Object.keys(rowData)}`)
     if (editMode && rowData.id === editedRowData?.id) {
       if (field == "id") {
         return (
@@ -328,7 +327,6 @@ const TipoCestaCadastro = () => {
   };
 
   const renderEditableCellModal = (modalData, field) => {
-    // console.log(`${Object.keys(modalData)}`)
     if (editModeModal && modalData.id === editedModalData?.id) {
       if (field == "id" || field == "nomeProduto") {
         return (

@@ -89,7 +89,6 @@ const ProdutosCadastro = () => {
       _alertaSucesso("Sucesso ao cadastrar produto", "Produto cadastrado com sucesso!");
       handleProdutos();
     } catch (err) {
-      // console.log(err);
       _alertaError("Cadastro Incorreto!", "Preencha todos os campos!" );
     }
   }

@@ -62,18 +62,13 @@ const ProdutoUnitarioCadastro = () => {
   function push(info) {
     contadorPilha++;
     pilha.push(info);
-    // console.log(pilha)
   }
 
   function pop() {
     if (contadorPilha == -1) {
-      //console.log("pilha vazia")
     } else {
       if (pilha[contadorPilha].operacao == "salvar") {
-        // console.log("aqui: ")
-        // console.log(pilha[contadorPilha].id)
         api.post("/produtos-unitario/lotes-delete", pilha[contadorPilha].id).then((res) => {
-          // console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
             _alertaSucesso("Sucesso", "Sucesso ao desfazer")
@@ -132,9 +127,7 @@ const ProdutoUnitarioCadastro = () => {
     api.get("produtos-unitario").then((res) => {
       let encontrados = res.data;
       setProdutos(encontrados);
-      // console.log(getProdutos)
     }).catch((err) => {
-      // console.log("Erro ao consultar os produtos", err)
     });
   }
 

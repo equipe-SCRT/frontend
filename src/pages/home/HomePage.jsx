@@ -181,7 +181,7 @@ const HomePage = () => {
     console.log("casasAtentidadas", casasAtentidadas)
     console.log("qtdProdutosCestasPrincipal", qtdProdutosCestasPrincipal)
     console.log("totalEmEstoque", totalEmEstoque)
-    metricaAlerta > totalEmEstoque
+    // metricaAlerta > totalEmEstoque
     if(metricaAlerta > 1){
       setCorQtdEstoque(coresCards.bom)
 

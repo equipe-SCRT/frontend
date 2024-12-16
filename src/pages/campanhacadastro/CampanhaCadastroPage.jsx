@@ -37,16 +37,6 @@ const CampanhaCadastroPage = () => {
     });
   }
 
-
-  async function excluir(id) {
-    api.delete("/produtos-unitario/" + id).then((response) => {
-      //console.log(response);
-      // window.location.reload()
-    }).catch((err) => {
-      //console.log(err)
-    })
-  }
-
   const renderActionCell = (rowData) => {
     return (
       <>
@@ -103,8 +93,7 @@ const CampanhaCadastroPage = () => {
           if (response.status === 204) {
 
             setTimeout(() => {
-              // setVoluntarios([]);
-              // handleVoluntarios();
+              window.location.reload()
             }, 1000);
 
             const Toast = Swal.mixin({
@@ -311,12 +300,6 @@ const CampanhaCadastroPage = () => {
 
 
   function handleCadastroCampanhas() {
-    // console.log("Tipo de campanha", getNomeCampanhas[0].props.value)
-    // console.log("QtdArrecada", getQtdArrecadadaCampanha)
-    // console.log("Local ", getLocalCampanha)
-    // console.log("Data da campanha", getDataCampanha)
-    // console.log("Meta", getMetaCampanha)
-    // console.log("Produto", getProdutoCampanha)
 
     const campanhaNova = {
       fkTipoCampanha: getTipoCampanha,
@@ -326,9 +309,7 @@ const CampanhaCadastroPage = () => {
       localCampanha: getLocalCampanha,
       qtdArrecadada: getQtdArrecadadaCampanha
     }
-
-    // console.log("campanhaNova", campanhaNova)
-
+    
     api.post("/campanhas", campanhaNova)
     .then((response) => {
       console.log(response)
