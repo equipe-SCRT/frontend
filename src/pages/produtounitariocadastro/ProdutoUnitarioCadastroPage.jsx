@@ -15,7 +15,7 @@ const ProdutoUnitarioCadastro = () => {
   let [getProdutos, setProdutos] = useState([]);
   let [getNomeProdutos, setNomeProdutos] = useState([]);
   let [getOrigemNome, setOrigemNome] = useState([]);
-  let [getNome, setNome] = useState(0);
+  let [getProdutoId, setNome] = useState(0);
   let [getValidade, setValidade] = useState("");
   let [getOrigem, setOrigem] = useState(0);
   let [getQuantidade, setQuantidade] = useState(0);
@@ -136,29 +136,24 @@ const ProdutoUnitarioCadastro = () => {
         dataValidade: getValidade,
         quantidade: getQuantidade,
         origemId: getOrigem,
-        ativo: getAtivo === 1,
-        produtoId: getNome,
+        ativo: true,
+        confome: getAtivo === 1,
+        produtoId: getProdutoId,
       })
     }
     return bodyReq;
   }
 
-  async function salvar() {
+  function salvar() {
     try {
-
       if (getQuantidade == "" || getOrigem == "") {
         _alertaError("Cadasto Incorreto!", "Preencha todos os campos!")
         return
       }
-
       let bodyR = criarBodyLotes(getQuantidade);
       api.post("/produtos-unitario/lotes", bodyR).then(async (response) => {
         handleProdutos();
         _alertaSucesso("Sucesso", "Lote de produto cadastrado com sucesso")
-        let alteracao = {
-          operacao: "salvar",
-          id: response.data
-        }
       }).catch((err) => {
       })
     } catch (err) {
@@ -239,7 +234,6 @@ const ProdutoUnitarioCadastro = () => {
       }
       else if (field == "origem") {
         let nome = "";
-        // alert(JSON.stringify(rowData.origem))
         if (rowData.origem.itapora != 0) {
           nome = "Itaporã";
         } else if (rowData.origem.autaDeSouzaRua != 0) {

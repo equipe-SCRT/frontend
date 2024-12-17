@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import api from "../../api/api"
 import "./CestaCadastroPage.css";
-import engrenagem from "../../assets/images/engrenagem.svg";
-import informacao from "../../assets/images/informacao.svg";
 import Swal from 'sweetalert2';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -66,11 +63,7 @@ const CestasCadastro = () => {
     handleTiposCestas();
   }, []);
 
-  const formatDate = (dateString) => {
-    return format(new Date(dateString), 'dd/MM/yyyy');
-  };
-
-  async function cadastrar(evento) {
+  function cadastrar(evento) {
     evento.preventDefault();
 
     const novaCesta = {
@@ -86,13 +79,15 @@ const CestasCadastro = () => {
     }
 
     try {
-      await api.post("/cestas", novaCesta);
+      api.post("/cestas", novaCesta).then((response)=>{
+        setCestas([]);
+        handleCestas();
+        _alertaSucesso("Cadastrado com sucesso!", "Cesta cadastrada com sucesso!")
+      });
       setLote("");
       setQtdCestasMontadas("");
       setTipoCestaId("");
       setDataMontagem("");
-      handleCestas();
-      _alertaSucesso("Cadastrado com sucesso!", "Cesta cadastrada com sucesso!")
     } catch (err) {
       console.log(err);
       _alertaError("Cadastro Incorreto!", "Verifique se todos os campos estão corretos!")

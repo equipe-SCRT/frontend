@@ -5,7 +5,6 @@ import {
   SubMenu,
   Menu,
   MenuItem
-  //useProSidebar
 } from "react-pro-sidebar";
 
 import imagemLogo from "../../assets/images/logo.svg";
@@ -21,7 +20,6 @@ import { Link } from 'react-router-dom';
 
 
 function SideBarScrt() {
-  //const { collapseSidebar } = useProSidebar();
   const [collapsed, setCollapsed] = useState(false);
 
   const [toggled, setToggled] = useState(false);
@@ -37,7 +35,6 @@ function SideBarScrt() {
     <>
       <div>
         <Sidebar
-          // className={`app ${toggled ? "toggled" : ""}`}
           style={{ height: "100%", position: "fixed"}}
 
           className={`${styles.sidebar}`}

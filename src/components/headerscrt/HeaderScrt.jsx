@@ -25,7 +25,7 @@ const HeaderScrt = ({ children }) => {
             const response = await api.get('/produtos-unitario/1/quantidade-produtos/mes/vencidos?inicio=2024-10-10&fim=2024-12-10');
             setDadosVencidosPorMes(response.data);
         } catch (error) {
-            // console.error('Erro ao buscar os dados:', error);
+            console.error('Erro ao buscar os dados:', error);
         }
     };
 
@@ -34,7 +34,7 @@ const HeaderScrt = ({ children }) => {
             const response = await api.get('/produtos-unitario/vencimento-em-15-e-30-dias');
             setDadosAlimentosVencimento15E30Dias(response.data);
         } catch (error) {
-            // console.error('Erro ao buscar os dados:', error);
+            console.error('Erro ao buscar os dados:', error);
         }
     };
 
@@ -81,19 +81,6 @@ const HeaderScrt = ({ children }) => {
                             <div>{dadosVencidosPorMes.count} produtos venceram.</div>
                         </div>
                     </Nav.Item>
-                    {/* <Nav.Item icon={
-                        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 48 48">
-                            <g fill="none">
-                                <path stroke="#22CC52" strokeLinejoin="round" strokeWidth="4" d="M24 44a19.94 19.94 0 0 0 14.142-5.858A19.94 19.94 0 0 0 44 24a19.94 19.94 0 0 0-5.858-14.142A19.94 19.94 0 0 0 24 4A19.94 19.94 0 0 0 9.858 9.858A19.94 19.94 0 0 0 4 24a19.94 19.94 0 0 0 5.858 14.142A19.94 19.94 0 0 0 24 44Z" />
-                                <path fill="#22CC52" fillRule="evenodd" d="M24 37a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5" clipRule="evenodd" />
-                                <path stroke="#22CC52" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M24 12v16" />
-                            </g>
-                        </svg>}>
-                        <div style={{ textAlign: "left" }}>
-                            <strong>Informativo</strong>
-                            <div>Relatório de Outubro está pronto</div>
-                        </div>
-                    </Nav.Item> */}
                 </Nav.Menu>
                 <Nav.Menu trigger={'hover'} icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">

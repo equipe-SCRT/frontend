@@ -38,7 +38,6 @@ const CondominioCadastroPage = () => {
     }
     useEffect(() => {
         handleCondominios();
-        // handleBairro()
     }, [])
 
     const handleDelete = async (id) => {
@@ -152,16 +151,16 @@ const CondominioCadastroPage = () => {
         );
     };
 
-    async function insert() {
+    function insert() {
         api.post("/enderecos", {
             cep: cep,
             logradouro: logradouro,
             numero: numero
-        }).then(async (enderecoResponse) => {
+        }).then((enderecoResponse) => {
             api.post("/condominios", {
                 nome: nome,
                 enderecoId: enderecoResponse.data.id
-            }).then(async (res) => {
+            }).then((res) => {
                 const idCondominio = res.data.id;
                 api.post("/origens", {
                     "autaDeSouzaRua": 0,
@@ -169,8 +168,11 @@ const CondominioCadastroPage = () => {
                     "condominioId": idCondominio,
                     "campanhaId": 0
                 })
+                Swal.fire({
+                    icon: "success",
+                    title: "Condomínio cadastrado!"
+                })
                 handleCondominios()
-
             }).catch(e => {
                 Swal.fire({
                     icon: "error",
@@ -248,7 +250,6 @@ const CondominioCadastroPage = () => {
                                         minLength={8}
                                         maxLength={8}
                                         onChange={(e) => handleCepChange(e.target.value)}
-                                    // placeholder="_____-___"
                                     />
                                 </div>
 

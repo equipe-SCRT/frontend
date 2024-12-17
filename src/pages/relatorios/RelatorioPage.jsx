@@ -3,10 +3,7 @@ import React, { useEffect, useState } from "react";
 import Select from "../components/SelectPicker";
 import DataRange from "../components/dataRange/DateRange";
 import PopOver from "../components/PopOver";
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 import Swal from 'sweetalert2';
-// import Cookies from "js-cookie";
 
 
 const Relatorio = () => {

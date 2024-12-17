@@ -209,9 +209,6 @@ const HomePage = () => {
       setCorVencidos(coresCards.ruim)
     }
   }, [totalEmEstoque, dadosVencidosMesAtual])
-  //   totalEmEstoque
-  //    dadosAlimentosVencimento15E30Dias
-  //    dadosVencidosMesAtual
   useEffect(() => {
     fetchProdutos();
     fetchDadosCestasProduzidas();

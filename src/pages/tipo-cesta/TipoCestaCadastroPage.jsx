@@ -96,8 +96,8 @@ const TipoCestaCadastro = () => {
       var response = await api.post("/tipos-cestas", tipoCesta);
       if (response.status == 201) {
         setTipoCestaId(response.data.id)
-        handleProdutoCesta();
         _alertaSucesso("Cadastrado!", "Cesta cadastrada com sucesso")
+        handleProdutoCesta();
         window.location.reload()
       }
     } catch (error) {
@@ -627,7 +627,6 @@ const TipoCestaCadastro = () => {
         <div className="form-section" id='form-register'>
           <div style={{ display: 'flex', justifyContent: 'space-between', height: '90px', alignItems: 'center', margin: '3% 1% 1% 1%', width: "78vw" }}>
             <h1 className="section-title" style={{ margin: "0px" }}>Tipo de cestas</h1>
-            {/* <button className="submit-btn">Cadastrar</button> */}
           </div>
           <div className="card-body-form">
             <p>Cadastro de tipos de cesta</p>
@@ -675,17 +674,6 @@ const TipoCestaCadastro = () => {
         <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
           <p className="card-description">Listagem</p>
           <div className="table-responsive">
-            {/* <table className="table table-striped">
-              <thead>
-                <th># <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-                <th> Nome <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg> </th>
-                <th> </th>
-                <th>  </th>
-                <th>- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z" /></svg></th>
-              </thead>
-              <tbody>
-              </tbody>
-            </table> */}
             <DataTable value={getTipoCestas} tableStyle={{ minWidth: '50rem' }}>
               <Column field="id" header="#" body={(rowData) => renderEditableCell(rowData, "id")} sortable />
               <Column field="nome" header="nome" body={(rowData) => renderEditableCell(rowData, "nome")} sortable />

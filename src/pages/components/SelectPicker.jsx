@@ -1,5 +1,4 @@
 import { SelectPicker, Stack } from 'rsuite';
-//import style from './../components/SelectPicker.module.css';
 import React from 'react';
 
 const Select = ({option, onChange}) => {

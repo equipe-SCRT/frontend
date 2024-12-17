@@ -389,7 +389,7 @@ const VoluntariosCadastro = () => {
                 <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
 
                 </Column>
-                {voluntarios.forEach(x => x.tipoUsuario === 1 ? x.tipoUsuario = "Administrador" : "Usuário Comum  ")}
+                {voluntarios.forEach(x => x.tipoUsuario === 1 ? x.tipoUsuario = "Administrador" : "Voluntário")}
                 <Column field="email" header="Email" body={(rowData) => renderEditableCell(rowData, 'email')} sortable style={{ padding: '10px' }}>
 
                 </Column>

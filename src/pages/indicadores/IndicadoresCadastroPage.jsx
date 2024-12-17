@@ -70,7 +70,7 @@ const IndicadoresCadastro = () => {
     })
   }
 
-  async function handleTipoProdutoSelect() {
+  function handleTipoProdutoSelect() {
     let returnSelectTipoProd = [<option value={null}>------</option>];
     for (let i = 0; i < getReqTipoProduto.length; i++) {
       console.group(getReqTipoProduto[i])
@@ -81,21 +81,21 @@ const IndicadoresCadastro = () => {
     setTipoProdutosSelectTxt(returnSelectTipoProd)
   }
 
-  async function salvarQtdCasas(){
+  function salvarQtdCasas(){
     api.post("/metricas", {
       "qtdCasas": getQuantidadeCasas
     }).then((res) => {
       _alertaSucesso("Sucesso ao cadastrar", "Sucesso ao cadastrar quantidade casas")
-      handleTipoProduto();
+      document.getElementById("inputQtdCasas").value = " ";
     }).catch((err) => _alertaError("Erro ao cadastrar quantidade casas", err));
   }
 
-  async function salvarDiasVencimento(){
+  function salvarDiasVencimento(){
     api.post("/metricas", {
       "qtdCasas": getQtdDiasVencimento
     }).then((res) => {
       _alertaSucesso("Sucesso ao cadastrar", "Sucesso ao cadastrar dia de vencimento")
-      handleTipoProduto();
+      document.getElementById("inputQtdDiasVencimento").value = " ";
     }).catch((err) => _alertaError("Erro ao cadastrar dia de vencimento", err));
   }
 
@@ -176,22 +176,12 @@ const IndicadoresCadastro = () => {
     }
   }
 
-  async function handleTipoProdutoCampanha() {
-    let returnSelectTipoProd = [<option value={null}>------</option>];
-    for (let i = 0; i < getReqTipoCampanha.length; i++) {
-      returnSelectTipoProd.push(
-        <option value={"" + getReqTipoCampanha[i].id}>{"" + getReqTipoCampanha[i].nome}</option>
-      )
-    }
-    setTipoCampanhasSelectTxt(returnSelectTipoProd)
-  }
-
   async function handleTipoCampanhaSelect() {
     let returnSelectTipoCampanha = [<option value={null}>------</option>];
     for (let i = 0; i < getReqTipoCampanha.length; i++) {
       console.log(JSON.stringify(getReqTipoCampanha[i]))
       returnSelectTipoCampanha.push(
-        <option value={"" + getReqTipoCampanha[i].idTipoCampanha}>{"" + getReqTipoCampanha[i].nome}</option>
+        <option value={getReqTipoCampanha[i].idTipoCampanha}>{getReqTipoCampanha[i].nome}</option>
       )
     }
     setTipoCampanhasSelectTxt(returnSelectTipoCampanha)
@@ -284,7 +274,7 @@ const IndicadoresCadastro = () => {
                   <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className='form-up'>
                       <div className="form-group" id='name' style={{ display: "flex", flexDirection: "row", marginTop: "4%" }}>
-                        <input type="text" placeholder='156' name="nomeSel" id="nomeSel" onChange={(e) => setQuantidadeCasas(e.target.value)} style={{ width: '100%' }} />
+                        <input type="text" placeholder='156' name="nomeSel" id="inputQtdCasas" onChange={(e) => setQuantidadeCasas(e.target.value)} style={{ width: '100%' }} />
                       </div>
                     </div>
                   </div>
@@ -308,7 +298,7 @@ const IndicadoresCadastro = () => {
                       <label htmlFor="productName" style={{ fontSize: "18px" }}>O produto deverá entrar em alerta quando faltar quantos dias para o seu vencimento? <span className="required">*</span></label>
                     </div>
                     <div className="form-group" id='name'>
-                      <input type="text" placeholder='15 dias' name="nomeSel" id="nomeSel" onChange={(e) => setQtdDiasVencimento(e.target.value)} style={{ width: '30vw' }} />
+                      <input type="text" placeholder='15 dias' name="nomeSel" id="inputQtdDiasVencimento" onChange={(e) => setQtdDiasVencimento(e.target.value)} style={{ width: '30vw' }} />
                     </div>
                   </div>
                 </div>
