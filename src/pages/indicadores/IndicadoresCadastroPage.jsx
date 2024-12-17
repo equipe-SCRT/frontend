@@ -10,12 +10,8 @@ const IndicadoresCadastro = () => {
   let [getEmail, setEmail] = useState("");
   let [getReqTipoProduto, setReqTipoProduto] = useState("");
   let [getReqTipoCampanha, setReqTipoCampanha] = useState("");
-  let [getTipoUsuario, setTipoUsuario] = useState(0);
-  let [getNomeAlt, setNomeAlt] = useState("");
-  let [getEmailAlt, setEmailAlt] = useState("");
   let [getTipoProdutoExistentes, setTipoProdutoExistentes] = useState([]);
   let [getTipoCampanhaExistentes, setTipoCampanhaExistentes] = useState([]);
-  let [getTipoUsuarioAlt, setTipoUsuarioAlt] = useState(0);
   let [getNomeCampoTipoProduto, setNomeCampoTipoProduto] = useState("cadastrado")
   let [getNomeCampoTipoCampanha, setNomeCampoTipoCampanha] = useState("cadastrado")
   let [getTipoProdutoFunc, setTipoProdutoFunc] = useState(1);

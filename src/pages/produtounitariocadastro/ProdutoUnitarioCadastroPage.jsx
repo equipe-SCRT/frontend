@@ -151,7 +151,7 @@ const ProdutoUnitarioCadastro = () => {
         return
       }
       let bodyR = criarBodyLotes(getQuantidade);
-      api.post("/produtos-unitario/lotes", bodyR).then(async (response) => {
+      api.post("/produtos-unitario/lotes", bodyR).then((response) => {
         handleProdutos();
         _alertaSucesso("Sucesso", "Lote de produto cadastrado com sucesso")
       }).catch((err) => {

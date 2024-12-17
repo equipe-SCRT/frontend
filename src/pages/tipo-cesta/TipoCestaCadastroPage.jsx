@@ -78,22 +78,12 @@ const TipoCestaCadastro = () => {
     handleNomeProdutos();
   }, []);
 
-  async function HandleListagemProdutoCesta(rowData) {
-    try {
-      const response = await api.get(`/produto-cestas`, rowData.id)
-      setProdutoCestas(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-
-  }
-
-  async function handleCadastroTipoCestaProduto() {
+  function handleCadastroTipoCestaProduto() {
     const tipoCesta = {
       nome: getNome
     }
     try {
-      var response = await api.post("/tipos-cestas", tipoCesta);
+      var response = api.post("/tipos-cestas", tipoCesta);
       if (response.status == 201) {
         setTipoCestaId(response.data.id)
         _alertaSucesso("Cadastrado!", "Cesta cadastrada com sucesso")
@@ -106,7 +96,7 @@ const TipoCestaCadastro = () => {
     }
   }
 
-  async function handleProdutoCesta() {
+  function handleProdutoCesta() {
 
     for (let i = 0; i < getProdutos.length; i++) {
       var produtoCesta = {
@@ -115,8 +105,7 @@ const TipoCestaCadastro = () => {
       }
 
       try {
-        await api.post("/produto-cestas", produtoCesta)
-        window.location.reload()
+        api.post("/produto-cestas", produtoCesta)
       } catch (error) {
 
       }
@@ -219,65 +208,14 @@ const TipoCestaCadastro = () => {
   };
 
   const handleDelete = (id) => {
-    if (sessionStorage.getItem('userId') === id) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        }
-      });
-      Toast.fire({
-        icon: "error",
-        title: "Atenção! Você não pode deletar a si mesmo!"
-      });
-    } else {
-      api.delete("/tipos-cestas/" + id)
-        .then((response) => {
-          if (response.status === 204) {
+    api.delete("/tipos-cestas/" + id)
+      .then((response) => {
+        if (response.status === 204) {
 
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
 
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-              }
-            });
-            Toast.fire({
-              icon: "success",
-              title: "Usuário excluido com sucesso!"
-            });
-          } else {
-            const Toast = Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer;
-              }
-            });
-            Toast.fire({
-              icon: "error",
-              title: "Erro ao excluir o usuário!"
-            });
-          }
-        }
-        ).catch(() => {
           const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -290,12 +228,29 @@ const TipoCestaCadastro = () => {
             }
           });
           Toast.fire({
-            icon: "error",
-            title: "Erro ao excluir usuário!"
+            icon: "success",
+            title: "Cesta excluida com sucesso!"
           });
-        })
-    }
+        }}
+      ).catch(() => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "error",
+          title: "Erro ao excluir a cesta!"
+        });
+      })
   }
+  
 
   const renderActionCellModal = (modalData) => {
     return (
@@ -432,7 +387,7 @@ const TipoCestaCadastro = () => {
             });
             Toast.fire({
               icon: "error",
-              title: "Erro ao excluir o usuário!"
+              title: "Erro ao excluir a cesta!"
             });
           }
         }
@@ -450,7 +405,7 @@ const TipoCestaCadastro = () => {
           });
           Toast.fire({
             icon: "error",
-            title: "Erro ao excluir usuário!"
+            title: "Erro ao excluir a cesta!"
           });
         })
     }
@@ -662,7 +617,7 @@ const TipoCestaCadastro = () => {
 
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-              <button onClick={() => handleCadastroTipoCestaProduto()} className="btn btn-scrt">Cadastrar Cesta</button>
+              <button onClick={handleCadastroTipoCestaProduto} className="btn btn-scrt">Cadastrar Cesta</button>
             </div>
           </div>
         </div>

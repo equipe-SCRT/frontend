@@ -35,7 +35,7 @@ const Login = () => {
   let idUsuario;
 
 
-  async function handleLogin() {
+  function handleLogin() {
 
     const savedUsername = Cookies.get("emailV");
     const savedPassword = Cookies.get("senhaV");

@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import "./PerfilPage.css";
 import perfilEditIcon from "../../assets/images/perfil-edit.svg";
 import api from "../../api/api"
 const PerfilPage = () => {
 
 
-  async function fetchAtualizarUsuario(){
-    var possuiNumeros = false;
-    userInfo.name.map((x) => {
-      if(!isNaN(x)){
-        possuiNumeros = true;
-      }
-    })
+  function fetchAtualizarUsuario(){
+    var possuiNumeros = !isNaN(userInfo.nome);
     
     possuiNumeros ? alert("Não pode ter número") :   api.patch("/usuarios/atualizar-usuario", userInfo);
+    sessionStorage.setItem("nome", userInfo.nome)
+    sessionStorage.setItem("email", userInfo.email)
+    window.location.reload()
   }
 
   const [userInfo, setUserInfo] = useState({

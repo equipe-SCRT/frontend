@@ -69,7 +69,7 @@ const ProdutosCadastro = () => {
     }
   }
 
-  async function cadastrar(evento) {
+  function cadastrar(evento) {
     evento.preventDefault();
 
     const novoProduto = {
@@ -80,7 +80,7 @@ const ProdutosCadastro = () => {
     };
 
     try {
-      await api.post("/produtos", novoProduto);
+      api.post("/produtos", novoProduto);
       setNome("");
       setQtdUnidadeMedida("");
       setTipoProdutoId("");

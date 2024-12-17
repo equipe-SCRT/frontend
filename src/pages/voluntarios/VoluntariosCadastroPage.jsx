@@ -307,7 +307,7 @@ const VoluntariosCadastro = () => {
     });
   }
 
-  async function insert() {
+  function insert() {
 
     const usuario = {
       nome,
@@ -328,7 +328,7 @@ const VoluntariosCadastro = () => {
     } else {
 
       try {
-        api.post(`usuarios`, usuario).then(async (response) => {
+        api.post(`usuarios`, usuario).then((response) => {
 
           if (response)
 
