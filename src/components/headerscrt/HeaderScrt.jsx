@@ -9,6 +9,7 @@ const HeaderScrt = ({ children }) => {
     const navigate = useNavigate()
     const [dadosVencidosPorMes, setDadosVencidosPorMes] = useState([]);
     const [dadosAlimentosVencimento15E30Dias, setDadosAlimentosVencimento15E30Dias] = useState([]);
+    const [dadosAlimentosVencendoHoje, setDadosAlimentosVencendoHoje] = useState(0)
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -38,6 +39,19 @@ const HeaderScrt = ({ children }) => {
         }
     };
 
+    const fetchDadosProdutosVencendoHoje = async () =>{
+        try{
+            const response = await api.get("/produtos-unitario/produtos-em-vencimento-hoje")
+            setDadosAlimentosVencendoHoje(response.data)
+        }catch(error){
+            console.error("Erro ao buscar os dados: " + error)
+        }
+    }
+
+    useEffect(() =>{
+        fetchDadosProdutosVencendoHoje();
+    }, [])
+
     useEffect(() => {
         fetchDadosVencidosPorMes();
     }, []);
@@ -63,24 +77,45 @@ const HeaderScrt = ({ children }) => {
                     <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
                         <path fill="none" stroke="black" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M18.134 11C18.715 16.375 21 18 21 18H3s3-2.133 3-9.6c0-1.697.632-3.325 1.757-4.525S10.41 2 12 2q.507 0 1 .09M19 8a3 3 0 1 0 0-6a3 3 0 0 0 0 6m-5.27 13a2 2 0 0 1-3.46 0" /></svg>
                 }>
-                    <Nav.Item icon={
-                        <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
-                            <path fill="#FDEA3C" d="m12.866 3l9.526 16.5a1 1 0 0 1-.866 1.5H2.474a1 1 0 0 1-.866-1.5L11.134 3a1 1 0 0 1 1.732 0m-8.66 16h15.588L12 5.5zM11 16h2v2h-2zm0-7h2v5h-2z" />
-                        </svg>}>
-                        <div style={{ textAlign: "left" }}>
-                            <strong>Cuidado!</strong>
-                            <div>{dadosAlimentosVencimento15E30Dias.vencimento15 + dadosAlimentosVencimento15E30Dias.vencimento30} produtos estão próximos do vencimento.</div>
-                        </div>
-                    </Nav.Item>
-                    <Nav.Item icon={
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 16 16">
-                            <path fill="#ED8686" d="M4.47.22A.75.75 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.75.75 0 0 1-.22.53l-4.25 4.25A.75.75 0 0 1 11 16H5a.75.75 0 0 1-.53-.22L.22 11.53A.75.75 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4m0 8a1 1 0 1 1 0-2a1 1 0 0 1 0 2" />
-                        </svg>}>
-                        <div style={{ textAlign: "left" }}>
-                            <strong>Atenção!</strong>
-                            <div>{dadosVencidosPorMes.count} produtos venceram.</div>
-                        </div>
-                    </Nav.Item>
+                    {dadosAlimentosVencimento15E30Dias.vencimento15 + dadosAlimentosVencimento15E30Dias.vencimento30 > 0 && (
+                        <Nav.Item 
+                            icon={
+                                <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
+                                    <path fill="#FDEA3C" d="m12.866 3l9.526 16.5a1 1 0 0 1-.866 1.5H2.474a1 1 0 0 1-.866-1.5L11.134 3a1 1 0 0 1 1.732 0m-8.66 16h15.588L12 5.5zM11 16h2v2h-2zm0-7h2v5h-2z" />
+                                </svg>
+                            }>
+                            <div style={{ textAlign: "left" }}>
+                                <strong>Cuidado!</strong>
+                                <div>{dadosAlimentosVencimento15E30Dias.vencimento15 + dadosAlimentosVencimento15E30Dias.vencimento30} produtos estão vencendo hoje.</div>
+                            </div>
+                        </Nav.Item>
+                    )}
+                    {dadosVencidosPorMes.count > 0 && (
+                        <Nav.Item 
+                            icon={
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 16 16">
+                                    <path fill="#ED8686" d="M4.47.22A.75.75 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.75.75 0 0 1-.22.53l-4.25 4.25A.75.75 0 0 1 11 16H5a.75.75 0 0 1-.53-.22L.22 11.53A.75.75 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4m0 8a1 1 0 1 1 0-2a1 1 0 0 1 0 2" />
+                                </svg>
+                            }>
+                            <div style={{ textAlign: "left" }}>
+                                <strong>Atenção!</strong>
+                                <div>{dadosVencidosPorMes.count} produtos estão vencendo hoje.</div>
+                            </div>
+                        </Nav.Item>
+                    )}
+                    {dadosAlimentosVencendoHoje > 0 && (
+                        <Nav.Item 
+                            icon={
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1.8em" height="1.8em" viewBox="0 0 16 16">
+                                    <path fill="#ED8686" d="M4.47.22A.75.75 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.75.75 0 0 1-.22.53l-4.25 4.25A.75.75 0 0 1 11 16H5a.75.75 0 0 1-.53-.22L.22 11.53A.75.75 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4m0 8a1 1 0 1 1 0-2a1 1 0 0 1 0 2" />
+                                </svg>
+                            }>
+                            <div style={{ textAlign: "left" }}>
+                                <strong>Atenção!</strong>
+                                <div>{dadosAlimentosVencendoHoje} produtos estão vencendo hoje.</div>
+                            </div>
+                        </Nav.Item>
+)}
                 </Nav.Menu>
                 <Nav.Menu trigger={'hover'} icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
