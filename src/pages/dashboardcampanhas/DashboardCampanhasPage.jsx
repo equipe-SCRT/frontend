@@ -9,6 +9,9 @@ import GraficoBarrasHorizontais from "../../components/graficobarrashorizontais/
 import SelectData from "../../components/selectdata/SelectData";
 import SelectScrt from "../../components/select/SelectScrt";
 import { parseISO, format, addDays } from 'date-fns';
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { forEach } from "rsuite/esm/internals/utils/ReactChildren";
 
 const DashboardCampanhas = () => {
   const [dadosCampanhas, setDadosCampanhas] = useState([]);
@@ -182,8 +185,55 @@ const DashboardCampanhas = () => {
     localCampanha: `${campanha.localCampanha} - ${formatDate(campanha.dataCampanha)}` 
   }));
 
+  const downloadPdfWithGraphs = async () => {
+    const ids = ["qtdArrecadados", "qtdProdutos"]
+    for(let i = 0; i <= ids.length; i++){
+      try {
+          const graphElement = document.getElementById(ids[i]);
+  
+          if (!graphElement) {
+              console.error("Elemento não encontrado.");
+              return;
+          }
+  
+          // Aguardar para garantir que o gráfico está renderizado
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+  
+          // Tentar capturar o canvas diretamente, se for gráfico
+          const chartCanvas = graphElement.querySelector("canvas");
+          let dataUrl;
+          if (chartCanvas) {
+              console.log("Capturando gráfico diretamente do canvas.");
+              dataUrl = chartCanvas.toDataURL("image/png");
+          } else {
+              console.log("Usando html2canvas para capturar o elemento.");
+              const canvas = await html2canvas(graphElement, {
+                  useCORS: true,
+                  scale: 2,
+              });
+              dataUrl = canvas.toDataURL("image/png");
+          }
+  
+          // Verificar se o Data URL é válido
+          if (dataUrl === "data:,") {
+              console.error("Canvas vazio ou inválido.");
+              return;
+          }
+  
+          // Criar e baixar o PDF
+          const pdf = new jsPDF();
+          pdf.addImage(dataUrl, "PNG", 10, 10, 190, 100);
+          pdf.save("grafico.pdf");
+      } catch (error) {
+          console.error("Erro ao gerar o PDF:", error);
+      }
+
+    }
+};
+
   return (
     <>
+        <button onClick={downloadPdfWithGraphs}>Baixar PDF com Gráficos</button>
         <Col md lg={11} className="m-auto" style={{ marginTop: "100px" }}>
         <h3 style={{
           marginBottom: '10px'
@@ -226,16 +276,15 @@ const DashboardCampanhas = () => {
           </Row>
           <Row>
             <Col md lg={6}>
-              
-                <GraficoLinha
-                  data={dadosAlimentosArrecadadosMes}
-                  cores={["#22CC52"]}
-                                xValue={'dataCampanha'}
-              yValue={'qtdArrecadada'}
-                  titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
-                  label={"Quantidade"}
-                >
-            </GraficoLinha>
+                  <GraficoLinha
+                    data={dadosAlimentosArrecadadosMes}
+                    cores={["#22CC52"]}
+                                  xValue={'dataCampanha'}
+                    yValue={'qtdArrecadada'}
+                    titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
+                    label={"Quantidade"}
+                  >
+                  </GraficoLinha>
                 
             </Col>
             <Col md lg={6}>

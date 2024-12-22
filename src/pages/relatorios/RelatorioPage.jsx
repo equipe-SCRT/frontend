@@ -221,7 +221,7 @@ const Relatorio = () => {
                             <DataRange onChange={periodoChange} />
                         </div>
                         <div className="col-4 d-flex align-items-center">
-                            <Select onChange={tipoChange} option={['CSV', 'TXT']} />
+                            <Select onChange={tipoChange} option={['CSV', 'TXT', 'PDF']} />
                         </div>
                         <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 20 }} >
                             <label htmlFor="" onClick={() => exportarRelatorioCompleto(periodo)} className={style.Botao}>Exportar Arquivo</label>

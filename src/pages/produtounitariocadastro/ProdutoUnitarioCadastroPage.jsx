@@ -122,6 +122,7 @@ const ProdutoUnitarioCadastro = () => {
         )
       }
       setOrigemNome(listaOrigens);
+      console.log(getOrigem)
       listaOrigens = []
     } catch (err) {
       console.log(err);

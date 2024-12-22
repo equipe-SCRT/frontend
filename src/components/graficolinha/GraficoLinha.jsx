@@ -1,8 +1,5 @@
-import SelectScrt from "../../components/select/SelectScrt";
-import styles from './GraficoLinha.module.css'
 import React from "react";
 import { Line } from "react-chartjs-2";
-import { ptBR } from "date-fns/locale";
 import {
   Chart,
   registerables,
@@ -100,7 +97,7 @@ const GraficoLinha = ({ children, data, cores, titulo, label, xValue, yValue }) 
     },
   };
   return (
-    <div style={{ marginTop: "10px", padding: "10px" }}>
+    <div id="qtdArrecadados" style={{ marginTop: "10px", padding: "10px" }}>
       <h5 style={{ color: "#21272A", marginBottom: "10px" }}>
         <strong>{titulo}</strong>
       </h5>
@@ -109,10 +106,7 @@ const GraficoLinha = ({ children, data, cores, titulo, label, xValue, yValue }) 
         {children}
 
       </>
-
-      {/* <DatePicker className={styles.datepicker} label="Inicio" format="dd/MM/yyyy" size="xs"/> */}
-      {/* <DatePicker className={styles.datepicker} label="Fim" format="dd/MM/yyyy" size="xs"/> */}
-      <Line data={dados} options={options} />
+      <Line id="qtdArrecadados" data={dados} options={options} />
     </div>
   );
 };

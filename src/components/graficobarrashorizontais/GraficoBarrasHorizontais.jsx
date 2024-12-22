@@ -76,7 +76,7 @@ const GraficoBarrasHorizontais = ({
           <SelectScrt dados={selectObj} onChange={selectFunc} />
         </>
       )}
-      <Bar data={dados} options={options} />
+      <Bar id="qtdProdutos" data={dados} options={options} />
     </div>
   );
 };

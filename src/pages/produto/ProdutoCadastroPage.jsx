@@ -303,7 +303,7 @@ const ProdutosCadastro = () => {
                             }
                           />
                           <label htmlFor={`unidade-${unidade.id}`}>
-                            {unidade.representacao}
+                            {unidade.nome}
                           </label>
                         </div>
                       ))
