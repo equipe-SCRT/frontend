@@ -69,8 +69,11 @@ const Login = () => {
           sessionStorage.setItem('email', response.data.email);
           sessionStorage.setItem('tipoUsuario', response.data.tipoUsuario);
 
-      
-          window.location.href = '/home';
+          if(response.data.trocarSenha){
+            window.location.href = '/redefinir-senha-nova-senha'
+          }else{
+            window.location.href = '/home';
+          }
 
           idUsuario = response.data.idUsuario;
           logado = true;
