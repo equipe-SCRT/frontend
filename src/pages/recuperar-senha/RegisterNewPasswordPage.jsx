@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../../pages/login/Login.module.css';
 import loginImage from '../../assets/images/login-image.jpeg';
-import axios from 'axios';
 import Swal from 'sweetalert2';
+import api from '../../api/api';
 
 const RegisterNewPassword = () => {
-  const [getId, setId] = useState("");
   const [getSenha, setSenha] = useState("");
   const [getSenhaConf, setSenhaConf] = useState("");
-  
-  const api = axios.create({
-    baseURL: "http://localhost:8080/usuarios",
-    withCredentials: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    }
-  });
 
   function _alertaSucesso(titulo, texto) {
     Swal.fire({
@@ -34,21 +24,10 @@ const RegisterNewPassword = () => {
     });
   }
 
-  useEffect(() => {
-    _coletarGet();
-  }, [])
-
-  const _coletarGet = () => {
-    const urlAtual = window.location.href;
-    const urlClass = new URL(urlAtual);
-    var id = urlClass.searchParams.get("code");
-    setId(id);
-  }
-
   const enviar = () => {
     if(getSenha != "" && getSenhaConf != ""){
       if(getSenha == getSenhaConf){
-        api.patch(`/trocar-senha?code=${getId}&senha=${getSenha}`).then((res) => {
+        api.patch(`/usuarios/trocar-senha?senha=${getSenha}&id=${sessionStorage.getItem("userId")}`).then((res) => {
           _alertaSucesso("Senha modificada com sucesso", "Obrigado");
         }).catch((err) => _alertaError("Erro ao modificar senha", err));      
       } else{
