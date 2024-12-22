@@ -169,6 +169,26 @@ const HomePage = () => {
     }
   }, [selectedRangeVencidos, selectedIdVencidos]);
 
+  useEffect(() =>{
+    const fetchPordutosEmVencimentoHoje = async () =>{
+      try {
+        const response = await api.get(`/produtos-unitario/produtos-em-vencimento-hoje`);
+        console.log(response.data)
+          if (response.data > 0) {
+            const notificacao = {
+              conteudo: `${response.data} produtos estão vencendo hoje!`,
+              tipoNotificacao: 1
+            }
+            api.post(`/notificacoes`, notificacao); 
+          }
+      } catch (error) {
+        console.error(error)
+      }
+    };
+
+    fetchPordutosEmVencimentoHoje();
+  }, [])
+
   useEffect(() => {
     if (selectedRangeArrecadados.length === 2 && selectedIdArrecadados > 0) {
       fetchDadosEstoquePorId();

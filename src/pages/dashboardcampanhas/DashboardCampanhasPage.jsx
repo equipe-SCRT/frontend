@@ -176,15 +176,6 @@ const DashboardCampanhas = () => {
     setSelectedDate(parseISO(campanha.dataCampanha));
   };
 
-  const formatDate = (dateString) => {
-    return format(parseISO(dateString), 'dd/MM/yyyy');
-  };
-
-  const campanhasComData = dadosCampanhas.map(campanha => ({
-    ...campanha,
-    localCampanha: `${campanha.localCampanha} - ${formatDate(campanha.dataCampanha)}` 
-  }));
-
   const downloadPdfWithGraphs = async () => {
     const ids = ["qtdArrecadados", "qtdProdutos"]
     for(let i = 0; i <= ids.length; i++){
@@ -305,13 +296,12 @@ const DashboardCampanhas = () => {
             
                 <GraficoLinha
                   data={[dadosSelecionados, dadosComparacao]}
-                                xValue={'dataCampanha'}
-              yValue={'qtdArrecadada'}
-                  cores={["#22CC52", "#4444FF"]}
-                  titulo={"Quantidade de Doações Variadas por Campanhas"}
-
-                  label={[nomeCampanhaSelecionada, nomeCampanhaComparada]}
-                              >
+                    xValue={'dataCampanha'}
+                    yValue={'qtdArrecadada'}
+                    cores={["#22CC52", "#4444FF"]}
+                    titulo={"Quantidade de Doações Variadas por Campanhas"}
+                    label={[nomeCampanhaSelecionada, nomeCampanhaComparada]}
+                >
               <SelectScrt
                 dados={dadosCampanhas}
                 onChange={(e) => {
