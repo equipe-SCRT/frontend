@@ -28,7 +28,8 @@ const RegisterNewPassword = () => {
     if(getSenha != "" && getSenhaConf != ""){
       if(getSenha == getSenhaConf){
         api.patch(`/usuarios/trocar-senha?senha=${getSenha}&id=${sessionStorage.getItem("userId")}`).then((res) => {
-          _alertaSucesso("Senha modificada com sucesso", "Obrigado");
+          _alertaSucesso("Senha modificada com sucesso", "Anote a nova senha cadastrada");
+          window.location.href = '/home'
         }).catch((err) => _alertaError("Erro ao modificar senha", err));      
       } else{
         _alertaError("Erro ao modificar senha", "Senhas diferem")

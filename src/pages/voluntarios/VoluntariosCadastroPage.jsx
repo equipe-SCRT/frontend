@@ -333,11 +333,8 @@ const VoluntariosCadastro = () => {
           if (response)
 
             handleVoluntarios();
-
-          api.post("/usuarios/recuperar-senha/" + email).then((res) => {
-            _alertaSucesso("Cadastro efetuado e e-mail enviado com sucesso", "Por favor, peça ao usuário para verificar o e-mail e span");
-          })
-        }).catch((err) => _alertaError("Erro ao enviar o e-mail", "Verifque se o e-mail informado está correto!"))
+            _alertaSucesso("Cadastro efetuado com sucesso", "Por favor, use a senha padrão para efetuar o login deste usuário");
+        }).catch((err) => _alertaError("Erro ao efetuar o cadastro", "Verifque se os campos estão corretos!"))
       } catch (err) {
         _alertaError("Cadastro Inválido!", "Verifique se os campos estão preenchidos")
       }
