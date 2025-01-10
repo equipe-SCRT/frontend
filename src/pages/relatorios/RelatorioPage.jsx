@@ -4,6 +4,8 @@ import Select from "../components/SelectPicker";
 import DataRange from "../components/dataRange/DateRange";
 import PopOver from "../components/PopOver";
 import Swal from 'sweetalert2';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 
 const Relatorio = () => {
@@ -72,41 +74,122 @@ const Relatorio = () => {
 
     const exportarRelatorio = async (item) => {
 
+        if(tipo === "PDF"){
+            const pages = [
+                { url: "/campanhas", graphId: "qtdArrecadados", title: "Quantidade Arrecadada" },
+                { url: "/campanhas", graphId: "qtdVariadaPorCampanha", title: "Variação por Campanha" },
+                { url: "/campanhas", graphId: "qtdProdutoPorCampanha", title: "Produtos por Campanha" }
+            ];
+        
+            const pdf = new jsPDF();
+            let isFirstPage = true;
 
-        try {
+            for (const page of pages) {
+                try {
+                    // Criar o iframe para carregar a página
+                    const iframe = document.createElement("iframe");
+                    iframe.style.position = "absolute";
+                    iframe.style.top = "-9999px";
+                    iframe.style.left = "-9999px";
+                    iframe.style.width = "1000px"; // Garantir tamanho suficiente
+                    iframe.style.height = "1000px"; // Garantir tamanho suficiente
+                    document.body.appendChild(iframe);
 
-            const response = await fetch('http://localhost:8080/relatorio/exportar/' + item.path, {
-                method: 'GET',
-                'Content-Type': 'text/csv'
-            });
+                    // Esperar o iframe carregar a página
+                    await new Promise((resolve, reject) => {
+                        iframe.onload = resolve;
+                        iframe.onerror = reject;
+                        iframe.src = page.url;
+                    });
 
-            if (response.ok) {
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
+                    // Selecionar o gráfico no iframe
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    const graphElement = iframeDoc.querySelector(`#${page.graphId}`);
 
-                a.download = 'relatorio ' + item.periodo;
+                    if (!graphElement) {
+                        console.error(`Gráfico com ID ${page.graphId} não encontrado na página ${page.url}`);
+                        document.body.removeChild(iframe);
+                        continue; // Pular para a próxima página
+                    }
 
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                window.URL.revokeObjectURL(url);
-                _alertaSucesso("Operação com sucesso!", "Arquivo foi baixado na máquina local")
-            } else {
-                _alertaError("Período inválido!", "Verifique o período selecionado.")
+                    // Garantir que o gráfico foi renderizado
+                    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+                    // Capturar o gráfico como imagem
+                    const chartCanvas = graphElement.querySelector("canvas");
+                    let dataUrl;
+                    if (chartCanvas) {
+                        dataUrl = chartCanvas.toDataURL("image/png");
+                    } else {
+                        const canvas = await html2canvas(graphElement, {
+                            useCORS: true,
+                            scale: 3,
+                        });
+                        dataUrl = canvas.toDataURL("image/png");
+                    }
+
+                    if (!dataUrl || dataUrl === "data:,") {
+                        console.error("O gráfico não foi capturado corretamente ou está vazio.");
+                        document.body.removeChild(iframe);
+                        continue;
+                    }
+
+                    // Adicionar gráfico ao PDF
+                    if (!isFirstPage) {
+                        pdf.addPage();
+                    }
+                    pdf.setFont("helvetica", "bold");
+                    pdf.setFontSize(16);
+                    pdf.text(page.title, 20, 20);
+                    pdf.addImage(dataUrl, "JPEG", 10, 30, 190, 100);
+
+                    isFirstPage = false;
+
+                    // Remover iframe após o uso
+                    document.body.removeChild(iframe);
+                } catch (error) {
+                    console.error(`Erro ao processar o gráfico da página ${page.url}:`, error);
+                }
             }
 
+            // Salvar o PDF
+            pdf.save("relatorio_paginas.pdf");
+        }else{    
+                try {
+                    
+                    const response = await fetch('http://localhost:8080/relatorio/exportar/' + item.path, {
+                    method: 'GET',
+                    'Content-Type': 'text/csv'
+                });
 
-        } catch (error) {
-            _alertaError('Erro:', error);
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    
+                    a.download = 'relatorio ' + item.periodo;
+                    
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                    _alertaSucesso("Operação com sucesso!", "Arquivo foi baixado na máquina local")
+                } else {
+                    _alertaError("Período inválido!", "Verifique o período selecionado.")
+                }
+
+
+            } catch (error) {
+                _alertaError('Erro:', error);
+            }
         }
 
     }
 
-
+    
     const fetchImportarRelatorio = async (selectedFile) => {
-
+        
         if (!selectedFile) {
             _alertaError("Formato de arquivo incorreto!", "");
             return;

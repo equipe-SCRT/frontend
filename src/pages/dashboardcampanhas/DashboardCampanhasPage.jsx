@@ -177,50 +177,102 @@ const DashboardCampanhas = () => {
   };
 
   const downloadPdfWithGraphs = async () => {
-    const ids = ["qtdArrecadados", "qtdProdutos"]
-    for(let i = 0; i <= ids.length; i++){
-      try {
-          const graphElement = document.getElementById(ids[i]);
-  
-          if (!graphElement) {
-              console.error("Elemento não encontrado.");
-              return;
-          }
-  
-          // Aguardar para garantir que o gráfico está renderizado
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-          // Tentar capturar o canvas diretamente, se for gráfico
-          const chartCanvas = graphElement.querySelector("canvas");
-          let dataUrl;
-          if (chartCanvas) {
-              console.log("Capturando gráfico diretamente do canvas.");
-              dataUrl = chartCanvas.toDataURL("image/png");
-          } else {
-              console.log("Usando html2canvas para capturar o elemento.");
-              const canvas = await html2canvas(graphElement, {
-                  useCORS: true,
-                  scale: 2,
-              });
-              dataUrl = canvas.toDataURL("image/png");
-          }
-  
-          // Verificar se o Data URL é válido
-          if (dataUrl === "data:,") {
-              console.error("Canvas vazio ou inválido.");
-              return;
-          }
-  
-          // Criar e baixar o PDF
-          const pdf = new jsPDF();
-          pdf.addImage(dataUrl, "PNG", 10, 10, 190, 100);
-          pdf.save("grafico.pdf");
-      } catch (error) {
-          console.error("Erro ao gerar o PDF:", error);
-      }
+    const ids = [
+        { id: "qtdArrecadados", title: "Quantidade Arrecadada" },
+        { id: "qtdVariadaPorCampanha", title: "Variação por Campanha" },
+        { id: "qtdProdutoPorCampanha", title: "Produtos por Campanha" },
+        { id: "produtosConforme", title: "Produtos Conforme Critérios" },
+    ];
 
+    const pdf = new jsPDF();
+
+    // Adicionar título principal ao PDF
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(18);
+    pdf.text("Relatório de Gráficos", 105, 20, { align: "center" });
+
+    // Adicionar subtítulo ou descrição com espaçamento abaixo
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(12);
+    pdf.text(
+        "Este relatório apresenta os gráficos relacionados às campanhas e produtos analisados.", 
+        20, 
+        30
+    );
+
+    // Adicionar espaço para evitar sobreposição com o primeiro gráfico
+    let yOffset = 40; // Define a posição inicial após o subtítulo
+
+    for (let i = 0; i < ids.length; i++) {
+        try {
+            const { id, title } = ids[i];
+            const graphElement = document.getElementById(id);
+
+            if (!graphElement) {
+                console.error(`Elemento com ID ${id} não encontrado.`);
+                continue; // Pula para o próximo gráfico
+            }
+
+            // Aguardar para garantir que o gráfico está renderizado
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
+            // Capturar gráfico
+            const chartCanvas = graphElement.querySelector("canvas");
+            let dataUrl;
+            if (chartCanvas) {
+                console.log("Capturando gráfico diretamente do canvas.");
+                dataUrl = chartCanvas.toDataURL("image/png");
+            } else {
+                console.log("Usando html2canvas para capturar o elemento.");
+                const canvas = await html2canvas(graphElement, {
+                    useCORS: true,
+                    scale: 2,
+                });
+                dataUrl = canvas.toDataURL("image/png");
+            }
+
+            // Verificar se o Data URL é válido
+            if (dataUrl === "data:,") {
+                console.error("Canvas vazio ou inválido.");
+                continue; // Pula para o próximo gráfico
+            }
+
+            // Adicionar nova página para gráficos após o primeiro
+            if (i > 0) {
+                pdf.addPage();
+                yOffset = 20; // Reiniciar posição na nova página
+            }
+
+            // Adicionar título do gráfico
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(16);
+            pdf.text(title, 20, yOffset);
+
+            // Adicionar texto explicativo sobre o gráfico
+            pdf.setFont("helvetica", "normal");
+            pdf.setFontSize(12);
+            pdf.text(
+                `Este gráfico apresenta informações detalhadas sobre ${title.toLowerCase()}.`,
+                20,
+                yOffset + 10
+            );
+
+            // Adicionar gráfico ao PDF
+            pdf.addImage(dataUrl, "PNG", 10, yOffset + 20, 190, 100);
+
+            // Ajustar a posição para evitar sobreposição
+            yOffset += 140; // Atualizar o deslocamento vertical
+        } catch (error) {
+            console.error(`Erro ao processar o gráfico com ID ${ids[i].id}:`, error);
+        }
     }
+
+    // Salvar o PDF final
+    pdf.save("relatorio_graficos.pdf");
 };
+
+
+
 
   return (
     <>
@@ -268,9 +320,10 @@ const DashboardCampanhas = () => {
           <Row>
             <Col md lg={6}>
                   <GraficoLinha
+                  id={"qtdArrecadados"}
                     data={dadosAlimentosArrecadadosMes}
                     cores={["#22CC52"]}
-                                  xValue={'dataCampanha'}
+                    xValue={'dataCampanha'}
                     yValue={'qtdArrecadada'}
                     titulo={"Quantidade Total de Alimentos Arrecadados nas Campanhas"}
                     label={"Quantidade"}
@@ -281,6 +334,7 @@ const DashboardCampanhas = () => {
             <Col md lg={6}>
               
                 <GraficoBarrasHorizontais
+                  id={"qtdProdutoPorCampanha"}
                   data={dadosFiltradosPorProduto}
                   titulo={"Quantidade de produto por campanha"}
                   cores="#FF0000"
@@ -295,6 +349,7 @@ const DashboardCampanhas = () => {
             <Col md lg={6}>
             
                 <GraficoLinha
+                id={"qtdVariadaPorCampanha"}
                   data={[dadosSelecionados, dadosComparacao]}
                     xValue={'dataCampanha'}
                     yValue={'qtdArrecadada'}
@@ -317,6 +372,7 @@ const DashboardCampanhas = () => {
             </Col>
             <Col md lg={6}>
                 <ListaBarraProgresso
+                  id={"produtosConforme"}
                   titulo={"Análise de Alimentos por Campanha"}
                   itens={produtosConformeNaoConforme}
                 />

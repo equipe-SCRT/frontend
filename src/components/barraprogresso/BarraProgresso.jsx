@@ -2,13 +2,13 @@ import React from 'react';
 import { ProgressBar } from 'react-bootstrap';
 import styles from './BarraProgresso.module.css'
 
-const BarraProgresso = ({ vencidos, arrecadados, nome }) => {
+const BarraProgresso = ({ id,vencidos, arrecadados, nome }) => {
   const total = vencidos + arrecadados;
   const vencidosPorcentagem = (vencidos / total) * 100;
   const arrecadadosPorcentagem = (arrecadados / total) * 100;
 
   return (
-    <div>
+    <div id={id}>
       <span>{nome}</span>
       <ProgressBar style={{ height: "20px", margin: "10px 0" }}>
         <ProgressBar

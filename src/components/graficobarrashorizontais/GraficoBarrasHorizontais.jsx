@@ -21,6 +21,7 @@ ChartJS.register(
 );
 
 const GraficoBarrasHorizontais = ({
+  id,
   data,
   titulo,
   label,
@@ -67,7 +68,7 @@ const GraficoBarrasHorizontais = ({
   };
 
   return (
-    <div style={{ marginTop: "10px", padding: "10px", height: "100%" }}>
+    <div id={id} style={{ marginTop: "10px", padding: "10px", height: "100%" }}>
       <h5 style={{ color: "#21272A" }}>
         <strong>{titulo}</strong>
       </h5>

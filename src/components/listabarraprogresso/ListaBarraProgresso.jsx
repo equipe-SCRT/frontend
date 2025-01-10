@@ -2,10 +2,10 @@ import React from 'react';
 import BarraProgresso from '../barraprogresso/BarraProgresso';
 import styles from './ListaBarraProgresso.module.css'
 
-const ListaDeItens = ({ itens, titulo }) => {
+const ListaDeItens = ({ id, itens, titulo }) => {
   return (
     <>
-      <div className={styles.container}>
+      <div id={id} className={styles.container}>
         <h5>
           <strong>{titulo}</strong>
         </h5>

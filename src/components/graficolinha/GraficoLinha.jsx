@@ -26,7 +26,7 @@ Chart.register(
 );
 
 
-const GraficoLinha = ({ children, data, cores, titulo, label, xValue, yValue }) => {
+const GraficoLinha = ({id, children, data, cores, titulo, label, xValue, yValue }) => {
   let datasets = [];
   let unicoDataset = !Array.isArray(data[0]);
   xValue = xValue == undefined ? 'mes' : xValue;
@@ -97,7 +97,7 @@ const GraficoLinha = ({ children, data, cores, titulo, label, xValue, yValue }) 
     },
   };
   return (
-    <div id="qtdArrecadados" style={{ marginTop: "10px", padding: "10px" }}>
+    <div id= {id} style={{ marginTop: "10px", padding: "10px" }}>
       <h5 style={{ color: "#21272A", marginBottom: "10px" }}>
         <strong>{titulo}</strong>
       </h5>
@@ -106,7 +106,7 @@ const GraficoLinha = ({ children, data, cores, titulo, label, xValue, yValue }) 
         {children}
 
       </>
-      <Line id="qtdArrecadados" data={dados} options={options} />
+      <Line data={dados} options={options} />
     </div>
   );
 };
