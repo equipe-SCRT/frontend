@@ -4,16 +4,10 @@ import Select from "../components/SelectPicker";
 import DataRange from "../components/dataRange/DateRange";
 import PopOver from "../components/PopOver";
 import Swal from 'sweetalert2';
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+
 
 
 const Relatorio = () => {
-
-    const importarRelatorio = (event) => {
-        const selectedFile = event.target.files[0];
-        fetchImportarRelatorio(selectedFile);
-    }
 
     function _alertaSucesso(titulo, texto) {
         Swal.fire({
@@ -31,145 +25,29 @@ const Relatorio = () => {
         });
     }
 
-    const [periodo, setPeriodo] = useState(['teste']);
     const [tipo, setTipo] = useState('csv');
-    const [ano, setAno] = useState('2024');
-
-    const periodoChange = (value) => {
-        setPeriodo(value);
-    }
-
 
     const tipoChange = (value) => {
         setTipo(value);
     }
 
+    const exportarRelatorio = async () => {
 
-    const anoChange = (value) => {
-        setAno(value);
-    }
+        try {
 
-    const formatDate = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    };
-
-    const exportarRelatorioCompleto = (dateString) => {
-
-        const dateStrings = dateString.toString().split(",").map(date => date.trim());
-        const dates = dateStrings.map(dateStr => {
-            const date = new Date(dateStr);
-            return formatDate(date);
-        });
-
-        const caminho = `${dates[0]}/${dates[1]}/${tipo}`;
-
-        const periodo = `${dates[0]}-${dates[1]}`;
-
-        let item = { 'periodo': periodo, 'path': caminho }
-        exportarRelatorio(item)
-    }
-
-    const exportarRelatorio = async (item) => {
-
-        if(tipo === "PDF"){
-            const pages = [
-                { url: "/campanhas", graphId: "qtdArrecadados", title: "Quantidade Arrecadada" },
-                { url: "/campanhas", graphId: "qtdVariadaPorCampanha", title: "Variação por Campanha" },
-                { url: "/campanhas", graphId: "qtdProdutoPorCampanha", title: "Produtos por Campanha" }
-            ];
-        
-            const pdf = new jsPDF();
-            let isFirstPage = true;
-
-            for (const page of pages) {
-                try {
-                    // Criar o iframe para carregar a página
-                    const iframe = document.createElement("iframe");
-                    iframe.style.position = "absolute";
-                    iframe.style.top = "-9999px";
-                    iframe.style.left = "-9999px";
-                    iframe.style.width = "1000px"; // Garantir tamanho suficiente
-                    iframe.style.height = "1000px"; // Garantir tamanho suficiente
-                    document.body.appendChild(iframe);
-
-                    // Esperar o iframe carregar a página
-                    await new Promise((resolve, reject) => {
-                        iframe.onload = resolve;
-                        iframe.onerror = reject;
-                        iframe.src = page.url;
-                    });
-
-                    // Selecionar o gráfico no iframe
-                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    const graphElement = iframeDoc.querySelector(`#${page.graphId}`);
-
-                    if (!graphElement) {
-                        console.error(`Gráfico com ID ${page.graphId} não encontrado na página ${page.url}`);
-                        document.body.removeChild(iframe);
-                        continue; // Pular para a próxima página
-                    }
-
-                    // Garantir que o gráfico foi renderizado
-                    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-                    // Capturar o gráfico como imagem
-                    const chartCanvas = graphElement.querySelector("canvas");
-                    let dataUrl;
-                    if (chartCanvas) {
-                        dataUrl = chartCanvas.toDataURL("image/png");
-                    } else {
-                        const canvas = await html2canvas(graphElement, {
-                            useCORS: true,
-                            scale: 3,
-                        });
-                        dataUrl = canvas.toDataURL("image/png");
-                    }
-
-                    if (!dataUrl || dataUrl === "data:,") {
-                        console.error("O gráfico não foi capturado corretamente ou está vazio.");
-                        document.body.removeChild(iframe);
-                        continue;
-                    }
-
-                    // Adicionar gráfico ao PDF
-                    if (!isFirstPage) {
-                        pdf.addPage();
-                    }
-                    pdf.setFont("helvetica", "bold");
-                    pdf.setFontSize(16);
-                    pdf.text(page.title, 20, 20);
-                    pdf.addImage(dataUrl, "JPEG", 10, 30, 190, 100);
-
-                    isFirstPage = false;
-
-                    // Remover iframe após o uso
-                    document.body.removeChild(iframe);
-                } catch (error) {
-                    console.error(`Erro ao processar o gráfico da página ${page.url}:`, error);
-                }
-            }
-
-            // Salvar o PDF
-            pdf.save("relatorio_paginas.pdf");
-        }else{    
-                try {
-                    
-                    const response = await fetch('http://localhost:8080/relatorio/exportar/' + item.path, {
+            if (tipo == "pdf") {
+                const response = await fetch('http://localhost:8080/relatorio/exportar/relatorio' , {
                     method: 'GET',
-                    'Content-Type': 'text/csv'
+                    'Content-Type': 'pdf'
                 });
-
                 if (response.ok) {
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    
-                    a.download = 'relatorio ' + item.periodo;
-                    
+
+                    a.download = 'relatorio ' + tipo;
+
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
@@ -178,99 +56,40 @@ const Relatorio = () => {
                 } else {
                     _alertaError("Período inválido!", "Verifique o período selecionado.")
                 }
-
-
-            } catch (error) {
-                _alertaError('Erro:', error);
-            }
-        }
-
-    }
-
-    
-    const fetchImportarRelatorio = async (selectedFile) => {
-        
-        if (!selectedFile) {
-            _alertaError("Formato de arquivo incorreto!", "");
-            return;
-        }
-
-        try {
-
-            const response = await fetch(`http://localhost:8080/relatorio/importar/` + selectedFile.name, {
-                method: 'POST',
-                headers: {
-                    'fileName': selectedFile.name,
-                    'Content-Type': 'application/octet-stream',
-                },
-                body: await selectedFile.arrayBuffer(),
-            });
-
-            if (response.ok) {
-                const result = await response.text();
-                _alertaSucesso("Arquivo cadastrado com sucesso!", "")
             } else {
-                _alertaError("Arquivo inválido!", "")
+                const response = await fetch('http://localhost:8080/relatorio/exportar/' + tipo, {
+                    method: 'GET',
+                    'Content-Type': 'text/csv'
+                });
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+
+                    a.download = 'relatorio ' + tipo;
+
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                    _alertaSucesso("Operação com sucesso!", "Arquivo foi baixado na máquina local")
+                } else {
+                    _alertaError("Período inválido!", "Verifique o período selecionado.")
+                }
             }
+
+
 
 
         } catch (error) {
-            _alertaError("Arquivo inválido!", error)
+            _alertaError('Erro:', error);
         }
     }
-
-    const baseRelatorio = [
-        { periodo: 'Janeiro', value: '1', path: ano + "-01-01/" + ano + "-01-30/csv" },
-        { periodo: 'Fevereiro', value: '2', path: ano + "-02-01/" + ano + "-02-30/csv" },
-        { periodo: 'Março', value: '3', path: ano + "-03-01/" + ano + "-03-30/csv" },
-        { periodo: 'Abril', value: '4', path: ano + "-04-01/" + ano + "-04-30/csv" },
-        { periodo: 'Maio', value: '5', path: ano + "-05-01/" + ano + "-05-30/csv" },
-        { periodo: 'Junho', value: '6', path: ano + "-06-01/" + ano + "-06-30/csv" },
-        { periodo: 'Julho', value: '7', path: ano + "-07-01/" + ano + "-07-30/csv" },
-        { periodo: 'Agosto', value: '8', path: ano + "-08-01/" + ano + "-08-30/csv" },
-        { periodo: 'Setembro', value: '9', path: ano + "-09-01/" + ano + "-09-30/csv" },
-        { periodo: 'Outubro', value: '10', path: ano + "-10-01/" + ano + "-10-30/csv" },
-        { periodo: 'Novembro', value: '11', path: ano + "-11-01/" + ano + "-11-30/csv" },
-        { periodo: 'Dezembro', value: '12', path: ano + "-12-01/" + ano + "-12-30/csv" }
-    ];
-
-    const data = baseRelatorio.map((item) => {
-
-        const isAvailable = item.value < new Date().getMonth() + 1;
-
-        return {
-            periodo: item.periodo,
-            disponibilidade: isAvailable ? 'Disponível' : 'Indisponível',
-            download: isAvailable ? <label className={style.baixarRelatorio} onClick={() => exportarRelatorio(item)}>Baixar relatório</label> : 'Baixar Relatório '
-        }
-    });
 
     return (
         <div className="container-fluid mb-5" >
             <div style={{ padding: 60 }} >
-
-
-                {/* <div className={style.TituloPrincipal}>
-                <h1>Relatórios</h1>
-            </div>
-            <div className="row">
-                <div className="col-12 d-flex justify-content-between p-3">
-                    <p className="d-flex align-items-center">Listagem</p>
-                    <Select option={['2024']} />
-                </div>
-                <div className="">
-                    <div>
-                        <DataTable className="border mb-5" value={data}>
-                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="periodo" header="Período" sortable headerClassName="p-3 mb-2 bg-light text-dark">
-                            </Column>
-                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="disponibilidade" sortable header='Disponibilidade' headerClassName="p-3 mb-2 bg-light text-dark">
-                            </Column>
-                            <Column className="col-4 border-top p-3 mb-2 text-dark" field="download" header="Download" sortable headerClassName="p-3 mb-2 bg-light text-dark">
-                            </Column>
-                        </DataTable>
-                    </div>
-                </div>
-            </div> */}
 
                 <div className={style.TituloPrincipal}>
                     <h1>Gerar Arquivo</h1>
@@ -283,14 +102,6 @@ const Relatorio = () => {
                 <div className="border p-3" style={{ marginBottom: 50 }}>
                     <div className="row">
                         <div className="col-4 d-flex">
-                            <p className={style.frases}  >
-                                Período
-                            </p>
-                            <div className={style.popUp}>
-                                <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar a data de inicio e de fim do filtro de tempo"} />
-                            </div>
-                        </div>
-                        <div className="col-4 d-flex">
                             <p className={style.frases} >
                                 Tipo do Arquivo
                             </p>
@@ -300,61 +111,11 @@ const Relatorio = () => {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-4 d-flex align-items-center t-3">
-                            <DataRange onChange={periodoChange} />
+                        <div className="col-6 d-flex align-items-center">
+                            <Select onChange={tipoChange} option={['csv', 'txt', 'pdf']} />
                         </div>
-                        <div className="col-4 d-flex align-items-center">
-                            <Select onChange={tipoChange} option={['CSV', 'TXT', 'PDF']} />
-                        </div>
-                        <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 20 }} >
-                            <label htmlFor="" onClick={() => exportarRelatorioCompleto(periodo)} className={style.Botao}>Exportar Arquivo</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={style.TituloPrincipal}>
-                    <h1>Importar Arquivo</h1>
-                </div>
-                <div>
-                    <p className={style.SubTitulo}>
-                        Selecione o período que deseja gerar as informações e em qual formato será exportado
-                    </p>
-                </div>
-                <div className="border p-3" style={{ marginBottom: 100 }}>
-                    <div className="row">
-                        <div className="col-4 d-flex">
-                            <p className={style.frases} >
-                                Tipo do Anexo
-                            </p>
-                            <div className={style.popUp}>
-                                <PopOver id="question_icon" mensagem={"Escolha em qual tabela você deseja inserir os dados"} />
-                            </div>
-                        </div>
-                        <div className="col-4 d-flex">
-                            <p className={style.frases}>
-                                Tipo do Arquivo
-                            </p>
-                            <div className={style.popUp}>
-                                <PopOver id="question_icon" mensagem={"Clique no campo abaixo para selecionar o formato que será importado o arquivo"} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-4 d-flex align-items-center">
-                            {/* <DataRange onChange={periodoChange} /> */}
-                            <Select onChange={tipoChange} option={['Produto Unítário']} />
-                           {/*<PopOver mensagem={"formato: 'alimento','produto'"} /> */ } 
-                        </div>
-                        <div className="col-4 d-flex align-items-center">
-                            <Select onChange={tipoChange} option={['CSV', 'TXT']} />
-                        </div>
-                        <div className="col-4 d-flex justify-content-end" style={{ paddingRight: 20 }} >
-                            <div className="row">
-                                <div className="col-12 d-flex justify-content-end p-3">
-                                    <label className={style.Botao} for="actual-btn">Importar Arquivo</label>
-                                    <input onChange={importarRelatorio} type="file" id="actual-btn" hidden />
-                                </div>
-                            </div>
+                        <div className="col-6 d-flex justify-content-end" style={{ paddingRight: 20 }} >
+                            <label htmlFor="" onClick={() => exportarRelatorio()} className={style.Botao}>Exportar Arquivo</label>
                         </div>
                     </div>
                 </div>
@@ -362,7 +123,5 @@ const Relatorio = () => {
         </div>
     )
 }
-
-
 
 export default Relatorio;
