@@ -24,7 +24,7 @@ Chart.register(
   Legend
 );
 
-const GraficoPizza = ({ titulo, data }) => {
+const GraficoPizza = ({id, titulo, data }) => {
     const dados = {
         labels: ['Produtos'],
         datasets: [
@@ -68,7 +68,7 @@ const GraficoPizza = ({ titulo, data }) => {
 
     return (
 
-            <div
+            <div id={id}
                 style={{ marginTop: "10px", padding: "10px" }}
             >
                 <h5 style={{ color: "#21272A" }}>

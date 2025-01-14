@@ -10,6 +10,8 @@ import ListaBarraProgresso from '../../components/listabarraprogresso/ListaBarra
 import styles from './Home.module.css'
 import { format, addDays, parseISO, formatISO } from 'date-fns';
 import DataRange from '../../components/datarange/DataRange';
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const HomePage = () => {
 
@@ -221,9 +223,104 @@ const HomePage = () => {
     fetchQtdProdutosCestasPrincipal()
   }, []);
 
+  const downloadPdfWithGraphs = async () => {
+    const ids = [
+        { id: "qtdEmEstoque", title: "Quantidade Arrecadada" },
+        { id: "proximosDaValidade", title: "Variação por Campanha" },
+        { id: "produtosEstragados", title: "Produtos por Campanha" },
+        { id: "produtosValidos", title: "Produtos Conforme Critérios" },
+    ];
+
+    const pdf = new jsPDF();
+
+    // Adicionar título principal ao PDF
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(18);
+    pdf.text("Relatório de Gráficos", 105, 20, { align: "center" });
+
+    // Adicionar subtítulo ou descrição com espaçamento abaixo
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(12);
+    pdf.text(
+        "Este relatório apresenta os gráficos relacionados às campanhas e produtos analisados.", 
+        20, 
+        30
+    );
+
+    // Adicionar espaço para evitar sobreposição com o primeiro gráfico
+    let yOffset = 40; // Define a posição inicial após o subtítulo
+
+    for (let i = 0; i < ids.length; i++) {
+        try {
+            const { id, title } = ids[i];
+            const graphElement = document.getElementById(id);
+
+            if (!graphElement) {
+                console.error(`Elemento com ID ${id} não encontrado.`);
+                continue; // Pula para o próximo gráfico
+            }
+
+            // Aguardar para garantir que o gráfico está renderizado
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
+            // Capturar gráfico
+            const chartCanvas = graphElement.querySelector("canvas");
+            let dataUrl;
+            if (chartCanvas) {
+                console.log("Capturando gráfico diretamente do canvas.");
+                dataUrl = chartCanvas.toDataURL("image/png");
+            } else {
+                console.log("Usando html2canvas para capturar o elemento.");
+                const canvas = await html2canvas(graphElement, {
+                    useCORS: true,
+                    scale: 2,
+                });
+                dataUrl = canvas.toDataURL("image/png");
+            }
+
+            // Verificar se o Data URL é válido
+            if (dataUrl === "data:,") {
+                console.error("Canvas vazio ou inválido.");
+                continue; // Pula para o próximo gráfico
+            }
+
+            // Adicionar nova página para gráficos após o primeiro
+            if (i > 0) {
+                pdf.addPage();
+                yOffset = 20; // Reiniciar posição na nova página
+            }
+
+            // Adicionar título do gráfico
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(16);
+            pdf.text(title, 20, yOffset);
+
+            // Adicionar texto explicativo sobre o gráfico
+            pdf.setFont("helvetica", "normal");
+            pdf.setFontSize(12);
+            pdf.text(
+                `Este gráfico apresenta informações detalhadas sobre ${title.toLowerCase()}.`,
+                20,
+                yOffset + 10
+            );
+
+            // Adicionar gráfico ao PDF
+            pdf.addImage(dataUrl, "PNG", 10, yOffset + 20, 190, 100);
+
+            // Ajustar a posição para evitar sobreposição
+            yOffset += 140; // Atualizar o deslocamento vertical
+        } catch (error) {
+            console.error(`Erro ao processar o gráfico com ID ${ids[i].id}:`, error);
+        }
+    }
+
+    // Salvar o PDF final
+    pdf.save("relatorio_geral.pdf");
+};
+
   return (
     <>
-
+      <button onClick={downloadPdfWithGraphs}>Baixar PDF com Gráficos</button>
       {/* <Container> */}
       <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
         <h3 style={{
@@ -241,7 +338,7 @@ const HomePage = () => {
         <Row>
           <Col md lg={6}>
 
-            <GraficoLinha data={dadosEstoquePorId} xValue={'criadoEm'} yValue={'qtd'} cores={['#22CC52']} titulo={'Quantidade em estoque'} label={'Quantidade'}>
+            <GraficoLinha id={"qtdEmEstoque"} data={dadosEstoquePorId} xValue={'criadoEm'} yValue={'qtd'} cores={['#22CC52']} titulo={'Quantidade em estoque'} label={'Quantidade'}>
               <SelectScrt
                 dados={produtos}
                 grafico={true}
@@ -260,12 +357,12 @@ const HomePage = () => {
           </Col>
 
           <Col md lg={6} >
-            <GraficoPizza data={dadosAlimentosVencimento15E30Dias} titulo={"Alimentos próximos a validade:"} />
+            <GraficoPizza id={"proximosDaValidade"} data={dadosAlimentosVencimento15E30Dias} titulo={"Alimentos próximos a validade:"} />
           </Col>
         </Row>
         <Row>
           <Col md lg={6}>
-            <GraficoLinha data={dadosVencidosPorMes} xValue={'dataValidade'} yValue={'qtd'} cores={['#FF5555']} titulo={'Produtos estragados'} label={'Quantidade'}>
+            <GraficoLinha id={"produtosEstragados"} data={dadosVencidosPorMes} xValue={'dataValidade'} yValue={'qtd'} cores={['#FF5555']} titulo={'Produtos estragados'} label={'Quantidade'}>
 
               <SelectScrt
                 dados={produtos}
@@ -282,7 +379,7 @@ const HomePage = () => {
 
           </Col>
           <Col md lg={6}>
-            <ListaBarraProgresso titulo={"Produtos válidos x Não conforme"} itens={dadosArrecadadosXVencidos} />
+            <ListaBarraProgresso id={"produtosValidos"} titulo={"Produtos válidos x Não conforme"} itens={dadosArrecadadosXVencidos} />
           </Col>
         </Row>
         <Row>
