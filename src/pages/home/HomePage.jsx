@@ -246,9 +246,13 @@ const HomePage = () => {
         20, 
         30
     );
+    pdf.text("Quantidade de Cestas produzidas: " + dadosCestasProduzidas.count, 20, 40)
+    pdf.text("Quantidade de Alimentos em estoque: " + totalEmEstoque, 20, 50)
+    pdf.text("Produtos próximos do vencimento: " + dadosAlimentosVencimento15E30Dias['vencimento30'] + dadosAlimentosVencimento15E30Dias['vencimento15'], 20, 60)
+    pdf.text("Quantidade de alimentos vencidos: " + dadosVencidosMesAtual, 20, 70)
 
     // Adicionar espaço para evitar sobreposição com o primeiro gráfico
-    let yOffset = 40; // Define a posição inicial após o subtítulo
+    let yOffset = 80; // Define a posição inicial após o subtítulo
 
     for (let i = 0; i < ids.length; i++) {
         try {
