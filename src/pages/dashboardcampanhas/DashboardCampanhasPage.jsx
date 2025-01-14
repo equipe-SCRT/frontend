@@ -268,7 +268,7 @@ const DashboardCampanhas = () => {
     }
 
     // Salvar o PDF final
-    pdf.save("relatorio_graficos.pdf");
+    pdf.save("relatorio_campanhas.pdf");
 };
 
 

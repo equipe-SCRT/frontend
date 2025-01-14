@@ -8,6 +8,8 @@ import GraficoBarrasHorizontais from "../../components/graficobarrashorizontais/
 import GraficoLinha from '../../components/graficolinha/GraficoLinha';
 import SelectScrt from "../../components/select/SelectScrt";
 import { parseISO, format, addDays } from 'date-fns';
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const DashCondominioPage = () => {
 
@@ -186,8 +188,104 @@ const DashCondominioPage = () => {
     setNomeCondominioSelecionado(condominio.nome);
   };
 
+  const downloadPdfWithGraphs = async () => {
+    const ids = [
+        { id: "qtdArrecadados", title: "Quantidade Arrecadada" },
+        { id: "qtdVariadaPorCondominio", title: "Variação por Campanha" },
+        { id: "qtdProdutosPorCondominio", title: "Produtos por Campanha" },
+        { id: "produtosConforme", title: "Produtos Conforme Critérios" },
+    ];
+
+    const pdf = new jsPDF();
+
+    // Adicionar título principal ao PDF
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(18);
+    pdf.text("Relatório de Gráficos", 105, 20, { align: "center" });
+
+    // Adicionar subtítulo ou descrição com espaçamento abaixo
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(12);
+    pdf.text(
+        "Este relatório apresenta os gráficos relacionados às campanhas e produtos analisados.", 
+        20, 
+        30
+    );
+
+    // Adicionar espaço para evitar sobreposição com o primeiro gráfico
+    let yOffset = 40; // Define a posição inicial após o subtítulo
+
+    for (let i = 0; i < ids.length; i++) {
+        try {
+            const { id, title } = ids[i];
+            const graphElement = document.getElementById(id);
+
+            if (!graphElement) {
+                console.error(`Elemento com ID ${id} não encontrado.`);
+                continue; // Pula para o próximo gráfico
+            }
+
+            // Aguardar para garantir que o gráfico está renderizado
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
+            // Capturar gráfico
+            const chartCanvas = graphElement.querySelector("canvas");
+            let dataUrl;
+            if (chartCanvas) {
+                console.log("Capturando gráfico diretamente do canvas.");
+                dataUrl = chartCanvas.toDataURL("image/png");
+            } else {
+                console.log("Usando html2canvas para capturar o elemento.");
+                const canvas = await html2canvas(graphElement, {
+                    useCORS: true,
+                    scale: 2,
+                });
+                dataUrl = canvas.toDataURL("image/png");
+            }
+
+            // Verificar se o Data URL é válido
+            if (dataUrl === "data:,") {
+                console.error("Canvas vazio ou inválido.");
+                continue; // Pula para o próximo gráfico
+            }
+
+            // Adicionar nova página para gráficos após o primeiro
+            if (i > 0) {
+                pdf.addPage();
+                yOffset = 20; // Reiniciar posição na nova página
+            }
+
+            // Adicionar título do gráfico
+            pdf.setFont("helvetica", "bold");
+            pdf.setFontSize(16);
+            pdf.text(title, 20, yOffset);
+
+            // Adicionar texto explicativo sobre o gráfico
+            pdf.setFont("helvetica", "normal");
+            pdf.setFontSize(12);
+            pdf.text(
+                `Este gráfico apresenta informações detalhadas sobre ${title.toLowerCase()}.`,
+                20,
+                yOffset + 10
+            );
+
+            // Adicionar gráfico ao PDF
+            pdf.addImage(dataUrl, "PNG", 10, yOffset + 20, 190, 100);
+
+            // Ajustar a posição para evitar sobreposição
+            yOffset += 140; // Atualizar o deslocamento vertical
+        } catch (error) {
+            console.error(`Erro ao processar o gráfico com ID ${ids[i].id}:`, error);
+        }
+    }
+
+    // Salvar o PDF final
+    pdf.save("relatorio_condominios.pdf");
+};
+
   return (
     <>
+      <button onClick={downloadPdfWithGraphs}>Baixar PDF com Gráficos</button>
       <Col md lg={12}>
         <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
           <h3 style={{
@@ -231,6 +329,7 @@ const DashCondominioPage = () => {
             <Col md lg={6}>
               <div>
                 <GraficoLinha 
+                id={"qtdArrecadados"}
                 xValue={"criadoEm"}
                 yValue={"count"}
                 data={produtosCondominios} 
@@ -242,6 +341,7 @@ const DashCondominioPage = () => {
             <Col md lg={6}>
               <div>
                 <GraficoLinha
+                  id={"qtdVariadaPorCondominio"}
                   data={[dadosSelecionados, dadosComparacao]}
                   xValue={"criadoEm"}
                   yValue={"count"}
@@ -263,6 +363,7 @@ const DashCondominioPage = () => {
             <Col md lang={6}>
               <div>
                 <GraficoBarrasHorizontais
+                  id={"qtdProdutosPorCondominio"}
                   data={dadosFiltradosPorProduto}
                   titulo={"Quantidade de produto por condomínio"}
                   cores="#FF0000"
