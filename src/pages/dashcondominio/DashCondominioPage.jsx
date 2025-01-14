@@ -201,7 +201,7 @@ const DashCondominioPage = () => {
     // Adicionar título principal ao PDF
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(18);
-    pdf.text("Relatório de Gráficos", 105, 20, { align: "center" });
+    pdf.text("Relatório dos Condomínios", 105, 20, { align: "center" });
 
     // Adicionar subtítulo ou descrição com espaçamento abaixo
     pdf.setFont("helvetica", "normal");
