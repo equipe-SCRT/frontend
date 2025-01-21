@@ -207,7 +207,7 @@ const DashCondominioPage = () => {
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(12);
     pdf.text(
-        "Este relatório apresenta os gráficos relacionados às campanhas e produtos analisados.", 
+        "Este relatório apresenta os gráficos relacionados à todos os condomínios cadastrados.", 
         20, 
         30
     );

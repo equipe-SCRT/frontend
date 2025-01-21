@@ -6,6 +6,7 @@ import PopOver from "../components/PopOver";
 import Swal from 'sweetalert2';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import api from '../../api/api';
 
 
 const Relatorio = () => {
@@ -75,85 +76,70 @@ const Relatorio = () => {
     const exportarRelatorio = async (item) => {
 
         if(tipo === "PDF"){
-            const pages = [
-                { url: "/campanhas", graphId: "qtdArrecadados", title: "Quantidade Arrecadada" },
-                { url: "/campanhas", graphId: "qtdVariadaPorCampanha", title: "Variação por Campanha" },
-                { url: "/campanhas", graphId: "qtdProdutoPorCampanha", title: "Produtos por Campanha" }
-            ];
-        
+
+            const produtos = await api.get("/produtos-unitario");
+
             const pdf = new jsPDF();
-            let isFirstPage = true;
+            pdf.setFont("helvetica", "bold");
+            pdf.text("Produtos Unitários", 105, 10, { align: "center" });
 
-            for (const page of pages) {
-                try {
-                    // Criar o iframe para carregar a página
-                    const iframe = document.createElement("iframe");
-                    iframe.style.position = "absolute";
-                    iframe.style.top = "-9999px";
-                    iframe.style.left = "-9999px";
-                    iframe.style.width = "1000px"; // Garantir tamanho suficiente
-                    iframe.style.height = "1000px"; // Garantir tamanho suficiente
-                    document.body.appendChild(iframe);
+            pdf.setFont("helvetica", "normal");
+            pdf.text(
+            "Este relatório apresenta todos os produtos unitários cadastrados",
+            20,
+            20
+            );
 
-                    // Esperar o iframe carregar a página
-                    await new Promise((resolve, reject) => {
-                        iframe.onload = resolve;
-                        iframe.onerror = reject;
-                        iframe.src = page.url;
-                    });
+            // Cabeçalhos da tabela
+            pdf.setFont("helvetica", "bold");
+            pdf.text("Produto", 20, 40);
+            pdf.text("Validade", 90, 40);
+            pdf.text("Origem", 150, 40);
 
-                    // Selecionar o gráfico no iframe
-                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    const graphElement = iframeDoc.querySelector(`#${page.graphId}`);
+            let linhaY = 50; // Primeira linha após o cabeçalho
+            pdf.setFont("helvetica", "normal");
 
-                    if (!graphElement) {
-                        console.error(`Gráfico com ID ${page.graphId} não encontrado na página ${page.url}`);
-                        document.body.removeChild(iframe);
-                        continue; // Pular para a próxima página
-                    }
+            // Iterar sobre os produtos
+            produtos.data.forEach((produto, index) => {
+                // Limitar o nome do produto a 30 caracteres
+                const nomeProduto = produto.nome.length > 30
+                    ? produto.nome.substring(0, 30) + "..."
+                    : produto.nome;
 
-                    // Garantir que o gráfico foi renderizado
-                    await new Promise((resolve) => setTimeout(resolve, 1500));
+                // Determinar a origem
+                let origem = "Desconhecida";
+                if (produto.origem.autaDeSouzaRua) origem = "Auta de Souza";
+                else if (produto.origem.itapora) origem = "Itaporã";
+                else if (produto.origem.condominio) origem = produto.origem.condominio.nome;
+                else if (produto.origem.campanha) origem = produto.origem.campanha.localCampanha;
 
-                    // Capturar o gráfico como imagem
-                    const chartCanvas = graphElement.querySelector("canvas");
-                    let dataUrl;
-                    if (chartCanvas) {
-                        dataUrl = chartCanvas.toDataURL("image/png");
-                    } else {
-                        const canvas = await html2canvas(graphElement, {
-                            useCORS: true,
-                            scale: 3,
-                        });
-                        dataUrl = canvas.toDataURL("image/png");
-                    }
+                // Inserir nome do produto e origem
+                pdf.text(`${index + 1}. ${nomeProduto}`, 20, linhaY);
+                pdf.text(origem, 150, linhaY);
 
-                    if (!dataUrl || dataUrl === "data:,") {
-                        console.error("O gráfico não foi capturado corretamente ou está vazio.");
-                        document.body.removeChild(iframe);
-                        continue;
-                    }
-
-                    // Adicionar gráfico ao PDF
-                    if (!isFirstPage) {
-                        pdf.addPage();
-                    }
-                    pdf.setFont("helvetica", "bold");
-                    pdf.setFontSize(16);
-                    pdf.text(page.title, 20, 20);
-                    pdf.addImage(dataUrl, "JPEG", 10, 30, 190, 100);
-
-                    isFirstPage = false;
-
-                    // Remover iframe após o uso
-                    document.body.removeChild(iframe);
-                } catch (error) {
-                    console.error(`Erro ao processar o gráfico da página ${page.url}:`, error);
+                if (produto.vencido == 1) {
+                    pdf.setTextColor(255, 0, 0); // Vermelho
+                } else {
+                    pdf.setTextColor(0, 0, 0); // Preto
                 }
-            }
+
+                pdf.text(produto.dataValidade, 90, linhaY);
+
+                pdf.setTextColor(0, 0, 0);
+
+                // Avançar para a próxima linha
+                linhaY += 10;
+
+                // Quebra de página automática
+                if (linhaY > 280) {
+                    pdf.addPage();
+                    linhaY = 20; // Resetar Y na nova página
+                }
+            });
 
             // Salvar o PDF
-            pdf.save("relatorio_paginas.pdf");
+            pdf.save("relatorio_produtos_unitarios.pdf");
+
         }else{    
                 try {
                     

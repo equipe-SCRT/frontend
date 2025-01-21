@@ -242,7 +242,7 @@ const HomePage = () => {
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(12);
     pdf.text(
-        "Este relatório apresenta os gráficos relacionados às campanhas e produtos analisados.", 
+        "Este relatório apresenta os gráficos e informações relacionadas ao estoque de produtos em geral.", 
         20, 
         30
     );

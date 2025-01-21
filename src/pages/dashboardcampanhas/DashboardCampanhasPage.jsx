@@ -195,7 +195,7 @@ const DashboardCampanhas = () => {
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(12);
     pdf.text(
-        "Este relatório apresenta os gráficos relacionados às campanhas e produtos analisados.", 
+        "Este relatório apresenta os gráficos relacionados à todas as campanhas cadastradas.", 
         20, 
         30
     );
