@@ -87,12 +87,14 @@ function SideBarScrt() {
                   component={<Link to="/condominios" />}> Condomínios </MenuItem>
               </SubMenu>
 
-              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/voluntarios/cadastro" />}>
-                <div>
-                  <img src={iconUser} alt="icon voluntários" style={{ marginRight: "8px" }} />
-                  Voluntários
-                </div>
-              </MenuItem>
+              {sessionStorage.getItem("tipoUsuario") === "1" && (
+                <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/voluntarios/cadastro" />}>
+                  <div>
+                    <img src={iconUser} alt="icon voluntários" style={{ marginRight: "8px" }} />
+                    Voluntários
+                  </div>
+                </MenuItem>
+              )}
 
               <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/produtos-unitarios/cadastro" />}>
                 <div>
@@ -121,20 +123,22 @@ function SideBarScrt() {
                   Campanhas
                 </div>
               </MenuItem>
-
-              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/indicadores/cadastro" />}>
-                <div>
-                  <img src={iconMetrics} alt="icon indicadores" style={{ marginRight: "8px" }} />
-                  Indicadores
-                </div>
-              </MenuItem>
-
-              <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/relatorios" />}>
-                <div>
-                  <img src={iconSummary} alt="icon relatórios" style={{ marginRight: "8px" }} />
-                  Relatórios
-                </div>
-              </MenuItem>
+              {sessionStorage.getItem("tipoUsuario") === "1" &&(
+                <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/indicadores/cadastro" />}>
+                  <div>
+                    <img src={iconMetrics} alt="icon indicadores" style={{ marginRight: "8px" }} />
+                    Indicadores
+                  </div>
+                </MenuItem>
+              )}
+              {sessionStorage.getItem("tipoUsuario") === "1" &&(
+                <MenuItem className={`${styles.customMenuItem}`} component={<Link to="/relatorios" />}>
+                  <div>
+                    <img src={iconSummary} alt="icon relatórios" style={{ marginRight: "8px" }} />
+                    Relatórios
+                  </div>
+                </MenuItem>
+              )}
             </Menu>
 
           </main>

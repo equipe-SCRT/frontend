@@ -39,7 +39,7 @@ const VoluntariosCadastro = () => {
               {encontrados.data[i].email}
             </td>
             <td>
-              {encontrados.data[i].tipoUsuario == 1 ? "Administrador" : "Volunt ário"}
+              {encontrados.data[i].tipoUsuario == 1 ? "Administrador" : "Voluntário"}
             </td>
             <td>
               <svg value={encontrados.data[i].id} onClick={(e) => handleDelete(e.target.value)}
