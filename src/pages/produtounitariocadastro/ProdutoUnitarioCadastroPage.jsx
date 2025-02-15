@@ -236,9 +236,9 @@ const ProdutoUnitarioCadastro = () => {
       }
       else if (field == "origem") {
         let nome = "";
-        if (rowData.origem.itapora != 0) {
+        if (rowData.origem.itapora != 0 & rowData.origem.itapora != null) {
           nome = "Itaporã";
-        } else if (rowData.origem.autaDeSouzaRua != 0) {
+        } else if (rowData.origem.autaDeSouzaRua != 0 && rowData.origem.autaDeSouzaRua != null) {
           nome = "Auta de Souza";
         } else if (rowData.origem.campanha != null) {
           nome = rowData.origem.campanha.localCampanha;
