@@ -103,6 +103,7 @@ const ProdutoUnitarioCadastro = () => {
 
     try {
       var encontrados = await api.get("/origens");
+      console.log(encontrados.data)
       var listaOrigens = [];
       listaOrigens.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
@@ -408,7 +409,7 @@ const ProdutoUnitarioCadastro = () => {
                   paginator // Ativa a paginação
                   paginatorPosition="bottom" // Coloca o paginador na parte inferior da tabela
                   rowsPerPageOptions={[5, 10, 20]}>
-                  <Column style={{ color: "black" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable style={{ padding: '10px' }} />
+                  <Column style={{ color: "black", padding: "10px" }} field="id" header="#" body={(rowData) => renderEditableCell(rowData, 'id')} sortable/>
 
                   <Column field="nome" header="Nome" body={(rowData) => renderEditableCell(rowData, 'nome')} sortable style={{ padding: '10px' }}>
 

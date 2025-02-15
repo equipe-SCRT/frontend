@@ -83,13 +83,18 @@ const TipoCestaCadastro = () => {
       nome: getNome
     }
     try {
-      var response = api.post("/tipos-cestas", tipoCesta);
-      if (response.status == 201) {
-        setTipoCestaId(response.data.id)
-        _alertaSucesso("Cadastrado!", "Cesta cadastrada com sucesso")
-        handleProdutoCesta();
-        window.location.reload()
-      }
+      api.post("/tipos-cestas", tipoCesta)
+        .then((response) => {
+          if (response.status === 201) {
+            setTipoCestaId(response.data.id);
+            _alertaSucesso("Cadastrado!", "Cesta cadastrada com sucesso");
+            handleProdutoCesta();
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 500); // Pequeno atraso para garantir a atualização da UI
+          }
+        })
     } catch (error) {
       _alertaError("Cadastro inválido!", "Verique as informações!")
       console.log(error)

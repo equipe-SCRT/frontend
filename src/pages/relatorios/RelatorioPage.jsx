@@ -145,7 +145,10 @@ const Relatorio = () => {
                     
                     const response = await fetch('http://localhost:8080/relatorio/exportar/' + item.path, {
                     method: 'GET',
-                    'Content-Type': 'text/csv'
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'text/csv'
+                    }
                 });
 
                 if (response.ok) {
@@ -186,6 +189,7 @@ const Relatorio = () => {
             const response = await fetch(`http://localhost:8080/relatorio/importar/` + selectedFile.name, {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'fileName': selectedFile.name,
                     'Content-Type': 'application/octet-stream',
                 },

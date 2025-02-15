@@ -281,11 +281,10 @@ const CampanhaCadastroPage = () => {
       try {
         var encontrados = await api.get("/tipo-campanhas");
         var nomeCampanhas = [];
-
-
+        
         for (var i = 0; i < encontrados.data.length; i++) {
           nomeCampanhas.push(
-            <option value={encontrados.data[i].idTipoCampanha}>{encontrados.data[i].nome}</option>
+            <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
           )
         }
         setNomeCampanhas(nomeCampanhas);

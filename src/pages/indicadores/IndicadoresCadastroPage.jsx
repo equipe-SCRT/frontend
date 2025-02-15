@@ -177,7 +177,7 @@ const IndicadoresCadastro = () => {
     for (let i = 0; i < getReqTipoCampanha.length; i++) {
       console.log(JSON.stringify(getReqTipoCampanha[i]))
       returnSelectTipoCampanha.push(
-        <option value={getReqTipoCampanha[i].idTipoCampanha}>{getReqTipoCampanha[i].nome}</option>
+        <option value={getReqTipoCampanha[i].id}>{getReqTipoCampanha[i].nome}</option>
       )
     }
     setTipoCampanhasSelectTxt(returnSelectTipoCampanha)
@@ -250,7 +250,7 @@ const IndicadoresCadastro = () => {
           <div className="col-6" style={{ margin: "0" }}>
             <div className="form-section" id='form-register' style={{ width: "100%", margin: "0" }}>
               <div className="card-body-form" style={{ width: "100%", height: "300px" }}>
-                <p>Valores existentes em Tipo Produto</p><br />
+                <p>Tipos de Produtos Existentes:</p><br />
                 <div className="product-form">
                   <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
                     {getTipoProdutoExistentes}
@@ -323,7 +323,7 @@ const IndicadoresCadastro = () => {
                     <div className='row' style={estiloInputTipoCampanha}>
                       <div className="form-group" id='name'>
                         <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo da campanha a ser <span className="textoMudanca"><b style={{ fontSize: "18px", textDecoration: "underline" }}>{getNomeCampoTipoCampanha != "" ? getNomeCampoTipoCampanha : "cadastrado"}</b></span></label>
-                        <input type="text" name="nomeSel" placeholder='Praça Municipal' id="nomeSel" onChange={(e) => setNomeTipoCampanha(e.target.value)} style={{ width: '100%' }} />
+                        <input type="text" name="nomeSel" placeholder='Escola' id="nomeSel" onChange={(e) => setNomeTipoCampanha(e.target.value)} style={{ width: '100%' }} />
                       </div>
                     </div>
                     <div className='row' style={estiloSelectTipoCampanha}>
@@ -346,7 +346,7 @@ const IndicadoresCadastro = () => {
           <div className="col-6" style={{ margin: "0" }}>
             <div className="form-section" id='form-register' style={{ width: "100%", margin: "0" }}>
               <div className="card-body-form" style={{ width: "100%", height: "300px" }}>
-                <p style={{ marginBottom: "4%" }}>Valores existentes em Tipo de Campanha</p>
+                <p style={{ marginBottom: "4%" }}>Tipos de Campanhas existentes:</p>
                 <div className="product-form">
                   <div style={{ display: "flex", gap: "5px", flexDirection: "row" }}>
                     {getTipoCampanhaExistentes}

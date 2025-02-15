@@ -187,7 +187,7 @@ const ProdutosCadastro = () => {
         return rowData.nome +
           " " +
           rowData.qtdUnidadeMedida +
-          rowData.unidadeMedida?.representacao;
+          rowData.unidadeMedida?.nome;
       else if (field === "tipoProduto") {
         return <>
             {rowData.tipoProduto?.nome}
