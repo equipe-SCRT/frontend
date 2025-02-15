@@ -109,7 +109,7 @@ const CampanhaCadastroPage = () => {
             });
             Toast.fire({
               icon: "success",
-              title: "Usuário excluido com sucesso!"
+              title: "Campanha excluido com sucesso!"
             });
           } else {
             const Toast = Swal.mixin({
@@ -125,7 +125,7 @@ const CampanhaCadastroPage = () => {
             });
             Toast.fire({
               icon: "error",
-              title: "Erro ao excluir usuário!"
+              title: "Erro ao excluir campanha!"
             });
           }
         }
@@ -178,8 +178,9 @@ const CampanhaCadastroPage = () => {
           });
           Toast.fire({
             icon: "success",
-            title: "Usuário atualizado com sucesso!"
+            title: "Campanha atualizada com sucesso!"
           });
+          window.location.reload()
         } else {
           const Toast = Swal.mixin({
             toast: true,
@@ -194,7 +195,7 @@ const CampanhaCadastroPage = () => {
           });
           Toast.fire({
             icon: "error",
-            title: "Erro ao atualizar usuário!"
+            title: "Erro ao atualizar campanha!"
           });
         }
       }
@@ -212,7 +213,7 @@ const CampanhaCadastroPage = () => {
         });
         Toast.fire({
           icon: "error",
-          title: "Erro ao atualizar usuário!"
+          title: "Erro ao atualizar campanha!"
         });
       })
   };
