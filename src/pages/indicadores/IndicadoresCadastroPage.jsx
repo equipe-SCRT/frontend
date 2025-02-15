@@ -328,7 +328,7 @@ const IndicadoresCadastro = () => {
                     </div>
                     <div className='row' style={estiloSelectTipoCampanha}>
                       <div className="form-group" id='name'>
-                        <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo da campanha a ser <span className="textoMudanca"><b style={{ textDecoration: "underline", fontSize: "18px" }}>{getNomeCampoTipoProduto != "" ? getNomeCampoTipoProduto : "cadastrado"}</b></span></label>
+                        <label htmlFor="productName" style={{ fontSize: "18px" }}>Insira o tipo da campanha a ser <span className="textoMudanca"><b style={{ textDecoration: "underline", fontSize: "18px" }}>{getNomeCampoTipoCampanha != "" ? getNomeCampoTipoCampanha : "cadastrado"}</b></span></label>
                         <select name="nomeSel" id="nomeSel" onChange={(e) => setTipoCampanhaDelete(e.target.value)} style={{ width: '10vw' }} >
                           {getTipoCampanhasSelectTxt}
                         </select>
