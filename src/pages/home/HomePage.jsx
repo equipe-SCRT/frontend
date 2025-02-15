@@ -324,9 +324,9 @@ const HomePage = () => {
 
   return (
     <>
-      <button type='button' className='btn btn-scrt' onClick={downloadPdfWithGraphs}>Baixar Relatório</button>
       {/* <Container> */}
       <Col md lg={11} className='m-auto' style={{ marginTop: "100px" }}>
+      <button style={{marginLeft:"88%"}} type='button' className='btn btn-scrt' onClick={downloadPdfWithGraphs}>Baixar Relatório</button>
         <h3 style={{
           marginBottom: '10px'
         }}>Visão Geral dos Produtos em Estoque</h3>
