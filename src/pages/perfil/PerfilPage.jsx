@@ -49,7 +49,7 @@ const PerfilPage = () => {
           </div>
           <div className="profile-info">
             <h4>
-              {userInfo.nome} {userInfo.sobrenome}
+              {userInfo.nome}
             </h4>
             <p>{userInfo.tipoUsuario == 1 ? "Administrador do Sistema" : "Usuário Comum"}</p>
           </div>
@@ -76,17 +76,6 @@ const PerfilPage = () => {
                     id="nome"
                     name="nome"
                     value={userInfo.nome}
-                    onChange={handleInputChange}
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="sobrenome">Sobrenome</label>
-                  <input style={{width: "25vw"}}
-                    type="text"
-                    id="sobrenome"
-                    name="sobrenome"
-                    value={userInfo.sobrenome}
                     onChange={handleInputChange}
                     disabled={!isEditing}
                   />
