@@ -286,17 +286,6 @@ const CestasCadastro = () => {
                     className="form-control"
                   />
                 </div>
-                <div className="col-md-6 form-group">
-                  <label htmlFor="lot">Lote</label>
-                  <input
-                    type="text"
-                    id="lot"
-                    name="lot"
-                    value={lote}
-                    onChange={(e) => setLote(e.target.value)}
-                    className="form-control"
-                  />
-                </div>
               </div>
               <div className="row btn-end">
                 <div className="col-12 d-flex justify-content-end">
@@ -319,9 +308,6 @@ const CestasCadastro = () => {
 
                 </Column>
                 <Column field="dataMontagem" header="Data de montagem" body={(rowData) => renderEditableCell(rowData, 'dataMontagem')} sortable style={{ padding: '10px' }}>
-
-                </Column>
-                <Column field="lote" header="Lote" body={(rowData) => renderEditableCell(rowData, 'lote')} sortable style={{ padding: '10px' }}>
 
                 </Column>
                 <Column header="" body={(rowData) => {

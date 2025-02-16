@@ -157,6 +157,7 @@ const ProdutoUnitarioCadastro = () => {
         handleProdutos();
         _alertaSucesso("Sucesso", "Lote de produto cadastrado com sucesso")
       }).catch((err) => {
+        _alertaError("Erro ao cadastrar o lote de produto", "Verfique as informações de cadastro")
       })
     } catch (err) {
       console.log(err);
