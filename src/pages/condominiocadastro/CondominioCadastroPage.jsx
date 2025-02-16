@@ -257,7 +257,7 @@ const CondominioCadastroPage = () => {
                             </div>
                             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }} className="form-down">
                                 <div className="form-group">
-                                    <label htmlFor="logradouro">Logradouro <span className="required">*</span></label>
+                                       <label htmlFor="logradouro">Logradouro <span className="required">*</span></label>
                                     <input
                                         name="logradouro"
                                         value={logradouro}

@@ -310,13 +310,6 @@ const DashCondominioPage = () => {
                 : "0"
               }
               bgColor="#5FED6D" />
-            <CardScrt legenda="Produtos não conformes"
-              info={
-                dadosNaoConforme.length > 0
-                ? `${dadosNaoConforme}`
-                : "0"
-              }
-              bgColor="#FDEA3C" />
             <CardScrt legenda="Alimentos Vencidos"
               info={
                 dadosVencidos.length > 0
