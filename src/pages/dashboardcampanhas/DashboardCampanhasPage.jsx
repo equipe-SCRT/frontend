@@ -90,7 +90,7 @@ const DashboardCampanhas = () => {
         count: item.qtdArrecadada
       }));
       if (response.headers['content-length'] != 0) {
-        setDadosSelecionados(dadosTransformados);
+        setDadosSelecionados(response.data);
       }else{
         setDadosSelecionados(0)
       }

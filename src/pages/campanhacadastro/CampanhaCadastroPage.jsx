@@ -143,7 +143,7 @@ const CampanhaCadastroPage = () => {
           });
           Toast.fire({
             icon: "error",
-            title: "Erro ao excluir usuário!"
+            title: "Erro ao excluir Camapanha!"
           });
         })
     }

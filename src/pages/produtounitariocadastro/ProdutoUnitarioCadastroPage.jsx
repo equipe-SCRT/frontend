@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import api from "../../api/api"
 import { useNavigate } from 'react-router-dom';
 import "./ProdutoUnitarioCadastroPage.module.css"
-import styles from "./ProdutoUnitarioCadastroPage.module.css"
 import Swal from 'sweetalert2';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Row } from 'react-bootstrap'
-import { CornerTopLeftIcon } from '@radix-ui/react-icons';
 import ReactPaginate from "react-paginate";
 
 const ProdutoUnitarioCadastro = () => {
@@ -54,11 +52,6 @@ const ProdutoUnitarioCadastro = () => {
         )}
       </>
     );
-  };
-  
-  const formatarData = (dataString) => {
-    const data = new Date(dataString); // Converte para Date
-    return data.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
   };
 
   function _alertaSucesso(titulo, texto) {
@@ -146,7 +139,7 @@ const ProdutoUnitarioCadastro = () => {
         quantidade: getQuantidade,
         origemId: getOrigem,
         ativo: true,
-        confome: getAtivo === 1,
+        conforme: getAtivo === 1,
         produtoId: getProdutoId,
       })
     }
@@ -393,7 +386,7 @@ const ProdutoUnitarioCadastro = () => {
                       <label htmlFor="unit">Produto em conforme: <span className="required">*</span></label>
                       <select name="origemSel" id="origemSel" onChange={(e) => setAtivo(e.target.value)} >
                         <option value="1">Sim</option>
-                        <option value="2">Não</option>
+                        <option value="0">Não</option>
                       </select>
                     </div>
                   </div>
