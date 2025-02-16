@@ -97,6 +97,7 @@ const HomePage = () => {
     try {
       const response = await api.get('/cestas/quantidade-cestas');
       setDadosCestasProduzidas(response.data);
+      console.log(response.data)
     } catch (error) {
     }
   };

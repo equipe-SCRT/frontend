@@ -10,7 +10,6 @@ import { Button } from 'primereact/button';
 const CestasCadastro = () => {
   const [cestas, setCestas] = useState([]);
   const [tiposCestas, setTiposCestas] = useState([]);
-  const [lote, setLote] = useState("");
   const [qtdCestasMontadas, setQtdCestasMontadas] = useState("");
   const [tipoCestaId, setTipoCestaId] = useState("");
   const [dataMontagem, setDataMontagem] = useState("");
@@ -67,14 +66,13 @@ const CestasCadastro = () => {
     evento.preventDefault();
 
     const novaCesta = {
-      lote,
-      qtdCestasMontadas,
+      qtdCesta: qtdCestasMontadas,
       tipoCestaId: Number(tipoCestaId),
       dataMontagem: dataMontagem,
     };
 
    
-    if (dataMontagem == null || dataMontagem == undefined || dataMontagem == "" || lote == "") {
+    if (dataMontagem == null || dataMontagem == undefined || dataMontagem == "") {
       return _alertaError("Cadastro Incorreto!", "Verifique se todos os campos estão corretos!")
     }
 
@@ -84,7 +82,6 @@ const CestasCadastro = () => {
         handleCestas();
         _alertaSucesso("Cadastrado com sucesso!", "Cesta cadastrada com sucesso!")
       });
-      setLote("");
       setQtdCestasMontadas("");
       setTipoCestaId("");
       setDataMontagem("");
@@ -188,7 +185,7 @@ const CestasCadastro = () => {
 
   const handleDelete = async (id) => {
     api.delete("/cestas/" + id).then((res) => {
-      _alertaSucesso("Excluido", "Produto unitário deletado com sucesso")
+      _alertaSucesso("Excluido", "Cesta deletada com sucesso")
       handleCestas()
     }).catch((err) => {
       _alertaError("Erro ao deletar", err);
