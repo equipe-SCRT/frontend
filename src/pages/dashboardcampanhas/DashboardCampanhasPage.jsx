@@ -36,7 +36,11 @@ const DashboardCampanhas = () => {
   const fetchDadosFiltradosPorProduto = async (id) => {
     try {
       const response = await api.get(`/produtos-unitario/${id}/produto-por-campanha`);
-      setDadosFiltradosPorProduto(response.data);
+      if (response.headers['content-length'] != 0) {
+        setDadosFiltradosPorProduto(response.data);
+      }else{
+        setDadosFiltradosPorProduto(0)
+      }
     } catch (error) {
       console.error("Erro ao buscar os dados filtrados por produto:", error);
     }
@@ -45,7 +49,11 @@ const DashboardCampanhas = () => {
   const fetchProdutosVencidosPorCampanha = async (campanhaId) => {
     try {
       const response = await api.get(`/produtos-unitario/${campanhaId}/produtos-vencidos-por-campanha`);
-      setProdutosVencidosPorCampanha(response.data);
+      if (response.headers['content-length'] != 0) {
+        setProdutosVencidosPorCampanha(response.data);
+      }else{
+        setProdutosVencidosPorCampanha(0)
+      }
     } catch (error) {
       console.error("Erro ao buscar os dados de produtos vencidos por campanha:", error);
     }
@@ -59,8 +67,11 @@ const DashboardCampanhas = () => {
           "fim":format(dataFimUltimoAno, "yyyy-MM-dd")
         }
       });
-
-      setDadosComparacao(response.data);
+      if (response.headers['content-legth'] != 0) {
+        setDadosComparacao(response.data);
+      }else{
+        setDadosComparacao(0)
+      }
     } catch (error) {
       console.error("Erro ao buscar os dados de comparação:", error);
     }
@@ -78,7 +89,11 @@ const DashboardCampanhas = () => {
         mes: `${item.ano}-${String(item.mes).padStart(2, '0')}`,
         count: item.qtdArrecadada
       }));
-      setDadosSelecionados(dadosTransformados);
+      if (response.headers['content-length'] != 0) {
+        setDadosSelecionados(dadosTransformados);
+      }else{
+        setDadosSelecionados(0)
+      }
     } catch (error) {
       console.error("Erro ao buscar os dados da campanha selecionada:", error);
     }

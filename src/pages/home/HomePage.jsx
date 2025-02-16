@@ -96,7 +96,9 @@ const HomePage = () => {
   const fetchDadosCestasProduzidas = async () => {
     try {
       const response = await api.get('/cestas/quantidade-cestas');
-      setDadosCestasProduzidas(response.data);
+      if (response.headers['content-length'] != 0) {
+        setDadosCestasProduzidas(response.data);
+      }
       console.log(response.data)
     } catch (error) {
     }
@@ -151,6 +153,7 @@ const HomePage = () => {
   const fetchCasasAtendidas = async () => {
     try {
       const response = await api.get("metricas/ultimo")
+      if(response.headers['content-length'])
       setCasasAtentidadas(response.data['qtdCasas'])
     } catch (error) {
 
@@ -159,7 +162,11 @@ const HomePage = () => {
   const fetchQtdProdutosCestasPrincipal = async() =>{
     try {
       const response = await api.get("cestas/quantidade/items/cesta-principal")
-      setQtdProdutosCestasPrincipal(response.data['count'])
+      if(response.headers['content-Length'] != 0){
+        setQtdProdutosCestasPrincipal(response.data['count'])
+      }else{
+        setQtdProdutosCestasPrincipal(0)
+      }
     } catch (error) {
 
     }

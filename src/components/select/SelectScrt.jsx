@@ -10,11 +10,15 @@ const SelectScrt = ({ dados, onChange }) => {
         onChange={onChange}
         className={styles.SelectScrt}
       >
-        {dados.map((obj, index) => (
-          <option key={index} value={obj.id}>
-            {obj.nome === undefined ? obj.localCampanha : obj.nome}
-          </option>
-        ))}
+        {(Array.isArray(dados) && dados.length > 0) ? (
+          dados.map((obj, index) => (
+            <option key={index} value={obj.id}>
+              {obj.nome === undefined ? obj.localCampanha : obj.nome}
+            </option>
+          ))
+        ) : (
+          <option>---</option> // Exibe "---" se `dados` estiver vazio ou não for um array
+        )}
       </select>
     </div>
   );
