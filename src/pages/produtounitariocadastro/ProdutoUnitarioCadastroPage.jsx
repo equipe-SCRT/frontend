@@ -84,11 +84,12 @@ const ProdutoUnitarioCadastro = () => {
   async function handleNomeProdutos() {
     try {
       var encontrados = await api.get("/produtos");
+      console.log(encontrados.data)
       var listaNomes = [];
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
         listaNomes.push(
-          <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
+          <option value={encontrados.data[i].id}>{encontrados.data[i].nome + " " + encontrados.data[i].qtdUnidadeMedida + encontrados.data[i].unidadeMedida.nome}</option>
         )
       }
       setNomeProdutos(listaNomes);

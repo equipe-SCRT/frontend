@@ -112,8 +112,8 @@ const DashCondominioPage = () => {
       try {
         const response = await api.get("/condominios");
         const condominios = response.data;
-
         setDadosCondominios(condominios);
+        console.log(dadosCondominios)
 
         condominios.reverse();
 
@@ -122,6 +122,7 @@ const DashCondominioPage = () => {
           setNomeCondominioSelecionado(ultimoCondominio.nome);
           setNomeCondominioComparado(ultimoCondominio.nome);
           fetchDadosSelecionados(ultimoCondominio.nome);
+          fetchQtdAlimentosArrecadadosPorCondominio(ultimoCondominio.id)
         }
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
