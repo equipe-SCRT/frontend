@@ -307,6 +307,10 @@ const CestasCadastro = () => {
                 <Column field="dataMontagem" header="Data de montagem" body={(rowData) => renderEditableCell(rowData, 'dataMontagem')} sortable style={{ padding: '10px' }}>
 
                 </Column>
+
+                <Column field="qtdCesta" header="Quantidade de cestas" bodyStyle={(rowData) => renderEditableCell(rowData, 'qtdCesta')} sortable style={{ padding: '10px' }}>
+                </Column>
+                
                 <Column header="" body={(rowData) => {
                   return renderActionCell(rowData)
                 }}>
