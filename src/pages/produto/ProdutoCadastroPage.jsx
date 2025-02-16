@@ -86,7 +86,7 @@ const ProdutosCadastro = () => {
       setTipoProdutoId("");
       setTipoUnidadeMedidaId("");
       _alertaSucesso("Sucesso ao cadastrar produto", "Produto cadastrado com sucesso!");
-      handleProdutos();
+      window.location.reload()
     } catch (err) {
       _alertaError("Cadastro Incorreto!", "Preencha todos os campos!" );
     }

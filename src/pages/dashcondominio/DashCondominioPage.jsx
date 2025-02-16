@@ -360,24 +360,19 @@ const DashCondominioPage = () => {
             </Col>
           </Row>
           <Row>
-            <Col md lang={6}>
-              <div>
-                <GraficoBarrasHorizontais
-                  id={"qtdProdutosPorCondominio"}
-                  data={dadosFiltradosPorProduto}
-                  titulo={"Quantidade de produto por condomínio"}
-                  cores="#FF0000"
-                  label="Quantidade"
-                  selectObj={produtos}
-                  selectFunc={(e) => fetchDadosFiltradosPorProduto(e.target.value)}
-                />
-              </div>
-            </Col>
-            <Col md lang={6}>
-              <div style={{ marginTop: "10px", padding: "10px", height: "100%" }}>
-                <ListaBarraProgresso titulo={"Análise de alimentos por condomínio"} itens={dadosConformeXNaoConforme} />
-              </div>
-            </Col>
+            <div style={{width:"50%"}}>
+              <Col md lang={6}>
+                  <GraficoBarrasHorizontais
+                    id={"qtdProdutosPorCondominio"}
+                    data={dadosFiltradosPorProduto}
+                    titulo={"Quantidade de produto por condomínio"}
+                    cores="#FF0000"
+                    label="Quantidade"
+                    selectObj={produtos}
+                    selectFunc={(e) => fetchDadosFiltradosPorProduto(e.target.value)}
+                  />
+              </Col>
+            </div>
           </Row>
         </Col>
       </Col>

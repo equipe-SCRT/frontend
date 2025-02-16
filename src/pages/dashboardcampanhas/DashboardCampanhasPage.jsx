@@ -349,33 +349,24 @@ const DashboardCampanhas = () => {
             <Col md lg={6}>
             
                 <GraficoLinha
-                id={"qtdVariadaPorCampanha"}
+                  id={"qtdVariadaPorCampanha"}
                   data={[dadosSelecionados, dadosComparacao]}
-                    xValue={'dataCampanha'}
-                    yValue={'qtdArrecadada'}
-                    cores={["#22CC52", "#4444FF"]}
-                    titulo={"Quantidade de Doações Variadas por Campanhas"}
-                    label={[nomeCampanhaSelecionada, nomeCampanhaComparada]}
+                  xValue={'dataCampanha'}
+                  yValue={'qtdArrecadada'}
+                  cores={["#22CC52", "#4444FF"]}
+                  titulo={"Quantidade de Doações Variadas por Campanhas"}
+                  label={[nomeCampanhaSelecionada, nomeCampanhaComparada]}
                 >
-              <SelectScrt
-                dados={dadosCampanhas}
-                onChange={(e) => {
-                  const localCampanha = e.target.options[e.target.selectedIndex].text;
-                  setNomeCampanhaComparada(localCampanha); 
-                  fetchDadosComparacao(localCampanha)
-                }}
-                grafico={true}
-              />
-
-            </GraficoLinha>
-              
-            </Col>
-            <Col md lg={6}>
-                <ListaBarraProgresso
-                  id={"produtosConforme"}
-                  titulo={"Análise de Alimentos por Campanha"}
-                  itens={produtosConformeNaoConforme}
-                />
+                  <SelectScrt
+                    dados={dadosCampanhas}
+                    onChange={(e) => {
+                      const localCampanha = e.target.options[e.target.selectedIndex].text;
+                      setNomeCampanhaComparada(localCampanha); 
+                      fetchDadosComparacao(localCampanha)
+                    }}
+                    grafico={true}
+                  />
+                </GraficoLinha>
             </Col>
           </Row>
         </Col>

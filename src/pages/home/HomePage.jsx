@@ -332,10 +332,10 @@ const HomePage = () => {
           marginBottom: '10px'
         }}>Visão Geral dos Produtos em Estoque</h3>
         <Row>
-          <CardScrt legenda="Quantidade de Cestas Produzidas" info={dadosCestasProduzidas.count} bgColor={coresCards.neutra} />
+          <CardScrt legenda="Cestas Produzidas" info={dadosCestasProduzidas.count} bgColor={coresCards.neutra} />
           <CardScrt legenda="Quantidade em Estoque" info={totalEmEstoque} bgColor={corQtdEstoque} />
           {/* endpoint para produtos  */}
-          <CardScrt legenda="Produtos Próximos do Vencimento" link={`/produtos-unitarios/cadastro?vencimentoInicio=${format(dataInicioUltimoMes, 'yyyy-MM-dd')}&vencimentoFim=${format(dataFimUltimoMes, 'yyyy-MM-dd')}`} info={dadosAlimentosVencimento15E30Dias['vencimento30'] + dadosAlimentosVencimento15E30Dias['vencimento15']} bgColor={corProxVencimentos} infoTotal={totalEmEstoque} />
+          <CardScrt legenda="Próximos do Vencimento" link={`/produtos-unitarios/cadastro?vencimentoInicio=${format(dataInicioUltimoMes, 'yyyy-MM-dd')}&vencimentoFim=${format(dataFimUltimoMes, 'yyyy-MM-dd')}`} info={dadosAlimentosVencimento15E30Dias['vencimento30'] + dadosAlimentosVencimento15E30Dias['vencimento15']} bgColor={corProxVencimentos} infoTotal={totalEmEstoque} />
           {/* endpoint para produtos vencidos ultimos 30 dias */}
           <CardScrt legenda="Alimentos Vencidos" link={`/produtos-unitarios/cadastro?data=${format(dataInicioUltimoMes, 'yyyy-MM-dd')}`} info={dadosVencidosMesAtual} bgColor={corVencidos} infoTotal={totalEmEstoque} />
         </Row>
@@ -373,18 +373,12 @@ const HomePage = () => {
                 dados={produtos}
                 grafico={true}
                 onChange={handleIdVencidos}
-
-
               />
               <DataRange
                 onLoad={handleRangeVencidos}
                 onChange={handleRangeVencidos}
               />
             </GraficoLinha>
-
-          </Col>
-          <Col md lg={6}>
-            <ListaBarraProgresso id={"produtosValidos"} titulo={"Produtos válidos x Não conforme"} itens={dadosArrecadadosXVencidos} />
           </Col>
         </Row>
         <Row>
