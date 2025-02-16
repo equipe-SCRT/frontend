@@ -145,8 +145,8 @@ const ProdutosCadastro = () => {
         return <>
           <input
             type="text"
+            defaultValue={rowData[field]}
             onChange={(e) => { setEditedRowData({ ...editedRowData, [field]: e.target.value }) }}
-            className="form-control"
           />
         </>;
       } else if (field == "tipoProduto") {
@@ -168,6 +168,15 @@ const ProdutosCadastro = () => {
             )}
           </select>
         </>
+      }else if(field == "id"){
+        return <>
+          <input
+            type="text"
+            defaultValue={rowData[field]}
+            onChange={(e) => { setEditedRowData({ ...editedRowData, [field]: e.target.value }) }}
+            disabled
+          />
+        </>;
       } else 
       return (
         <>
