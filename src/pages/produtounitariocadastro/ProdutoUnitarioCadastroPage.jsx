@@ -48,13 +48,19 @@ const ProdutoUnitarioCadastro = () => {
             <Button icon={
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="#FF4444" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7h16M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3m-5 5l4 4m0-4l-4 4" /></svg>
             }
-              onClick={() => handleDelete(rowData.id)}
-              className="btn" />
+            onClick={() => handleDelete(rowData.id)}
+            className="btn" />
           </>
         )}
       </>
     );
   };
+  
+  const formatarData = (dataString) => {
+    const data = new Date(dataString); // Converte para Date
+    return data.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+  };
+
   function _alertaSucesso(titulo, texto) {
     Swal.fire({
       icon: "success",
@@ -74,11 +80,11 @@ const ProdutoUnitarioCadastro = () => {
   async function handleProdutos() {
     api.get("/produtos-unitario").then((res) => {
       let encontrados = res.data;
+      
       setProdutos(encontrados);
     }).catch((err) => {
     });
   }
-
 
 
   async function handleNomeProdutos() {

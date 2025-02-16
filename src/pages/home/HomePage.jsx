@@ -137,12 +137,7 @@ const HomePage = () => {
   }
   const fetchDadosVencidosMesAtual = async () => {
     try {
-      const response = await api.get('/produtos-unitario/total-vencidos', {
-        params: {
-          inicio: format(dataInicioUltimoMes, 'yyyy-MM-dd'),
-          fim: format(dataFimUltimoMes, 'yyyy-MM-dd')
-        }
-      });
+      const response = await api.get('/produtos-unitario/total-vencidos');
       if (response.headers['content-length'] != 0) {
 
         setDadosVencidosMesAtual(response.data);
@@ -172,6 +167,11 @@ const HomePage = () => {
     }
     
   }
+
+  useEffect(() =>{
+   api.put("produtos-unitario/atualizar-vencido")
+
+  },[])
 
   useEffect(() => {
     if (selectedRangeVencidos.length === 2 && selectedIdVencidos > 0) {
