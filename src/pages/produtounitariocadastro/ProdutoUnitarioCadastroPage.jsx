@@ -85,6 +85,11 @@ const ProdutoUnitarioCadastro = () => {
     })
   }
 
+  function compareDates (date) {
+    date = new Date(date) 
+    
+    return date >= new Date()
+  }
 
   function pop() {
     if (contadorPilha == -1) {
@@ -102,7 +107,7 @@ const ProdutoUnitarioCadastro = () => {
               let timerInterval;
               Swal.fire({
                 title: "Produtos adicionados",
-                html: "desfazer?",
+                html: "Desfazer?",
                 position: 'bottom-end',
                 width: "190px",
                 height: "100px",
@@ -152,6 +157,11 @@ const ProdutoUnitarioCadastro = () => {
       setTdProdutos(encontrados.data)
       console.log(getTodosProdutos)
       for (var i = 0; i < encontrados.data.length; i++) {
+        let corDataValidade = { color: "black"};
+        let verificacao = compareDates(encontrados.data[i].dataValidade);
+        if(!verificacao){
+          corDataValidade = {color: "red"}
+        } 
         let id = encontrados.data[i].id
         lista.push(
           <tr key={encontrados.data[i]}>
@@ -167,7 +177,7 @@ const ProdutoUnitarioCadastro = () => {
               {/* <input type="text" style={{ display: 'none' }} onChange={(e) => setNomeAlt(e.target.value)} className={'nomeTxt' + id} /> */}
             </td>
             <td id={"dateProd" + i}>
-              <span className={'date' + id}>{encontrados.data[i].dataValidade}</span>
+              <span style={corDataValidade} className={'date' + id}>{encontrados.data[i].dataValidade}</span>
               <input style={{ display: 'none' }}
                 className={"dateTxt" + id}
                 placeholder={encontrados.data[i].dataValidade}
