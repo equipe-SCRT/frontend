@@ -11,6 +11,7 @@ const RegisterNewPassword = () => {
   
   const api = axios.create({
     baseURL: "http://localhost:8080/usuarios",
+    // baseURL: "http://java-api/usuarios",
     withCredentials: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -48,7 +49,7 @@ const RegisterNewPassword = () => {
   const enviar = () => {
     if(getSenha != "" && getSenhaConf != ""){
       if(getSenha == getSenhaConf){
-        api.patch(`/trocar-senha?code=${getId}&senha=${getSenha}`).then((res) => {
+        api.patch(`/java-api/trocar-senha?code=${getId}&senha=${getSenha}`).then((res) => {
           _alertaSucesso("Senha modificada com sucesso", "Obrigado");
         }).catch((err) => _alertaError("Erro ao modificar senha", err));      
       } else{

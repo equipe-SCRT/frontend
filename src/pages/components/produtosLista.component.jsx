@@ -6,6 +6,7 @@ import axios from 'axios';
 const produtoLista = () => {
         const api = axios.create({
             baseURL: "http://localhost:8080/produtos",
+            // baseURL: "http://java-api/produtos",
             withCredentials: false,
             headers: {
               'Access-Control-Allow-Origin': '*',
@@ -13,7 +14,7 @@ const produtoLista = () => {
             }
           });
         let produtos = [];
-        api.get("").then((response) => {
+        api.get("/java-api/produtos").then((response) => {
           console.log(response.data)
           let encontrados = response.data;
           for (var i = 0; i < encontrados.length; i++) {

@@ -52,6 +52,50 @@ const Login = () => {
     } else {
       Cookies.remove("emailV")
       Cookies.remove("senhaV")
+=======
+  import React, { useState } from 'react';
+  import api from "../../api/api"
+  import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+  import './Login.module.css';
+  import loginImage from '../../assets/images/login-image.jpeg';
+  import axios from 'axios';
+
+  const Login = () => {
+    const [emailV, setEmail] = useState("");
+    const [senhaV, setSenha] = useState("");
+    let logado = false;
+    let button;
+    let idUsuario;
+
+    async function handleLogin(){
+      console.log(emailV);
+      console.log(senhaV);
+
+      try{
+        api.post("/java-api/usuarios/login", {
+          email: emailV,
+          senha: senhaV
+        }).then((response) => {
+          if(response.status == 200){
+
+            localStorage.setItem('token', response.data.token);
+            sessionStorage.setItem('userId', response.data.userId)
+            sessionStorage.setItem('nome', response.data.nome)
+            sessionStorage.setItem('email', response.data.email)
+            sessionStorage.setItem('tipoUsuario', response.data.tipoUsuario)
+            
+            window.location.href = '/home';
+
+            idUsuario = response.data.idUsuario;
+            logado = true;
+            console.log(response.data)
+          } else{
+            alert("Algo deu errado")
+          }
+        })
+      } catch(err){
+        alert(err);
+      }
     }
 
 

@@ -4,7 +4,6 @@ import './NotFound.module.css';
 const NotFoundPage = () => {
   return (
     <div className="NotFoundPage">
-
     </div>
   );
 }

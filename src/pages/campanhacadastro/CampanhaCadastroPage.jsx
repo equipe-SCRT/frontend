@@ -39,7 +39,7 @@ const CampanhaCadastroPage = () => {
 
 
   async function excluir(id) {
-    api.delete("/produtos-unitario/" + id).then((response) => {
+    api.delete("/java-api/produtos-unitario/" + id).then((response) => {
       //console.log(response);
       // window.location.reload()
     }).catch((err) => {
@@ -98,7 +98,7 @@ const CampanhaCadastroPage = () => {
         title: "Atenção! Você não pode deletar a si mesmo!"
       });
     } else {
-      api.delete("/campanhas/" + id)
+      api.delete("/java-api/campanhas/" + id)
         .then((response) => {
           if (response.status === 204) {
 
@@ -170,7 +170,7 @@ const CampanhaCadastroPage = () => {
       meta: rowData.meta
     }
 
-    api.put(`/campanhas/${id}`, campanhaAlterada)
+    api.put(`/java-api/campanhas/${id}`, campanhaAlterada)
       .then((response) => {
         if (response.status === 200) {
 
@@ -278,7 +278,7 @@ const CampanhaCadastroPage = () => {
   useEffect(() => {
     async function handleCampanhas() {
       try {
-        const encontrados = await api.get("/campanhas");
+        const encontrados = await api.get("/java-api/campanhas");
         setCampanhas(encontrados.data); 
       } catch (error) {
         console.error(error);
@@ -291,7 +291,7 @@ const CampanhaCadastroPage = () => {
   useEffect(() => {
     async function handleTipoCampanhas() {
       try {
-        var encontrados = await api.get("/tipo-campanhas");
+        var encontrados = await api.get("/java-api/tipo-campanhas");
         var nomeCampanhas = [];
 
 
@@ -329,11 +329,11 @@ const CampanhaCadastroPage = () => {
 
     // console.log("campanhaNova", campanhaNova)
 
-    api.post("/campanhas", campanhaNova)
+    api.post("/java-api/campanhas", campanhaNova)
     .then((response) => {
       console.log(response)
       const id = response.data.id;
-      api.post("/origens", 
+      api.post("/java-api/origens", 
         {
           "autaDeSouzaRua": 0,
           "itapora": 0,
@@ -354,7 +354,7 @@ const CampanhaCadastroPage = () => {
   useEffect(() => {
     async function handleNomeProdutos() {
       try {
-        var encontrados = await api.get("/produtos");
+        var encontrados = await api.get("/java-api/produtos");
         var listaNomes = [];
         listaNomes.push(<option value="null">-</option>)
         for (var i = 0; i < encontrados.data.length; i++) {

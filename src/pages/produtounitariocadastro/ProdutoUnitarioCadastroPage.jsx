@@ -74,6 +74,10 @@ const ProdutoUnitarioCadastro = () => {
         // console.log(pilha[contadorPilha].id)
         api.post("/produtos-unitario/lotes-delete", pilha[contadorPilha].id).then((res) => {
           // console.log(pilha);
+        console.log("aqui: ")
+        console.log(pilha[contadorPilha].id)
+        api.post("/java-api/produtos-unitario/lotes-delete", pilha[contadorPilha].id).then((res) => {
+          console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
             _alertaSucesso("Sucesso", "Sucesso ao desfazer")
@@ -129,7 +133,7 @@ const ProdutoUnitarioCadastro = () => {
   }
 
   async function handleProdutos() {
-    api.get("produtos-unitario").then((res) => {
+    api.get("/java-api/produtos-unitario").then((res) => {
       let encontrados = res.data;
       setProdutos(encontrados);
       // console.log(getProdutos)
@@ -142,7 +146,7 @@ const ProdutoUnitarioCadastro = () => {
 
   async function handleNomeProdutos() {
     try {
-      var encontrados = await api.get("produtos");
+      var encontrados = await api.get("/java-api/produtos");
       var listaNomes = [];
       listaNomes.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
@@ -161,7 +165,7 @@ const ProdutoUnitarioCadastro = () => {
   async function handleOrigem() {
 
     try {
-      var encontrados = await api.get("/origens");
+      var encontrados = await api.get("/java-api/origens");
       var listaOrigens = [];
       listaOrigens.push(<option value="null">-</option>)
       for (var i = 0; i < encontrados.data.length; i++) {
@@ -211,7 +215,7 @@ const ProdutoUnitarioCadastro = () => {
       }
 
       let bodyR = criarBodyLotes(getQuantidade);
-      api.post("/produtos-unitario/lotes", bodyR).then(async (response) => {
+      api.post("/java-api/produtos-unitario/lotes", bodyR).then(async (response) => {
         handleProdutos();
         _alertaSucesso("Sucesso", "Lote de produto cadastrado com sucesso")
         let alteracao = {
@@ -237,7 +241,7 @@ const ProdutoUnitarioCadastro = () => {
   };
 
   const handleDelete = async (id) => {
-    api.delete("/produtos-unitario/" + id).then((res) => {
+    api.delete("/java-api/produtos-unitario/" + id).then((res) => {
       _alertaSucesso("Excluido", "Produto unitário deletado com sucesso")
       handleProdutos()
     }).catch((err) => {
@@ -320,7 +324,7 @@ const ProdutoUnitarioCadastro = () => {
   const handleSaveClick = () => {
     setEditMode(false);
     console.log(editedRowData)
-    api.put(`/produtos-unitario/${editedRowData.id}`,
+    api.put(`/java-api/produtos-unitario/${editedRowData.id}`,
       {
         "id": editedRowData.id,
         "produtoId": editedRowData.produto.id,
@@ -342,6 +346,8 @@ const ProdutoUnitarioCadastro = () => {
     const paginacaoQtd = 10;
 
     api.get(`/paginado?paginaAtual=${paginacaoPage}&tamanho=${paginacaoQtd}`).then((res) => {
+    
+    api.get(`/java-api/paginado?paginaAtual=${paginacaoPage}&tamanho=${paginacaoQtd}`).then((res) => {
       setProdutos(res.data.content);
     }).catch(h => {
       _alertaError("Erro ao atualizar", "Preencha todos os campos corretamente")

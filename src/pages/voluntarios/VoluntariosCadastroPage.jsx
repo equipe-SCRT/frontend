@@ -33,7 +33,7 @@ const VoluntariosCadastro = () => {
     } else {
       if (pilha[contadorPilha].operacao == "insert") {
         console.log("aqui: ")
-        api.delete("/usuarios/" + pilha[contadorPilha].id).then((res) => {
+        api.delete("/java-api/usuarios/" + pilha[contadorPilha].id).then((res) => {
           console.log(pilha);
           if (res.status == 204) {
             pilha.pop();
@@ -77,7 +77,7 @@ const VoluntariosCadastro = () => {
 
   async function handleVoluntarios() {
     try {
-      let encontrados = await api.get("usuarios");
+      let encontrados = await api.get("/java-api/usuarios");
 
       for (var i = 0; i < encontrados.data.length; i++) {
 
@@ -178,6 +178,32 @@ const VoluntariosCadastro = () => {
           }
         }
         ).catch(() => {
+    }else{
+      api.delete("/java-api/usuarios/" + id)
+      .then((response) => {
+        if (response.status === 204) {
+  
+          setTimeout(() => {
+            setVoluntarios([]);
+            handleVoluntarios();
+          }, 1000);
+  
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Usuário excluido com sucesso!"
+          });
+        } else {
           const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -214,6 +240,8 @@ const VoluntariosCadastro = () => {
     }
 
     api.patch("/usuarios/atualizar-usuario", usuarioNovo)
+    
+    api.patch("/java-api/usuarios/atualizar-usuario", usuarioNovo)
       .then((response) => {
         if (response.status === 200) {
 
@@ -377,25 +405,18 @@ const VoluntariosCadastro = () => {
     } else if (nome == '' || nome == undefined) {
       _alertaError("Cadastro Inválido!", "Insira um nome válido!")
       return
-    } else if (email == '' || email == undefined) {
-      _alertaError("Cadastro Inválido!", "Insira um e-mail válido!")
-      return
-    } else {
-
-      try {
-        api.post(`usuarios`, usuario).then(async (response) => {
-
-          if (response)
-
-            handleVoluntarios();
-
-          api.post("/usuarios/recuperar-senha/" + email).then((res) => {
-            _alertaSucesso("Cadastro efetuado e e-mail enviado com sucesso", "Por favor, peça ao usuário para verificar o e-mail e span");
-          })
-        }).catch((err) => _alertaError("Erro ao enviar o e-mail", "Verifque se o e-mail informado está correto!"))
-      } catch (err) {
-        _alertaError("Cadastro Inválido!", "Verifique se os campos estão preenchidos")
-      }
+    }
+    try {
+      api.post(`/java-api/usuarios`, usuario).then(async (response) => {
+        handleVoluntarios();
+        api.post("/java-api/usuarios/recuperar-senha/"+email).then((res) => {
+          _alertaSucesso("Cadastro efetuado e e-mail enviado com sucesso", "Por favor, peça ao usuário para verificar o e-mail e span");
+        }).catch((err) => _alertaError("Erro ao enviar o e-mail", err));
+      }).catch((err) => {
+        _alertaError("Erro ao adicionar usuário", err)
+      })
+    } catch (err) {
+      _alertaError("Erro ao adicionar usuário", err)
     }
   }
 
