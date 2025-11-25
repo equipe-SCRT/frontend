@@ -81,7 +81,7 @@ const HeaderScrt = ({ children }) => {
                             <div>{dadosVencidosPorMes.count} produtos venceram.</div>
                         </div>
                     </Nav.Item>
-                    <Nav.Item icon={
+                    {/* <Nav.Item icon={
                         <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 48 48">
                             <g fill="none">
                                 <path stroke="#22CC52" strokeLinejoin="round" strokeWidth="4" d="M24 44a19.94 19.94 0 0 0 14.142-5.858A19.94 19.94 0 0 0 44 24a19.94 19.94 0 0 0-5.858-14.142A19.94 19.94 0 0 0 24 4A19.94 19.94 0 0 0 9.858 9.858A19.94 19.94 0 0 0 4 24a19.94 19.94 0 0 0 5.858 14.142A19.94 19.94 0 0 0 24 44Z" />
@@ -93,7 +93,7 @@ const HeaderScrt = ({ children }) => {
                             <strong>Informativo</strong>
                             <div>Relatório de Outubro está pronto</div>
                         </div>
-                    </Nav.Item>
+                    </Nav.Item> */}
                 </Nav.Menu>
                 <Nav.Menu trigger={'hover'} icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">

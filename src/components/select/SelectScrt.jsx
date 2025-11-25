@@ -5,7 +5,7 @@ const SelectScrt = ({ dados, onChange }) => {
 
 
   return (
-    <div style={{ width: '100%' }}>
+    <div>
       <select
         onChange={onChange}
         className={styles.SelectScrt}

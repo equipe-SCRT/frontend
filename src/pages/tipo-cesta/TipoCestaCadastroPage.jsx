@@ -23,6 +23,28 @@ const TipoCestaCadastro = () => {
   const [editedModalData, setEditedModalData] = useState(null);
   const [modalData, setModalData] = useState([]);
   const [getNomeCestaAtual, setNomeCestaAtual] = useState("");
+ 
+  function _alertaSucesso(titulo, texto) {
+    Swal.fire({
+      icon: "success",
+      title: `${titulo}`,
+      text: `${texto}`,
+    });
+  }
+
+  function _alertaError(titulo, texto) {
+    Swal.fire({
+      icon: "error",
+      title: `${titulo}`,
+      text: `${texto}`,
+    });
+  }
+
+  const nameProdutoChange = (event) => {
+    const selectedText = event.target.options[event.target.selectedIndex].text; // Obtém o texto da opção selecionada
+    setNomeProdutoLista(selectedText);
+    setProdutoId(event.target.value);
+  }
 
   useEffect(() => {
     async function handleTipoCestas() {
@@ -41,7 +63,7 @@ const TipoCestaCadastro = () => {
       try {
         var encontrados = await api.get("/java-api/produtos");
         var listaNomes = [];
-        listaNomes.push(<option value="null" disabled>-</option>)
+        listaNomes.push(<option value="null">---</option>)
         for (var i = 0; i < encontrados.data.length; i++) {
           listaNomes.push(
             <option value={encontrados.data[i].id}>{encontrados.data[i].nome}</option>
@@ -76,8 +98,10 @@ const TipoCestaCadastro = () => {
       if (response.status == 201) {
         setTipoCestaId(response.data.id)
         handleProdutoCesta();
+        _alertaSucesso("Cadastrado!", "Cesta cadastrada com sucesso")
       }
     } catch (error) {
+      _alertaError("Cadastro inválido!", "Verique as informações!")
       console.log(error)
     }
   }
@@ -101,12 +125,18 @@ const TipoCestaCadastro = () => {
 
 
   function handleAdicionarProduto() {
+
+    if (getNome == "") {
+      return _alertaError("Cadastro Incorreto!", "Verifique se os campos estão preenchidos!")
+    }
+
     const produtos = {
       idProduto: getProdutoId,
       qtdProduto: getQuantidade,
       nome: getNomeProdutoLista
     }
     setProdutos(prevLista => [...prevLista, produtos]);
+    _alertaSucesso("Cadastro completo!", "Adicionado (x" + getQuantidade + ") " + getNome + " - " + getNomeProdutoLista + " na cesta!")
   }
 
   const renderEditableCell = (rowData, field) => {
@@ -146,7 +176,7 @@ const TipoCestaCadastro = () => {
 
     return (
       <>
-        <td  onClick={() => handleProdutosCestas(rowData)} style={{cursor: "pointer"}} key={field}>{rowData[field]}</td>
+        <td onClick={() => handleProdutosCestas(rowData)} style={{ cursor: "pointer" }} key={field}>{rowData[field]}</td>
       </>
     );
   };
@@ -334,7 +364,7 @@ const TipoCestaCadastro = () => {
 
     return (
       <>
-        <td  onClick={() => handleProdutosCestas(modalData)} style={{cursor: "crosshair"}} key={field}>{modalData[field]}</td>
+        <td onClick={() => handleProdutosCestas(modalData)} style={{ cursor: "crosshair" }} key={field}>{modalData[field]}</td>
       </>
     );
   };
@@ -432,8 +462,8 @@ const TipoCestaCadastro = () => {
     const id = rowData.id
     document.getElementById('modal').style.width = "100%";
     var produtoCestaAlterada = {
-      id : rowData.id,
-      nome : rowData.nomeProduto,
+      id: rowData.id,
+      nome: rowData.nomeProduto,
       qtdProduto: rowData.quantidade
     }
 
@@ -458,7 +488,7 @@ const TipoCestaCadastro = () => {
             icon: "success",
             title: "Produto Cesta atualizado com sucesso!"
           });
-          window.location.reload()
+          window.location.reload();
         } else {
           const Toast = Swal.mixin({
             toast: true,
@@ -500,6 +530,8 @@ const TipoCestaCadastro = () => {
     let id = rowData.id;
     setNomeCestaAtual(rowData.nome);
     setModalData([]);
+    await api.get(`/produto-cestas/${id}`).then((response) => {
+
     await api.get(`/java-api/produto-cestas/${id}`).then((response) => {
       
       // Corrigindo para acessar os dados
@@ -521,7 +553,7 @@ const TipoCestaCadastro = () => {
       setModalData(listaProdutos);
       document.getElementById("modal").style.display = "block";
     });
-}
+  }
 
   const unhandleAlterar = () => {
     document.getElementById('modal').style.display = "none";
@@ -612,8 +644,7 @@ const TipoCestaCadastro = () => {
                 </div>
                 <div className="form-group" id='name'>
                   <label htmlFor="productName">Produto <span className="required">*</span></label>
-                  <select name="produto" id="produto" onBlur={(e) => setNomeProdutoLista(e.target.innerHTML)} onChange={(e) => setProdutoId(e.target.value)} style={{ width: '23vw' }} >
-                    <option value="">--</option>
+                  <select name="produto" id="produto" onChange={(e) => nameProdutoChange(e)} style={{ width: '23vw' }} >
                     {getNomeProdutos}
                   </select>
                 </div>
@@ -625,22 +656,25 @@ const TipoCestaCadastro = () => {
                   <input type="text" name="quantidade" id="quantidade" onChange={(e) => setQuantidade(e.target.value)} style={{ width: '23vw' }} />
                 </div>
               </div>
-              <h2>{getNome}</h2>
+              {/* <h2>{getNome}</h2> */}
               <button onClick={() => handleAdicionarProduto()} className="btn btn-scrt">Adicionar produto</button>
+
               {getProdutos.map((item, itemIndex) => (
-                <div key={itemIndex} style={{ margin: '0 10px' }}>
+                <div key={itemIndex} style={{ margin: '10px' }}>
                   <p>{item.nome}/{item.qtdProduto}</p>
                 </div>
               ))}
+
+
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} className='form-down'>
-              <button onClick={() => handleCadastroTipoCestaProduto()} className="btn btn-scrt">Cadastrar</button>
+              <button onClick={() => handleCadastroTipoCestaProduto()} className="btn btn-scrt">Cadastrar Cesta</button>
             </div>
           </div>
         </div>
       </div>
 
-      
+
 
       <div className="table-section">
         <div className="card-body" style={{ border: '1px solid #DDE1E6', backgroundColor: '# f9f9f9' }}>
@@ -667,16 +701,18 @@ const TipoCestaCadastro = () => {
       </div>
 
 
-      <div id='modal' style={{ display : "none", width: "100%"}}>
-        <div style={{ width: "100%", 
-        position: "fixed", height: "100%", background: "#00000057", top: "0%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <div id='modal' style={{ display: "none", width: "100%" }}>
+        <div style={{
+          width: "100%",
+          position: "fixed", height: "100%", background: "#00000057", top: "0%", display: "flex", justifyContent: "center", alignItems: "center"
+        }}>
           <div style={{ "display": "flex", height: "50%", width: "50%", position: "relative", left: "-7%" }}>
-            <div style={{ padding: "5%", "background-color": "white", width: "100%", border: "2px solid black"}}>
-              <div style={{display : "flex", alignItems : "center", justifyContent : "space-between"}}>
+            <div style={{ padding: "5%", "background-color": "white", width: "100%", border: "2px solid black" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <div>
                   <h6>Listagem dos produtos na {getNomeCestaAtual}</h6>
                 </div>
-                <div style={{cursor : "pointer"}} onClick={unhandleAlterar}>
+                <div style={{ cursor: "pointer" }} onClick={unhandleAlterar}>
                   <h4>X</h4>
                 </div>
               </div>
@@ -685,7 +721,7 @@ const TipoCestaCadastro = () => {
                   <Column field='id' header='#' body={(modalData) => renderEditableCellModal(modalData, "id")} sortable />
                   <Column field='nomeProduto' body={(modalData) => renderEditableCellModal(modalData, "nomeProduto")} header='Produto' sortable />
                   <Column field='quantidade' body={(modalData) => renderEditableCellModal(modalData, "quantidade")} header='Quantidade' sortable />
-                  <Column header='Ações'body={renderActionCellModal}/>
+                  <Column header='Ações' body={renderActionCellModal} />
                   <Column />
                 </DataTable>
               </div>

@@ -311,7 +311,7 @@ const IndicadoresCadastro = () => {
                       <label htmlFor="productName" style={{ fontSize: "18px" }}>O produto deverá entrar em alerta quando faltar quantos dias para o seu vencimento? <span className="required">*</span></label>
                     </div>
                     <div className="form-group" id='name'>
-                      <input type="text" placeholder='15 dias' name="nomeSel" id="nomeSel" onChange={(e) => setQtdDiasVencimento(e.target.value)} style={{ width: '32vw' }} />
+                      <input type="text" placeholder='15 dias' name="nomeSel" id="nomeSel" onChange={(e) => setQtdDiasVencimento(e.target.value)} style={{ width: '30vw' }} />
                     </div>
                   </div>
                 </div>
